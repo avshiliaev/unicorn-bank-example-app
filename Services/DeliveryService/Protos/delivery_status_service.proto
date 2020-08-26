@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option csharp_namespace = "DeliveryService";
+
+package DeliveryStatus;
+
+service DeliveryStatusCheck {
+  rpc Status (StatusRequest) returns (StatusResponse);
+}
+
+message StatusRequest {
+  string customerId = 1;
+  string orderId = 2;
+}
+
+message StatusResponse {
+  bool isAccepted = 1;
+}
