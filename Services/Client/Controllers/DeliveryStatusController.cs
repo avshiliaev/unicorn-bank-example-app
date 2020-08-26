@@ -31,7 +31,7 @@ namespace Client.Controllers
         [HttpGet("")]
         public async Task<ActionResult<StatusResponse>> CheckStatus()
         {
-            var statusRequest = new StatusRequest { CustomerId = "c01", OrderId = "o01"};
+            var statusRequest = new StatusRequest { CustomerId = "c1", OrderId = "o1"};
             var status = await _deliveryStatus.GetStatusAsync(statusRequest);
             return Ok(status);
         }

@@ -31,11 +31,10 @@ namespace DeliveryService.Services
 
         private bool IsOrderAccepted(string customerId, string orderId)
         {
-            var isAccepted = false;
+            if (OrderedThings.TryGetValue(customerId, out var order)) 
+                return orderId == order;
 
-            if (OrderedThings.TryGetValue(customerId, out var order)) isAccepted = orderId == order;
-
-            return isAccepted;
+            return false;
         }
     }
 }
