@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Client.Interfaces;
 using DeliveryService;
 using Grpc.Core;
 using Grpc.Net.Client;
@@ -9,16 +10,16 @@ using Microsoft.Extensions.Logging;
 
 namespace DeliveryClient
 {
-    public class DeliveryStatusClient
+    public class DeliveryStatusService: IDeliveryStatusService
     {
-        private readonly ILogger<DeliveryStatusClient> _logger;
+        private readonly ILogger<DeliveryStatusService> _logger;
 
-        public DeliveryStatusClient(ILogger<DeliveryStatusClient> logger)
+        public DeliveryStatusService(ILogger<DeliveryStatusService> logger)
         {
             _logger = logger;
         }
 
-        public async Task<StatusResponse> GetStatusAsync(StatusRequest request, ServerCallContext context)
+        public async Task<StatusResponse> GetStatusAsync(StatusRequest request)
         {
             // The port number(5001) must match the port of the gRPC server.
             var channel = GrpcChannel.ForAddress("https://localhost:5001");

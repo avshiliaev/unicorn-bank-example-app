@@ -1,4 +1,5 @@
-﻿using DeliveryClient;
+﻿using Client.Interfaces;
+using DeliveryClient;
 using DeliveryService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,6 +16,11 @@ namespace Client
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddGrpc();
+            services.AddControllers();
+            services.AddSwaggerDocument();
+            
+            services.AddScoped<IDeliveryStatusService, DeliveryStatusService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -23,18 +29,12 @@ namespace Client
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
             app.UseRouting();
-
+            // app.UseAuthorization();
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<DeliveryStatusClient>();
-
-                endpoints.MapGet("/",
-                    async context =>
-                    {
-                        var statusRequest = new StatusRequest { CustomerId = "c01", OrderId = "o01"};
-                        await context.Response.WriteAsync(
-                            "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
-                    });
+                endpoints.MapControllers();
             });
         }
     }
