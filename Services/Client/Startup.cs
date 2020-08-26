@@ -1,5 +1,5 @@
 ﻿using Client.Interfaces;
-using DeliveryClient;
+using Client.Services;
 using DeliveryService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

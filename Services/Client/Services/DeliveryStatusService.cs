@@ -1,14 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Client.Interfaces;
 using DeliveryService;
-using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.Extensions.Logging;
 
-namespace DeliveryClient
+namespace Client.Services
 {
     public class DeliveryStatusService: IDeliveryStatusService
     {

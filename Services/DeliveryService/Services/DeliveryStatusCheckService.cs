@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
 
-namespace DeliveryService
+namespace DeliveryService.Services
 {
     public class DeliveryStatusCheckService : DeliveryStatusCheck.DeliveryStatusCheckBase
     {
