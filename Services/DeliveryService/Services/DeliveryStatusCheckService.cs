@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Grpc.Core;
-using Microsoft.Extensions.Logging;
+using Sdk.Factories;
 
 namespace DeliveryService.Services
 {
-    public class DeliveryStatusCheckService : DeliveryStatusCheck.DeliveryStatusCheckBase
+    public class DeliveryStatusCheckService : DeliveryStatusCheckServiceFactory
     {
         private static readonly Dictionary<string, string> OrderedThings = new Dictionary<string, string>
         {
@@ -13,13 +13,6 @@ namespace DeliveryService.Services
             {"c2", "o2"},
             {"c3", "o3"}
         };
-
-        private readonly ILogger<DeliveryStatusCheckService> _logger;
-
-        public DeliveryStatusCheckService(ILogger<DeliveryStatusCheckService> logger)
-        {
-            _logger = logger;
-        }
 
         public override Task<StatusResponse> Status(StatusRequest request, ServerCallContext context)
         {
@@ -31,7 +24,7 @@ namespace DeliveryService.Services
 
         private bool IsOrderAccepted(string customerId, string orderId)
         {
-            if (OrderedThings.TryGetValue(customerId, out var order)) 
+            if (OrderedThings.TryGetValue(customerId, out var order))
                 return orderId == order;
 
             return false;
