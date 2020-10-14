@@ -1,13 +1,9 @@
-﻿using Client.Interfaces;
-using Client.Services;
-using DeliveryService;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Client
+namespace Accounts
 {
     public class Startup
     {
@@ -16,11 +12,6 @@ namespace Client
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddGrpc();
-            services.AddControllers();
-            services.AddSwaggerDocument();
-            
-            services.AddScoped<IDeliveryStatusService, DeliveryStatusService>();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -29,13 +20,8 @@ namespace Client
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
             app.UseRouting();
-            // app.UseAuthorization();
-            app.UseOpenApi();
-            app.UseSwaggerUi3();
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+
+            app.UseEndpoints(endpoints => { endpoints.MapGrpcService<AccountsService>(); });
         }
     }
 }
