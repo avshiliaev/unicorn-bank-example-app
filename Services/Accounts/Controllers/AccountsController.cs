@@ -5,13 +5,13 @@ using Microsoft.Extensions.Logging;
 using Sdk.Integrations;
 using UnicornBankSdk;
 
-namespace Accounts
+namespace Accounts.Controllers
 {
-    public class AccountsService : AccountsServiceTemplate
+    public class AccountsController : AccountsServiceTemplate
     {
-        private readonly ILogger<AccountsService> _logger;
+        private readonly ILogger<AccountsController> _logger;
 
-        public AccountsService(ILogger<AccountsService> logger)
+        public AccountsController(ILogger<AccountsController> logger)
         {
             _logger = logger;
         }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Accounts.Controllers;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,7 +22,7 @@ namespace Accounts
 
             app.UseRouting();
 
-            app.UseEndpoints(endpoints => { endpoints.MapGrpcService<AccountsService>(); });
+            app.UseEndpoints(endpoints => { endpoints.MapGrpcService<AccountsController>(); });
         }
     }
 }
