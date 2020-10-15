@@ -12,19 +12,23 @@ namespace Sdk.MessageBus
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
-                channel.QueueDeclare("hello",
+                channel.QueueDeclare(
+                    "hello",
                     false,
                     false,
                     false,
-                    null);
+                    null
+                );
 
                 var message = "Hello World!";
                 var body = Encoding.UTF8.GetBytes(message);
 
-                channel.BasicPublish("",
+                channel.BasicPublish(
+                    "",
                     "hello",
                     null,
-                    body);
+                    body
+                );
                 Console.WriteLine(" [x] Sent {0}", message);
             }
 
