@@ -1,5 +1,6 @@
-using System;
 using System.Threading.Tasks;
+using Accounts.Interfaces;
+using Accounts.Mappers;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using Sdk.Integrations;
@@ -9,17 +10,22 @@ namespace Accounts.Controllers
 {
     public class AccountsController : AccountsServiceTemplate
     {
+        private readonly IAccountsManager _accountsManager;
         private readonly ILogger<AccountsController> _logger;
 
-        public AccountsController(ILogger<AccountsController> logger)
+        public AccountsController(
+            ILogger<AccountsController> logger,
+            IAccountsManager accountsManager
+        )
         {
             _logger = logger;
+            _accountsManager = accountsManager;
         }
 
-
-        public override Task<AccountEvent> Create(AccountEvent request, ServerCallContext context)
+        public override async Task<AccountEvent> Create(AccountEvent accountEvent, ServerCallContext context)
         {
-            throw new NotImplementedException();
+            var createdNewAccount = await _accountsManager.CreateNewAccountAsync(accountEvent.ToNewAccountModel());
+            return createdNewAccount.ToAccountEvent();
         }
     }
 }
