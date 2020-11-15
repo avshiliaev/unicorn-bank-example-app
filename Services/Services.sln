@@ -4,8 +4,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sdk", "Sdk\Sdk.csproj", "{2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accounts", "Accounts\Accounts.csproj", "{F29F6670-4D79-4D7C-9546-9D3F6349EF5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sdk.MessageBus", "Sdk.MessageBus\Sdk.MessageBus.csproj", "{C3E89559-578C-46F8-BC9F-45B29123A67D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,9 +18,5 @@ Global
 		{F29F6670-4D79-4D7C-9546-9D3F6349EF5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F29F6670-4D79-4D7C-9546-9D3F6349EF5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F29F6670-4D79-4D7C-9546-9D3F6349EF5B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C3E89559-578C-46F8-BC9F-45B29123A67D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C3E89559-578C-46F8-BC9F-45B29123A67D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C3E89559-578C-46F8-BC9F-45B29123A67D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C3E89559-578C-46F8-BC9F-45B29123A67D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
