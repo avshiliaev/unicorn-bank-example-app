@@ -8,7 +8,11 @@ option csharp_namespace = "UnicornBank.Sdk.ProtoBuffers";
 message AccountEvent {
   float balance = 1;
   string profile = 2;
-  string status = 3;
+  enum AccountStatus {
+    Pending = 0;
+    Approved = 1;
+  }
+  AccountStatus status = 3;
   string uuid = 4;
 }
 message TransactionEvent {

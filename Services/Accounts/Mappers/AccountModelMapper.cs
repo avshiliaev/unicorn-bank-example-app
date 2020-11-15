@@ -11,7 +11,7 @@ namespace Accounts.Mappers
             {
                 Balance = accountModel.Balance,
                 Profile = accountModel.ProfileId.ToString(),
-                Status = accountModel.Status,
+                Status = AccountEvent.Types.AccountStatus.TryParse(accountModel.Status),
                 Uuid = accountModel.Id.ToString()
             };
         }
