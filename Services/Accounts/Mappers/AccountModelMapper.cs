@@ -1,3 +1,4 @@
+using System;
 using Accounts.Persistence.Models;
 using UnicornBank.Sdk.ProtoBuffers;
 
@@ -7,11 +8,15 @@ namespace Accounts.Mappers
     {
         public static AccountEvent ToAccountEvent(this AccountModel accountModel)
         {
+            Enum.TryParse(
+                accountModel.Status,
+                out AccountEvent.Types.AccountStatus accountStatus
+            );
             return new AccountEvent
             {
                 Balance = accountModel.Balance,
                 Profile = accountModel.ProfileId.ToString(),
-                Status = AccountEvent.Types.AccountStatus.TryParse(accountModel.Status),
+                Status = accountStatus,
                 Uuid = accountModel.Id.ToString()
             };
         }

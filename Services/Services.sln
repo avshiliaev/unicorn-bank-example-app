@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sdk", "Sdk\Sdk.csproj", "{2C47BDE0-96BC-49C9-963D-16CC96AF23E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sdk.Grpc", "Sdk.Grpc\Sdk.Grpc.csproj", "{2C47BDE0-96BC-49C9-963D-16CC96AF23E0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accounts", "Accounts\Accounts.csproj", "{F29F6670-4D79-4D7C-9546-9D3F6349EF5B}"
 EndProject

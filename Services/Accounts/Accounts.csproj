@@ -14,7 +14,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Accounts.Persistence\Accounts.Persistence.csproj" />
-        <ProjectReference Include="..\Sdk\Sdk.csproj" />
+        <ProjectReference Include="..\Sdk.Grpc\Sdk.Grpc.csproj" />
     </ItemGroup>
 
 </Project>

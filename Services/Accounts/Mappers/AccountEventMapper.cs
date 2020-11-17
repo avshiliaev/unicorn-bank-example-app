@@ -1,5 +1,4 @@
 using System;
-using Accounts.Persistence.Enums;
 using Accounts.Persistence.Models;
 using UnicornBank.Sdk.ProtoBuffers;
 
@@ -14,7 +13,7 @@ namespace Accounts.Mappers
                 Id = Guid.Parse((ReadOnlySpan<char>) accountEvent.Uuid),
                 Balance = accountEvent.Balance,
                 ProfileId = Guid.Parse((ReadOnlySpan<char>) accountEvent.Uuid),
-                Status = AccountStatusInternal.Pending.ToString()
+                Status = accountEvent.Status.ToString()
             };
         }
 
@@ -24,7 +23,7 @@ namespace Accounts.Mappers
             {
                 Balance = 0.0f,
                 ProfileId = Guid.Parse((ReadOnlySpan<char>) accountEvent.Profile),
-                Status = AccountStatusInternal.Pending.ToString(),
+                Status = AccountEvent.Types.AccountStatus.Pending.ToString(),
                 Id = Guid.NewGuid()
             };
         }

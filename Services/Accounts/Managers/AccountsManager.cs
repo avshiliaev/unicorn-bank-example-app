@@ -25,13 +25,16 @@ namespace Accounts.Managers
         public async Task<AccountModel> CreateNewAccountAsync(AccountModel accountModel)
         {
             var newAccount = await _accountsService.CreateAccountAsync(accountModel);
-            await _messageBusService.PublishEventAsync(newAccount.ToAccountEvent());
+            // TODO: move topics definitions to sdk
+            await _messageBusService.PublishEventAsync(newAccount.ToAccountEvent(), "AccountCreated");
             return newAccount;
         }
 
-        public Task<AccountModel> UpdateExistingAccountAsync(AccountModel accountModel)
+        public async Task<AccountModel> UpdateExistingAccountAsync(AccountModel accountModel)
         {
-            throw new NotImplementedException();
+            var updatedAccount = await _accountsService.UpdateAccountAsync(accountModel);
+            await _messageBusService.PublishEventAsync(updatedAccount.ToAccountEvent(), "AccountUpdated");
+            return updatedAccount;
         }
     }
 }

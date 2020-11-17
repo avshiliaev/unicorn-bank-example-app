@@ -8,26 +8,26 @@ namespace Accounts.Services
 {
     public class AccountsService : IAccountsService
     {
-        private IAccountsRepository _accountsRepository;
+        private readonly IAccountsRepository _accountsRepository;
 
         public AccountsService(IAccountsRepository accountsRepository)
         {
             _accountsRepository = accountsRepository;
         }
 
-        public Task<AccountModel> CreateAccountAsync(AccountModel accountModel)
+        public async Task<AccountModel> CreateAccountAsync(AccountModel accountModel)
         {
-            throw new NotImplementedException();
+            return await _accountsRepository.AddAsync(accountModel);
         }
 
-        public Task<AccountModel> GetAccountByIdAsync(Guid accountId)
+        public async Task<AccountModel> GetAccountByIdAsync(Guid accountId)
         {
-            throw new NotImplementedException();
+            return await _accountsRepository.GetByIdAsync(accountId);
         }
 
-        public Task<AccountModel> UpdateAccountAsync(AccountModel accountModel)
+        public async Task<AccountModel> UpdateAccountAsync(AccountModel accountModel)
         {
-            throw new NotImplementedException();
+            return await _accountsRepository.UpdateAsync(accountModel);
         }
     }
 }
