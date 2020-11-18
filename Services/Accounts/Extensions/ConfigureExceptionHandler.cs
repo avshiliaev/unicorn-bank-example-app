@@ -8,7 +8,7 @@ namespace Accounts.Extensions
 {
     public static class ExceptionMiddlewareExtensions
     {
-        public static void ConfigureExceptionHandler(this IApplicationBuilder app)
+        public static IApplicationBuilder ConfigureExceptionHandler(this IApplicationBuilder app)
         {
             app.UseExceptionHandler(appError =>
             {
@@ -25,6 +25,7 @@ namespace Accounts.Extensions
                         }.ToString());
                 });
             });
+            return app;
         }
     }
 
