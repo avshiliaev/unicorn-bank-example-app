@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Accounts.Interfaces;
 using Accounts.Persistence.Interfaces;
@@ -18,6 +19,11 @@ namespace Accounts.Services
         public async Task<AccountModel> CreateAccountAsync(AccountModel accountModel)
         {
             return await _accountsRepository.AddAsync(accountModel);
+        }
+
+        public async Task<List<AccountModel>> ListAccountsAsync()
+        {
+            return await _accountsRepository.ListAllAsync();
         }
 
         public async Task<AccountModel> GetAccountByIdAsync(Guid accountId)

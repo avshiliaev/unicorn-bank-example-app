@@ -5,7 +5,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Grpc.AspNetCore" Version="2.27.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.0">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -14,7 +13,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Accounts.Persistence\Accounts.Persistence.csproj" />
-        <ProjectReference Include="..\Sdk.Grpc\Sdk.Grpc.csproj" />
+        <ProjectReference Include="..\Sdk.Api\Sdk.Api.csproj" />
     </ItemGroup>
 
 </Project>

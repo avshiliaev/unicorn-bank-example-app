@@ -1,9 +1,10 @@
-using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Accounts.Interfaces;
 using Accounts.Mappers;
-using Accounts.Persistence.Models;
 using Microsoft.Extensions.Logging;
+using Sdk.Api.ViewModels;
 
 namespace Accounts.Managers
 {
@@ -22,19 +23,25 @@ namespace Accounts.Managers
             _messageBusService = messageBusService;
         }
 
-        public async Task<AccountModel> CreateNewAccountAsync(AccountModel accountModel)
+        public async Task<AccountEventViewModel> CreateNewAccountAsync(AccountEventViewModel accountEvent)
         {
-            var newAccount = await _accountsService.CreateAccountAsync(accountModel);
+            var newAccount = await _accountsService.CreateAccountAsync(accountEvent.ToNewAccountModel());
             // TODO: move topics definitions to sdk
-            await _messageBusService.PublishEventAsync(newAccount.ToAccountEvent(), "AccountCreated");
-            return newAccount;
+            await _messageBusService.PublishEventAsync(newAccount.ToAccountEvent());
+            return newAccount.ToAccountEvent();
         }
 
-        public async Task<AccountModel> UpdateExistingAccountAsync(AccountModel accountModel)
+        public async Task<List<AccountEventViewModel>> ListAccountsAsync()
         {
-            var updatedAccount = await _accountsService.UpdateAccountAsync(accountModel);
-            await _messageBusService.PublishEventAsync(updatedAccount.ToAccountEvent(), "AccountUpdated");
-            return updatedAccount;
+            var accounts = await _accountsService.ListAccountsAsync();
+            return accounts.Select(acc => acc.ToAccountEvent()).ToList();
+        }
+
+        public async Task<AccountEventViewModel> UpdateExistingAccountAsync(AccountEventViewModel accountEvent)
+        {
+            var updatedAccount = await _accountsService.UpdateAccountAsync(accountEvent.ToAccountModel());
+            await _messageBusService.PublishEventAsync(updatedAccount.ToAccountEvent());
+            return updatedAccount.ToAccountEvent();
         }
     }
 }

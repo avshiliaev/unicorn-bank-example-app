@@ -1,11 +1,13 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Accounts.Persistence.Models;
+using Sdk.Api.ViewModels;
 
 namespace Accounts.Interfaces
 {
     public interface IAccountsManager
     {
-        Task<AccountModel> CreateNewAccountAsync(AccountModel accountModel);
-        Task<AccountModel> UpdateExistingAccountAsync(AccountModel accountModel);
+        Task<AccountEventViewModel> CreateNewAccountAsync(AccountEventViewModel accountEvent);
+        Task<List<AccountEventViewModel>> ListAccountsAsync();
+        Task<AccountEventViewModel> UpdateExistingAccountAsync(AccountEventViewModel accountEvent);
     }
 }

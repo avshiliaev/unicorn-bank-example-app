@@ -1,14 +1,14 @@
 using System.Threading.Tasks;
 using Accounts.Interfaces;
-using Accounts.Mappers;
-using Grpc.Core;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Sdk.Integrations;
-using UnicornBank.Sdk.ProtoBuffers;
+using Sdk.Api.ViewModels;
 
 namespace Accounts.Controllers
 {
-    public class AccountsController : AccountsServiceTemplate
+    [ApiController]
+    [Route("api/[controller]")]
+    public class AccountsController : ControllerBase
     {
         private readonly IAccountsManager _accountsManager;
         private readonly ILogger<AccountsController> _logger;
@@ -22,10 +22,20 @@ namespace Accounts.Controllers
             _accountsManager = accountsManager;
         }
 
-        public override async Task<AccountEvent> Create(AccountEvent accountEvent, ServerCallContext context)
+        [HttpGet("")]
+        //[AllowAnonymous]
+        public async Task<ActionResult<AccountEventViewModel>> GetAllAccounts()
         {
-            var createdNewAccount = await _accountsManager.CreateNewAccountAsync(accountEvent.ToNewAccountModel());
-            return createdNewAccount.ToAccountEvent();
+            return Ok(await _accountsManager.ListAccountsAsync());
+        }
+
+        [HttpPost("")]
+        //[AllowAnonymous]
+        public async Task<ActionResult<AccountEventViewModel>> CreateNewAccount(
+            [FromForm] AccountEventViewModel accountEvent
+        )
+        {
+            return Ok(await _accountsManager.CreateNewAccountAsync(accountEvent));
         }
     }
 }

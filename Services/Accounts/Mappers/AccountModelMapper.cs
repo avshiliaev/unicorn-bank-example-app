@@ -1,23 +1,18 @@
-using System;
 using Accounts.Persistence.Models;
-using UnicornBank.Sdk.ProtoBuffers;
+using Sdk.Api.ViewModels;
 
 namespace Accounts.Mappers
 {
     public static class AccountModelMapper
     {
-        public static AccountEvent ToAccountEvent(this AccountModel accountModel)
+        public static AccountEventViewModel ToAccountEvent(this AccountModel accountModel)
         {
-            Enum.TryParse(
-                accountModel.Status,
-                out AccountEvent.Types.AccountStatus accountStatus
-            );
-            return new AccountEvent
+            return new AccountEventViewModel
             {
                 Balance = accountModel.Balance,
-                Profile = accountModel.ProfileId.ToString(),
-                Status = accountStatus,
-                Uuid = accountModel.Id.ToString()
+                ProfileId = accountModel.ProfileId,
+                Status = accountModel.Status,
+                Id = accountModel.Id
             };
         }
     }
