@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MassTransit" Version="7.0.6" />
+      <PackageReference Include="MassTransit.AspNetCore" Version="7.0.6" />
+      <PackageReference Include="MassTransit.RabbitMQ" Version="7.0.6" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Sdk.Api\Sdk.Api.csproj" />
+    </ItemGroup>
+
+</Project>

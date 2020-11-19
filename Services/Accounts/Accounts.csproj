@@ -12,6 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Accounts.Communication\Accounts.Communication.csproj" />
         <ProjectReference Include="..\Accounts.Persistence\Accounts.Persistence.csproj" />
         <ProjectReference Include="..\Sdk.Api\Sdk.Api.csproj" />
     </ItemGroup>

@@ -1,11 +1,10 @@
 using System.Threading.Tasks;
 using Sdk.Api.Interfaces;
 
-namespace Accounts.Interfaces
+namespace Accounts.Communication.Interfaces
 {
-    public interface IMessageBusService
+    public interface IMessageBusPublishService
     {
         Task<bool> PublishEventAsync<T>(T eventToPublish) where T : IMessage;
-        Task<T> SubscribeToEventsAsync<T>(T eventToPublish) where T : IMessage;
     }
 }

@@ -1,4 +1,5 @@
-﻿using Accounts.Extensions;
+﻿using Accounts.Communication.Extensions;
+using Accounts.Extensions;
 using Accounts.Persistence.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

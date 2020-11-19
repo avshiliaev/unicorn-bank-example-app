@@ -1,3 +1,4 @@
+using Accounts.Communication.Interfaces;
 using Accounts.Interfaces;
 using Microsoft.Extensions.Logging;
 
@@ -7,17 +8,17 @@ namespace Accounts.Handlers
     {
         private IAccountsManager _accountsManager;
         private ILogger<AccountApprovedHandler> _logger;
-        private IMessageBusService _messageBusService;
+        private IMessageBusPublishService _messageBusPublishService;
 
         public AccountApprovedHandler(
             ILogger<AccountApprovedHandler> logger,
             IAccountsManager accountsManager,
-            IMessageBusService messageBusService
+            IMessageBusPublishService messageBusPublishService
         )
         {
             _logger = logger;
             _accountsManager = accountsManager;
-            _messageBusService = messageBusService;
+            _messageBusPublishService = messageBusPublishService;
         }
     }
 }

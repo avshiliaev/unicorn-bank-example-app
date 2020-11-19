@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Accounts.Communication.Interfaces;
 using Accounts.Interfaces;
 using Accounts.Mappers;
 using Microsoft.Extensions.Logging;
@@ -11,23 +12,23 @@ namespace Accounts.Managers
     public class AccountsManager : IAccountsManager
     {
         private readonly IAccountsService _accountsService;
-        private readonly IMessageBusService _messageBusService;
+        private readonly IMessageBusPublishService _messageBusPublishService;
 
         public AccountsManager(
             ILogger<AccountsManager> logger,
             IAccountsService accountsService,
-            IMessageBusService messageBusService
+            IMessageBusPublishService messageBusPublishService
         )
         {
             _accountsService = accountsService;
-            _messageBusService = messageBusService;
+            _messageBusPublishService = messageBusPublishService;
         }
 
         public async Task<AccountEventViewModel> CreateNewAccountAsync(AccountEventViewModel accountEvent)
         {
             var newAccount = await _accountsService.CreateAccountAsync(accountEvent.ToNewAccountModel());
             // TODO: move topics definitions to sdk
-            await _messageBusService.PublishEventAsync(newAccount.ToAccountEvent());
+            await _messageBusPublishService.PublishEventAsync(newAccount.ToAccountEvent());
             return newAccount.ToAccountEvent();
         }
 
@@ -40,7 +41,7 @@ namespace Accounts.Managers
         public async Task<AccountEventViewModel> UpdateExistingAccountAsync(AccountEventViewModel accountEvent)
         {
             var updatedAccount = await _accountsService.UpdateAccountAsync(accountEvent.ToAccountModel());
-            await _messageBusService.PublishEventAsync(updatedAccount.ToAccountEvent());
+            await _messageBusPublishService.PublishEventAsync(updatedAccount.ToAccountEvent());
             return updatedAccount.ToAccountEvent();
         }
     }
