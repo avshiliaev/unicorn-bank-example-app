@@ -7,22 +7,23 @@ namespace Accounts.Communication.Extensions
 {
     public static class MessageBusConfigure
     {
-        public static IServiceCollection AddMessageBus(this IServiceCollection services)
+        public static IServiceCollection AddMessageBus<TC>(
+            this IServiceCollection services
+        )
+            where TC : AMessageBusSubscribeService
         {
             services.AddMassTransit(x =>
             {
-                x.AddConsumer<MessageBusSubscribeService>();
+                x.AddConsumer<TC>();
 
                 x.UsingRabbitMq((context, cfg) =>
                 {
                     cfg.ReceiveEndpoint(
                         "event-listener",
-                        e => { e.ConfigureConsumer<MessageBusSubscribeService>(context); });
+                        e => { e.ConfigureConsumer<TC>(context); });
                 });
             });
-
             services.AddMassTransitHostedService();
-
             services.AddTransient<IMessageBusPublishService, MessageBusPublishService>();
 
             return services;

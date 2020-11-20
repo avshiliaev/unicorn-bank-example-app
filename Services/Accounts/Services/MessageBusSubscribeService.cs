@@ -1,11 +1,12 @@
 ﻿using System.Threading.Tasks;
+using Accounts.Communication.Interfaces;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Sdk.Api.Interfaces;
 
-namespace Accounts.Communication.Services
+namespace Accounts.Services
 {
-    public class MessageBusSubscribeService : IConsumer<IMessage>
+    public class MessageBusSubscribeService : AMessageBusSubscribeService
     {
         private readonly ILogger<MessageBusSubscribeService> _logger;
 
@@ -14,8 +15,9 @@ namespace Accounts.Communication.Services
             _logger = logger;
         }
 
-        public async Task Consume(ConsumeContext<IMessage> context)
+        public override async Task Consume(ConsumeContext<IMessage> context)
         {
+            _logger.LogInformation("MY CUSTOM CONSUMER");
             _logger.LogInformation("Value: {Value}", context.Message);
         }
     }

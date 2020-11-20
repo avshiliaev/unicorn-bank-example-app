@@ -22,10 +22,5 @@ namespace Accounts.Communication.Services
             });
             return true;
         }
-
-        public Task<T> SubscribeToEventsAsync<T>(T eventToPublish) where T : IMessage
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

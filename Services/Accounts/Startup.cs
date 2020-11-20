@@ -1,6 +1,7 @@
 ﻿using Accounts.Communication.Extensions;
 using Accounts.Extensions;
 using Accounts.Persistence.Extensions;
+using Accounts.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -29,7 +30,7 @@ namespace Accounts
                 .AddEventHandlers()
                 .AddDataAccessServices()
                 .AddBusinessLogicManagers()
-                .AddMessageBus();
+                .AddMessageBus<MessageBusSubscribeService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
