@@ -6,12 +6,11 @@ namespace Accounts.Dto
 {
     public class AccountDto : IAccountModel
     {
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
         public float Balance { get; set; }
-        [Required]
-        public Guid ProfileId { get; set; }
+
+        [Required] public Guid? ProfileId { get; set; }
+
         public string Status { get; set; }
-        public DateTime Created { get; set; }
-        public DateTime Updated { get; set; }
     }
 }

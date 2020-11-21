@@ -33,15 +33,9 @@ namespace Accounts.Managers
             return newAccountDto;
         }
 
-        public async Task<List<AccountDto>> ListAccountsAsync()
-        {
-            var accounts = await _accountsService.ListAccountsAsync();
-            return accounts.Select(acc => acc.ToAccountDto()).ToList();
-        }
-
         public async Task<AccountDto> UpdateExistingAccountAsync(AccountDto accountEvent)
         {
-            var updatedAccount = await _accountsService.UpdateAccountAsync(accountEvent.ToNewAccountEntity());
+            var updatedAccount = await _accountsService.UpdateAccountAsync(accountEvent.ToAccountEntity());
             var updatedAccountDto = updatedAccount.ToAccountDto();
             await _messageBusPublishService.PublishEventAsync(updatedAccountDto);
             
