@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sdk.Api", "Sdk.Api\Sdk.Api.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sdk.Communication", "Sdk.Communication\Sdk.Communication.csproj", "{52AC1F60-C473-4913-9B53-F65110B4CFC9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sdk.Core", "Sdk.Core\Sdk.Core.csproj", "{F01AF2B3-EB42-4175-B428-2792B5C3214F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{52AC1F60-C473-4913-9B53-F65110B4CFC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52AC1F60-C473-4913-9B53-F65110B4CFC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52AC1F60-C473-4913-9B53-F65110B4CFC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F01AF2B3-EB42-4175-B428-2792B5C3214F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F01AF2B3-EB42-4175-B428-2792B5C3214F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F01AF2B3-EB42-4175-B428-2792B5C3214F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F01AF2B3-EB42-4175-B428-2792B5C3214F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -2,10 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
+        <RootNamespace>Sdk</RootNamespace>
     </PropertyGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\Sdk.Core\Sdk.Core.csproj" />
-    </ItemGroup>
 
 </Project>

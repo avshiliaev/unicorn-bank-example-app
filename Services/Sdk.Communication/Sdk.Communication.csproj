@@ -13,7 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Sdk.Api\Sdk.Api.csproj" />
+      <ProjectReference Include="..\Sdk.Core\Sdk.Core.csproj" />
     </ItemGroup>
-
+    
 </Project>

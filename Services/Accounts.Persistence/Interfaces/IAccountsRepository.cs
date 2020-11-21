@@ -1,8 +1,8 @@
-using Accounts.Persistence.Models;
+using Accounts.Persistence.Entities;
 
 namespace Accounts.Persistence.Interfaces
 {
-    public interface IAccountsRepository : IRepository<AccountModel>
+    public interface IAccountsRepository : IRepository<AccountEntity>
     {
         
     }

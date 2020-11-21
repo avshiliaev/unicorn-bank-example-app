@@ -1,12 +1,12 @@
 ﻿using System.Threading.Tasks;
 using MassTransit;
-using Sdk.Api.Interfaces;
+using Sdk.Interfaces;
 
 namespace Accounts.Communication.Interfaces
 {
-    public abstract class AMessageBusSubscribeService : IConsumer<IMessage>
+    public abstract class AMessageBusSubscribeService : IConsumer<IDataModel>
     {
-        public virtual Task Consume(ConsumeContext<IMessage> context)
+        public virtual Task Consume(ConsumeContext<IDataModel> context)
         {
             throw new System.NotImplementedException();
         }

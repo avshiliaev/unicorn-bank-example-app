@@ -1,4 +1,4 @@
-using Accounts.Persistence.Models;
+using Accounts.Persistence.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Accounts.Persistence
@@ -10,11 +10,11 @@ namespace Accounts.Persistence
         {
         }
 
-        public DbSet<AccountModel> Accounts { get; set; }
+        public DbSet<AccountEntity> Accounts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AccountModel>().ToTable("Accounts");
+            modelBuilder.Entity<AccountEntity>().ToTable("Accounts");
             base.OnModelCreating(modelBuilder);
         }
     }

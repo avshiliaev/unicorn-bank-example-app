@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
+using Accounts.Dto;
 using Accounts.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Sdk.Api.ViewModels;
 
 namespace Accounts.Controllers
 {
@@ -22,19 +22,12 @@ namespace Accounts.Controllers
             _accountsManager = accountsManager;
         }
 
-        [HttpGet("")]
-        //[AllowAnonymous]
-        public async Task<ActionResult<AccountEventViewModel>> GetAllAccounts()
-        {
-            return Ok(await _accountsManager.ListAccountsAsync());
-        }
-
         [HttpPost("")]
-        //[AllowAnonymous]
-        public async Task<ActionResult<AccountEventViewModel>> CreateNewAccount(
-            [FromForm] AccountEventViewModel accountEvent
+        public async Task<ActionResult<AccountDto>> CreateNewAccount(
+            [FromForm] AccountDto accountEvent
         )
         {
+            if (!ModelState.IsValid) return BadRequest();
             return Ok(await _accountsManager.CreateNewAccountAsync(accountEvent));
         }
     }

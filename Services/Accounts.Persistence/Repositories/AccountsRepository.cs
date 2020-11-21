@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Accounts.Persistence.Entities;
 using Accounts.Persistence.Interfaces;
-using Accounts.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -22,23 +22,23 @@ namespace Accounts.Persistence.Repositories
         }
 
         // TODO: https://docs.microsoft.com/en-us/aspnet/core/data/ef-rp/intro?view=aspnetcore-5.0&tabs=visual-studio#performance-considerations
-        public async Task<List<AccountModel>> ListAllAsync()
+        public async Task<List<AccountEntity>> ListAllAsync()
         {
             return await _context.Accounts.ToListAsync();
         }
 
-        public async Task<AccountModel> GetByIdAsync(Guid id)
+        public async Task<AccountEntity> GetByIdAsync(Guid id)
         {
             return await _context.Accounts
                 .FirstOrDefaultAsync(acc => acc.Id == id);
         }
 
-        public async Task<AccountModel> GetByParameterAsync(Expression<Func<AccountModel, bool>> predicate)
+        public async Task<AccountEntity> GetByParameterAsync(Expression<Func<AccountEntity, bool>> predicate)
         {
             return await _context.Accounts.Where(predicate).SingleAsync();
         }
 
-        public async Task<AccountModel> AddAsync(AccountModel accountModel)
+        public async Task<AccountEntity> AddAsync(AccountEntity accountModel)
         {
             accountModel.Created = DateTime.UtcNow;
             accountModel.Updated = accountModel.Created;
@@ -47,7 +47,7 @@ namespace Accounts.Persistence.Repositories
             return saved.Entity;
         }
 
-        public async Task<AccountModel> UpdateAsync(AccountModel accountModel)
+        public async Task<AccountEntity> UpdateAsync(AccountEntity accountModel)
         {
             if (
                 accountModel == null ||
@@ -62,7 +62,7 @@ namespace Accounts.Persistence.Repositories
             return accountModel;
         }
 
-        public async Task<AccountModel> DeleteAsync(Guid id)
+        public async Task<AccountEntity> DeleteAsync(Guid id)
         {
             var account = await _context.Accounts.FindAsync(id);
             if (account == null) return null;

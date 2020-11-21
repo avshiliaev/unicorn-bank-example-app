@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Accounts.Communication.Interfaces;
+using Accounts.Dto;
 using Accounts.Interfaces;
 using Accounts.Mappers;
 using Microsoft.Extensions.Logging;
-using Sdk.Api.ViewModels;
 
 namespace Accounts.Managers
 {
@@ -24,25 +24,28 @@ namespace Accounts.Managers
             _messageBusPublishService = messageBusPublishService;
         }
 
-        public async Task<AccountEventViewModel> CreateNewAccountAsync(AccountEventViewModel accountEvent)
+        public async Task<AccountDto> CreateNewAccountAsync(AccountDto accountDto)
         {
-            var newAccount = await _accountsService.CreateAccountAsync(accountEvent.ToNewAccountModel());
-            // TODO: move topics definitions to sdk
-            await _messageBusPublishService.PublishEventAsync(newAccount.ToAccountEvent());
-            return newAccount.ToAccountEvent();
+            var newAccount = await _accountsService.CreateAccountAsync(accountDto.ToNewAccountEntity());
+            var newAccountDto = newAccount.ToAccountDto();
+            await _messageBusPublishService.PublishEventAsync(newAccountDto);
+            
+            return newAccountDto;
         }
 
-        public async Task<List<AccountEventViewModel>> ListAccountsAsync()
+        public async Task<List<AccountDto>> ListAccountsAsync()
         {
             var accounts = await _accountsService.ListAccountsAsync();
-            return accounts.Select(acc => acc.ToAccountEvent()).ToList();
+            return accounts.Select(acc => acc.ToAccountDto()).ToList();
         }
 
-        public async Task<AccountEventViewModel> UpdateExistingAccountAsync(AccountEventViewModel accountEvent)
+        public async Task<AccountDto> UpdateExistingAccountAsync(AccountDto accountEvent)
         {
-            var updatedAccount = await _accountsService.UpdateAccountAsync(accountEvent.ToAccountModel());
-            await _messageBusPublishService.PublishEventAsync(updatedAccount.ToAccountEvent());
-            return updatedAccount.ToAccountEvent();
+            var updatedAccount = await _accountsService.UpdateAccountAsync(accountEvent.ToNewAccountEntity());
+            var updatedAccountDto = updatedAccount.ToAccountDto();
+            await _messageBusPublishService.PublishEventAsync(updatedAccountDto);
+            
+            return updatedAccountDto;
         }
     }
 }

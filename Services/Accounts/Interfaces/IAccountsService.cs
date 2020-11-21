@@ -1,18 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Accounts.Persistence.Models;
+using Accounts.Persistence.Entities;
 
 namespace Accounts.Interfaces
 {
     public interface IAccountsService
     {
-        Task<AccountModel> CreateAccountAsync(AccountModel accountModel);
+        Task<AccountEntity> CreateAccountAsync(AccountEntity accountModel);
         
-        Task<List<AccountModel>> ListAccountsAsync();
+        Task<List<AccountEntity>> ListAccountsAsync();
 
-        Task<AccountModel> GetAccountByIdAsync(Guid accountId);
+        Task<AccountEntity> GetAccountByIdAsync(Guid accountId);
 
-        Task<AccountModel> UpdateAccountAsync(AccountModel accountModel);
+        Task<AccountEntity> UpdateAccountAsync(AccountEntity accountModel);
     }
 }

@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Accounts.Interfaces;
+using Accounts.Persistence.Entities;
 using Accounts.Persistence.Interfaces;
-using Accounts.Persistence.Models;
 
 namespace Accounts.Services
 {
@@ -16,22 +16,22 @@ namespace Accounts.Services
             _accountsRepository = accountsRepository;
         }
 
-        public async Task<AccountModel> CreateAccountAsync(AccountModel accountModel)
+        public async Task<AccountEntity> CreateAccountAsync(AccountEntity accountModel)
         {
             return await _accountsRepository.AddAsync(accountModel);
         }
 
-        public async Task<List<AccountModel>> ListAccountsAsync()
+        public async Task<List<AccountEntity>> ListAccountsAsync()
         {
             return await _accountsRepository.ListAllAsync();
         }
 
-        public async Task<AccountModel> GetAccountByIdAsync(Guid accountId)
+        public async Task<AccountEntity> GetAccountByIdAsync(Guid accountId)
         {
             return await _accountsRepository.GetByIdAsync(accountId);
         }
 
-        public async Task<AccountModel> UpdateAccountAsync(AccountModel accountModel)
+        public async Task<AccountEntity> UpdateAccountAsync(AccountEntity accountModel)
         {
             return await _accountsRepository.UpdateAsync(accountModel);
         }

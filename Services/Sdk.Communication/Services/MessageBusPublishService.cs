@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Accounts.Communication.Interfaces;
 using MassTransit;
-using Sdk.Api.Interfaces;
+using Sdk.Interfaces;
 
 namespace Accounts.Communication.Services
 {
@@ -14,9 +14,9 @@ namespace Accounts.Communication.Services
             _publishEndpoint = publishEndpoint;
         }
         
-        public async Task<bool> PublishEventAsync<T>(T eventToPublish) where T : IMessage
+        public async Task<bool> PublishEventAsync<T>(T eventToPublish) where T : IDataModel
         {
-            await _publishEndpoint.Publish<IMessage>(new
+            await _publishEndpoint.Publish<IDataModel>(new
             {
                 Value = eventToPublish
             });

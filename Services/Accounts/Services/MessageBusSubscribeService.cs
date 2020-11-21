@@ -2,7 +2,7 @@
 using Accounts.Communication.Interfaces;
 using MassTransit;
 using Microsoft.Extensions.Logging;
-using Sdk.Api.Interfaces;
+using Sdk.Interfaces;
 
 namespace Accounts.Services
 {
@@ -15,7 +15,7 @@ namespace Accounts.Services
             _logger = logger;
         }
 
-        public override async Task Consume(ConsumeContext<IMessage> context)
+        public override async Task Consume(ConsumeContext<IDataModel> context)
         {
             _logger.LogInformation("MY CUSTOM CONSUMER");
             _logger.LogInformation("Value: {Value}", context.Message);

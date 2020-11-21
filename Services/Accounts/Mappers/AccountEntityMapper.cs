@@ -1,13 +1,13 @@
-using Accounts.Persistence.Models;
-using Sdk.Api.ViewModels;
+using Accounts.Dto;
+using Accounts.Persistence.Entities;
 
 namespace Accounts.Mappers
 {
-    public static class AccountModelMapper
+    public static class AccountEntityMapper
     {
-        public static AccountEventViewModel ToAccountEvent(this AccountModel accountModel)
+        public static AccountDto ToAccountDto(this AccountEntity accountModel)
         {
-            return new AccountEventViewModel
+            return new AccountDto
             {
                 Balance = accountModel.Balance,
                 ProfileId = accountModel.ProfileId,

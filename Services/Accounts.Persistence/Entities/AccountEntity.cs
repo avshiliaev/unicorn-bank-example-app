@@ -1,9 +1,9 @@
 using System;
 using Accounts.Persistence.Interfaces;
 
-namespace Accounts.Persistence.Models
+namespace Accounts.Persistence.Entities
 {
-    public class AccountModel : IEntity
+    public class AccountEntity : IEntity
     {
         public Guid Id { get; set; }
         public float Balance { get; set; }
