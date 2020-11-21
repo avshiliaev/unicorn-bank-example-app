@@ -8,9 +8,7 @@ namespace Accounts.Dto
     {
         public Guid? Id { get; set; }
         public float Balance { get; set; }
-
         [Required] public Guid? ProfileId { get; set; }
-
         public string Status { get; set; }
     }
 }

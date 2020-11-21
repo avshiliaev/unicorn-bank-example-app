@@ -9,7 +9,8 @@ namespace Accounts.Handlers
         private IAccountsManager _accountsManager;
         private ILogger<AccountApprovedHandler> _logger;
         private IMessageBusPublishService _messageBusPublishService;
-
+        
+        // TODO: Register handlers as subscribers!
         public AccountApprovedHandler(
             ILogger<AccountApprovedHandler> logger,
             IAccountsManager accountsManager,
