@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Accounts.Handlers
 {
-    public class TransactionPlacedHandler : ITransactionPlacedHandler
+    public class TransactionPlacedHandler : AMessageBusSubscribeService
     {
         private IAccountsManager _accountsManager;
         private ILogger<AccountApprovedHandler> _logger;

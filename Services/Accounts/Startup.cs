@@ -1,5 +1,6 @@
 ﻿using Accounts.Communication.Extensions;
 using Accounts.Extensions;
+using Accounts.Handlers;
 using Accounts.Persistence.Extensions;
 using Accounts.Services;
 using Microsoft.AspNetCore.Builder;
@@ -27,10 +28,9 @@ namespace Accounts
             services.AddControllers();
             services
                 .AddCustomDatabase(_configuration)
-                .AddEventHandlers()
                 .AddDataAccessServices()
                 .AddBusinessLogicManagers()
-                .AddMessageBus<MessageBusSubscribeService>();
+                .AddMessageBus<AccountApprovedHandler>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -24,7 +24,7 @@ namespace Accounts.Controllers
 
         [HttpPost("")]
         public async Task<ActionResult<AccountDto>> CreateNewAccount(
-            [FromForm] AccountDto accountEvent
+            [FromBody] AccountDto accountEvent
         )
         {
             if (!ModelState.IsValid) return BadRequest();

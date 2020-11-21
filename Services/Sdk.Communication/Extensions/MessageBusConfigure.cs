@@ -15,7 +15,6 @@ namespace Accounts.Communication.Extensions
             services.AddMassTransit(x =>
             {
                 x.AddConsumer<TC>();
-
                 x.UsingRabbitMq((context, cfg) =>
                 {
                     cfg.ReceiveEndpoint(
