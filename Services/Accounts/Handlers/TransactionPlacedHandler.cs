@@ -1,24 +1,29 @@
-using Accounts.Communication.Interfaces;
+using System;
+using System.Threading.Tasks;
 using Accounts.Interfaces;
+using MassTransit;
 using Microsoft.Extensions.Logging;
+using Sdk.Interfaces;
 
 namespace Accounts.Handlers
 {
-    public class TransactionPlacedHandler : AMessageBusSubscribeService
+    public class TransactionPlacedHandler : IConsumer<IDataModel>
     {
         private IAccountsManager _accountsManager;
         private ILogger<AccountApprovedHandler> _logger;
-        private IMessageBusPublishService _messageBusPublishService;
 
         public TransactionPlacedHandler(
             ILogger<AccountApprovedHandler> logger,
-            IAccountsManager accountsManager,
-            IMessageBusPublishService messageBusPublishService
+            IAccountsManager accountsManager
         )
         {
             _logger = logger;
             _accountsManager = accountsManager;
-            _messageBusPublishService = messageBusPublishService;
+        }
+
+        public Task Consume(ConsumeContext<IDataModel> context)
+        {
+            throw new NotImplementedException();
         }
     }
 }

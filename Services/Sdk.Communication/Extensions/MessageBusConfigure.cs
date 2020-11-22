@@ -1,7 +1,6 @@
-using Accounts.Communication.Interfaces;
-using Accounts.Communication.Services;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
+using Sdk.Interfaces;
 
 namespace Accounts.Communication.Extensions
 {
@@ -10,7 +9,7 @@ namespace Accounts.Communication.Extensions
         public static IServiceCollection AddMessageBus<TC>(
             this IServiceCollection services
         )
-            where TC : AMessageBusSubscribeService
+            where TC : class, IConsumer
         {
             services.AddMassTransit(x =>
             {
@@ -23,7 +22,6 @@ namespace Accounts.Communication.Extensions
                 });
             });
             services.AddMassTransitHostedService();
-            services.AddTransient<IMessageBusPublishService, MessageBusPublishService>();
 
             return services;
         }
