@@ -1,6 +1,11 @@
-﻿using Accounts.Controllers;
+﻿using Accounts.Communication.Extensions;
+using Accounts.Extensions;
+using Accounts.Handlers;
+using Accounts.Persistence.Extensions;
+using Accounts.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -8,21 +13,37 @@ namespace Accounts
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public void ConfigureServices(IServiceCollection services)
+        private readonly IConfiguration _configuration;
+
+        private IWebHostEnvironment _webHostEnvironment;
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
-            services.AddGrpc();
+            _configuration = configuration;
+            _webHostEnvironment = webHostEnvironment;
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddControllers();
+            services
+                .AddCustomDatabase(_configuration)
+                .AddDataAccessServices()
+                .AddBusinessLogicManagers()
+                .AddMessageBus<AccountApprovedHandler>();
+        }
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
-
-            app.UseRouting();
-
-            app.UseEndpoints(endpoints => { endpoints.MapGrpcService<AccountsController>(); });
+            app
+                .ConfigureExceptionHandler()
+                .UseHttpsRedirection()
+                .UseRouting()
+                .UseAuthorization()
+                .UseEndpoints(
+                    endpoints => { endpoints.MapControllers(); }
+                );
         }
     }
 }

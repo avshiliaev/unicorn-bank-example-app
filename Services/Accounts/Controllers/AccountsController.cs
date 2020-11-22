@@ -1,25 +1,34 @@
-using System;
 using System.Threading.Tasks;
-using Grpc.Core;
+using Accounts.Dto;
+using Accounts.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Sdk.Integrations;
-using UnicornBankSdk;
 
 namespace Accounts.Controllers
 {
-    public class AccountsController : AccountsServiceTemplate
+    [ApiController]
+    [Route("api/[controller]")]
+    public class AccountsController : ControllerBase
     {
+        private readonly IAccountsManager _accountsManager;
         private readonly ILogger<AccountsController> _logger;
 
-        public AccountsController(ILogger<AccountsController> logger)
+        public AccountsController(
+            ILogger<AccountsController> logger,
+            IAccountsManager accountsManager
+        )
         {
             _logger = logger;
+            _accountsManager = accountsManager;
         }
 
-
-        public override Task<AccountEvent> Create(AccountEvent request, ServerCallContext context)
+        [HttpPost("")]
+        public async Task<ActionResult<AccountDto>> CreateNewAccount(
+            [FromBody] AccountDto accountEvent
+        )
         {
-            throw new NotImplementedException();
+            if (!ModelState.IsValid) return BadRequest();
+            return Ok(await _accountsManager.CreateNewAccountAsync(accountEvent));
         }
     }
 }
