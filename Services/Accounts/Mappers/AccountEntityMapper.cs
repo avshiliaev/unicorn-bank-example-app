@@ -10,9 +10,9 @@ namespace Accounts.Mappers
             return new AccountDto
             {
                 Balance = accountModel.Balance,
-                ProfileId = accountModel.ProfileId,
+                ProfileId = accountModel.ProfileId.ToString(),
                 Status = accountModel.Status,
-                Id = accountModel.Id
+                Id = accountModel.Id.ToString()
             };
         }
     }

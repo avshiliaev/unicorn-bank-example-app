@@ -12,7 +12,8 @@ namespace Sdk.Api.Validators
 
         public override bool IsValid(object value)
         {
-            if ((Guid) value != Guid.Empty)
+            var isGuidParsed = Guid.TryParse((string) value, out _);
+            if (isGuidParsed)
                 return true;
 
             return false;
