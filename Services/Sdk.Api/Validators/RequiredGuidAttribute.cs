@@ -7,7 +7,7 @@ namespace Sdk.Api.Validators
     {
         public RequiredGuidAttribute()
         {
-            ErrorMessage = "The {0} field is required.";
+            ErrorMessage = "The {0} field is invalid.";
         }
 
         public override bool IsValid(object value)
