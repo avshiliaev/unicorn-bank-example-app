@@ -1,1 +1,3 @@
-﻿Services/Server/.idea
+*.idea*
+*obj*
+*bin*
