@@ -3,10 +3,11 @@ using Accounts.Dto;
 using Accounts.Interfaces;
 using MassTransit;
 using Microsoft.Extensions.Logging;
+using Sdk.Api.Interfaces;
 
 namespace Accounts.Handlers
 {
-    public class AccountApprovedHandler : IConsumer<AccountDto>
+    public class AccountApprovedHandler : IConsumer<IAccountModel>
     {
         private IAccountsManager _accountsManager;
         private readonly ILogger<AccountApprovedHandler> _logger;
@@ -21,9 +22,9 @@ namespace Accounts.Handlers
             _accountsManager = accountsManager;
         }
 
-        public async Task Consume(ConsumeContext<AccountDto> context)
+        public async Task Consume(ConsumeContext<IAccountModel> context)
         {
-            _logger.LogDebug($"-------> AccountApprovedHandler {context}");
+            _logger.LogDebug($"-------> AccountApprovedHandler {context.Message}");
         }
     }
 }
