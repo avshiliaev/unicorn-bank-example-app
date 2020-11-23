@@ -1,6 +1,8 @@
+using System.Net.Mime;
 using System.Threading.Tasks;
 using Accounts.Dto;
 using Accounts.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -23,12 +25,16 @@ namespace Accounts.Controllers
         }
 
         [HttpPost("")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<AccountDto>> CreateNewAccount(
             [FromBody] AccountDto accountEvent
         )
         {
             if (!ModelState.IsValid) return BadRequest();
-            return Ok(await _accountsManager.CreateNewAccountAsync(accountEvent));
+            var newAccount = await _accountsManager.CreateNewAccountAsync(accountEvent);
+            return CreatedAtAction(nameof(CreateNewAccount), new { id = newAccount.Id }, newAccount);
         }
     }
 }
