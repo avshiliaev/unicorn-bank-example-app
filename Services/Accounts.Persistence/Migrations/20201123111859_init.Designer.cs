@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Accounts.Persistence.Migrations
 {
     [DbContext(typeof(AccountsContext))]
-    [Migration("20201115175744_Init")]
-    partial class Init
+    [Migration("20201123111859_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace Accounts.Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.0");
 
-            modelBuilder.Entity("Accounts.Persistence.Models.AccountModel", b =>
+            modelBuilder.Entity("Accounts.Persistence.Entities.AccountEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -41,6 +41,9 @@ namespace Accounts.Persistence.Migrations
 
                     b.Property<DateTime>("Updated")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

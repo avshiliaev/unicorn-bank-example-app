@@ -12,7 +12,8 @@ namespace Accounts.Mappers
                 Balance = accountModel.Balance,
                 ProfileId = accountModel.ProfileId.ToString(),
                 Status = accountModel.Status,
-                Id = accountModel.Id.ToString()
+                Id = accountModel.Id.ToString(),
+                Version = accountModel.Version
             };
         }
     }

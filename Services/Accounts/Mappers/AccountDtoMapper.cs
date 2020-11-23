@@ -16,7 +16,8 @@ namespace Accounts.Mappers
                 Id = isId ? id : Guid.NewGuid(),
                 Balance = accountEvent.Balance,
                 ProfileId = isProfileId ? profileId : Guid.NewGuid(),
-                Status = accountEvent.Status
+                Status = accountEvent.Status,
+                Version = accountEvent.Version
             };
         }
 
@@ -28,7 +29,8 @@ namespace Accounts.Mappers
                 Balance = 0.0f,
                 ProfileId = isProfileId ? profileId : Guid.NewGuid(),
                 Status = "pending",
-                Id = Guid.NewGuid()
+                Id = Guid.NewGuid(),
+                Version = 0
             };
         }
     }
