@@ -6,14 +6,14 @@ using Microsoft.Extensions.Logging;
 
 namespace Accounts.Handlers
 {
-    public class AccountApprovedHandler : IConsumer<AccountDto>
+    public class SubscriptionsHandler : IConsumer<AccountDto>, IConsumer<TransactionDto>
     {
+        private readonly ILogger<SubscriptionsHandler> _logger;
         private IAccountsManager _accountsManager;
-        private readonly ILogger<AccountApprovedHandler> _logger;
 
         // TODO: Register handlers as subscribers!
-        public AccountApprovedHandler(
-            ILogger<AccountApprovedHandler> logger,
+        public SubscriptionsHandler(
+            ILogger<SubscriptionsHandler> logger,
             IAccountsManager accountsManager
         )
         {
@@ -23,7 +23,12 @@ namespace Accounts.Handlers
 
         public async Task Consume(ConsumeContext<AccountDto> context)
         {
-            _logger.LogDebug($"-------> AccountApprovedHandler {context}");
+            _logger.LogDebug($"-------> AccountDto {context}");
+        }
+
+        public async Task Consume(ConsumeContext<TransactionDto> context)
+        {
+            _logger.LogDebug($"-------> TransactionDto {context}");
         }
     }
 }
