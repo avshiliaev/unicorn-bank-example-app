@@ -1,6 +1,8 @@
+using Sdk.Interfaces;
+
 namespace Sdk.Api.Interfaces
 {
-    public interface ITransactionModel
+    public interface ITransactionModel : IDataModel
     {
         
     }

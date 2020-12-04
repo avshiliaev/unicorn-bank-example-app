@@ -21,6 +21,10 @@ namespace Accounts.Handlers
             _accountsManager = accountsManager;
         }
 
+        public SubscriptionsHandler()
+        {
+        }
+
         public async Task Consume(ConsumeContext<AccountDto> context)
         {
             _logger.LogDebug($"-------> AccountDto {context}");
