@@ -7,7 +7,8 @@ namespace Accounts.Communication.Extensions
     public static class MessageBusConfigure
     {
         public static IServiceCollection AddMessageBus<TC>(
-            this IServiceCollection services
+            this IServiceCollection services,
+            string queueName
         )
             where TC : class, IConsumer
         {
@@ -17,7 +18,7 @@ namespace Accounts.Communication.Extensions
                 x.UsingRabbitMq((context, cfg) =>
                 {
                     cfg.ReceiveEndpoint(
-                        "event-listener",
+                        queueName,
                         e => { e.ConfigureConsumer<TC>(context); });
                 });
             });
