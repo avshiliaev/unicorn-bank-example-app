@@ -1,12 +1,13 @@
 using System;
 using Accounts.Dto;
 using Accounts.Persistence.Entities;
+using Sdk.Api.Interfaces;
 
 namespace Accounts.Mappers
 {
-    public static class AccountDtoMapper
+    public static class AccountModelMapper
     {
-        public static AccountEntity ToAccountEntity(this AccountDto accountEvent)
+        public static AccountEntity ToAccountEntity(this IAccountModel accountEvent)
         {
             // TODO: what to do if not parsed?
             var isId = Guid.TryParse(accountEvent.Id, out var id);
@@ -21,7 +22,7 @@ namespace Accounts.Mappers
             };
         }
 
-        public static AccountEntity ToNewAccountEntity(this AccountDto accountEvent)
+        public static AccountEntity ToNewAccountEntity(this IAccountModel accountEvent)
         {
             var isProfileId = Guid.TryParse(accountEvent.Id, out var profileId);
             return new AccountEntity

@@ -9,8 +9,8 @@ namespace Accounts.Handlers
     public class SubscriptionsHandler
         : IConsumer<AccountApprovedEvent>, IConsumer<TransactionCreatedEvent>
     {
+        private readonly IAccountsManager _accountsManager;
         private readonly ILogger<SubscriptionsHandler> _logger;
-        private IAccountsManager _accountsManager;
 
         public SubscriptionsHandler(
             ILogger<SubscriptionsHandler> logger,
@@ -30,16 +30,16 @@ namespace Accounts.Handlers
          * the message is unavailable to other receive endpoints. If the Task completes successfully, the message is
          * acknowledged and removed from the queue.
          */
-        public Task Consume(ConsumeContext<AccountApprovedEvent> context)
+        public async Task Consume(ConsumeContext<AccountApprovedEvent> context)
         {
-            _logger.LogDebug($"-------> AccountDto {context}");
-            return Task.CompletedTask;
+            _logger.LogDebug($"Received new AccountApprovedEvent for {context.Message.Id}");
+            await _accountsManager.UpdateExistingAccountAsync(context.Message);
         }
 
-        public Task Consume(ConsumeContext<TransactionCreatedEvent> context)
+        public async Task Consume(ConsumeContext<TransactionCreatedEvent> context)
         {
-            _logger.LogDebug($"-------> TransactionDto {context}");
-            return Task.CompletedTask;
+            _logger.LogDebug($"Received new TransactionCreatedEvent for {context.Message.Version}");
+            await _accountsManager.AddTransactionToAccountAsync(context.Message);
         }
     }
 }

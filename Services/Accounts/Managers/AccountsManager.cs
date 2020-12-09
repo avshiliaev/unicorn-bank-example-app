@@ -4,6 +4,7 @@ using Accounts.Interfaces;
 using Accounts.Mappers;
 using MassTransit;
 using Microsoft.Extensions.Logging;
+using Sdk.Api.Interfaces;
 
 namespace Accounts.Managers
 {
@@ -22,19 +23,24 @@ namespace Accounts.Managers
             _publishEndpoint = publishEndpoint;
         }
 
-        public async Task<AccountDto> CreateNewAccountAsync(AccountDto accountDto)
+        public async Task<AccountDto> CreateNewAccountAsync(IAccountModel accountModel)
         {
-            var newAccount = await _accountsService.CreateAccountAsync(accountDto.ToNewAccountEntity());
+            var newAccount = await _accountsService.CreateAccountAsync(accountModel.ToNewAccountEntity());
             await _publishEndpoint.Publish(newAccount.ToAccountCreatedEvent());
             return newAccount.ToAccountDto();
         }
 
-        public async Task<AccountDto> UpdateExistingAccountAsync(AccountDto accountEvent)
+        public async Task<AccountDto> UpdateExistingAccountAsync(IAccountModel accountModel)
         {
-            var updatedAccount = await _accountsService.UpdateAccountAsync(accountEvent.ToAccountEntity());
+            var updatedAccount = await _accountsService.UpdateAccountAsync(accountModel.ToAccountEntity());
             await _publishEndpoint.Publish(updatedAccount.ToAccountUpdatedEvent());
 
             return updatedAccount.ToAccountDto();
+        }
+
+        public async Task<AccountDto> AddTransactionToAccountAsync(ITransactionModel transactionModel)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
