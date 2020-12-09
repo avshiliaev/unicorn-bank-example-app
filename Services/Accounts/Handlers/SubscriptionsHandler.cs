@@ -12,7 +12,6 @@ namespace Accounts.Handlers
         private readonly ILogger<SubscriptionsHandler> _logger;
         private IAccountsManager _accountsManager;
 
-        // TODO: Register handlers as subscribers!
         public SubscriptionsHandler(
             ILogger<SubscriptionsHandler> logger,
             IAccountsManager accountsManager
@@ -26,14 +25,21 @@ namespace Accounts.Handlers
         {
         }
 
-        public async Task Consume(ConsumeContext<AccountApprovedEvent> context)
+        /*
+         * The Consume method returns a Task that is awaited by MassTransit. While the consumer method is executing,
+         * the message is unavailable to other receive endpoints. If the Task completes successfully, the message is
+         * acknowledged and removed from the queue.
+         */
+        public Task Consume(ConsumeContext<AccountApprovedEvent> context)
         {
             _logger.LogDebug($"-------> AccountDto {context}");
+            return Task.CompletedTask;
         }
 
-        public async Task Consume(ConsumeContext<TransactionCreatedEvent> context)
+        public Task Consume(ConsumeContext<TransactionCreatedEvent> context)
         {
             _logger.LogDebug($"-------> TransactionDto {context}");
+            return Task.CompletedTask;
         }
     }
 }

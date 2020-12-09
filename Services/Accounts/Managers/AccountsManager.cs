@@ -4,7 +4,6 @@ using Accounts.Interfaces;
 using Accounts.Mappers;
 using MassTransit;
 using Microsoft.Extensions.Logging;
-using Sdk.Api.Interfaces;
 
 namespace Accounts.Managers
 {
@@ -26,19 +25,16 @@ namespace Accounts.Managers
         public async Task<AccountDto> CreateNewAccountAsync(AccountDto accountDto)
         {
             var newAccount = await _accountsService.CreateAccountAsync(accountDto.ToNewAccountEntity());
-            var newAccountDto = newAccount.ToAccountDto();
-            await _publishEndpoint.Publish<IAccountModel>(newAccountDto);
-
-            return newAccountDto;
+            await _publishEndpoint.Publish(newAccount.ToAccountCreatedEvent());
+            return newAccount.ToAccountDto();
         }
 
         public async Task<AccountDto> UpdateExistingAccountAsync(AccountDto accountEvent)
         {
             var updatedAccount = await _accountsService.UpdateAccountAsync(accountEvent.ToAccountEntity());
-            var updatedAccountDto = updatedAccount.ToAccountDto();
-            await _publishEndpoint.Publish<IAccountModel>(updatedAccountDto);
+            await _publishEndpoint.Publish(updatedAccount.ToAccountUpdatedEvent());
 
-            return updatedAccountDto;
+            return updatedAccount.ToAccountDto();
         }
     }
 }
