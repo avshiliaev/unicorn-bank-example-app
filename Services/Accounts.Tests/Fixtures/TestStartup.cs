@@ -1,4 +1,3 @@
-using Accounts.Persistence.Interfaces;
 using Accounts.Tests.Mocks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -21,7 +20,8 @@ namespace Accounts.Tests.Fixtures
             services
                 .AddMvc()
                 .AddApplicationPart(typeof(Startup).Assembly);
-            services.AddTransient<IAccountsRepository, MockAccountsRepository>();
+            var accountsRepositoryMock = new AccountsRepositoryMockFactory().GetInstance();
+            services.AddTransient(provider => accountsRepositoryMock.Object);
         }
     }
 }

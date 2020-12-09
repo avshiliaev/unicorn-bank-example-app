@@ -21,11 +21,6 @@ namespace Accounts.Services
             return await _accountsRepository.AddAsync(accountModel);
         }
 
-        public async Task<List<AccountEntity>> ListAccountsAsync()
-        {
-            return await _accountsRepository.ListAllAsync();
-        }
-
         public async Task<AccountEntity> GetAccountByIdAsync(Guid accountId)
         {
             return await _accountsRepository.GetByIdAsync(accountId);

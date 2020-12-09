@@ -11,7 +11,7 @@ namespace Accounts.Tests.Handlers
     public class SubscriptionsHandlerTests
     {
         [Fact]
-        public async Task ShouldConsumeAccountDtoMessage()
+        public async Task ShouldConsumeAccountApprovedEvent()
         {
             var harness = new InMemoryTestHarness();
             var consumerHarness = harness.Consumer<SubscriptionsHandler>();
@@ -43,7 +43,7 @@ namespace Accounts.Tests.Handlers
         }
 
         [Fact]
-        public async Task ShouldConsumeTransactionDtoMessage()
+        public async Task ShouldConsumeTransactionCreatedEvent()
         {
             var harness = new InMemoryTestHarness();
             var consumerHarness = harness.Consumer<SubscriptionsHandler>();
