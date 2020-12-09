@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Accounts.Dto;
 using Accounts.Handlers;
 using MassTransit.Testing;
+using Sdk.Api.Events;
 using Xunit;
 
 namespace Accounts.Tests.Handlers
@@ -18,16 +19,16 @@ namespace Accounts.Tests.Handlers
             await harness.Start();
             try
             {
-                await harness.InputQueueSendEndpoint.Send(new AccountDto
+                await harness.InputQueueSendEndpoint.Send(new AccountApprovedEvent
                 {
                     ProfileId = Guid.NewGuid().ToString()
                 });
 
                 // did the endpoint consume the message
-                Assert.True(await harness.Consumed.Any<AccountDto>());
+                Assert.True(await harness.Consumed.Any<AccountApprovedEvent>());
 
                 // did the actual consumer consume the message
-                Assert.True(await consumerHarness.Consumed.Any<AccountDto>());
+                Assert.True(await consumerHarness.Consumed.Any<AccountApprovedEvent>());
 
                 // the consumer publish the event
                 // Assert.True(await harness.Published.Any<AccountDto>());
@@ -50,13 +51,13 @@ namespace Accounts.Tests.Handlers
             await harness.Start();
             try
             {
-                await harness.InputQueueSendEndpoint.Send(new TransactionDto());
+                await harness.InputQueueSendEndpoint.Send(new TransactionCreatedEvent());
 
                 // did the endpoint consume the message
-                Assert.True(await harness.Consumed.Any<TransactionDto>());
+                Assert.True(await harness.Consumed.Any<TransactionCreatedEvent>());
 
                 // did the actual consumer consume the message
-                Assert.True(await consumerHarness.Consumed.Any<TransactionDto>());
+                Assert.True(await consumerHarness.Consumed.Any<TransactionCreatedEvent>());
             }
             finally
             {

@@ -1,12 +1,13 @@
 using System.Threading.Tasks;
-using Accounts.Dto;
 using Accounts.Interfaces;
 using MassTransit;
 using Microsoft.Extensions.Logging;
+using Sdk.Api.Events;
 
 namespace Accounts.Handlers
 {
-    public class SubscriptionsHandler : IConsumer<AccountDto>, IConsumer<TransactionDto>
+    public class SubscriptionsHandler
+        : IConsumer<AccountApprovedEvent>, IConsumer<TransactionCreatedEvent>
     {
         private readonly ILogger<SubscriptionsHandler> _logger;
         private IAccountsManager _accountsManager;
@@ -25,12 +26,12 @@ namespace Accounts.Handlers
         {
         }
 
-        public async Task Consume(ConsumeContext<AccountDto> context)
+        public async Task Consume(ConsumeContext<AccountApprovedEvent> context)
         {
             _logger.LogDebug($"-------> AccountDto {context}");
         }
 
-        public async Task Consume(ConsumeContext<TransactionDto> context)
+        public async Task Consume(ConsumeContext<TransactionCreatedEvent> context)
         {
             _logger.LogDebug($"-------> TransactionDto {context}");
         }
