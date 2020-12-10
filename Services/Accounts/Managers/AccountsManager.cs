@@ -40,8 +40,15 @@ namespace Accounts.Managers
 
         public async Task<AccountDto> AddTransactionToAccountAsync(ITransactionModel transactionModel)
         {
-            // TODO: look up the implementation in GO first
-            throw new System.NotImplementedException();
+            var transactionEntity = transactionModel.ToTransactionEntity();
+            var mappedAccount = await _accountsService.GetAccountByIdAsync(transactionEntity.AccountId);
+            
+            mappedAccount.Balance += transactionEntity.Amount;
+            
+            var updatedAccount = await _accountsService.UpdateAccountAsync(mappedAccount);
+            await _publishEndpoint.Publish(updatedAccount.ToAccountUpdatedEvent());
+
+            return updatedAccount.ToAccountDto();
         }
     }
 }

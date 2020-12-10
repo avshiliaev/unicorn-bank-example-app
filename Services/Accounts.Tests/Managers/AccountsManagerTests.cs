@@ -5,6 +5,7 @@ using Accounts.Managers;
 using Accounts.Tests.Mocks;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Sdk.Api.Events;
 using Xunit;
 
 namespace Accounts.Tests.Managers
@@ -45,6 +46,19 @@ namespace Accounts.Tests.Managers
             };
             var newCreatedAccount = await _manager.UpdateExistingAccountAsync(newAccountDto);
             Assert.NotNull(newCreatedAccount);
+        }
+        
+        [Fact]
+        public async void AddTransactionToAccountAsyncTest()
+        {
+            var newTransaction = new TransactionCreatedEvent
+            {
+                AccountId = Guid.NewGuid().ToString(),
+                Amount = 1
+            };
+            var newCreatedAccount = await _manager.AddTransactionToAccountAsync(newTransaction);
+            Assert.NotNull(newCreatedAccount);
+            Assert.Equal(2, accou);
         }
     }
 }
