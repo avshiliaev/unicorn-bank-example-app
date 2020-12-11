@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using Accounts.Dto;
 using Accounts.Interfaces;
 using Accounts.Mappers;
-using Accounts.Persistence.Entities;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Sdk.Api.Interfaces;

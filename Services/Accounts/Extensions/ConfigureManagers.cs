@@ -10,7 +10,6 @@ namespace Accounts.Extensions
         public static IServiceCollection AddBusinessLogicManagers(this IServiceCollection services)
         {
             services.AddTransient<IAccountsManager, AccountsManager>();
-
             return services;
         }
     }

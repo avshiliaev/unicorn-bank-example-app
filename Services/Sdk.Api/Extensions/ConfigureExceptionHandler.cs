@@ -1,10 +1,10 @@
 ﻿using System.Net;
-using Accounts.Dto;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using Sdk.Api.Dto;
 
-namespace Accounts.Extensions
+namespace Sdk.Api.Extensions
 {
     public static class ExceptionMiddlewareExtensions
     {

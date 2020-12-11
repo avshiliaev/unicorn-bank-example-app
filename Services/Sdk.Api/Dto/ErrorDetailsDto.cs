@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace Accounts.Dto
+namespace Sdk.Api.Dto
 {
     public class ErrorDetailsDto
     {

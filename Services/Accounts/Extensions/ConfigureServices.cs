@@ -9,7 +9,6 @@ namespace Accounts.Extensions
         public static IServiceCollection AddDataAccessServices(this IServiceCollection services)
         {
             services.AddTransient<IAccountsService, AccountsService>();
-
             return services;
         }
     }
