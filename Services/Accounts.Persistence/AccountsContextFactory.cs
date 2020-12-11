@@ -16,7 +16,7 @@ namespace Accounts.Persistence
                 )
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile(
-                    $"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", 
+                    $"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json",
                     true,
                     true
                 )

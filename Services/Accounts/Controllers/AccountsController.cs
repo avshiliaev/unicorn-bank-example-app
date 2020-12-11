@@ -34,7 +34,7 @@ namespace Accounts.Controllers
         {
             if (!ModelState.IsValid) return BadRequest();
             var newAccount = await _accountsManager.CreateNewAccountAsync(accountDto);
-            return CreatedAtAction(nameof(CreateNewAccount), new { id = newAccount.Id }, newAccount);
+            return CreatedAtAction(nameof(CreateNewAccount), new {id = newAccount.Id}, newAccount);
         }
     }
 }

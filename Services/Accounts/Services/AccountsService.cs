@@ -2,7 +2,6 @@ using System;
 using System.Threading.Tasks;
 using Accounts.Interfaces;
 using Accounts.Persistence.Entities;
-using Sdk.Interfaces;
 using Sdk.Persistence.Interfaces;
 
 namespace Accounts.Services

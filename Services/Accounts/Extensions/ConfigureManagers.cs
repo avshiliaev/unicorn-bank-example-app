@@ -1,6 +1,5 @@
 using Accounts.Interfaces;
 using Accounts.Managers;
-using Accounts.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Accounts.Extensions
