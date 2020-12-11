@@ -29,12 +29,6 @@ namespace Accounts.Tests.Handlers
 
                 // did the actual consumer consume the message
                 Assert.True(await consumerHarness.Consumed.Any<AccountApprovedEvent>());
-
-                // the consumer publish the event
-                // Assert.True(await harness.Published.Any<AccountDto>());
-
-                // ensure that no faults were published by the consumer
-                // Assert.False(await harness.Published.Any<Fault<AccountDto>>());
             }
             finally
             {

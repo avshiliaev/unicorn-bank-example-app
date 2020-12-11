@@ -2,6 +2,7 @@ using System;
 using Accounts.Dto;
 using Accounts.Interfaces;
 using Accounts.Managers;
+using Accounts.Tests.Extensions;
 using Accounts.Tests.Mocks;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -25,40 +26,91 @@ namespace Accounts.Tests.Managers
             );
         }
 
-        [Fact]
-        public async void CreateNewAccountAsyncTest()
-        {
-            var newAccountDto = new AccountDto
-            {
-                ProfileId = Guid.NewGuid().ToString()
-            };
-            var newCreatedAccount = await _manager.CreateNewAccountAsync(newAccountDto);
-            Assert.NotNull(newCreatedAccount);
-        }
+        #region UpdateExistingAccountAsync
 
         [Fact]
-        public async void UpdateExistingAccountAsyncTest()
+        public async void ShouldSuccessfullyUpdateExistingAccount()
         {
             var newAccountDto = new AccountDto
             {
-                ProfileId = Guid.NewGuid().ToString(),
-                Balance = 100
+                Id = 0.ToGuid().ToString(),
+                Balance = 3
             };
             var newCreatedAccount = await _manager.UpdateExistingAccountAsync(newAccountDto);
             Assert.NotNull(newCreatedAccount);
+            Assert.Equal(3, newCreatedAccount.Balance);
         }
-        
+
         [Fact]
-        public async void AddTransactionToAccountAsyncTest()
+        public async void ShouldNotUpdateAnInvalidAccount()
+        {
+            var newAccountDto = new AccountDto
+            {
+                Id = 5.ToGuid().ToString(),
+                Balance = 3
+            };
+            var newCreatedAccount = await _manager.UpdateExistingAccountAsync(newAccountDto);
+            Assert.Null(newCreatedAccount);
+        }
+
+        #endregion
+
+        #region AddTransactionToAccountAsync
+
+        [Fact]
+        public async void ShouldSuccessfullyAddTransactionToAccount()
         {
             var newTransaction = new TransactionCreatedEvent
             {
-                AccountId = Guid.NewGuid().ToString(),
+                Id = 0.ToGuid().ToString(),
+                AccountId = 0.ToGuid().ToString(),
                 Amount = 1
             };
             var newCreatedAccount = await _manager.AddTransactionToAccountAsync(newTransaction);
             Assert.NotNull(newCreatedAccount);
-            Assert.Equal(2, accou);
+            Assert.Equal(2, newCreatedAccount.Balance);
         }
+
+        [Fact]
+        public async void ShouldNotAddInvalidTransactionToAccount()
+        {
+            var nonExistentAccountId = 4.ToGuid().ToString();
+            var invalidTransaction = new TransactionCreatedEvent
+            {
+                Id = 0.ToGuid().ToString(),
+                AccountId = nonExistentAccountId,
+                Amount = 1
+            };
+            var newCreatedAccount = await _manager.AddTransactionToAccountAsync(invalidTransaction);
+            Assert.Null(newCreatedAccount);
+        }
+
+        #endregion
+
+        #region CreateNewAccountAsync
+
+        [Fact]
+        public async void ShouldSuccessfullyCreateANewAccount()
+        {
+            var newValidAccountDto = new AccountDto
+            {
+                ProfileId = Guid.NewGuid().ToString()
+            };
+            var newCreatedAccount = await _manager.CreateNewAccountAsync(newValidAccountDto);
+            Assert.NotNull(newCreatedAccount);
+        }
+
+        [Fact]
+        public async void ShouldNotCreateAnInvalidAccount()
+        {
+            var newInvalidAccountDto = new AccountDto
+            {
+                Balance = 3
+            };
+            var newCreatedAccount = await _manager.CreateNewAccountAsync(newInvalidAccountDto);
+            Assert.Null(newCreatedAccount);
+        }
+
+        #endregion
     }
 }
