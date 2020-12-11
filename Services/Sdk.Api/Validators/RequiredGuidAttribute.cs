@@ -19,4 +19,20 @@ namespace Sdk.Api.Validators
             return false;
         }
     }
+    
+    public class RoleBasedAttribute : ValidationAttribute
+    {
+        private string _scope;
+
+        public RoleBasedAttribute(string scope)
+        {
+            _scope = scope;
+        }
+
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            
+            return ValidationResult.Success;
+        }
+    }
 }

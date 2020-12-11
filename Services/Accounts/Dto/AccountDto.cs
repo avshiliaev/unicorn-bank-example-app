@@ -6,12 +6,10 @@ namespace Accounts.Dto
 {
     public class AccountDto : IAccountModel
     {
-        public string Id { get; set; }
-        public float Balance { get; set; }
-
+        [RoleBased("Administrator")] public string Id { get; set; }
+        [RoleBased("Administrator")] public float Balance { get; set; }
         [Required] [RequiredGuid] public string ProfileId { get; set; }
-
-        public bool Approved { get; set; }
-        public int Version { get; set; }
+        [RoleBased("Administrator")] public bool Approved { get; set; }
+        [RoleBased("Administrator")] public int Version { get; set; }
     }
 }
