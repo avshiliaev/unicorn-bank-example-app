@@ -10,7 +10,7 @@ namespace Accounts.Persistence
             var optionsBuilder = new DbContextOptionsBuilder<AccountsContext>();
             optionsBuilder.UseNpgsql(
                 // configuration.GetConnectionString("AccountsContext")
-                // TODO: fix it
+                // TODO: ONLY for migrations, fix it
                 "User ID=postgres;Password=postgres;Host=localhost;Pooling=true;Database=test"
             );
 
