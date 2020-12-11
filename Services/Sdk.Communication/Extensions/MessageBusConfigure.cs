@@ -1,6 +1,5 @@
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
-using Sdk.Interfaces;
 
 namespace Accounts.Communication.Extensions
 {

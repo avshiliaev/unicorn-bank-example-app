@@ -1,8 +1,8 @@
-using Sdk.Interfaces;
+using Sdk.Api.Interfaces;
 
-namespace Sdk.Api.Interfaces
+namespace Sdk.Api.Events
 {
-    public interface ITransactionModel : IDataModel
+    public class TransactionCreatedEvent : ITransactionModel
     {
         public string Id { get; set; }
         public string AccountId { get; set; }
@@ -10,5 +10,6 @@ namespace Sdk.Api.Interfaces
         public string Info { get; set; }
         public string Status { get; set; }
         public string Timestamp { get; set; }
+        public int Version { get; set; }
     }
 }

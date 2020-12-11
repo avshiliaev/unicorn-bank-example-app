@@ -19,7 +19,7 @@ namespace Accounts.Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.0");
 
-            modelBuilder.Entity("Accounts.Persistence.Models.AccountModel", b =>
+            modelBuilder.Entity("Accounts.Persistence.Entities.AccountEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -39,6 +39,9 @@ namespace Accounts.Persistence.Migrations
 
                     b.Property<DateTime>("Updated")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

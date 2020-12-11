@@ -2,8 +2,10 @@ using System.Threading.Tasks;
 using Accounts.Dto;
 using Accounts.Interfaces;
 using Accounts.Mappers;
+using Accounts.Persistence.Entities;
 using MassTransit;
 using Microsoft.Extensions.Logging;
+using Sdk.Api.Interfaces;
 
 namespace Accounts.Managers
 {
@@ -22,22 +24,41 @@ namespace Accounts.Managers
             _publishEndpoint = publishEndpoint;
         }
 
-        public async Task<AccountDto> CreateNewAccountAsync(AccountDto accountDto)
+        public async Task<AccountDto> CreateNewAccountAsync(IAccountModel accountModel)
         {
-            var newAccount = await _accountsService.CreateAccountAsync(accountDto.ToNewAccountEntity());
-            var newAccountDto = newAccount.ToAccountDto();
-            await _publishEndpoint.Publish(newAccountDto);
-
-            return newAccountDto;
+            if (accountModel.ProfileId != null)
+            {
+                var newAccount = await _accountsService.CreateAccountAsync(accountModel.ToNewAccountEntity());
+                await _publishEndpoint.Publish(newAccount.ToAccountCreatedEvent());
+                return newAccount.ToAccountDto();
+            }
+            return null;
         }
 
-        public async Task<AccountDto> UpdateExistingAccountAsync(AccountDto accountEvent)
+        public async Task<AccountDto> UpdateExistingAccountAsync(IAccountModel accountModel)
         {
-            var updatedAccount = await _accountsService.UpdateAccountAsync(accountEvent.ToAccountEntity());
-            var updatedAccountDto = updatedAccount.ToAccountDto();
-            await _publishEndpoint.Publish(updatedAccountDto);
+            var accountEntity = accountModel.ToAccountEntity();
+            var updatedAccount = await _accountsService.UpdateAccountAsync(accountEntity);
+            if (updatedAccount != null)
+            {
+                await _publishEndpoint.Publish(updatedAccount.ToAccountUpdatedEvent());
+                return updatedAccount.ToAccountDto();
+            }
+            return null;
+        }
 
-            return updatedAccountDto;
+        public async Task<AccountDto> AddTransactionToAccountAsync(ITransactionModel transactionModel)
+        {
+            var transactionEntity = transactionModel.ToTransactionEntity();
+            var mappedAccount = await _accountsService.GetAccountByIdAsync(transactionEntity.AccountId);
+            if (mappedAccount != null)
+            {
+                mappedAccount.Balance += transactionEntity.Amount;
+                var updatedAccount = await _accountsService.UpdateAccountAsync(mappedAccount);
+                await _publishEndpoint.Publish(updatedAccount.ToAccountUpdatedEvent());
+                return updatedAccount.ToAccountDto();
+            }
+            return null;
         }
     }
 }

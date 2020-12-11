@@ -22,7 +22,7 @@ namespace Accounts
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public void ConfigureServices(IServiceCollection services)
+        public virtual void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
             services

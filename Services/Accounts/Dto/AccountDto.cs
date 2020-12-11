@@ -12,5 +12,6 @@ namespace Accounts.Dto
         [RequiredGuid] 
         public string ProfileId { get; set; }
         public string Status { get; set; }
+        public int Version { get; set; }
     }
 }

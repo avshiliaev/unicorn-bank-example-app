@@ -6,5 +6,6 @@ namespace Accounts.Persistence.Interfaces
     {
         DateTime Created { set; get; }
         DateTime Updated { set; get; }
+        public int Version { get; set; }
     }
 }
