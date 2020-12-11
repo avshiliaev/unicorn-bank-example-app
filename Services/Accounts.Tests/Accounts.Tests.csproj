@@ -18,6 +18,7 @@
     <ItemGroup>
       <ProjectReference Include="..\Accounts\Accounts.csproj" />
       <ProjectReference Include="..\Sdk.Persistence\Sdk.Persistence.csproj" />
+      <ProjectReference Include="..\Sdk.Tests\Sdk.Tests.csproj" />
     </ItemGroup>
 
 </Project>
