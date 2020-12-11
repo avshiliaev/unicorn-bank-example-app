@@ -1,7 +1,9 @@
 using System;
+using Accounts.Dto;
 using Accounts.Interfaces;
 using Accounts.Persistence.Entities;
 using Accounts.Services;
+using Accounts.Tests.Extensions;
 using Accounts.Tests.Mocks;
 using Xunit;
 
@@ -18,7 +20,7 @@ namespace Accounts.Tests.Services
         }
 
         [Fact]
-        public async void CreateAccountAsyncTest()
+        public async void ShouldSuccessfullyCreateANewAccount()
         {
             var newAccountEntity = new AccountEntity()
             {
@@ -29,15 +31,28 @@ namespace Accounts.Tests.Services
         }
         
         [Fact]
-        public async void UpdateAccountAsyncTest()
+        public async void ShouldSuccessfullyUpdateExistingAccount()
         {
             var accountEntity = new AccountEntity()
             {
-                ProfileId = Guid.NewGuid(),
+                Id = 0.ToGuid(),
+                ProfileId = 0.ToGuid(),
                 Balance = 100
             };
             var updatedAccountEntity = await _service.UpdateAccountAsync(accountEntity);
             Assert.NotNull(updatedAccountEntity);
+        }
+        
+        [Fact]
+        public async void ShouldNotUpdateAnInvalidAccount()
+        {
+            var invalidAccountEntity = new AccountEntity()
+            {
+                Id = 5.ToGuid(),
+                Balance = 100
+            };
+            var updatedAccountEntity = await _service.UpdateAccountAsync(invalidAccountEntity);
+            Assert.Null(updatedAccountEntity);
         }
     }
 }
