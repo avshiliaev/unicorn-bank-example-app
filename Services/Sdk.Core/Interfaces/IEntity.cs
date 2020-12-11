@@ -1,6 +1,6 @@
 using System;
 
-namespace Accounts.Persistence.Interfaces
+namespace Sdk.Interfaces
 {
     public interface IEntity
     {

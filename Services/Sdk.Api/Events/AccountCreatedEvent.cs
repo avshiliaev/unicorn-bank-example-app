@@ -1,8 +1,9 @@
 using Sdk.Api.Interfaces;
+using Sdk.Interfaces;
 
 namespace Sdk.Api.Events
 {
-    public class AccountCreatedEvent : IAccountModel
+    public class AccountCreatedEvent : IAccountModel, IEvent
     {
         public int Version { get; set; }
         public string Id { get; set; }

@@ -1,14 +1,15 @@
-using Accounts.Dto;
 using Accounts.Persistence.Entities;
-using Sdk.Api.Events;
+using Sdk.Api.Interfaces;
+using Sdk.Interfaces;
 
 namespace Accounts.Mappers
 {
     public static class AccountEntityMapper
     {
-        public static AccountDto ToAccountDto(this AccountEntity accountModel)
+        public static T ToAccountModel<T>(this AccountEntity accountModel)
+            where T : class, IAccountModel, new()
         {
-            return new AccountDto
+            return new T
             {
                 Balance = accountModel.Balance,
                 ProfileId = accountModel.ProfileId.ToString(),
@@ -18,21 +19,10 @@ namespace Accounts.Mappers
             };
         }
 
-        public static AccountCreatedEvent ToAccountCreatedEvent(this AccountEntity accountModel)
+        public static T ToAccountEvent<T>(this AccountEntity accountModel)
+            where T : class, IAccountModel, IEvent, new()
         {
-            return new AccountCreatedEvent
-            {
-                Balance = accountModel.Balance,
-                ProfileId = accountModel.ProfileId.ToString(),
-                Status = accountModel.Status,
-                Id = accountModel.Id.ToString(),
-                Version = accountModel.Version
-            };
-        }
-
-        public static AccountUpdatedEvent ToAccountUpdatedEvent(this AccountEntity accountModel)
-        {
-            return new AccountUpdatedEvent
+            return new T
             {
                 Balance = accountModel.Balance,
                 ProfileId = accountModel.ProfileId.ToString(),

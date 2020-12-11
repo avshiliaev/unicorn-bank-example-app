@@ -4,13 +4,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Accounts.Persistence.Entities;
-using Accounts.Persistence.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Sdk.Interfaces;
 
 namespace Accounts.Persistence.Repositories
 {
-    public class AccountsRepository : IAccountsRepository
+    public class AccountsRepository : IRepository<AccountEntity>
     {
         private readonly AccountsContext _context;
         private readonly ILogger<AccountsRepository> _logger;

@@ -1,8 +1,9 @@
 using Sdk.Api.Interfaces;
+using Sdk.Interfaces;
 
 namespace Sdk.Api.Events
 {
-    public class TransactionCreatedEvent : ITransactionModel
+    public class TransactionCreatedEvent : ITransactionModel, IEvent
     {
         public string Id { get; set; }
         public string AccountId { get; set; }

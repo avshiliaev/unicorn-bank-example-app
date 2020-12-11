@@ -1,8 +1,9 @@
-using Accounts.Persistence.Interfaces;
+using Accounts.Persistence.Entities;
 using Accounts.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Sdk.Interfaces;
 
 namespace Accounts.Persistence.Extensions
 {
@@ -18,7 +19,7 @@ namespace Accounts.Persistence.Extensions
                     options.UseNpgsql(configuration.GetConnectionString("AccountsContext"))
             );
 
-            services.AddTransient<IAccountsRepository, AccountsRepository>();
+            services.AddTransient<IRepository<AccountEntity>, AccountsRepository>();
 
             return services;
         }

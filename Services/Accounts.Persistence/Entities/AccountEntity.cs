@@ -1,5 +1,5 @@
 using System;
-using Accounts.Persistence.Interfaces;
+using Sdk.Interfaces;
 
 namespace Accounts.Persistence.Entities
 {
