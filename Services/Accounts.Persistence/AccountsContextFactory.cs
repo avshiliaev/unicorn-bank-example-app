@@ -1,5 +1,8 @@
+using System;
+using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
 
 namespace Accounts.Persistence
 {
@@ -7,13 +10,23 @@ namespace Accounts.Persistence
     {
         public AccountsContext CreateDbContext(string[] args)
         {
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(
+                    Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Accounts")
+                )
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile(
+                    $"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", 
+                    true,
+                    true
+                )
+                .AddEnvironmentVariables()
+                .Build();
+
             var optionsBuilder = new DbContextOptionsBuilder<AccountsContext>();
             optionsBuilder.UseNpgsql(
-                // configuration.GetConnectionString("AccountsContext")
-                // TODO: ONLY for migrations, fix it
-                "User ID=postgres;Password=postgres;Host=localhost;Pooling=true;Database=test"
+                configuration.GetConnectionString("AccountsContext")
             );
-
             return new AccountsContext(optionsBuilder.Options);
         }
     }
