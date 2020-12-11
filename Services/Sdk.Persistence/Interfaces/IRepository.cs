@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Sdk.Interfaces
+namespace Sdk.Persistence.Interfaces
 {
     public interface IRepository<T> where T : class, IEntity
     {

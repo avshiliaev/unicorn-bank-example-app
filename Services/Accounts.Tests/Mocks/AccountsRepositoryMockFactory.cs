@@ -7,6 +7,7 @@ using Accounts.Tests.Extensions;
 using Accounts.Tests.Interfaces;
 using Moq;
 using Sdk.Interfaces;
+using Sdk.Persistence.Interfaces;
 
 namespace Accounts.Tests.Mocks
 {

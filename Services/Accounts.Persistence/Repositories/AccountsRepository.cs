@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Accounts.Persistence.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Sdk.Interfaces;
+using Sdk.Persistence.Interfaces;
 
 namespace Accounts.Persistence.Repositories
 {
