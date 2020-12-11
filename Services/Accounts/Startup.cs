@@ -48,7 +48,8 @@ namespace Accounts
                 .UseAuthorization()
                 .UseEndpoints(
                     endpoints => { endpoints.MapControllers(); }
-                );
+                )
+                .UpdateDatabase<AccountsContext>();
         }
     }
 }
