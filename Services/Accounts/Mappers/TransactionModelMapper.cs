@@ -13,7 +13,7 @@ namespace Accounts.Mappers
                 Id = transactionModel.Id.ToGuid(),
                 Amount = transactionModel.Amount,
                 AccountId = transactionModel.AccountId.ToGuid(),
-                Status = transactionModel.Status,
+                Approved = transactionModel.Approved,
                 Version = transactionModel.Version
             };
         }

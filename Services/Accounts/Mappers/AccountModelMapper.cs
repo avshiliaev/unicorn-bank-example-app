@@ -13,7 +13,7 @@ namespace Accounts.Mappers
                 Id = accountEvent.Id.ToGuid(),
                 Balance = accountEvent.Balance,
                 ProfileId = accountEvent.ProfileId.ToGuid(),
-                Status = accountEvent.Status,
+                Approved = accountEvent.Approved,
                 Version = accountEvent.Version
             };
         }

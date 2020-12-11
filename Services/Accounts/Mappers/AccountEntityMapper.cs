@@ -13,7 +13,7 @@ namespace Accounts.Mappers
             {
                 Balance = accountModel.Balance,
                 ProfileId = accountModel.ProfileId.ToString(),
-                Status = accountModel.Status,
+                Approved = accountModel.Approved,
                 Id = accountModel.Id.ToString(),
                 Version = accountModel.Version
             };
@@ -26,7 +26,7 @@ namespace Accounts.Mappers
             {
                 Balance = accountModel.Balance,
                 ProfileId = accountModel.ProfileId.ToString(),
-                Status = accountModel.Status,
+                Approved = accountModel.Approved,
                 Id = accountModel.Id.ToString(),
                 Version = accountModel.Version
             };

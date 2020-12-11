@@ -8,6 +8,6 @@ namespace Sdk.Api.Interfaces
         public string Id { get; set; }
         public float Balance { get; set; }
         public string ProfileId { get; set; }
-        public string Status { get; set; }
+        public bool Approved { get; set; }
     }
 }

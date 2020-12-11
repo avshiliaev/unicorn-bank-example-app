@@ -8,7 +8,7 @@ namespace Sdk.Api.Interfaces
         public string AccountId { get; set; }
         public float Amount { get; set; }
         public string Info { get; set; }
-        public string Status { get; set; }
+        public bool Approved { get; set; }
         public string Timestamp { get; set; }
     }
 }

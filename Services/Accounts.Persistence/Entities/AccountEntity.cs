@@ -7,7 +7,7 @@ namespace Accounts.Persistence.Entities
     {
         public float Balance { get; set; }
         public Guid ProfileId { get; set; }
-        public string Status { get; set; }
+        public bool Approved { get; set; }
         public Guid Id { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
