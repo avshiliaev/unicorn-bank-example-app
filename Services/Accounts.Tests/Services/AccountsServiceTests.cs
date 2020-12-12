@@ -56,17 +56,18 @@ namespace Accounts.Tests.Services
         }
 
         [Fact]
-        public async void ShouldSuccessfullyUpdateExistingAccount()
+        public async void ShouldActivelyUpdateExistingAccount()
         {
             var accountEntity = new AccountEntity
             {
                 Id = 1.ToGuid(),
                 ProfileId = 1.ToGuid(),
                 Balance = 100,
-                Version = 1
+                Version = 0
             };
             var updatedAccountEntity = await _service.UpdateAccountAsync(accountEntity);
             Assert.NotNull(updatedAccountEntity);
+            Assert.Equal(1, updatedAccountEntity.Version);
         }
 
         [Fact]

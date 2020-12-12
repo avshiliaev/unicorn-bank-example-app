@@ -39,7 +39,7 @@ namespace Sdk.Tests.Mocks
                     );
                 });
             repository
-                .Setup(a => a.UpdateAsync(It.IsAny<TEntity>()))
+                .Setup(a => a.UpdatePassivelyAsync(It.IsAny<TEntity>()))
                 .Returns((TEntity entity) =>
                 {
                     if (
@@ -59,8 +59,29 @@ namespace Sdk.Tests.Mocks
                         _entities.FirstOrDefault(e => e.Id == entity.Id)
                     );
                 });
+            repository
+                .Setup(a => a.UpdateActivelyAsync(It.IsAny<TEntity>()))
+                .Returns((TEntity entity) =>
+                {
+                    if (
+                        entity == null ||
+                        Guid.Empty.Equals(entity.Id) ||
+                        _entities
+                            .FirstOrDefault(
+                                e => e.Id.Equals(entity.Id) &&
+                                     e.Version.Equals(entity.Version)
+                            ) == null
+                    )
+                        return Task.FromResult<TEntity>(null);
+
+                    _entities = _entities.Where(e => e.Id != entity.Id).ToList();
+                    entity.Version = entity.Version + 1;
+                    _entities.Add(entity);
+                    return Task.FromResult(
+                        _entities.FirstOrDefault(e => e.Id == entity.Id)
+                    );
+                });
             return repository;
         }
-
     }
 }

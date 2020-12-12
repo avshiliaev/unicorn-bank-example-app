@@ -12,7 +12,8 @@ namespace Sdk.Persistence.Interfaces
         Task<T> GetByIdAsync(Guid id);
         Task<T> GetByParameterAsync(Expression<Func<T, bool>> predicate);
         Task<T> AddAsync(T entity);
-        Task<T> UpdateAsync(T entity);
+        Task<T> UpdatePassivelyAsync(T entity);
+        Task<T> UpdateActivelyAsync(T entity);
         Task<T> DeleteAsync(Guid id);
     }
 }

@@ -27,7 +27,7 @@ namespace Accounts.Services
 
         public async Task<AccountEntity> UpdateAccountAsync(AccountEntity accountModel)
         {
-            return await _accountsRepository.UpdateAsync(accountModel);
+            return await _accountsRepository.UpdateActivelyAsync(accountModel);
         }
     }
 }
