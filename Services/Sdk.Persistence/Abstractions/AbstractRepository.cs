@@ -56,7 +56,10 @@ namespace Sdk.Persistence.Abstractions
             if (
                 entity == null ||
                 Guid.Empty.Equals(entity.Id) ||
-                !await _context.Set<TEntity>().AnyAsync(acc => acc.Id.Equals(entity.Id))
+                !await _context.Set<TEntity>()
+                    .Where(acc => acc.Id.Equals(entity.Id))
+                    .Where(acc => acc.Version.Equals(entity.Version - 1))
+                    .AnyAsync()
             )
                 return null;
 

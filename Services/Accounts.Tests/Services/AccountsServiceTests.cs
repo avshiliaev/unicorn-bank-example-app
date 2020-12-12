@@ -35,9 +35,10 @@ namespace Accounts.Tests.Services
         {
             var accountEntity = new AccountEntity()
             {
-                Id = 0.ToGuid(),
-                ProfileId = 0.ToGuid(),
-                Balance = 100
+                Id = 1.ToGuid(),
+                ProfileId = 1.ToGuid(),
+                Balance = 100,
+                Version = 1
             };
             var updatedAccountEntity = await _service.UpdateAccountAsync(accountEntity);
             Assert.NotNull(updatedAccountEntity);
@@ -49,7 +50,23 @@ namespace Accounts.Tests.Services
             var invalidAccountEntity = new AccountEntity()
             {
                 Id = 5.ToGuid(),
-                Balance = 100
+                ProfileId = 1.ToGuid(),
+                Balance = 100,
+                Version = 1
+            };
+            var updatedAccountEntity = await _service.UpdateAccountAsync(invalidAccountEntity);
+            Assert.Null(updatedAccountEntity);
+        }
+        
+        [Fact]
+        public async void ShouldNotUpdateAnAccountWithWrongVersion()
+        {
+            var invalidAccountEntity = new AccountEntity()
+            {
+                Id = 1.ToGuid(),
+                ProfileId = 1.ToGuid(),
+                Balance = 100,
+                Version = 3
             };
             var updatedAccountEntity = await _service.UpdateAccountAsync(invalidAccountEntity);
             Assert.Null(updatedAccountEntity);

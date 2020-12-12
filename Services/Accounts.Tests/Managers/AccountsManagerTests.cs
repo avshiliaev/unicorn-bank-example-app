@@ -2,6 +2,7 @@ using System;
 using Accounts.Dto;
 using Accounts.Interfaces;
 using Accounts.Managers;
+using Accounts.Services;
 using Accounts.Tests.Mocks;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -17,11 +18,12 @@ namespace Accounts.Tests.Managers
 
         public AccountsManagerTests()
         {
-            var accountsService = new AccountsServiceMockFactory().GetInstance();
             var publishEndpoint = new PublishEndpointMockFactory().GetInstance();
+            var accountsRepositoryMock = new AccountsRepositoryMockFactory().GetInstance();
+            
             _manager = new AccountsManager(
                 new Mock<ILogger<AccountsManager>>().Object,
-                accountsService.Object,
+                new AccountsService(accountsRepositoryMock.Object),
                 publishEndpoint.Object
             );
         }

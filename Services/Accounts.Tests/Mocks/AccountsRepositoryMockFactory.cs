@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Accounts.Persistence.Entities;
 using Moq;
-using Sdk.Tests.Interfaces;
 using Sdk.Persistence.Interfaces;
 using Sdk.Tests.Extensions;
+using Sdk.Tests.Interfaces;
 
 namespace Accounts.Tests.Mocks
 {
@@ -16,21 +16,24 @@ namespace Accounts.Tests.Mocks
         {
             new AccountEntity
             {
-                Id = 0.ToGuid(),
-                Balance = 1,
-                ProfileId = 0.ToGuid()
-            },
-            new AccountEntity
-            {
                 Id = 1.ToGuid(),
                 Balance = 1,
-                ProfileId = 0.ToGuid()
+                ProfileId = 1.ToGuid(),
+                Version = 0
             },
             new AccountEntity
             {
                 Id = 2.ToGuid(),
                 Balance = 1,
-                ProfileId = 1.ToGuid()
+                ProfileId = 1.ToGuid(),
+                Version = 0
+            },
+            new AccountEntity
+            {
+                Id = 3.ToGuid(),
+                Balance = 1,
+                ProfileId = 2.ToGuid(),
+                Version = 0
             }
         };
 
@@ -58,17 +61,22 @@ namespace Accounts.Tests.Mocks
                 .Setup(a => a.UpdateAsync(It.IsAny<AccountEntity>()))
                 .Returns((AccountEntity accountEntity) =>
                 {
-                    var isAccount = _accountEntities.FirstOrDefault(a => a.Id == accountEntity.Id);
-                    if (isAccount != null)
-                    {
-                        _accountEntities = _accountEntities.Where(a => a.Id != accountEntity.Id).ToList();
-                        _accountEntities.Add(accountEntity);
-                        return Task.FromResult(
-                            _accountEntities.FirstOrDefault(a => a.Id == accountEntity.Id)
-                        );
-                    }
+                    if (
+                        accountEntity == null ||
+                        Guid.Empty.Equals(accountEntity.Id) ||
+                        _accountEntities
+                            .FirstOrDefault(
+                                acc => acc.Id.Equals(accountEntity.Id) &&
+                                       acc.Version.Equals(accountEntity.Version - 1)
+                            ) == null
+                    )
+                        return Task.FromResult<AccountEntity>(null);
 
-                    return Task.FromResult<AccountEntity>(null);
+                    _accountEntities = _accountEntities.Where(a => a.Id != accountEntity.Id).ToList();
+                    _accountEntities.Add(accountEntity);
+                    return Task.FromResult(
+                        _accountEntities.FirstOrDefault(a => a.Id == accountEntity.Id)
+                    );
                 });
             return accountsRepository;
         }
