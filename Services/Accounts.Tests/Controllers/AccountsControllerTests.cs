@@ -15,6 +15,7 @@ namespace Accounts.Tests.Controllers
         public double Balance { get; set; }
         public string ProfileId { get; set; }
     }
+
     public class AccountsControllerTests : IClassFixture<AppFixture>
     {
         private readonly HttpClient _client;
@@ -84,7 +85,7 @@ namespace Accounts.Tests.Controllers
                 response.StatusCode
             );
         }
-        
+
         [Fact]
         public async Task CreateNewAccountRightData()
         {

@@ -1,26 +1,54 @@
 using System;
+using System.Collections.Generic;
 using Accounts.Dto;
 using Accounts.Interfaces;
 using Accounts.Managers;
+using Accounts.Persistence.Entities;
 using Accounts.Services;
-using Accounts.Tests.Mocks;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Sdk.Api.Events;
+using Sdk.Api.Interfaces;
 using Sdk.Tests.Extensions;
+using Sdk.Tests.Mocks;
 using Xunit;
 
 namespace Accounts.Tests.Managers
 {
     public class AccountsManagerTests
     {
+        private readonly List<AccountEntity> _accountEntities = new List<AccountEntity>
+        {
+            new AccountEntity
+            {
+                Id = 1.ToGuid(),
+                Balance = 1,
+                ProfileId = 1.ToGuid(),
+                Version = 0
+            },
+            new AccountEntity
+            {
+                Id = 2.ToGuid(),
+                Balance = 1,
+                ProfileId = 1.ToGuid(),
+                Version = 0
+            },
+            new AccountEntity
+            {
+                Id = 3.ToGuid(),
+                Balance = 1,
+                ProfileId = 2.ToGuid(),
+                Version = 0
+            }
+        };
+
         private readonly IAccountsManager _manager;
 
         public AccountsManagerTests()
         {
-            var publishEndpoint = new PublishEndpointMockFactory().GetInstance();
-            var accountsRepositoryMock = new AccountsRepositoryMockFactory().GetInstance();
-            
+            var publishEndpoint = new PublishEndpointMockFactory<IAccountModel>().GetInstance();
+            var accountsRepositoryMock = new RepositoryMockFactory<AccountEntity>(_accountEntities).GetInstance();
+
             _manager = new AccountsManager(
                 new Mock<ILogger<AccountsManager>>().Object,
                 new AccountsService(accountsRepositoryMock.Object),
