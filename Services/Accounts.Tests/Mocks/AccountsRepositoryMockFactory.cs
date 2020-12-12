@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Accounts.Persistence.Entities;
-using Accounts.Tests.Interfaces;
 using Moq;
-using Sdk.Interfaces;
+using Sdk.Tests.Interfaces;
 using Sdk.Persistence.Interfaces;
 using Sdk.Tests.Extensions;
 

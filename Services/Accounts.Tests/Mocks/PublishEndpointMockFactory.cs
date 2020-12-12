@@ -1,9 +1,9 @@
 using System.Threading;
 using System.Threading.Tasks;
-using Accounts.Tests.Interfaces;
 using MassTransit;
 using Moq;
 using Sdk.Api.Interfaces;
+using Sdk.Tests.Interfaces;
 
 namespace Accounts.Tests.Mocks
 {

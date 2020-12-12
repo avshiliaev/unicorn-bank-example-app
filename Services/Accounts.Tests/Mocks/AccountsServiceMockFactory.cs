@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Accounts.Interfaces;
 using Accounts.Persistence.Entities;
-using Accounts.Tests.Interfaces;
 using Moq;
 using Sdk.Tests.Extensions;
+using Sdk.Tests.Interfaces;
 
 namespace Accounts.Tests.Mocks
 {
