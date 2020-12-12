@@ -51,16 +51,38 @@ namespace Sdk.Persistence.Abstractions
             return saved.Entity;
         }
 
-        public async Task<TEntity> UpdateAsync(TEntity entity)
+        public async Task<TEntity> UpdatePassivelyAsync(TEntity entity)
         {
             if (
                 entity == null ||
                 Guid.Empty.Equals(entity.Id) ||
-                !await _context.Set<TEntity>().AnyAsync(acc => acc.Id.Equals(entity.Id))
+                !await _context.Set<TEntity>()
+                    .Where(acc => acc.Id.Equals(entity.Id))
+                    .Where(acc => acc.Version.Equals(entity.Version - 1))
+                    .AnyAsync()
             )
                 return null;
 
             entity.Updated = DateTime.UtcNow;
+            _context.Entry(entity).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return entity;
+        }
+        
+        public async Task<TEntity> UpdateActivelyAsync(TEntity entity)
+        {
+            if (
+                entity == null ||
+                Guid.Empty.Equals(entity.Id) ||
+                !await _context.Set<TEntity>()
+                    .Where(acc => acc.Id.Equals(entity.Id))
+                    .Where(acc => acc.Version.Equals(entity.Version))
+                    .AnyAsync()
+            )
+                return null;
+
+            entity.Updated = DateTime.UtcNow;
+            entity.Version = entity.Version + 1;
             _context.Entry(entity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return entity;

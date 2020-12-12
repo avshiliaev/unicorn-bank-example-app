@@ -2,12 +2,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using MassTransit;
 using Moq;
-using Sdk.Api.Interfaces;
+using Sdk.Interfaces;
 using Sdk.Tests.Interfaces;
 
-namespace Accounts.Tests.Mocks
+namespace Sdk.Tests.Mocks
 {
-    public class PublishEndpointMockFactory : IMockFactory<IPublishEndpoint>
+    public class PublishEndpointMockFactory<TModel> : IMockFactory<IPublishEndpoint>
+        where TModel : class, IDataModel
     {
         public Mock<IPublishEndpoint> GetInstance()
         {
@@ -15,7 +16,7 @@ namespace Accounts.Tests.Mocks
             publishEndpoint
                 .Setup(
                     p => p.Publish(
-                        It.IsAny<IAccountModel>(), It.IsAny<CancellationToken>()
+                        It.IsAny<TModel>(), It.IsAny<CancellationToken>()
                     )
                 )
                 .Returns(Task.CompletedTask);
