@@ -1,6 +1,6 @@
 using Moq;
 
-namespace Accounts.Tests.Interfaces
+namespace Sdk.Tests.Interfaces
 {
     public interface IMockFactory<T> where T : class
     {

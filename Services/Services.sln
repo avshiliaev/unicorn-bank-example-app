@@ -12,6 +12,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sdk.Core", "Sdk.Core\Sdk.Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accounts.Tests", "Accounts.Tests\Accounts.Tests.csproj", "{8ECA8FCB-88F8-4687-9E1E-470FA1151D18}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sdk.Persistence", "Sdk.Persistence\Sdk.Persistence.csproj", "{E53CF96E-6116-4068-A282-3B6C08934257}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sdk.Tests", "Sdk.Tests\Sdk.Tests.csproj", "{EDEF46CE-6BE0-4DFC-9212-9679ADD25F01}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +46,13 @@ Global
 		{8ECA8FCB-88F8-4687-9E1E-470FA1151D18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8ECA8FCB-88F8-4687-9E1E-470FA1151D18}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8ECA8FCB-88F8-4687-9E1E-470FA1151D18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E53CF96E-6116-4068-A282-3B6C08934257}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E53CF96E-6116-4068-A282-3B6C08934257}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E53CF96E-6116-4068-A282-3B6C08934257}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E53CF96E-6116-4068-A282-3B6C08934257}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDEF46CE-6BE0-4DFC-9212-9679ADD25F01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDEF46CE-6BE0-4DFC-9212-9679ADD25F01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDEF46CE-6BE0-4DFC-9212-9679ADD25F01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDEF46CE-6BE0-4DFC-9212-9679ADD25F01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

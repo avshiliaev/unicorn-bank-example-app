@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Sdk.Persistence.Extensions;
 
 namespace Accounts.Persistence
 {
@@ -8,11 +9,10 @@ namespace Accounts.Persistence
         public AccountsContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<AccountsContext>();
-            optionsBuilder.UseNpgsql(
-                // configuration.GetConnectionString("AccountsContext")
-                "User ID=postgres;Password=postgres;Host=localhost;Pooling=true;Database=test"
+            optionsBuilder.BuildPostgreSqlConfiguration(
+                "Accounts",
+                "AccountsContext"
             );
-
             return new AccountsContext(optionsBuilder.Options);
         }
     }

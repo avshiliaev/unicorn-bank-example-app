@@ -1,6 +1,6 @@
 using System;
 
-namespace Accounts.Tests.Extensions
+namespace Sdk.Tests.Extensions
 {
     public static class GuidGenerator
     {

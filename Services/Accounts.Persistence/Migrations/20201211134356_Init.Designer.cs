@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Accounts.Persistence.Migrations
 {
     [DbContext(typeof(AccountsContext))]
-    [Migration("20201123111859_init")]
-    partial class init
+    [Migration("20201211134356_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,6 +27,9 @@ namespace Accounts.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<bool>("Approved")
+                        .HasColumnType("boolean");
+
                     b.Property<float>("Balance")
                         .HasColumnType("real");
 
@@ -35,9 +38,6 @@ namespace Accounts.Persistence.Migrations
 
                     b.Property<Guid>("ProfileId")
                         .HasColumnType("uuid");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("text");
 
                     b.Property<DateTime>("Updated")
                         .HasColumnType("timestamp without time zone");

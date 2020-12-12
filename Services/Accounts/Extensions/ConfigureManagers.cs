@@ -1,6 +1,5 @@
 using Accounts.Interfaces;
 using Accounts.Managers;
-using Accounts.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Accounts.Extensions
@@ -10,7 +9,6 @@ namespace Accounts.Extensions
         public static IServiceCollection AddBusinessLogicManagers(this IServiceCollection services)
         {
             services.AddTransient<IAccountsManager, AccountsManager>();
-
             return services;
         }
     }

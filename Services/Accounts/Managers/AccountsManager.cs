@@ -2,9 +2,9 @@ using System.Threading.Tasks;
 using Accounts.Dto;
 using Accounts.Interfaces;
 using Accounts.Mappers;
-using Accounts.Persistence.Entities;
 using MassTransit;
 using Microsoft.Extensions.Logging;
+using Sdk.Api.Events;
 using Sdk.Api.Interfaces;
 
 namespace Accounts.Managers
@@ -28,10 +28,11 @@ namespace Accounts.Managers
         {
             if (accountModel.ProfileId != null)
             {
-                var newAccount = await _accountsService.CreateAccountAsync(accountModel.ToNewAccountEntity());
-                await _publishEndpoint.Publish(newAccount.ToAccountCreatedEvent());
-                return newAccount.ToAccountDto();
+                var newAccount = await _accountsService.CreateAccountAsync(accountModel.ToAccountEntity());
+                await _publishEndpoint.Publish(newAccount.ToAccountEvent<AccountCreatedEvent>());
+                return newAccount.ToAccountModel<AccountDto>();
             }
+
             return null;
         }
 
@@ -41,9 +42,10 @@ namespace Accounts.Managers
             var updatedAccount = await _accountsService.UpdateAccountAsync(accountEntity);
             if (updatedAccount != null)
             {
-                await _publishEndpoint.Publish(updatedAccount.ToAccountUpdatedEvent());
-                return updatedAccount.ToAccountDto();
+                await _publishEndpoint.Publish(updatedAccount.ToAccountEvent<AccountUpdatedEvent>());
+                return updatedAccount.ToAccountModel<AccountDto>();
             }
+
             return null;
         }
 
@@ -55,9 +57,10 @@ namespace Accounts.Managers
             {
                 mappedAccount.Balance += transactionEntity.Amount;
                 var updatedAccount = await _accountsService.UpdateAccountAsync(mappedAccount);
-                await _publishEndpoint.Publish(updatedAccount.ToAccountUpdatedEvent());
-                return updatedAccount.ToAccountDto();
+                await _publishEndpoint.Publish(updatedAccount.ToAccountEvent<AccountUpdatedEvent>());
+                return updatedAccount.ToAccountModel<AccountDto>();
             }
+
             return null;
         }
     }

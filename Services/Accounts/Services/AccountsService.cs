@@ -2,15 +2,15 @@ using System;
 using System.Threading.Tasks;
 using Accounts.Interfaces;
 using Accounts.Persistence.Entities;
-using Accounts.Persistence.Interfaces;
+using Sdk.Persistence.Interfaces;
 
 namespace Accounts.Services
 {
     public class AccountsService : IAccountsService
     {
-        private readonly IAccountsRepository _accountsRepository;
+        private readonly IRepository<AccountEntity> _accountsRepository;
 
-        public AccountsService(IAccountsRepository accountsRepository)
+        public AccountsService(IRepository<AccountEntity> accountsRepository)
         {
             _accountsRepository = accountsRepository;
         }

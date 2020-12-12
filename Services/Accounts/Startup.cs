@@ -1,12 +1,16 @@
 ﻿using Accounts.Communication.Extensions;
 using Accounts.Extensions;
 using Accounts.Handlers;
-using Accounts.Persistence.Extensions;
+using Accounts.Persistence;
+using Accounts.Persistence.Entities;
+using Accounts.Persistence.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Sdk.Api.Extensions;
+using Sdk.Persistence.Extensions;
 
 namespace Accounts
 {
@@ -26,7 +30,9 @@ namespace Accounts
         {
             services.AddControllers();
             services
-                .AddCustomDatabase(_configuration)
+                .AddCustomDatabase<AccountsRepository, AccountEntity, AccountsContext>(
+                    _configuration, "AccountsContext"
+                )
                 .AddDataAccessServices()
                 .AddBusinessLogicManagers()
                 .AddMessageBus<SubscriptionsHandler>("accounts");
@@ -42,7 +48,8 @@ namespace Accounts
                 .UseAuthorization()
                 .UseEndpoints(
                     endpoints => { endpoints.MapControllers(); }
-                );
+                )
+                .UpdateDatabase<AccountsContext>();
         }
     }
 }

@@ -3,8 +3,8 @@ using Accounts.Dto;
 using Accounts.Interfaces;
 using Accounts.Persistence.Entities;
 using Accounts.Services;
-using Accounts.Tests.Extensions;
 using Accounts.Tests.Mocks;
+using Sdk.Tests.Extensions;
 using Xunit;
 
 namespace Accounts.Tests.Services

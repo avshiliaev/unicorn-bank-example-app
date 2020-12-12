@@ -2,11 +2,11 @@ using System;
 using Accounts.Dto;
 using Accounts.Interfaces;
 using Accounts.Managers;
-using Accounts.Tests.Extensions;
 using Accounts.Tests.Mocks;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Sdk.Api.Events;
+using Sdk.Tests.Extensions;
 using Xunit;
 
 namespace Accounts.Tests.Managers

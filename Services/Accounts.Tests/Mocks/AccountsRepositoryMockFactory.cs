@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Accounts.Persistence.Entities;
-using Accounts.Persistence.Interfaces;
-using Accounts.Tests.Extensions;
-using Accounts.Tests.Interfaces;
 using Moq;
+using Sdk.Tests.Interfaces;
+using Sdk.Persistence.Interfaces;
+using Sdk.Tests.Extensions;
 
 namespace Accounts.Tests.Mocks
 {
-    public class AccountsRepositoryMockFactory : IMockFactory<IAccountsRepository>
+    public class AccountsRepositoryMockFactory : IMockFactory<IRepository<AccountEntity>>
     {
         private List<AccountEntity> _accountEntities = new List<AccountEntity>
         {
@@ -34,9 +34,9 @@ namespace Accounts.Tests.Mocks
             }
         };
 
-        public Mock<IAccountsRepository> GetInstance()
+        public Mock<IRepository<AccountEntity>> GetInstance()
         {
-            var accountsRepository = new Mock<IAccountsRepository>();
+            var accountsRepository = new Mock<IRepository<AccountEntity>>();
             accountsRepository
                 .Setup(a => a.GetByIdAsync(It.IsAny<Guid>()))
                 .Returns(
@@ -67,6 +67,7 @@ namespace Accounts.Tests.Mocks
                             _accountEntities.FirstOrDefault(a => a.Id == accountEntity.Id)
                         );
                     }
+
                     return Task.FromResult<AccountEntity>(null);
                 });
             return accountsRepository;

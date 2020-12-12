@@ -1,6 +1,6 @@
-using System;
 using Accounts.Persistence.Entities;
 using Sdk.Api.Interfaces;
+using Sdk.Extensions;
 
 namespace Accounts.Mappers
 {
@@ -8,15 +8,12 @@ namespace Accounts.Mappers
     {
         public static TransactionEntity ToTransactionEntity(this ITransactionModel transactionModel)
         {
-            // TODO: what to do if not parsed?
-            var isId = Guid.TryParse(transactionModel.Id, out var id);
-            var isAccountId = Guid.TryParse(transactionModel.AccountId, out var accountId);
             return new TransactionEntity
             {
-                Id = isId ? id : Guid.NewGuid(),
+                Id = transactionModel.Id.ToGuid(),
                 Amount = transactionModel.Amount,
-                AccountId = isAccountId ? accountId : Guid.NewGuid(),
-                Status = transactionModel.Status,
+                AccountId = transactionModel.AccountId.ToGuid(),
+                Approved = transactionModel.Approved,
                 Version = transactionModel.Version
             };
         }
