@@ -1,12 +1,23 @@
 const signalR = require("@microsoft/signalr");
 
-let connection = new signalR.HubConnectionBuilder()
+const connection = new signalR.HubConnectionBuilder()
     .withUrl("http://localhost:5000/notifications")
+    .configureLogging(signalR.LogLevel.Information)
     .build();
 
-connection.on("Response", (msg) => {
-    console.log(msg);
-});
+async function start() {
+    try {
+        await connection.start();
+        console.log("SignalR Connected.");
+        connection.invoke("Request", "user")
+    } catch (err) {
+        console.log(err);
+        setTimeout(start, 5000);
+    }
+};
 
-connection.start()
-    .then(() => connection.invoke("Request", "User1"));
+connection.onclose(start);
+connection.on("Response", msg => console.log(msg))
+
+// Start the connection.
+start();

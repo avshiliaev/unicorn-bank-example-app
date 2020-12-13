@@ -14,10 +14,12 @@ namespace Notifications.Hubs
             _notificationsService = notificationsService;
         }
 
-        public async Task Request(string user)
+        public async Task<bool> Request(string user)
         {
             var notifications = _notificationsService.GetAll();
             await Clients.All.SendAsync("Response", notifications);
+
+            return true;
         }
     }
 }
