@@ -17,6 +17,8 @@ namespace Sdk.Persistence.Extensions
             services.Configure<MongoSettingsModel>(
                 configuration.GetSection("MongoSettings")
             );
+            
+            // https://stackoverflow.com/a/23497657/10202443
             services.AddSingleton<IMongoSettingsModel>(sp =>
                 sp.GetRequiredService<IOptions<MongoSettingsModel>>().Value);
 
