@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Notifications.Extensions;
 using Notifications.Hubs;
 using Notifications.Persistence.Entities;
 using Notifications.Persistence.Repositories;
@@ -24,6 +25,7 @@ namespace Notifications
         {
             services
                 .AddMongoDb<NotificationsRepository, NotificationEntity>(Configuration)
+                .AddDataAccessServices()
                 .AddSignalR();
         }
 

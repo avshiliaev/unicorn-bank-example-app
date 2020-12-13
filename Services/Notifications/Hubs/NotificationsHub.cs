@@ -1,14 +1,23 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
+using Notifications.Interfaces;
 
 // https://docs.microsoft.com/en-us/aspnet/core/signalr/introduction?view=aspnetcore-5.0
 namespace Notifications.Hubs
 {
     public class NotificationsHub : Hub
     {
-        public async Task SendMessage(string user, string message)
+        private readonly INotificationsService _notificationsService;
+
+        public NotificationsHub(INotificationsService notificationsService)
         {
-            await Clients.All.SendAsync("ReceiveMessage", user, message);
+            _notificationsService = notificationsService;
+        }
+
+        public async Task Request(string user)
+        {
+            var notifications = _notificationsService.GetAll();
+            await Clients.All.SendAsync("Response", notifications);
         }
     }
 }

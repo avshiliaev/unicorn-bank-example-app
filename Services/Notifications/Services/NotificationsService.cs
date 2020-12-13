@@ -1,49 +1,47 @@
-using System;
 using System.Collections.Generic;
+using Notifications.Interfaces;
 using Notifications.Persistence.Entities;
+using Sdk.Persistence.Interfaces;
 
 namespace Notifications.Services
 {
     public class NotificationsService : INotificationsService
     {
+        private readonly IMongoRepository<NotificationEntity> _mongoRepository;
+
+        public NotificationsService(IMongoRepository<NotificationEntity> mongoRepository)
+        {
+            _mongoRepository = mongoRepository;
+        }
+
         public List<NotificationEntity> GetAll()
         {
-            throw new NotImplementedException();
+            return _mongoRepository.GetAll();
         }
 
         public NotificationEntity Get(string id)
         {
-            throw new NotImplementedException();
+            return _mongoRepository.Get(id);
         }
 
         public NotificationEntity Create(NotificationEntity entity)
         {
-            throw new NotImplementedException();
+            return _mongoRepository.Create(entity);
         }
 
         public void Update(string id, NotificationEntity entityIn)
         {
-            throw new NotImplementedException();
+            _mongoRepository.Update(id, entityIn);
         }
 
         public void Remove(NotificationEntity entityIn)
         {
-            throw new NotImplementedException();
+            _mongoRepository.Remove(entityIn);
         }
 
         public void Remove(string id)
         {
-            throw new NotImplementedException();
+            _mongoRepository.Remove(id);
         }
-    }
-
-    public interface INotificationsService
-    {
-        List<NotificationEntity> GetAll();
-        NotificationEntity Get(string id);
-        NotificationEntity Create(NotificationEntity entity);
-        void Update(string id, NotificationEntity entityIn);
-        void Remove(NotificationEntity entityIn);
-        void Remove(string id);
     }
 }

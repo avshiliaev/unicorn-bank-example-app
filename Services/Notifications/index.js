@@ -4,9 +4,9 @@ let connection = new signalR.HubConnectionBuilder()
     .withUrl("http://localhost:5000/notifications")
     .build();
 
-connection.on("ReceiveMessage", (user, msg) => {
-    console.log(user, msg);
+connection.on("Response", (user, msg) => {
+    console.log(msg);
 });
 
 connection.start()
-    .then(() => connection.invoke("SendMessage", "User1", "HELLO"));
+    .then(() => connection.invoke("Request", "User1"));
