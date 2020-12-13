@@ -4,7 +4,8 @@ using Sdk.Persistence.Interfaces;
 
 namespace Sdk.Persistence.Abstractions
 {
-    public abstract class AbstractMongoRepository<TEntity> where TEntity : class, IMongoEntity
+    public abstract class AbstractMongoRepository<TEntity> : IMongoRepository<TEntity>
+        where TEntity : class, IMongoEntity
     {
         private readonly IMongoCollection<TEntity> _mongoCollection;
 
@@ -16,7 +17,7 @@ namespace Sdk.Persistence.Abstractions
             _mongoCollection = database.GetCollection<TEntity>(settings.CollectionName);
         }
 
-        public List<TEntity> Get()
+        public List<TEntity> GetAll()
         {
             return _mongoCollection.Find(e => true).ToList();
         }
