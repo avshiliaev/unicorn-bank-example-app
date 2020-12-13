@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using MongoDB.Driver;
 
 namespace Sdk.Persistence.Interfaces
 {
@@ -10,6 +11,6 @@ namespace Sdk.Persistence.Interfaces
         void Update(string id, TEntity entityIn);
         void Remove(TEntity entityIn);
         void Remove(string id);
-        void SubscribeToChangesStream(string id);
+        IEnumerator<ChangeStreamDocument<TEntity>> SubscribeToChangesStream(string id);
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using MongoDB.Driver;
 using Notifications.Interfaces;
 using Notifications.Persistence.Entities;
 using Sdk.Persistence.Interfaces;
@@ -44,9 +45,9 @@ namespace Notifications.Services
             _mongoRepository.Remove(id);
         }
 
-        public void SubscribeToChanges(string profileId)
+        public IEnumerator<ChangeStreamDocument<NotificationEntity>> SubscribeToChanges(string profileId)
         {
-            _mongoRepository.SubscribeToChangesStream(profileId);
+            return _mongoRepository.SubscribeToChangesStream(profileId);
         }
     }
 }

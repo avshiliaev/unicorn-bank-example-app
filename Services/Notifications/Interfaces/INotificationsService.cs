@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using MongoDB.Driver;
 using Notifications.Persistence.Entities;
 
 namespace Notifications.Interfaces
@@ -11,6 +12,6 @@ namespace Notifications.Interfaces
         void Update(string id, NotificationEntity entityIn);
         void Remove(NotificationEntity entityIn);
         void Remove(string id);
-        void SubscribeToChanges(string profileId);
+        IEnumerator<ChangeStreamDocument<NotificationEntity>> SubscribeToChanges(string profileId);
     }
 }
