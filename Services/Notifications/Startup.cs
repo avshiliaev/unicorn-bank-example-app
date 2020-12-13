@@ -28,7 +28,6 @@ namespace Notifications
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
             app
-                .UseHttpsRedirection()
                 .UseRouting()
                 .UseAuthorization()
                 .UseEndpoints(endpoints =>
