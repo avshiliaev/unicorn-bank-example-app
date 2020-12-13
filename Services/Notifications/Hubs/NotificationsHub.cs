@@ -14,10 +14,13 @@ namespace Notifications.Hubs
             _notificationsService = notificationsService;
         }
 
-        public async Task<bool> Request(string user)
+        public async Task<bool> Request(string profileId)
         {
+            // TODO make limited to a profile!
             var notifications = _notificationsService.GetAll();
             await Clients.All.SendAsync("Response", notifications);
+            
+            _notificationsService.SubscribeToChanges(profileId);
 
             return true;
         }

@@ -43,5 +43,10 @@ namespace Notifications.Services
         {
             _mongoRepository.Remove(id);
         }
+
+        public void SubscribeToChanges(string profileId)
+        {
+            _mongoRepository.SubscribeToChangesStream(profileId);
+        }
     }
 }

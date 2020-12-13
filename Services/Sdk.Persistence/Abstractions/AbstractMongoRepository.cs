@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using MongoDB.Driver;
 using Sdk.Persistence.Interfaces;
@@ -46,6 +47,23 @@ namespace Sdk.Persistence.Abstractions
         public void Remove(string id)
         {
             _mongoCollection.DeleteOne(e => e.Id == id);
+        }
+
+        public void SubscribeToChangesStream(string id)
+        {
+            var options = new ChangeStreamOptions {FullDocument = ChangeStreamFullDocumentOption.UpdateLookup};
+            var pipeline = new EmptyPipelineDefinition<ChangeStreamDocument<TEntity>>()
+                .Match("{ operationType: { $in: [ 'insert', 'delete' ] } }");
+
+            var cursor = _mongoCollection.Watch(pipeline, options);
+
+            var enumerator = cursor.ToEnumerable().GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                var doc = enumerator.Current;
+                // Do something here with your document
+                Console.WriteLine(doc.DocumentKey);
+            }
         }
     }
 }

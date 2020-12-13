@@ -11,5 +11,6 @@ namespace Notifications.Interfaces
         void Update(string id, NotificationEntity entityIn);
         void Remove(NotificationEntity entityIn);
         void Remove(string id);
+        void SubscribeToChanges(string profileId);
     }
 }
