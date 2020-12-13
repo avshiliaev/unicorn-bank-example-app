@@ -19,15 +19,14 @@ namespace Notifications.Hubs
             // TODO make limited to a profile!
             var notifications = _notificationsService.GetAll();
             await Clients.All.SendAsync("Response", notifications);
-
+            
             var enumerator = _notificationsService.SubscribeToChanges(profileId);
             while (enumerator.MoveNext())
-            {
-                var doc = enumerator.Current;
-                // Do something here with your document
-                await Clients.All.SendAsync("Response", doc.FullDocument);
-            }
-
+                if (enumerator.Current != null)
+                    await Clients.All.SendAsync(
+                        "Response",
+                        enumerator.Current.FullDocument
+                    );
             return true;
         }
     }
