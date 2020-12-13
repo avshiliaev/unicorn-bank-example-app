@@ -4,6 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Notifications.Hubs;
+using Notifications.Persistence.Entities;
+using Notifications.Persistence.Repositories;
 using Sdk.Persistence.Extensions;
 
 namespace Notifications
@@ -21,7 +23,7 @@ namespace Notifications
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddMongoDb(Configuration)
+                .AddMongoDb<NotificationsRepository, NotificationEntity>(Configuration)
                 .AddSignalR();
         }
 
