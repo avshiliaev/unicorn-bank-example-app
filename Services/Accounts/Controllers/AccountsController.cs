@@ -25,15 +25,13 @@ namespace Accounts.Controllers
             _accountsManager = accountsManager;
         }
 
-        [HttpPost("/{profileId}")]
+        [HttpPost("{profileId:Guid}")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<AccountDto>> CreateNewAccount(
-            Guid profileId
-        )
+        public async Task<ActionResult<AccountDto>> CreateNewAccount(Guid profileId)
         {
-            if (profileId == Guid.Empty) return BadRequest();
+            if (profileId == Guid.Empty) return NotFound();
             var newAccount = await _accountsManager.CreateNewAccountAsync(profileId);
             return CreatedAtAction(nameof(CreateNewAccount), new {id = newAccount.Id}, newAccount);
         }

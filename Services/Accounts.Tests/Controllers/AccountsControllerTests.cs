@@ -30,7 +30,7 @@ namespace Accounts.Tests.Controllers
 
             // Assert
             Assert.Equal(
-                HttpStatusCode.BadRequest,
+                HttpStatusCode.NotFound,
                 response.StatusCode
             );
         }

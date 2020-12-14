@@ -14,31 +14,6 @@ namespace Accounts.Tests.Fixtures
 {
     public class TestStartup : Startup
     {
-        private readonly List<AccountEntity> _accountEntities = new List<AccountEntity>
-        {
-            new AccountEntity
-            {
-                Id = 1.ToGuid(),
-                Balance = 1,
-                ProfileId = 1.ToGuid(),
-                Version = 0
-            },
-            new AccountEntity
-            {
-                Id = 2.ToGuid(),
-                Balance = 1,
-                ProfileId = 1.ToGuid(),
-                Version = 0
-            },
-            new AccountEntity
-            {
-                Id = 3.ToGuid(),
-                Balance = 1,
-                ProfileId = 2.ToGuid(),
-                Version = 0
-            }
-        };
-
         public TestStartup(
             IConfiguration configuration,
             IWebHostEnvironment webHostEnvironment)
@@ -56,10 +31,7 @@ namespace Accounts.Tests.Fixtures
                 .AddMvc()
                 .AddApplicationPart(typeof(Startup).Assembly);
             services.RemoveAll(typeof(AccountsContext));
-            services.RemoveAll(typeof(AccountsRepository));
-            services.AddCustomDatabase<AccountsRepository, AccountEntity, InMemoryAccountsContext>(
-                Configuration, "AccountsContext"
-            );
+            services.AddDbContext<InMemoryAccountsContext>();
         }
     }
 
@@ -88,7 +60,7 @@ namespace Accounts.Tests.Fixtures
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseInMemoryDatabase("Test");
+            optionsBuilder.UseInMemoryDatabase("test");
         }
     }
 }
