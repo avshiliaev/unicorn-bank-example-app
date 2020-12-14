@@ -15,7 +15,10 @@ namespace Sdk.Persistence.Extensions
             {
                 using (var context = serviceScope.ServiceProvider.GetService<TContext>())
                 {
-                    context?.Database.Migrate();
+                    if (context?.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory")
+                    {
+                        context?.Database.Migrate();
+                    }
                 }
             }
 

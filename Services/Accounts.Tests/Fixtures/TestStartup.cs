@@ -30,8 +30,9 @@ namespace Accounts.Tests.Fixtures
             services
                 .AddMvc()
                 .AddApplicationPart(typeof(Startup).Assembly);
+            services.RemoveAll(typeof(DbContext));
             services.RemoveAll(typeof(AccountsContext));
-            services.AddDbContext<AccountsContext>(
+            services.AddDbContext<DbContext, AccountsContext>(
                 options =>
                     options.UseInMemoryDatabase("test")
             );
