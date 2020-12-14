@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using Accounts.Dto;
 using Accounts.Handlers;
 using MassTransit.Testing;
 using Sdk.Api.Events;

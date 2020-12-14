@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using Sdk.Api.Interfaces;
 using Sdk.Api.Validators;
 
-namespace Accounts.Dto
+namespace Sdk.Api.Dto
 {
     public class AccountDto : IAccountModel
     {

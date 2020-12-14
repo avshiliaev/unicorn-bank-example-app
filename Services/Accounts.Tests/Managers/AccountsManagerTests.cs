@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using Accounts.Dto;
 using Accounts.Interfaces;
 using Accounts.Managers;
 using Accounts.Persistence.Entities;
 using Accounts.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Sdk.Api.Dto;
 using Sdk.Api.Events;
 using Sdk.Api.Interfaces;
 using Sdk.Tests.Extensions;

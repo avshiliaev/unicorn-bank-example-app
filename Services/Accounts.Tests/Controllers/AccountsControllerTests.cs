@@ -4,8 +4,8 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Accounts.Dto;
 using Accounts.Tests.Fixtures;
+using Sdk.Api.Dto;
 using Xunit;
 
 namespace Accounts.Tests.Controllers

@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using Accounts.Dto;
+using Sdk.Api.Dto;
 using Sdk.Api.Interfaces;
 
 namespace Accounts.Interfaces
