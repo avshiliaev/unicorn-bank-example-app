@@ -24,6 +24,7 @@ namespace Accounts.Tests.Fixtures
                     );
 
                     config.AddJsonFile("appsettings.json");
+                    config.AddJsonFile("appsettings.Development.json");
                 });
 
             _server = new TestServer(builder);

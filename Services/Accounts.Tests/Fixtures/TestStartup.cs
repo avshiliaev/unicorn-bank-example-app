@@ -31,36 +31,10 @@ namespace Accounts.Tests.Fixtures
                 .AddMvc()
                 .AddApplicationPart(typeof(Startup).Assembly);
             services.RemoveAll(typeof(AccountsContext));
-            services.AddDbContext<InMemoryAccountsContext>();
-        }
-    }
-
-    public class InMemoryAccountsContext: DbContext
-    {
-        public InMemoryAccountsContext(DbContextOptions<AccountsContext> options)
-            : base(options)
-        {
-        }
-
-        public DbSet<AccountEntity> Accounts { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<AccountEntity>().ToTable("Accounts");
-            base.OnModelCreating(modelBuilder);
-        }
-    }
-
-    public class IntegrationMemorySqlDbContext : DbContext
-    {
-        public IntegrationMemorySqlDbContext(DbContextOptions<IntegrationMemorySqlDbContext> options)
-            : base(options)
-        {
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseInMemoryDatabase("test");
+            services.AddDbContext<AccountsContext>(
+                options =>
+                    options.UseInMemoryDatabase("test")
+            );
         }
     }
 }
