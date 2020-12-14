@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Accounts.Interfaces;
 using Accounts.Mappers;
@@ -24,15 +25,15 @@ namespace Accounts.Managers
             _publishEndpoint = publishEndpoint;
         }
 
-        public async Task<AccountDto> CreateNewAccountAsync(IAccountModel accountModel)
+        public async Task<AccountDto> CreateNewAccountAsync(Guid profileId)
         {
-            if (accountModel.ProfileId != null)
+            if (profileId != Guid.Empty)
             {
+                var accountModel = new AccountDto {ProfileId = profileId.ToString()};
                 var newAccount = await _accountsService.CreateAccountAsync(accountModel.ToAccountEntity());
                 await _publishEndpoint.Publish(newAccount.ToAccountEvent<AccountCreatedEvent>());
                 return newAccount.ToAccountModel<AccountDto>();
             }
-
             return null;
         }
 

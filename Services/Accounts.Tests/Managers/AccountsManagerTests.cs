@@ -122,22 +122,14 @@ namespace Accounts.Tests.Managers
         [Fact]
         public async void ShouldSuccessfullyCreateANewAccount()
         {
-            var newValidAccountDto = new AccountDto
-            {
-                ProfileId = Guid.NewGuid().ToString()
-            };
-            var newCreatedAccount = await _manager.CreateNewAccountAsync(newValidAccountDto);
+            var newCreatedAccount = await _manager.CreateNewAccountAsync(Guid.NewGuid());
             Assert.NotNull(newCreatedAccount);
         }
 
         [Fact]
         public async void ShouldNotCreateAnInvalidAccount()
         {
-            var newInvalidAccountDto = new AccountDto
-            {
-                Balance = 3
-            };
-            var newCreatedAccount = await _manager.CreateNewAccountAsync(newInvalidAccountDto);
+            var newCreatedAccount = await _manager.CreateNewAccountAsync(Guid.Empty);
             Assert.Null(newCreatedAccount);
         }
 

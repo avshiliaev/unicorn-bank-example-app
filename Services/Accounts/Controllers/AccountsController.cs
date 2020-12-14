@@ -1,3 +1,4 @@
+using System;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using Accounts.Interfaces;
@@ -24,16 +25,16 @@ namespace Accounts.Controllers
             _accountsManager = accountsManager;
         }
 
-        [HttpPost("")]
+        [HttpPost("/{profileId}")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<AccountDto>> CreateNewAccount(
-            [FromBody] AccountDto accountDto
+            Guid profileId
         )
         {
-            if (!ModelState.IsValid) return BadRequest();
-            var newAccount = await _accountsManager.CreateNewAccountAsync(accountDto);
+            if (profileId == Guid.Empty) return BadRequest();
+            var newAccount = await _accountsManager.CreateNewAccountAsync(profileId);
             return CreatedAtAction(nameof(CreateNewAccount), new {id = newAccount.Id}, newAccount);
         }
     }
