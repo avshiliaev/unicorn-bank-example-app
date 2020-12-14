@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Routing.Constraints;
 using Sdk.Api.Interfaces;
 using Sdk.Api.Validators;
 

@@ -10,6 +10,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Notifications.Persistence\Notifications.Persistence.csproj" />
+      <ProjectReference Include="..\Sdk.Api\Sdk.Api.csproj" />
       <ProjectReference Include="..\Sdk.Persistence\Sdk.Persistence.csproj" />
     </ItemGroup>
 

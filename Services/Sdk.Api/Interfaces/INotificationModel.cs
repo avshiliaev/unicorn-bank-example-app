@@ -3,7 +3,7 @@ using Sdk.Interfaces;
 
 namespace Sdk.Api.Interfaces
 {
-    public class INotificationModel : IDataModel
+    public interface INotificationModel : IDataModel
     {
         public string Description { get; set; }
         public Guid ProfileId { get; set; }
