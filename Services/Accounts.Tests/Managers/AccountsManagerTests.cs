@@ -63,7 +63,7 @@ namespace Accounts.Tests.Managers
         {
             var newAccountDto = new AccountDto
             {
-                Id = 0.ToGuid().ToString(),
+                Id = 1.ToGuid().ToString(),
                 Balance = 3
             };
             var newCreatedAccount = await _manager.UpdateExistingAccountAsync(newAccountDto);
@@ -92,8 +92,8 @@ namespace Accounts.Tests.Managers
         {
             var newTransaction = new TransactionCreatedEvent
             {
-                Id = 0.ToGuid().ToString(),
-                AccountId = 0.ToGuid().ToString(),
+                Id = 1.ToGuid().ToString(),
+                AccountId = 1.ToGuid().ToString(),
                 Amount = 1
             };
             var newCreatedAccount = await _manager.AddTransactionToAccountAsync(newTransaction);
@@ -107,7 +107,7 @@ namespace Accounts.Tests.Managers
             var nonExistentAccountId = 4.ToGuid().ToString();
             var invalidTransaction = new TransactionCreatedEvent
             {
-                Id = 0.ToGuid().ToString(),
+                Id = 1.ToGuid().ToString(),
                 AccountId = nonExistentAccountId,
                 Amount = 1
             };
