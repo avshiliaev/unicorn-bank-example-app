@@ -1,5 +1,4 @@
-﻿using System;
-using Sdk.Interfaces;
+﻿using Sdk.Interfaces;
 
 namespace Sdk.Api.Interfaces
 {

@@ -31,5 +31,4 @@ namespace Sdk.Persistence.Extensions
             return optionsBuilder;
         }
     }
-
 }

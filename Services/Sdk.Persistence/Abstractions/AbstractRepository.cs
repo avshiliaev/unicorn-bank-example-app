@@ -68,7 +68,7 @@ namespace Sdk.Persistence.Abstractions
             await _context.SaveChangesAsync();
             return entity;
         }
-        
+
         public async Task<TEntity> UpdateActivelyAsync(TEntity entity)
         {
             if (

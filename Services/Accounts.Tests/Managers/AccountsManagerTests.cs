@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using Accounts.Dto;
 using Accounts.Interfaces;
 using Accounts.Managers;
 using Accounts.Persistence.Entities;
 using Accounts.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Sdk.Api.Dto;
 using Sdk.Api.Events;
 using Sdk.Api.Interfaces;
 using Sdk.Tests.Extensions;
@@ -63,7 +63,7 @@ namespace Accounts.Tests.Managers
         {
             var newAccountDto = new AccountDto
             {
-                Id = 0.ToGuid().ToString(),
+                Id = 1.ToGuid().ToString(),
                 Balance = 3
             };
             var newCreatedAccount = await _manager.UpdateExistingAccountAsync(newAccountDto);
@@ -92,8 +92,8 @@ namespace Accounts.Tests.Managers
         {
             var newTransaction = new TransactionCreatedEvent
             {
-                Id = 0.ToGuid().ToString(),
-                AccountId = 0.ToGuid().ToString(),
+                Id = 1.ToGuid().ToString(),
+                AccountId = 1.ToGuid().ToString(),
                 Amount = 1
             };
             var newCreatedAccount = await _manager.AddTransactionToAccountAsync(newTransaction);
@@ -107,7 +107,7 @@ namespace Accounts.Tests.Managers
             var nonExistentAccountId = 4.ToGuid().ToString();
             var invalidTransaction = new TransactionCreatedEvent
             {
-                Id = 0.ToGuid().ToString(),
+                Id = 1.ToGuid().ToString(),
                 AccountId = nonExistentAccountId,
                 Amount = 1
             };
@@ -122,22 +122,14 @@ namespace Accounts.Tests.Managers
         [Fact]
         public async void ShouldSuccessfullyCreateANewAccount()
         {
-            var newValidAccountDto = new AccountDto
-            {
-                ProfileId = Guid.NewGuid().ToString()
-            };
-            var newCreatedAccount = await _manager.CreateNewAccountAsync(newValidAccountDto);
+            var newCreatedAccount = await _manager.CreateNewAccountAsync(Guid.NewGuid());
             Assert.NotNull(newCreatedAccount);
         }
 
         [Fact]
         public async void ShouldNotCreateAnInvalidAccount()
         {
-            var newInvalidAccountDto = new AccountDto
-            {
-                Balance = 3
-            };
-            var newCreatedAccount = await _manager.CreateNewAccountAsync(newInvalidAccountDto);
+            var newCreatedAccount = await _manager.CreateNewAccountAsync(Guid.Empty);
             Assert.Null(newCreatedAccount);
         }
 

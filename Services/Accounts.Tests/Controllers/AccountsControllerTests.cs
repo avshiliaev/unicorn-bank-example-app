@@ -1,87 +1,42 @@
 using System;
 using System.Net;
 using System.Net.Http;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
-using Accounts.Dto;
 using Accounts.Tests.Fixtures;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 
 namespace Accounts.Tests.Controllers
 {
-    public class WrongAccount
-    {
-        public double Balance { get; set; }
-        public string ProfileId { get; set; }
-    }
-
-    public class AccountsControllerTests : IClassFixture<AppFixture>
+    public class AccountsControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         private readonly HttpClient _client;
 
-        public AccountsControllerTests(AppFixture fixture)
+        private readonly CustomWebApplicationFactory<Startup>
+            _factory;
+
+        public AccountsControllerTests(
+            CustomWebApplicationFactory<Startup> factory)
         {
-            _client = fixture.Client;
+            _factory = factory;
+            _client = factory.CreateClient(new WebApplicationFactoryClientOptions
+            {
+                AllowAutoRedirect = false
+            });
         }
 
         [Fact]
         public async Task ShouldTurnDownIfNoProfileIdProvided()
         {
             // Arrange
-            var newAccountRequest = new AccountDto
-            {
-                Balance = 1.0f
-            };
-            var request = new HttpRequestMessage(
-                HttpMethod.Post,
-                "/api/accounts/"
-            )
-            {
-                Content = new StringContent(
-                    JsonSerializer.Serialize(newAccountRequest),
-                    Encoding.UTF8,
-                    "application/json"
-                )
-            };
+            var requestUrl = $"/api/accounts/{Guid.Empty.ToString()}";
 
             // Act
-            var response = await _client.SendAsync(request);
+            var response = await _client.GetAsync(requestUrl);
 
             // Assert
             Assert.Equal(
-                HttpStatusCode.BadRequest,
-                response.StatusCode
-            );
-        }
-
-        [Fact]
-        public async Task ShouldTurnDownIfBalanceInvalid()
-        {
-            // Arrange
-            var newAccountRequest = new WrongAccount
-            {
-                ProfileId = Guid.NewGuid().ToString(),
-                Balance = double.MaxValue
-            };
-            var request = new HttpRequestMessage(
-                HttpMethod.Post,
-                "/api/accounts/"
-            )
-            {
-                Content = new StringContent(
-                    JsonSerializer.Serialize(newAccountRequest),
-                    Encoding.UTF8,
-                    "application/json"
-                )
-            };
-
-            // Act
-            var response = await _client.SendAsync(request);
-
-            // Assert
-            Assert.Equal(
-                HttpStatusCode.BadRequest,
+                HttpStatusCode.NotFound,
                 response.StatusCode
             );
         }
@@ -90,24 +45,10 @@ namespace Accounts.Tests.Controllers
         public async Task CreateNewAccountRightData()
         {
             // Arrange
-            var newAccountRequest = new AccountDto
-            {
-                ProfileId = Guid.NewGuid().ToString()
-            };
-            var request = new HttpRequestMessage(
-                HttpMethod.Post,
-                "/api/accounts/"
-            )
-            {
-                Content = new StringContent(
-                    JsonSerializer.Serialize(newAccountRequest),
-                    Encoding.UTF8,
-                    "application/json"
-                )
-            };
+            var requestUrl = $"/api/accounts/{Guid.NewGuid().ToString()}";
 
             // Act
-            var response = await _client.SendAsync(request);
+            var response = await _client.GetAsync(requestUrl);
 
             // Assert
             Assert.Equal(

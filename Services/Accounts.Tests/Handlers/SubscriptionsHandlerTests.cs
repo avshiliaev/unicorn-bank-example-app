@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using Accounts.Dto;
 using Accounts.Handlers;
 using MassTransit.Testing;
 using Sdk.Api.Events;
@@ -14,7 +13,7 @@ namespace Accounts.Tests.Handlers
         public async Task ShouldConsumeAccountApprovedEvent()
         {
             var harness = new InMemoryTestHarness();
-            var consumerHarness = harness.Consumer<SubscriptionsHandler>();
+            var consumerHarness = harness.Consumer<AccountsSubscriptionsHandler>();
 
             await harness.Start();
             try
@@ -40,7 +39,7 @@ namespace Accounts.Tests.Handlers
         public async Task ShouldConsumeTransactionCreatedEvent()
         {
             var harness = new InMemoryTestHarness();
-            var consumerHarness = harness.Consumer<SubscriptionsHandler>();
+            var consumerHarness = harness.Consumer<AccountsSubscriptionsHandler>();
 
             await harness.Start();
             try

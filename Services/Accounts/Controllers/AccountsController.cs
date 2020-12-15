@@ -1,10 +1,11 @@
+using System;
 using System.Net.Mime;
 using System.Threading.Tasks;
-using Accounts.Dto;
 using Accounts.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Sdk.Api.Dto;
 
 namespace Accounts.Controllers
 {
@@ -24,16 +25,14 @@ namespace Accounts.Controllers
             _accountsManager = accountsManager;
         }
 
-        [HttpPost("")]
+        [HttpGet("{profileId:Guid}")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<AccountDto>> CreateNewAccount(
-            [FromBody] AccountDto accountDto
-        )
+        public async Task<ActionResult<AccountDto>> CreateNewAccount(Guid profileId)
         {
-            if (!ModelState.IsValid) return BadRequest();
-            var newAccount = await _accountsManager.CreateNewAccountAsync(accountDto);
+            if (profileId == Guid.Empty) return NotFound();
+            var newAccount = await _accountsManager.CreateNewAccountAsync(profileId);
             return CreatedAtAction(nameof(CreateNewAccount), new {id = newAccount.Id}, newAccount);
         }
     }

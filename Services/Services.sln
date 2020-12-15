@@ -16,6 +16,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sdk.Persistence", "Sdk.Pers
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sdk.Tests", "Sdk.Tests\Sdk.Tests.csproj", "{EDEF46CE-6BE0-4DFC-9212-9679ADD25F01}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications", "Notifications\Notifications.csproj", "{1A87E30F-2B87-4B86-B966-030C73216941}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.Persistence", "Notifications.Persistence\Notifications.Persistence.csproj", "{679D12E5-F02B-4AF2-9BE0-C127C40F7D2F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.Tests", "Notifications.Tests\Notifications.Tests.csproj", "{07281CB1-2603-49BD-8791-C9D32885B97C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,5 +60,17 @@ Global
 		{EDEF46CE-6BE0-4DFC-9212-9679ADD25F01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDEF46CE-6BE0-4DFC-9212-9679ADD25F01}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDEF46CE-6BE0-4DFC-9212-9679ADD25F01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A87E30F-2B87-4B86-B966-030C73216941}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A87E30F-2B87-4B86-B966-030C73216941}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A87E30F-2B87-4B86-B966-030C73216941}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A87E30F-2B87-4B86-B966-030C73216941}.Release|Any CPU.Build.0 = Release|Any CPU
+		{679D12E5-F02B-4AF2-9BE0-C127C40F7D2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{679D12E5-F02B-4AF2-9BE0-C127C40F7D2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{679D12E5-F02B-4AF2-9BE0-C127C40F7D2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{679D12E5-F02B-4AF2-9BE0-C127C40F7D2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07281CB1-2603-49BD-8791-C9D32885B97C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07281CB1-2603-49BD-8791-C9D32885B97C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07281CB1-2603-49BD-8791-C9D32885B97C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07281CB1-2603-49BD-8791-C9D32885B97C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

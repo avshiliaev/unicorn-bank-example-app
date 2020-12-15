@@ -1,7 +1,7 @@
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Accounts.Communication.Extensions
+namespace Sdk.Communication.Extensions
 {
     public static class MessageBusConfigure
     {
