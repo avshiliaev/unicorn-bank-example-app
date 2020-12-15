@@ -7,6 +7,7 @@ namespace Sdk.Api.Events
     {
         public string Id { get; set; }
         public string AccountId { get; set; }
+        public string ProfileId { get; set; }
         public float Amount { get; set; }
         public string Info { get; set; }
         public bool Approved { get; set; }

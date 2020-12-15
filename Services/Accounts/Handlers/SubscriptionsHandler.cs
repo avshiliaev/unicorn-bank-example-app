@@ -6,14 +6,14 @@ using Sdk.Api.Events;
 
 namespace Accounts.Handlers
 {
-    public class SubscriptionsHandler
+    public class AccountsSubscriptionsHandler
         : IConsumer<AccountApprovedEvent>, IConsumer<TransactionCreatedEvent>
     {
         private readonly IAccountsManager _accountsManager;
-        private readonly ILogger<SubscriptionsHandler> _logger;
+        private readonly ILogger<AccountsSubscriptionsHandler> _logger;
 
-        public SubscriptionsHandler(
-            ILogger<SubscriptionsHandler> logger,
+        public AccountsSubscriptionsHandler(
+            ILogger<AccountsSubscriptionsHandler> logger,
             IAccountsManager accountsManager
         )
         {
@@ -21,7 +21,7 @@ namespace Accounts.Handlers
             _accountsManager = accountsManager;
         }
 
-        public SubscriptionsHandler()
+        public AccountsSubscriptionsHandler()
         {
         }
 

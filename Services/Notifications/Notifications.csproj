@@ -5,12 +5,14 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="MassTransit" Version="7.0.6" />
       <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.1.0" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Notifications.Persistence\Notifications.Persistence.csproj" />
       <ProjectReference Include="..\Sdk.Api\Sdk.Api.csproj" />
+      <ProjectReference Include="..\Sdk.Communication\Sdk.Communication.csproj" />
       <ProjectReference Include="..\Sdk.Persistence\Sdk.Persistence.csproj" />
     </ItemGroup>
 

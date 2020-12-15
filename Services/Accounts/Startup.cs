@@ -1,4 +1,4 @@
-﻿using Accounts.Communication.Extensions;
+﻿using Sdk.Communication.Extensions;
 using Accounts.Extensions;
 using Accounts.Handlers;
 using Accounts.Persistence;
@@ -30,12 +30,12 @@ namespace Accounts
         {
             services.AddControllers();
             services
-                .AddCustomDatabase<AccountsRepository, AccountEntity, AccountsContext>(
+                .AddPostgreSql<AccountsRepository, AccountEntity, AccountsContext>(
                     _configuration, "AccountsContext"
                 )
                 .AddDataAccessServices()
                 .AddBusinessLogicManagers()
-                .AddMessageBus<SubscriptionsHandler>("accounts");
+                .AddMessageBus<AccountsSubscriptionsHandler>("accounts");
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -4,9 +4,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Notifications.Extensions;
+using Notifications.Handlers;
 using Notifications.Hubs;
 using Notifications.Persistence.Entities;
 using Notifications.Persistence.Repositories;
+using Sdk.Api.Extensions;
+using Sdk.Communication.Extensions;
 using Sdk.Persistence.Extensions;
 
 namespace Notifications
@@ -19,22 +22,23 @@ namespace Notifications
         }
 
         public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
+        
         public void ConfigureServices(IServiceCollection services)
         {
             services
                 .AddMongoDb<NotificationsRepository, NotificationEntity>(Configuration)
                 .AddDataAccessServices()
+                .AddBusinessLogicManagers()
+                .AddMessageBus<NotificationsSubscriptionsHandler>("accounts")
                 .AddSignalR();
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
             app
+                .ConfigureExceptionHandler()
                 .UseRouting()
                 .UseAuthorization()
                 .UseEndpoints(endpoints => { endpoints.MapHub<NotificationsHub>("/notifications"); });
