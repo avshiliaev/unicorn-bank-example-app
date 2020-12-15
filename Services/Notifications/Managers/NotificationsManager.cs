@@ -1,9 +1,6 @@
-using System;
-using System.Globalization;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Notifications.Interfaces;
 using Notifications.Mappers;
-using Notifications.Persistence.Entities;
 using Sdk.Api.Dto;
 using Sdk.Api.Interfaces;
 
@@ -11,13 +8,18 @@ namespace Notifications.Managers
 {
     public class NotificationsManager : INotificationsManager
     {
-        private INotificationsService _notificationsService;
+        private ILogger<NotificationsManager> _logger;
+        private readonly INotificationsService _notificationsService;
 
-        public NotificationsManager(INotificationsService notificationsService)
+        public NotificationsManager(
+            ILogger<NotificationsManager> logger,
+            INotificationsService notificationsService
+        )
         {
+            _logger = logger;
             _notificationsService = notificationsService;
         }
-        
+
         public NotificationDto AddFromAccount(IAccountModel accountModel)
         {
             var notification = _notificationsService.Create(accountModel.ToNotificationEntity());
@@ -29,11 +31,5 @@ namespace Notifications.Managers
             var notification = _notificationsService.Create(transactionModel.ToNotificationEntity());
             return notification.ToNotificationsModel<NotificationDto>();
         }
-    }
-
-    public interface INotificationsManager
-    {
-        NotificationDto AddFromAccount(IAccountModel accountModel);
-        NotificationDto AddFromTransaction(ITransactionModel transactionModel);
     }
 }

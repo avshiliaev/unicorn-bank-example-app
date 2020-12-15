@@ -8,9 +8,9 @@ namespace Sdk.Persistence.Interfaces
         List<TEntity> GetAll();
         TEntity Get(string id);
         TEntity Create(TEntity entity);
-        void Update(string id, TEntity entityIn);
-        void Remove(TEntity entityIn);
-        void Remove(string id);
+        TEntity Update(string id, TEntity entityIn);
+        TEntity Remove(TEntity entityIn);
+        bool Remove(string id);
         IEnumerator<ChangeStreamDocument<TEntity>> SubscribeToChangesStream(string id);
     }
 }

@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Notifications.Interfaces;
 using Notifications.Managers;
 
 namespace Notifications.Extensions

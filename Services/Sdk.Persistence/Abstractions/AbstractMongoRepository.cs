@@ -33,19 +33,28 @@ namespace Sdk.Persistence.Abstractions
             return entity;
         }
 
-        public void Update(string id, TEntity entityIn)
+        // TODO implement the version check!
+        
+        public TEntity Update(string id, TEntity entityIn)
         {
-            _mongoCollection.ReplaceOne(e => e.Id == id, entityIn);
+            var result = _mongoCollection.ReplaceOne(e => e.Id == id, entityIn);
+            if (result.IsAcknowledged)
+                return entityIn;
+            return null;
         }
 
-        public void Remove(TEntity entityIn)
+        public TEntity Remove(TEntity entityIn)
         {
-            _mongoCollection.DeleteOne(e => e.Id == entityIn.Id);
+            var result = _mongoCollection.DeleteOne(e => e.Id == entityIn.Id);
+            if (result.IsAcknowledged)
+                return entityIn;
+            return null;
         }
 
-        public void Remove(string id)
+        public bool Remove(string id)
         {
-            _mongoCollection.DeleteOne(e => e.Id == id);
+            var result =  _mongoCollection.DeleteOne(e => e.Id == id);
+            return result.IsAcknowledged;
         }
 
         public IEnumerator<ChangeStreamDocument<TEntity>> SubscribeToChangesStream(string id)
