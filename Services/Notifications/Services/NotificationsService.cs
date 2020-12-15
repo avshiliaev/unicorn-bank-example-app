@@ -15,9 +15,9 @@ namespace Notifications.Services
             _mongoRepository = mongoRepository;
         }
 
-        public List<NotificationEntity> GetAll()
+        public List<NotificationEntity> GetAll(string profileId)
         {
-            return _mongoRepository.GetAll();
+            return _mongoRepository.GetAll(profileId);
         }
 
         public NotificationEntity Get(string id)

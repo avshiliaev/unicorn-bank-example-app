@@ -53,8 +53,8 @@ namespace Sdk.Tests.Mocks
         {
             var repository = new Mock<IMongoRepository<TEntity>>();
             repository
-                .Setup(a => a.GetAll())
-                .Returns(() => _entities);
+                .Setup(a => a.GetAll(It.IsAny<string>()))
+                .Returns((string profileId) => _entities.Where(e => e.ProfileId == profileId).ToList());
             repository
                 .Setup(a => a.Get(It.IsAny<string>()))
                 .Returns((string id) => _entities.FirstOrDefault(e => e.Id == id));

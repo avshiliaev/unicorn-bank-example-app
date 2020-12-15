@@ -5,7 +5,7 @@ namespace Sdk.Persistence.Interfaces
 {
     public interface IMongoRepository<TEntity> where TEntity : class, IMongoEntity
     {
-        List<TEntity> GetAll();
+        List<TEntity> GetAll(string profileId);
         TEntity Get(string id);
         TEntity Create(TEntity entity);
         TEntity Update(string id, TEntity entityIn);

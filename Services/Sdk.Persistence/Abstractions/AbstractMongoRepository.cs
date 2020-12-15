@@ -17,9 +17,9 @@ namespace Sdk.Persistence.Abstractions
             _mongoCollection = database.GetCollection<TEntity>(settings.CollectionName);
         }
 
-        public List<TEntity> GetAll()
+        public List<TEntity> GetAll(string profileId)
         {
-            return _mongoCollection.Find(e => true).ToList();
+            return _mongoCollection.Find(e => e.ProfileId == profileId).ToList();
         }
 
         public TEntity Get(string id)

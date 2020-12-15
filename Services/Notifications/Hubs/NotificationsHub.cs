@@ -19,8 +19,7 @@ namespace Notifications.Hubs
 
         public async Task<bool> Request(string profileId)
         {
-            // TODO make limited to a profile!
-            var notifications = _notificationsService.GetAll();
+            var notifications = _notificationsService.GetAll(profileId);
             var notificationsDto = notifications
                 .Select(n => n.ToNotificationsModel<NotificationDto>())
                 .ToList();

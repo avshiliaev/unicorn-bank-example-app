@@ -8,10 +8,10 @@ namespace Notifications.Persistence.Entities
     public class NotificationEntity : IMongoEntity
     {
         public string Description { get; set; }
-        public string ProfileId { get; set; }
         public string Status { get; set; }
         public string TimeStamp { get; set; }
         public string Title { get; set; }
+        public string ProfileId { get; set; }
 
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
