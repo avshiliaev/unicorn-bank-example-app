@@ -25,7 +25,7 @@ namespace Accounts.Controllers
             _accountsManager = accountsManager;
         }
 
-        [HttpPost("{profileId:Guid}")]
+        [HttpGet("{profileId:Guid}")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
