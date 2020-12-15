@@ -71,14 +71,14 @@ namespace Sdk.Tests.Mocks
                 });
             repository
                 .Setup(a => a.Update(It.IsAny<string>(), It.IsAny<TEntity>()))
-                .Returns((TEntity entity) =>
+                .Returns((string id, TEntity entity) =>
                 {
                     if (
                         entity == null ||
-                        Guid.Empty.ToString() == entity.Id
+                        Guid.Empty.ToString() == id
                     )
                         return null;
-                    _entities = _entities.Where(e => e.Id != entity.Id).ToList();
+                    _entities = _entities.Where(e => e.Id != id).ToList();
                     _entities.Add(entity);
                     return _entities.FirstOrDefault(e => e.Id == entity.Id);
                 });

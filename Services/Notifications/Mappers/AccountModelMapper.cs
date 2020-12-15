@@ -19,7 +19,7 @@ namespace Notifications.Mappers
                 Id = Guid.NewGuid().ToString(),
                 Created = DateTime.Now,
                 Updated = DateTime.Now,
-                Version = accountModel.Version 
+                Version = accountModel.Version
             };
         }
     }

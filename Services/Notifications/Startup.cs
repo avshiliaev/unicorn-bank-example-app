@@ -22,7 +22,7 @@ namespace Notifications
         }
 
         public IConfiguration Configuration { get; }
-        
+
         public void ConfigureServices(IServiceCollection services)
         {
             services
@@ -32,7 +32,7 @@ namespace Notifications
                 .AddMessageBus<NotificationsSubscriptionsHandler>("accounts")
                 .AddSignalR();
         }
-        
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();

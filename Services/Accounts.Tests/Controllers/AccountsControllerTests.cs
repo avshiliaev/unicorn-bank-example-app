@@ -2,11 +2,8 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Accounts.Handlers;
 using Accounts.Tests.Fixtures;
-using MassTransit.Testing;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Sdk.Api.Events;
 using Xunit;
 
 namespace Accounts.Tests.Controllers
@@ -14,6 +11,7 @@ namespace Accounts.Tests.Controllers
     public class AccountsControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         private readonly HttpClient _client;
+
         private readonly CustomWebApplicationFactory<Startup>
             _factory;
 
@@ -41,7 +39,6 @@ namespace Accounts.Tests.Controllers
                 HttpStatusCode.NotFound,
                 response.StatusCode
             );
-
         }
 
         [Fact]

@@ -34,6 +34,7 @@ namespace Accounts.Managers
                 await _publishEndpoint.Publish(newAccount.ToAccountEvent<AccountCreatedEvent>());
                 return newAccount.ToAccountModel<AccountDto>();
             }
+
             return null;
         }
 

@@ -14,7 +14,7 @@ async function start() {
         console.log(err);
         setTimeout(start, 5000);
     }
-};
+}
 
 connection.onclose(start);
 connection.on("Response", msg => console.log(msg))

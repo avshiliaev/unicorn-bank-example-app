@@ -8,8 +8,8 @@ namespace Notifications.Managers
 {
     public class NotificationsManager : INotificationsManager
     {
-        private ILogger<NotificationsManager> _logger;
         private readonly INotificationsService _notificationsService;
+        private ILogger<NotificationsManager> _logger;
 
         public NotificationsManager(
             ILogger<NotificationsManager> logger,
@@ -22,12 +22,16 @@ namespace Notifications.Managers
 
         public NotificationDto AddFromAccount(IAccountModel accountModel)
         {
+            if (string.IsNullOrEmpty(accountModel.ProfileId))
+                return null;
             var notification = _notificationsService.Create(accountModel.ToNotificationEntity());
             return notification.ToNotificationsModel<NotificationDto>();
         }
 
         public NotificationDto AddFromTransaction(ITransactionModel transactionModel)
         {
+            if (string.IsNullOrEmpty(transactionModel.ProfileId))
+                return null;
             var notification = _notificationsService.Create(transactionModel.ToNotificationEntity());
             return notification.ToNotificationsModel<NotificationDto>();
         }

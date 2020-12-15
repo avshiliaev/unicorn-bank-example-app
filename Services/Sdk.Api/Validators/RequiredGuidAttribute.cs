@@ -15,10 +15,10 @@ namespace Sdk.Api.Validators
             if (value != null)
             {
                 var isGuidParsed = Guid.TryParse((string) value, out _);
-            if (isGuidParsed)
-                return true;
+                if (isGuidParsed)
+                    return true;
 
-            return false;
+                return false;
             }
 
             return true;

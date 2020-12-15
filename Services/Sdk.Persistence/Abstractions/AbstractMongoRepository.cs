@@ -34,7 +34,7 @@ namespace Sdk.Persistence.Abstractions
         }
 
         // TODO implement the version check!
-        
+
         public TEntity Update(string id, TEntity entityIn)
         {
             var result = _mongoCollection.ReplaceOne(e => e.Id == id, entityIn);
@@ -53,7 +53,7 @@ namespace Sdk.Persistence.Abstractions
 
         public bool Remove(string id)
         {
-            var result =  _mongoCollection.DeleteOne(e => e.Id == id);
+            var result = _mongoCollection.DeleteOne(e => e.Id == id);
             return result.IsAcknowledged;
         }
 

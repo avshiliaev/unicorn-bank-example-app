@@ -65,13 +65,9 @@ namespace Notifications.Tests.Services
         [Fact]
         public void ShouldNotCreateAnInvalidNotification()
         {
-            var invalidNotificationEntity = new NotificationEntity
-            {
-
-            };
+            var invalidNotificationEntity = new NotificationEntity();
             var newCreatedAccountEntity = _service.Create(invalidNotificationEntity);
             Assert.NotNull(newCreatedAccountEntity);
         }
-
     }
 }

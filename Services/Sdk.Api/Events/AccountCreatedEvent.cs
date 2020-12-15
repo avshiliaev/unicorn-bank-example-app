@@ -1,4 +1,3 @@
-using System;
 using Sdk.Api.Interfaces;
 using Sdk.Interfaces;
 
@@ -12,6 +11,4 @@ namespace Sdk.Api.Events
         public string ProfileId { get; set; }
         public bool Approved { get; set; }
     }
-    
-    
 }

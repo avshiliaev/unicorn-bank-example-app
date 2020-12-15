@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Notifications.Interfaces;
-using Notifications.Managers;
 using Sdk.Api.Events;
 
 namespace Notifications.Handlers

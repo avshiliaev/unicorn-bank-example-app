@@ -25,7 +25,7 @@ namespace Notifications.Hubs
                 .Select(n => n.ToNotificationsModel<NotificationDto>())
                 .ToList();
             await Clients.All.SendAsync("Response", notificationsDto);
-            
+
             var enumerator = _notificationsService.SubscribeToChanges(profileId);
             while (enumerator.MoveNext())
                 if (enumerator.Current != null)

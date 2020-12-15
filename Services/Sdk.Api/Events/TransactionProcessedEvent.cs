@@ -3,7 +3,7 @@ using Sdk.Interfaces;
 
 namespace Sdk.Api.Events
 {
-    public class TransactionProcessedEvent: ITransactionModel, IEvent
+    public class TransactionProcessedEvent : ITransactionModel, IEvent
     {
         public string Id { get; set; }
         public string AccountId { get; set; }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -6,9 +5,7 @@ using Notifications.Interfaces;
 using Notifications.Managers;
 using Notifications.Persistence.Entities;
 using Notifications.Services;
-using Sdk.Api.Dto;
 using Sdk.Api.Events;
-using Sdk.Api.Interfaces;
 using Sdk.Tests.Extensions;
 using Sdk.Tests.Mocks;
 using Xunit;
@@ -17,6 +14,8 @@ namespace Notifications.Tests.Managers
 {
     public class NotificationsManagerTests
     {
+        private readonly INotificationsManager _manager;
+
         private readonly List<NotificationEntity> _notificationEntities = new List<NotificationEntity>
         {
             new NotificationEntity
@@ -39,8 +38,6 @@ namespace Notifications.Tests.Managers
             }
         };
 
-        private readonly INotificationsManager _manager;
-
         public NotificationsManagerTests()
         {
             var notificationsRepositoryMock = new MongoRepositoryMockFactory<NotificationEntity>(_notificationEntities)
@@ -60,6 +57,7 @@ namespace Notifications.Tests.Managers
             var approvedAccountEvent = new AccountApprovedEvent
             {
                 Id = 1.ToGuid().ToString(),
+                ProfileId = 1.ToGuid().ToString(),
                 Balance = 3,
                 Approved = true
             };
@@ -70,10 +68,7 @@ namespace Notifications.Tests.Managers
         [Fact]
         public void ShouldNotCreateFromInvalidAccount()
         {
-            var approvedAccountEvent = new AccountApprovedEvent
-            {
-                Approved = true
-            };
+            var approvedAccountEvent = new AccountApprovedEvent();
             var newNotification = _manager.AddFromAccount(approvedAccountEvent);
             Assert.Null(newNotification);
         }
@@ -88,6 +83,7 @@ namespace Notifications.Tests.Managers
             var transactionProcessedEvent = new TransactionProcessedEvent
             {
                 Id = 1.ToGuid().ToString(),
+                ProfileId = 1.ToGuid().ToString(),
                 Approved = true
             };
             var newNotification = _manager.AddFromTransaction(transactionProcessedEvent);
@@ -97,14 +93,10 @@ namespace Notifications.Tests.Managers
         [Fact]
         public void ShouldNotCreateFromInvalidTransaction()
         {
-            var transactionProcessedEvent = new TransactionProcessedEvent
-            {
-                
-            };
+            var transactionProcessedEvent = new TransactionProcessedEvent();
             var newNotification = _manager.AddFromTransaction(transactionProcessedEvent);
             Assert.Null(newNotification);
         }
-
 
         #endregion
     }

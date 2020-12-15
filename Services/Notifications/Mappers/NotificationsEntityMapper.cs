@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using Notifications.Persistence.Entities;
 using Sdk.Api.Interfaces;
 using Sdk.Extensions;
@@ -16,7 +17,7 @@ namespace Notifications.Mappers
                 Description = notificationEntity.Description,
                 ProfileId = notificationEntity.ProfileId.ToGuid(),
                 Status = notificationEntity.Status,
-                TimeStamp = DateTime.Parse(notificationEntity.TimeStamp),
+                TimeStamp = DateTime.Parse(notificationEntity.TimeStamp, CultureInfo.InvariantCulture),
                 Title = notificationEntity.Title,
                 Version = notificationEntity.Version
             };
