@@ -6,10 +6,10 @@ namespace Sdk.Api.Dto
 {
     public class AccountDto : IAccountModel
     {
-        [IsValidGuid] public string? Id { get; set; }
-        [Range(0, float.MaxValue)] public float Balance { get; set; }
-        [Required] [IsValidGuid] public string ProfileId { get; set; }
+        public string? Id { get; set; }
+        public float Balance { get; set; }
+        public string ProfileId { get; set; }
         public bool Approved { get; set; }
-        [Range(0, int.MaxValue)] public int Version { get; set; }
+        public int Version { get; set; }
     }
 }
