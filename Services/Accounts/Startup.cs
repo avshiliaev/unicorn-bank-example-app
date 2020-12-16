@@ -33,6 +33,7 @@ namespace Accounts
                 .AddPostgreSql<AccountsRepository, AccountEntity, AccountsContext>(
                     _configuration, "AccountsContext"
                 )
+                .AddAuth0(_configuration)
                 .AddDataAccessServices()
                 .AddBusinessLogicManagers()
                 .AddMessageBus<AccountsSubscriptionsHandler>("accounts");
@@ -45,6 +46,7 @@ namespace Accounts
                 .ConfigureExceptionHandler()
                 .UseHttpsRedirection()
                 .UseRouting()
+                .UseAuthentication()
                 .UseAuthorization()
                 .UseEndpoints(
                     endpoints => { endpoints.MapControllers(); }

@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.Persistence",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.Tests", "Notifications.Tests\Notifications.Tests.csproj", "{07281CB1-2603-49BD-8791-C9D32885B97C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthExample", "AuthExample\AuthExample.csproj", "{9681A2F8-34F1-4329-A11C-ADACCD9C341A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,5 +74,9 @@ Global
 		{07281CB1-2603-49BD-8791-C9D32885B97C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07281CB1-2603-49BD-8791-C9D32885B97C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07281CB1-2603-49BD-8791-C9D32885B97C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9681A2F8-34F1-4329-A11C-ADACCD9C341A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9681A2F8-34F1-4329-A11C-ADACCD9C341A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9681A2F8-34F1-4329-A11C-ADACCD9C341A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9681A2F8-34F1-4329-A11C-ADACCD9C341A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
