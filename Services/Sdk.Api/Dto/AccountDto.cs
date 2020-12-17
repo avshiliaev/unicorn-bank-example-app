@@ -1,6 +1,4 @@
-using System.ComponentModel.DataAnnotations;
 using Sdk.Api.Interfaces;
-using Sdk.Api.Validators;
 
 namespace Sdk.Api.Dto
 {

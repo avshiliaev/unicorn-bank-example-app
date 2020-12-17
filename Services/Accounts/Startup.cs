@@ -42,7 +42,8 @@ namespace Accounts
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
-            app.UseCors(builder => {
+            app.UseCors(builder =>
+            {
                 builder.AllowAnyOrigin();
                 builder.AllowAnyMethod();
                 builder.AllowAnyHeader();

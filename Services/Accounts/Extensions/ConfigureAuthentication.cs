@@ -13,7 +13,7 @@ namespace Accounts.Extensions
         {
             string domain = "https://unicornbank.eu.auth0.com/";
             string audience = "https://unicornbank.io";
-            
+
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -32,11 +32,11 @@ namespace Accounts.Extensions
                 options.AddPolicy(
                     "write:accounts",
                     policy => policy.Requirements.Add(
-                        new HasScopeRequirement("write:accounts", domain)
+                        new HasPermissionsRequirement("write:accounts", domain)
                     )
                 );
             });
-            services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
+            services.AddSingleton<IAuthorizationHandler, HasPermissionsHandler>();
 
             return services;
         }

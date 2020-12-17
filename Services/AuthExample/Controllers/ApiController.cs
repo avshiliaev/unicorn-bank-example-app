@@ -33,7 +33,8 @@ namespace AuthExample.Controllers
         {
             return Ok(new
             {
-                Message = "Hello from a private endpoint! You need to be authenticated and have a scope of read:messages to see this."
+                Message =
+                    "Hello from a private endpoint! You need to be authenticated and have a scope of read:messages to see this."
             });
         }
 

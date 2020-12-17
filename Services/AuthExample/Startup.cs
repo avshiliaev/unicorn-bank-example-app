@@ -26,10 +26,10 @@ namespace AuthExample
                     builder =>
                     {
                         builder
-                        .WithOrigins("http://localhost:8080")
-                        .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials();
+                            .WithOrigins("http://localhost:8080")
+                            .AllowAnyMethod()
+                            .AllowAnyHeader()
+                            .AllowCredentials();
                     });
             });
 
@@ -43,7 +43,8 @@ namespace AuthExample
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("read:messages", policy => policy.Requirements.Add(new HasScopeRequirement("read:messages", domain)));
+                options.AddPolicy("read:messages",
+                    policy => policy.Requirements.Add(new HasScopeRequirement("read:messages", domain)));
             });
 
             services.AddControllers();
@@ -56,13 +57,9 @@ namespace AuthExample
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
-            {
                 app.UseDeveloperExceptionPage();
-            }
             else
-            {
                 app.UseHsts();
-            }
 
             app.UseHttpsRedirection();
 
@@ -73,10 +70,7 @@ namespace AuthExample
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }
