@@ -30,13 +30,11 @@ namespace Accounts
         {
             services.AddControllers();
             services
-                .AddPostgreSql<AccountsRepository, AccountEntity, AccountsContext>(
-                    _configuration, "AccountsContext"
-                )
+                .AddPostgreSql<AccountsRepository, AccountEntity, AccountsContext>(_configuration)
                 .AddAuth0(_configuration)
                 .AddDataAccessServices()
                 .AddBusinessLogicManagers()
-                .AddMessageBus<AccountsSubscriptionsHandler>("accounts");
+                .AddMessageBus<AccountsSubscriptionsHandler>(_configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

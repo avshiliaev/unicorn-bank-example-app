@@ -1,4 +1,6 @@
+using System;
 using MassTransit;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Sdk.Communication.Extensions
@@ -7,10 +9,16 @@ namespace Sdk.Communication.Extensions
     {
         public static IServiceCollection AddMessageBus<TC>(
             this IServiceCollection services,
-            string queueName
+            IConfiguration configuration
         )
             where TC : class, IConsumer
         {
+            var messageBusSettings = new MessageBusSettingsModel();
+            configuration.GetSection("MessageBus").Bind(messageBusSettings);
+            var queueName = messageBusSettings.QueueName ?? throw new ArgumentNullException(
+                typeof(MessageBusSettingsModel).ToString()
+            );
+            
             services.AddMassTransit(x =>
             {
                 x.AddConsumer<TC>();
@@ -25,5 +33,10 @@ namespace Sdk.Communication.Extensions
 
             return services;
         }
+    }
+
+    public class MessageBusSettingsModel
+    {
+        public string QueueName { get; set; }
     }
 }

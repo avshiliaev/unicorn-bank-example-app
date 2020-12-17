@@ -18,18 +18,18 @@ namespace Notifications
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private readonly IConfiguration _configuration;
 
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddMongoDb<NotificationsRepository, NotificationEntity>(Configuration)
+                .AddMongoDb<NotificationsRepository, NotificationEntity>(_configuration)
                 .AddDataAccessServices()
                 .AddBusinessLogicManagers()
-                .AddMessageBus<NotificationsSubscriptionsHandler>("accounts")
+                .AddMessageBus<NotificationsSubscriptionsHandler>(_configuration)
                 .AddSignalR();
         }
 
