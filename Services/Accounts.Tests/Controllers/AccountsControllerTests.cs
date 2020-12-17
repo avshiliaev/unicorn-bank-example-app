@@ -1,9 +1,15 @@
 using System;
+using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Accounts.Tests.Fixtures;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Sdk.Auth.Models;
 using Xunit;
 
 namespace Accounts.Tests.Controllers
@@ -18,11 +24,20 @@ namespace Accounts.Tests.Controllers
         public AccountsControllerTests(
             CustomWebApplicationFactory<Startup> factory)
         {
-            _factory = factory;
-            _client = factory.CreateClient(new WebApplicationFactoryClientOptions
+            _client = factory
+                .WithWebHostBuilder(b =>
+                {
+                    b.ConfigureAppConfiguration((context, conf) =>
+                    {
+                        conf.AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(), "appsettings.Test.json"));
+                    });
+                })
+                .CreateClient(new WebApplicationFactoryClientOptions
             {
                 AllowAutoRedirect = false
             });
+            _client.DefaultRequestHeaders.Authorization = 
+                new AuthenticationHeaderValue("Test");
         }
 
         [Fact]
