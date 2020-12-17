@@ -18,7 +18,7 @@ namespace Sdk.Communication.Extensions
             var queueName = messageBusSettings.QueueName ?? throw new ArgumentNullException(
                 typeof(MessageBusSettingsModel).ToString()
             );
-            
+
             services.AddMassTransit(x =>
             {
                 x.AddConsumer<TC>();

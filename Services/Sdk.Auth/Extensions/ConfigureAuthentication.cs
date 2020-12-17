@@ -22,7 +22,7 @@ namespace Sdk.Auth.Extensions
             configuration.GetSection("Auth0").Bind(auth0);
             var auth0Domain = auth0.Domain ?? throw new ArgumentNullException(
                 typeof(Auth0SettingsModel).ToString()
-                );
+            );
             var auth0Audience = auth0.Audience ?? throw new ArgumentNullException(
                 typeof(Auth0SettingsModel).ToString()
             );
@@ -46,12 +46,12 @@ namespace Sdk.Auth.Extensions
             services.AddAuthorization(options =>
             {
                 foreach (var policyName in auth0Policies)
-                        options.AddPolicy(
-                            policyName,
-                            policy => policy.Requirements.Add(
-                                new HasPermissionsRequirement(policyName, auth0Domain)
-                            )
-                        );
+                    options.AddPolicy(
+                        policyName,
+                        policy => policy.Requirements.Add(
+                            new HasPermissionsRequirement(policyName, auth0Domain)
+                        )
+                    );
             });
             services.AddSingleton<IAuthorizationHandler, HasPermissionsHandler>();
 
