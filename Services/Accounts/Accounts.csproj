@@ -16,6 +16,7 @@
     <ItemGroup>
         <ProjectReference Include="..\Accounts.Persistence\Accounts.Persistence.csproj" />
         <ProjectReference Include="..\Sdk.Api\Sdk.Api.csproj" />
+        <ProjectReference Include="..\Sdk.Auth\Sdk.Auth.csproj" />
         <ProjectReference Include="..\Sdk.Communication\Sdk.Communication.csproj" />
     </ItemGroup>
 

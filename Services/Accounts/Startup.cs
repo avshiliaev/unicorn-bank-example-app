@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Sdk.Api.Extensions;
+using Sdk.Auth.Extensions;
 using Sdk.Communication.Extensions;
 using Sdk.Persistence.Extensions;
 
