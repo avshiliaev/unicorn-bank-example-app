@@ -1,19 +1,18 @@
-﻿using Accounts.Extensions;
-using Accounts.Handlers;
-using Accounts.Persistence;
-using Accounts.Persistence.Entities;
-using Accounts.Persistence.Repositories;
+using Approvals.Extensions;
+using Approvals.Handlers;
+using Approvals.Persistence;
+using Approvals.Persistence.Entities;
+using Approvals.Persistence.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Sdk.Api.Extensions;
-using Sdk.Auth.Extensions;
 using Sdk.Communication.Extensions;
 using Sdk.Persistence.Extensions;
 
-namespace Accounts
+namespace Approvals
 {
     public class Startup
     {
@@ -32,11 +31,10 @@ namespace Accounts
             services.AddControllers();
             services
                 .AddCors()
-                .AddPostgreSql<AccountsRepository, AccountEntity, AccountsContext>(_configuration)
-                .AddAuth0(_configuration)
+                .AddPostgreSql<ApprovalsRepository, ApprovalEntity, ApprovalsContext>(_configuration)
                 .AddDataAccessServices()
                 .AddBusinessLogicManagers()
-                .AddMessageBus<AccountsSubscriptionsHandler>(_configuration);
+                .AddMessageBus<ApprovalsSubscriptionsHandler>(_configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -56,12 +54,7 @@ namespace Accounts
                 .ConfigureExceptionHandler()
                 .UseHttpsRedirection()
                 .UseRouting()
-                .UseAuthentication()
-                .UseAuthorization()
-                .UseEndpoints(
-                    endpoints => { endpoints.MapControllers(); }
-                )
-                .UpdateDatabase<AccountsContext>();
+                .UpdateDatabase<ApprovalsContext>();
         }
     }
 }

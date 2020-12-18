@@ -48,7 +48,7 @@ namespace Notifications
                 });
                 app.UseDeveloperExceptionPage();
             }
-            
+
             app
                 .ConfigureExceptionHandler()
                 .UseRouting()
