@@ -4,12 +4,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Sdk.Interfaces;
 using Sdk.Tests.Mocks;
 
-namespace Accounts.Tests.Fixtures
+namespace Sdk.Tests.Extensions
 {
     public static class ConfigureTestMessageBus
     {
         public static IServiceCollection AddTestMessageBus<TModel>(this IServiceCollection services)
-        where TModel : class, IDataModel
+            where TModel : class, IDataModel
         {
             services.Remove(services.SingleOrDefault(
                     d => d.ServiceType == typeof(IPublishEndpoint)

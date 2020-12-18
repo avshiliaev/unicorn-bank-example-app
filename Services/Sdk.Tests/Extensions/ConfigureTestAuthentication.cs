@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Accounts.Tests.Fixtures
+namespace Sdk.Tests.Extensions
 {
     public static class ConfigureTestAuthentication
     {
@@ -14,13 +14,13 @@ namespace Accounts.Tests.Fixtures
         {
             services.AddAuthentication("Test")
                 .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>(
-                    "Test", 
+                    "Test",
                     options => { }
-                    );
+                );
 
             return services;
         }
-        
+
         public class TestAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions>
         {
             public TestAuthHandler(IOptionsMonitor<AuthenticationSchemeOptions> options,

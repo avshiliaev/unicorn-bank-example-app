@@ -1,12 +1,9 @@
 using System;
-using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Accounts.Tests.Fixtures;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.Configuration;
+using Sdk.Tests.Extensions;
 using Xunit;
 
 namespace Accounts.Tests.Controllers
@@ -14,29 +11,12 @@ namespace Accounts.Tests.Controllers
     public class AccountsControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         private readonly HttpClient _client;
-        private readonly CustomWebApplicationFactory<Startup> _factory;
 
         public AccountsControllerTests(
             CustomWebApplicationFactory<Startup> factory
-            )
+        )
         {
-            _factory = factory;
-            _client = _factory
-                .WithWebHostBuilder(b =>
-                {
-                    b.ConfigureAppConfiguration((context, conf) =>
-                    {
-                        conf.AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(),
-                            "appsettings.Test.json"));
-                    });
-                })
-                .CreateClient(new WebApplicationFactoryClientOptions
-                {
-                    AllowAutoRedirect = false
-                });
-            
-            _client.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Test");
+            _client = factory.GetTestHttpClientClient();
         }
 
         [Fact]

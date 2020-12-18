@@ -2,12 +2,12 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Accounts.Tests.Fixtures
+namespace Sdk.Tests.Extensions
 {
     public static class ConfigureTestDataBase
     {
         public static IServiceCollection AddTestDataBaseContext<TContext>(this IServiceCollection services)
-        where TContext : DbContext
+            where TContext : DbContext
         {
             services.Remove(services.SingleOrDefault(
                     d => d.ServiceType == typeof(DbContextOptions<TContext>)
@@ -17,7 +17,7 @@ namespace Accounts.Tests.Fixtures
                 .AddDbContext<TContext>(
                     options => options.UseInMemoryDatabase("InMemoryDbForTesting")
                 );
-            
+
             var sp = services.BuildServiceProvider();
 
             using (var scope = sp.CreateScope())
