@@ -9,6 +9,7 @@ using Notifications.Hubs;
 using Notifications.Persistence.Entities;
 using Notifications.Persistence.Repositories;
 using Sdk.Api.Extensions;
+using Sdk.Auth.Extensions;
 using Sdk.Communication.Extensions;
 using Sdk.Persistence.Extensions;
 
@@ -26,7 +27,9 @@ namespace Notifications
         public void ConfigureServices(IServiceCollection services)
         {
             services
+                .AddCors()
                 .AddMongoDb<NotificationsRepository, NotificationEntity>(_configuration)
+                .AddAuth0(_configuration)
                 .AddDataAccessServices()
                 .AddBusinessLogicManagers()
                 .AddMessageBus<NotificationsSubscriptionsHandler>(_configuration)
@@ -35,11 +38,21 @@ namespace Notifications
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
-
+            if (env.IsDevelopment())
+            {
+                app.UseCors(builder =>
+                {
+                    builder.AllowAnyOrigin();
+                    builder.AllowAnyMethod();
+                    builder.AllowAnyHeader();
+                });
+                app.UseDeveloperExceptionPage();
+            }
+            
             app
                 .ConfigureExceptionHandler()
                 .UseRouting()
+                .UseAuthentication()
                 .UseAuthorization()
                 .UseEndpoints(endpoints => { endpoints.MapHub<NotificationsHub>("/notifications"); });
         }

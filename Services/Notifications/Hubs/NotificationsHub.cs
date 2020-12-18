@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Notifications.Interfaces;
 using Notifications.Mappers;
@@ -8,6 +9,7 @@ using Sdk.Api.Dto;
 // https://docs.microsoft.com/en-us/aspnet/core/signalr/introduction?view=aspnetcore-5.0
 namespace Notifications.Hubs
 {
+    [Authorize("read:notifications")]
     public class NotificationsHub : Hub
     {
         private readonly INotificationsService _notificationsService;

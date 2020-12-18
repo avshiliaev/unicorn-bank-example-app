@@ -31,6 +31,7 @@ namespace Accounts
         {
             services.AddControllers();
             services
+                .AddCors()
                 .AddPostgreSql<AccountsRepository, AccountEntity, AccountsContext>(_configuration)
                 .AddAuth0(_configuration)
                 .AddDataAccessServices()
@@ -40,13 +41,16 @@ namespace Accounts
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
-            app.UseCors(builder =>
+            if (env.IsDevelopment())
             {
-                builder.AllowAnyOrigin();
-                builder.AllowAnyMethod();
-                builder.AllowAnyHeader();
-            });
+                app.UseCors(builder =>
+                {
+                    builder.AllowAnyOrigin();
+                    builder.AllowAnyMethod();
+                    builder.AllowAnyHeader();
+                });
+                app.UseDeveloperExceptionPage();
+            }
             app
                 .ConfigureExceptionHandler()
                 .UseHttpsRedirection()
