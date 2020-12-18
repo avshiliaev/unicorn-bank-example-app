@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Sdk.Api.Extensions;
+using Sdk.Auth.Extensions;
 using Sdk.Communication.Extensions;
 using Sdk.Persistence.Extensions;
 
@@ -30,21 +31,27 @@ namespace Accounts
         {
             services.AddControllers();
             services
-                .AddPostgreSql<AccountsRepository, AccountEntity, AccountsContext>(
-                    _configuration, "AccountsContext"
-                )
+                .AddPostgreSql<AccountsRepository, AccountEntity, AccountsContext>(_configuration)
+                .AddAuth0(_configuration)
                 .AddDataAccessServices()
                 .AddBusinessLogicManagers()
-                .AddMessageBus<AccountsSubscriptionsHandler>("accounts");
+                .AddMessageBus<AccountsSubscriptionsHandler>(_configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyOrigin();
+                builder.AllowAnyMethod();
+                builder.AllowAnyHeader();
+            });
             app
                 .ConfigureExceptionHandler()
                 .UseHttpsRedirection()
                 .UseRouting()
+                .UseAuthentication()
                 .UseAuthorization()
                 .UseEndpoints(
                     endpoints => { endpoints.MapControllers(); }

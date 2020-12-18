@@ -6,6 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.9" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.0">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -15,6 +16,7 @@
     <ItemGroup>
         <ProjectReference Include="..\Accounts.Persistence\Accounts.Persistence.csproj" />
         <ProjectReference Include="..\Sdk.Api\Sdk.Api.csproj" />
+        <ProjectReference Include="..\Sdk.Auth\Sdk.Auth.csproj" />
         <ProjectReference Include="..\Sdk.Communication\Sdk.Communication.csproj" />
     </ItemGroup>
 

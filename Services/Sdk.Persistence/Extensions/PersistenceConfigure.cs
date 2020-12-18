@@ -9,21 +9,17 @@ namespace Sdk.Persistence.Extensions
     {
         public static IServiceCollection AddPostgreSql<TRepository, TEntity, TContext>(
             this IServiceCollection services,
-            IConfiguration configuration,
-            string connectionString
+            IConfiguration configuration
         )
             where TContext : DbContext
             where TEntity : class, IEntity
             where TRepository : class, IRepository<TEntity>
-
         {
             services.AddDbContext<TContext>(
                 options =>
-                    options.UseNpgsql(configuration.GetConnectionString(connectionString))
+                    options.UseNpgsql(configuration.GetConnectionString("PostgreSql"))
             );
-
             services.AddTransient<IRepository<TEntity>, TRepository>();
-
             return services;
         }
     }

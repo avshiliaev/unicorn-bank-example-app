@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Accounts.Tests.Fixtures;
-using Microsoft.AspNetCore.Mvc.Testing;
+using Sdk.Tests.Extensions;
 using Xunit;
 
 namespace Accounts.Tests.Controllers
@@ -12,17 +12,11 @@ namespace Accounts.Tests.Controllers
     {
         private readonly HttpClient _client;
 
-        private readonly CustomWebApplicationFactory<Startup>
-            _factory;
-
         public AccountsControllerTests(
-            CustomWebApplicationFactory<Startup> factory)
+            CustomWebApplicationFactory<Startup> factory
+        )
         {
-            _factory = factory;
-            _client = factory.CreateClient(new WebApplicationFactoryClientOptions
-            {
-                AllowAutoRedirect = false
-            });
+            _client = factory.GetTestHttpClientClient();
         }
 
         [Fact]
