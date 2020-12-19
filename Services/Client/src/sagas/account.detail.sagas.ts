@@ -13,6 +13,7 @@ function* getAccountDetailSaga(action) {
     const socket = yield call(createWebSocketConnection, path);
     const socketChannel = yield call(createSocketChannel, socket);
 
+    // TODO move all function defining actions to ONE place!
     try {
         while (true) {
             const action: AccountsStreamResponse = yield take(socketChannel);
