@@ -5,7 +5,7 @@ using MassTransit.Testing;
 using Sdk.Api.Events;
 using Xunit;
 
-namespace Accounts.Tests.Handlers
+namespace Approvals.Tests.Handlers
 {
     public class SubscriptionsHandlerTests
     {

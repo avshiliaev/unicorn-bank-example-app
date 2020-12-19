@@ -1,101 +1,58 @@
 using System;
 using System.Collections.Generic;
-using Accounts.Interfaces;
-using Accounts.Persistence.Entities;
-using Accounts.Services;
+using Approvals.Interfaces;
+using Approvals.Persistence.Entities;
+using Approvals.Services;
 using Sdk.Tests.Extensions;
 using Sdk.Tests.Mocks;
 using Xunit;
 
-namespace Accounts.Tests.Services
+namespace Approvals.Tests.Services
 {
-    public class AccountsServiceTests
+    public class ApprovalsServiceTests
     {
-        private readonly List<AccountEntity> _accountEntities = new List<AccountEntity>
+        private readonly List<ApprovalEntity> _approvalEntities = new List<ApprovalEntity>
         {
-            new AccountEntity
+            new ApprovalEntity
             {
                 Id = 1.ToGuid(),
-                Balance = 1,
-                ProfileId = 1.ToGuid(),
+                Approved = true,
+                AccountId = 1.ToGuid(),
                 Version = 0
             },
-            new AccountEntity
+            new ApprovalEntity
             {
                 Id = 2.ToGuid(),
-                Balance = 1,
-                ProfileId = 1.ToGuid(),
+                Approved = false,
+                AccountId = 1.ToGuid(),
                 Version = 0
             },
-            new AccountEntity
+            new ApprovalEntity
             {
                 Id = 3.ToGuid(),
-                Balance = 1,
-                ProfileId = 2.ToGuid(),
+                Approved = true,
+                AccountId = 2.ToGuid(),
                 Version = 0
             }
         };
 
-        private readonly IAccountsService _service;
+        private readonly IApprovalsService _service;
 
-        public AccountsServiceTests()
+        public ApprovalsServiceTests()
         {
-            var accountsRepositoryMock = new RepositoryMockFactory<AccountEntity>(_accountEntities).GetInstance();
-            _service = new AccountsService(accountsRepositoryMock.Object);
+            var approvalsRepositoryMock = new RepositoryMockFactory<ApprovalEntity>(_approvalEntities).GetInstance();
+            _service = new ApprovalsService(approvalsRepositoryMock.Object);
         }
 
         [Fact]
-        public async void ShouldSuccessfullyCreateANewAccount()
+        public async void ShouldSuccessfullyCreateANewApproval()
         {
-            var newAccountEntity = new AccountEntity
+            var newAccountEntity = new ApprovalEntity
             {
-                ProfileId = Guid.NewGuid()
+                AccountId = Guid.NewGuid()
             };
-            var newCreatedAccountEntity = await _service.CreateAccountAsync(newAccountEntity);
+            var newCreatedAccountEntity = await _service.CreateApprovalAsync(newAccountEntity);
             Assert.NotNull(newCreatedAccountEntity);
-        }
-
-        [Fact]
-        public async void ShouldActivelyUpdateExistingAccount()
-        {
-            var accountEntity = new AccountEntity
-            {
-                Id = 1.ToGuid(),
-                ProfileId = 1.ToGuid(),
-                Balance = 100,
-                Version = 0
-            };
-            var updatedAccountEntity = await _service.UpdateAccountAsync(accountEntity);
-            Assert.NotNull(updatedAccountEntity);
-            Assert.Equal(1, updatedAccountEntity.Version);
-        }
-
-        [Fact]
-        public async void ShouldNotUpdateAnInvalidAccount()
-        {
-            var invalidAccountEntity = new AccountEntity
-            {
-                Id = 5.ToGuid(),
-                ProfileId = 1.ToGuid(),
-                Balance = 100,
-                Version = 1
-            };
-            var updatedAccountEntity = await _service.UpdateAccountAsync(invalidAccountEntity);
-            Assert.Null(updatedAccountEntity);
-        }
-
-        [Fact]
-        public async void ShouldNotUpdateAnAccountWithWrongVersion()
-        {
-            var invalidAccountEntity = new AccountEntity
-            {
-                Id = 1.ToGuid(),
-                ProfileId = 1.ToGuid(),
-                Balance = 100,
-                Version = 3
-            };
-            var updatedAccountEntity = await _service.UpdateAccountAsync(invalidAccountEntity);
-            Assert.Null(updatedAccountEntity);
         }
     }
 }

@@ -1,138 +1,75 @@
-using System;
 using System.Collections.Generic;
-using Accounts.Interfaces;
-using Accounts.Managers;
-using Accounts.Persistence.Entities;
-using Accounts.Services;
+using Approvals.Interfaces;
+using Approvals.Managers;
+using Approvals.Persistence.Entities;
+using Approvals.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Sdk.Api.Dto;
 using Sdk.Api.Events;
 using Sdk.Api.Interfaces;
 using Sdk.Tests.Extensions;
 using Sdk.Tests.Mocks;
 using Xunit;
 
-namespace Accounts.Tests.Managers
+namespace Approvals.Tests.Managers
 {
-    public class AccountsManagerTests
+    public class ApprovalsManagerTests
     {
-        private readonly List<AccountEntity> _accountEntities = new List<AccountEntity>
+        private readonly List<ApprovalEntity> _approvalEntities = new List<ApprovalEntity>
         {
-            new AccountEntity
+            new ApprovalEntity
             {
                 Id = 1.ToGuid(),
-                Balance = 1,
-                ProfileId = 1.ToGuid(),
+                Approved = true,
+                AccountId = 1.ToGuid(),
                 Version = 0
             },
-            new AccountEntity
+            new ApprovalEntity
             {
                 Id = 2.ToGuid(),
-                Balance = 1,
-                ProfileId = 1.ToGuid(),
+                Approved = false,
+                AccountId = 1.ToGuid(),
                 Version = 0
             },
-            new AccountEntity
+            new ApprovalEntity
             {
                 Id = 3.ToGuid(),
-                Balance = 1,
-                ProfileId = 2.ToGuid(),
+                Approved = true,
+                AccountId = 2.ToGuid(),
                 Version = 0
             }
         };
 
-        private readonly IAccountsManager _manager;
+        private readonly IApprovalsManager _manager;
 
-        public AccountsManagerTests()
+        public ApprovalsManagerTests()
         {
             var publishEndpoint = new PublishEndpointMockFactory<IAccountModel>().GetInstance();
-            var accountsRepositoryMock = new RepositoryMockFactory<AccountEntity>(_accountEntities).GetInstance();
+            var approvalsRepositoryMock = new RepositoryMockFactory<ApprovalEntity>(_approvalEntities).GetInstance();
 
-            _manager = new AccountsManager(
-                new Mock<ILogger<AccountsManager>>().Object,
-                new AccountsService(accountsRepositoryMock.Object),
+            _manager = new ApprovalsManager(
+                new Mock<ILogger<ApprovalsManager>>().Object,
+                new ApprovalsService(approvalsRepositoryMock.Object),
                 publishEndpoint.Object
             );
         }
 
-        #region UpdateExistingAccountAsync
-
         [Fact]
-        public async void ShouldSuccessfullyUpdateExistingAccount()
+        public async void ShouldSuccessfullyCreateANewApproval()
         {
-            var newAccountDto = new AccountDto
-            {
-                Id = 1.ToGuid().ToString(),
-                Balance = 3
-            };
-            var newCreatedAccount = await _manager.UpdateExistingAccountAsync(newAccountDto);
-            Assert.NotNull(newCreatedAccount);
-            Assert.Equal(3, newCreatedAccount.Balance);
+            var accountCreatedEvent = new AccountCreatedEvent();
+            var newCreatedApproval = await _manager
+                .EvaluateAccountAsync(accountCreatedEvent);
+            Assert.NotNull(newCreatedApproval);
         }
 
         [Fact]
-        public async void ShouldNotUpdateAnInvalidAccount()
+        public async void ShouldNotCreateAnInvalidApproval()
         {
-            var newAccountDto = new AccountDto
-            {
-                Id = 5.ToGuid().ToString(),
-                Balance = 3
-            };
-            var newCreatedAccount = await _manager.UpdateExistingAccountAsync(newAccountDto);
-            Assert.Null(newCreatedAccount);
+            var accountCreatedEvent = new AccountCreatedEvent();
+            var newCreatedApproval = await _manager
+                .EvaluateAccountAsync(accountCreatedEvent);
+            Assert.Null(newCreatedApproval);
         }
-
-        #endregion
-
-        #region AddTransactionToAccountAsync
-
-        [Fact]
-        public async void ShouldSuccessfullyAddTransactionToAccount()
-        {
-            var newTransaction = new TransactionCreatedEvent
-            {
-                Id = 1.ToGuid().ToString(),
-                AccountId = 1.ToGuid().ToString(),
-                Amount = 1
-            };
-            var newCreatedAccount = await _manager.AddTransactionToAccountAsync(newTransaction);
-            Assert.NotNull(newCreatedAccount);
-            Assert.Equal(2, newCreatedAccount.Balance);
-        }
-
-        [Fact]
-        public async void ShouldNotAddInvalidTransactionToAccount()
-        {
-            var nonExistentAccountId = 4.ToGuid().ToString();
-            var invalidTransaction = new TransactionCreatedEvent
-            {
-                Id = 1.ToGuid().ToString(),
-                AccountId = nonExistentAccountId,
-                Amount = 1
-            };
-            var newCreatedAccount = await _manager.AddTransactionToAccountAsync(invalidTransaction);
-            Assert.Null(newCreatedAccount);
-        }
-
-        #endregion
-
-        #region CreateNewAccountAsync
-
-        [Fact]
-        public async void ShouldSuccessfullyCreateANewAccount()
-        {
-            var newCreatedAccount = await _manager.CreateNewAccountAsync(Guid.NewGuid());
-            Assert.NotNull(newCreatedAccount);
-        }
-
-        [Fact]
-        public async void ShouldNotCreateAnInvalidAccount()
-        {
-            var newCreatedAccount = await _manager.CreateNewAccountAsync(Guid.Empty);
-            Assert.Null(newCreatedAccount);
-        }
-
-        #endregion
     }
 }
