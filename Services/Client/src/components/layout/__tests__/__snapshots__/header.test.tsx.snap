@@ -1,0 +1,122 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header renders without error 1`] = `
+<Header
+  style={
+    Object {
+      "backgroundColor": "#fff",
+      "boxShadow": "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)",
+      "height": false,
+      "paddingLeft": 16,
+      "paddingRight": 16,
+      "zIndex": 999,
+    }
+  }
+>
+  <Row
+    align="middle"
+    gutter={
+      Array [
+        Object {
+          "lg": 16,
+          "md": 0,
+          "sm": 0,
+          "xs": 0,
+        },
+        0,
+      ]
+    }
+  >
+    <Col
+      lg={2}
+      md={4}
+      sm={4}
+      xl={2}
+      xs={4}
+      xxl={2}
+    >
+      <Row
+        align="middle"
+        gutter={
+          Array [
+            Object {
+              "lg": 16,
+              "md": 0,
+              "sm": 0,
+              "xs": 0,
+            },
+            0,
+          ]
+        }
+        justify="start"
+      >
+        <Col>
+          <div>
+            Left
+          </div>
+        </Col>
+      </Row>
+    </Col>
+    <Col
+      lg={16}
+      md={16}
+      sm={16}
+      xl={16}
+      xs={16}
+      xxl={16}
+    >
+      <Row
+        align="middle"
+        gutter={
+          Array [
+            Object {
+              "lg": 16,
+              "md": 0,
+              "sm": 0,
+              "xs": 0,
+            },
+            0,
+          ]
+        }
+        justify="start"
+      >
+        <Col>
+          <div>
+            Middle
+          </div>
+        </Col>
+      </Row>
+    </Col>
+    <Col
+      lg={6}
+      md={4}
+      sm={4}
+      xl={6}
+      xs={4}
+      xxl={6}
+    >
+      <Row
+        align="middle"
+        gutter={
+          Array [
+            Object {
+              "lg": 16,
+              "md": 0,
+              "sm": 0,
+              "xs": 0,
+            },
+            0,
+          ]
+        }
+        justify="end"
+      >
+        <Col>
+          <div>
+            Right
+          </div>
+        </Col>
+      </Row>
+    </Col>
+  </Row>
+</Header>
+`;
