@@ -1,16 +1,16 @@
 // General
 export interface ViewSettings {
-  notificationsCount: number
+    notificationsCount: number
 }
 
 // View Reducer State
 export interface ViewSettingsState extends ViewSettings {
-  loading: boolean
-  error: boolean
+    loading: boolean
+    error: boolean
 }
 
 export interface ViewSettingsAction {
-  type: string
-  params?: any
-  state: ViewSettingsState
+    type: string
+    params?: any
+    state: ViewSettingsState
 }

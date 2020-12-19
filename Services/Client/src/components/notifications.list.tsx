@@ -1,37 +1,36 @@
-import React, { Fragment } from 'react';
-import { Button, Descriptions, List } from 'antd';
-import { ViewSettings } from '../interfaces/view.settings.interface';
+import React, {Fragment} from 'react';
+import {Button, Descriptions, List} from 'antd';
 
 interface Props {
-  displayMore: any
-  notifications: {
-    title: string;
-    description: string;
-  }[]
+    displayMore: any
+    notifications: {
+        title: string;
+        description: string;
+    }[]
 }
 
 const NotificationsList = (props: Props) => {
 
-  const { notifications, displayMore } = props;
+    const {notifications, displayMore} = props;
 
-  return (
-    <Fragment>
-      <Descriptions title="Notifications"/>
-      <List
-        itemLayout="horizontal"
-        dataSource={notifications}
-        renderItem={item => (
-          <List.Item>
-            <List.Item.Meta
-              title={<a href="https://ant.design">{item.title}</a>}
-              description={item.description}
+    return (
+        <Fragment>
+            <Descriptions title="Notifications"/>
+            <List
+                itemLayout="horizontal"
+                dataSource={notifications}
+                renderItem={item => (
+                    <List.Item>
+                        <List.Item.Meta
+                            title={<a href="https://ant.design">{item.title}</a>}
+                            description={item.description}
+                        />
+                    </List.Item>
+                )}
             />
-          </List.Item>
-        )}
-      />
-      <Button onClick={() => displayMore(notifications.length + 5)}>Display More</Button>
-    </Fragment>
-  );
+            <Button onClick={() => displayMore(notifications.length + 5)}>Display More</Button>
+        </Fragment>
+    );
 
 };
 

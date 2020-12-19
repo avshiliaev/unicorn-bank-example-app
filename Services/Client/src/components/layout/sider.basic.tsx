@@ -1,15 +1,15 @@
 import React from 'react';
-import { Layout } from 'antd';
+import {Layout} from 'antd';
 
-const { Sider } = Layout;
+const {Sider} = Layout;
 
-const SiderBasic = ({ children }) => {
+const SiderBasic = ({children}) => {
 
-  return (
-    <Sider width={200} theme={'light'}>
-      {children}
-    </Sider>
-  );
+    return (
+        <Sider width={200} theme={'light'}>
+            {children}
+        </Sider>
+    );
 };
 
 export default SiderBasic;

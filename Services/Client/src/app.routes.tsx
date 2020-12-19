@@ -1,4 +1,4 @@
-import { Router } from '@reach/router';
+import {Router} from '@reach/router';
 import React from 'react';
 import DashboardPage from './pages/dashboard/dashboard.page';
 import ProjectPage from './pages/account/account.page';
@@ -11,21 +11,21 @@ import DashboardNewRoute from './pages/dashboard/routes/dashboard.new.route';
 
 const AppRoutes = () => {
 
-  return (
-    <Router>
-      <DashboardPage path="dashboard">
-        <DashboardOverviewRoute path="home"/>
-        <DashboardDiscoverRoute path="discover"/>
-        <DashboardNewRoute path="new"/>
-      </DashboardPage>
-      <ProjectPage path="account/:id">
-        <ProjectHomeRoute path="home"/>
-      </ProjectPage>
-      <UserPage path="user/:id">
-        <UserHomeRoute path="home"/>
-      </UserPage>
-    </Router>
-  );
+    return (
+        <Router>
+            <DashboardPage path="dashboard">
+                <DashboardOverviewRoute path="home"/>
+                <DashboardDiscoverRoute path="discover"/>
+                <DashboardNewRoute path="new"/>
+            </DashboardPage>
+            <ProjectPage path="account/:id">
+                <ProjectHomeRoute path="home"/>
+            </ProjectPage>
+            <UserPage path="user/:id">
+                <UserHomeRoute path="home"/>
+            </UserPage>
+        </Router>
+    );
 };
 
 export default AppRoutes;

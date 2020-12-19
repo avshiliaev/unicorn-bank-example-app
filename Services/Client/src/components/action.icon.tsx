@@ -1,14 +1,14 @@
 import React from 'react';
 
-const ActionIcon = ({ text, action }) => {
-  return (
-    <div onClick={() => action()}>
+const ActionIcon = ({text, action}) => {
+    return (
+        <div onClick={() => action()}>
             <span>
-                <div style={{ marginRight: 8 }}/>
-              {text}
+                <div style={{marginRight: 8}}/>
+                {text}
             </span>
-    </div>
-  );
+        </div>
+    );
 };
 
 export default ActionIcon;

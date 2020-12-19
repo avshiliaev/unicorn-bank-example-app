@@ -1,6 +1,6 @@
-import { AccountInterface } from './account.interface';
+import {AccountInterface} from './account.interface';
 
 export interface AccountsStreamResponse {
-  type: string,
-  payload: AccountInterface[]
+    type: string,
+    payload: AccountInterface[]
 }
