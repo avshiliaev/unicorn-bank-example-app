@@ -3,8 +3,8 @@ import {Provider} from 'react-redux';
 import configureStore from 'redux-mock-store';
 import {cleanup} from '../../../../test-utils';
 import DashboardPage from '../dashboard.page';
-import {mount} from 'enzyme';
-import thunk from 'redux-thunk';
+import {mount } from 'enzyme';
+
 
 jest.mock('react', () => ({
     ...jest.requireActual('react'),
@@ -33,10 +33,11 @@ describe('DashboardPage ', () => {
             },
         };
 
-        const mockStore = configureStore([thunk]);
+        const mockStore = configureStore();
         const store = mockStore({...initialState});
 
         const props = {
+            path: "",
             initAccountsOverview: jest.fn(),
         };
 
