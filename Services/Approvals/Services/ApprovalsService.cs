@@ -15,9 +15,9 @@ namespace Approvals.Services
             _approvalsRepository = approvalsRepository;
         }
 
-        public Task<ApprovalEntity> CreateApprovalAsync(ApprovalEntity approvalEntity)
+        public async Task<ApprovalEntity> CreateApprovalAsync(ApprovalEntity approvalEntity)
         {
-            throw new NotImplementedException();
+            return await _approvalsRepository.AddAsync(approvalEntity);
         }
 
         public Task<ApprovalEntity> GetApprovalByIdAsync(Guid approvalId)

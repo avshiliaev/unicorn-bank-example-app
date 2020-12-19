@@ -1,5 +1,7 @@
+using System.Threading;
 using System.Threading.Tasks;
 using Approvals.Interfaces;
+using Approvals.Mappers;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Sdk.Api.Events;
@@ -22,10 +24,17 @@ namespace Approvals.Managers
             _publishEndpoint = publishEndpoint;
         }
 
-        public Task<IAccountModel> EvaluateAccountAsync(IAccountModel accountCreatedEvent)
+        public async Task<IAccountModel> EvaluateAccountAsync(IAccountModel accountCreatedEvent)
         {
-            var approvedEvent = new AccountApprovedEvent();
-            return Task.FromResult<IAccountModel>(approvedEvent);
+            Thread.Sleep(5000);
+            var approval = true;
+            var approvedEntity = await _approvalsService.CreateApprovalAsync(
+                accountCreatedEvent.ToApprovalEntity(approval)
+            );
+            var accountApprovedEvent = approvedEntity.ToAccountModel<AccountApprovedEvent>();
+            await _publishEndpoint.Publish(accountApprovedEvent);
+
+            return accountCreatedEvent;
         }
     }
 }

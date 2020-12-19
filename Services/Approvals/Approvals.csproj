@@ -12,9 +12,5 @@
       <ProjectReference Include="..\Sdk.Persistence\Sdk.Persistence.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Mappers" />
-    </ItemGroup>
-
 
 </Project>
