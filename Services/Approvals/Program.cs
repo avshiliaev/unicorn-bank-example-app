@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace AuthExample
+namespace Approvals
 {
     public class Program
     {
@@ -10,7 +10,7 @@ namespace AuthExample
             CreateHostBuilder(args).Build().Run();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args)
+        private static IHostBuilder CreateHostBuilder(string[] args)
         {
             return Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
