@@ -1,33 +1,23 @@
-import accountReducer from '../account.reducer';
-import {AccountInterface} from '../../interfaces/account.interface';
-import ActionTypes from '../../constants';
+import accountReducer, {getAccount} from '../account.reducer';
+import {AccountReducerState} from '../../interfaces/account.interface';
 
 describe('accountReducer', () => {
     it('should return the initial state', () => {
-        expect(accountReducer(undefined, {})).toEqual({});
+        expect(accountReducer(undefined, {state: undefined, type: ""})).toEqual({});
     });
 
     it('should handle GET_ACCOUNT', () => {
-        const accountOne: AccountInterface = {uuid: '1', title: 't', balance: 0, status: 'approved'};
-        const accountTwo: AccountInterface = {uuid: '2', title: 't', balance: 1, status: 'approved'};
+
+        // should switch to loading state
+        const state: AccountReducerState = {error: false, loading: false}
+        const action = getAccount("awesome")
+        const newState: AccountReducerState = {error: false, loading: true}
 
         expect(
             accountReducer(
-                {},
-                {
-                    type: ActionTypes.GET_ACCOUNT,
-                    data: accountOne,
-                }),
-        ).toEqual(accountOne);
-
-        expect(
-            accountReducer(
-                accountOne,
-                {
-                    type: ActionTypes.GET_ACCOUNT,
-                    data: accountTwo,
-                },
+                state,
+                action
             ),
-        ).toEqual(accountTwo);
+        ).toEqual(newState);
     });
 });
