@@ -7,10 +7,12 @@ import Adapter from 'enzyme-adapter-react-16';
 
 configure({adapter: new Adapter()});
 
-global.matchMedia = global.matchMedia || function() {
+global.matchMedia = global.matchMedia || function () {
     return {
-        matches : false,
-        addListener : function() {},
-        removeListener: function() {}
+        matches: false,
+        addListener: function () {
+        },
+        removeListener: function () {
+        }
     }
 }

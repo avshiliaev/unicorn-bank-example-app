@@ -1,6 +1,8 @@
 import React, {Fragment} from 'react';
 import {connect} from 'react-redux';
 import FlexGridDashboard from '../../../components/layout/flex.grid.dashboard';
+import DemoPlaceHolder from "../../../components/demo.placeholder";
+
 
 const DashboardDiscoverRoute = ({windowSize, ...rest}) => {
 
@@ -8,9 +10,9 @@ const DashboardDiscoverRoute = ({windowSize, ...rest}) => {
         <Fragment>
             <FlexGridDashboard
                 windowSize={windowSize}
-                slotOne={<div>Slot One</div>}
-                slotTwo={<div>Slot Two</div>}
-                slotThree={<div>Slot Three</div>}
+                slotOne={<DemoPlaceHolder/>}
+                slotTwo={<DemoPlaceHolder/>}
+                slotThree={<DemoPlaceHolder/>}
                 mainContent={<div>AccountsList</div>}
             />
         </Fragment>

@@ -5,6 +5,7 @@ import {logOutAction} from '../../../reducers/auth.reducer';
 import FlexGridUser from '../../../components/layout/flex.grid.user';
 import BreadCrumbBasic from '../../../components/layout/breadcrumb.basic';
 import {UserInterface} from '../../../interfaces/user.interface';
+import DemoPlaceHolder from "../../../components/demo.placeholder";
 
 const LogOutButton = ({logOutAction}) => {
     return (
@@ -22,11 +23,7 @@ const MyProfile = ({windowSize, theUser, logOutAction, location}) => {
                 slotOne={<div>
                     <LogOutButton logOutAction={logOutAction}/>
                 </div>}
-                slotTwo={
-                    <div>
-                        RightCol
-                    </div>
-                }
+                slotTwo={<DemoPlaceHolder/>}
             />
         </Fragment>
     );

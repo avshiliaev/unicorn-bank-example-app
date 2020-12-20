@@ -4,6 +4,7 @@ import FlexGridDashboard from '../../../components/layout/flex.grid.dashboard';
 import AccountsForm from '../../../components/accounts.form';
 import {addAccountAsHost} from '../../../reducers/accounts.overview.reducer';
 import {AccountInterface} from '../../../interfaces/account.interface';
+import DemoPlaceHolder from "../../../components/demo.placeholder";
 
 const DashboardNewRoute = ({windowSize, addAccountAsHost, auth, ...rest}) => {
 
@@ -17,9 +18,9 @@ const DashboardNewRoute = ({windowSize, addAccountAsHost, auth, ...rest}) => {
         <Fragment>
             <FlexGridDashboard
                 windowSize={windowSize}
-                slotOne={<div>Slot One</div>}
-                slotTwo={<div>Slot Two</div>}
-                slotThree={<div>Slot Three</div>}
+                slotOne={<DemoPlaceHolder/>}
+                slotTwo={<DemoPlaceHolder/>}
+                slotThree={<DemoPlaceHolder/>}
                 mainContent={<AccountsForm onFinish={formOnFinish}/>}
             />
         </Fragment>

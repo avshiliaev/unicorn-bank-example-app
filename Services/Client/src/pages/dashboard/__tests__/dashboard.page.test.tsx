@@ -3,7 +3,7 @@ import {Provider} from 'react-redux';
 import configureStore from 'redux-mock-store';
 import {cleanup} from '../../../../test-utils';
 import DashboardPage from '../dashboard.page';
-import {mount } from 'enzyme';
+import {mount} from 'enzyme';
 
 
 jest.mock('react', () => ({

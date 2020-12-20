@@ -1,5 +1,3 @@
-import {ActionTypes} from "../../constants";
-
 //TODO https://redux-saga.js.org/docs/advanced/Testing.html
 describe('getAccountDetailSaga tests', () => {
     it('should ...', () => {
