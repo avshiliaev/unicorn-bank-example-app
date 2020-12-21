@@ -1,37 +1,72 @@
+import {call} from 'redux-saga/effects';
+import {expectSaga} from 'redux-saga-test-plan';
+import * as matchers from 'redux-saga-test-plan/matchers';
+import {throwError} from 'redux-saga-test-plan/providers';
 import {getAccountDetailSaga} from "../account.detail.sagas";
 import {getAccount} from "../../reducers/account.reducer";
-import {AccountAction} from "../../interfaces/account.interface";
-import {call, put, take} from "redux-saga/effects";
+import {AccountAction, AccountInterface} from "../../interfaces/account.interface";
 import createWebSocketConnection from "../../web.socket";
 import {createSocketChannel} from "../api";
 import {ActionTypes} from "../../constants";
 
+// TODO: based on the example https://github.com/jfairbank/redux-saga-test-plan#mocking-with-providers
+describe('getAccountDetailSaga', () => {
+        it('Gets an account via Websocket', () => {
 
-//TODO https://redux-saga.js.org/docs/advanced/Testing.html
-describe('getAccountDetailSaga tests', () => {
-    it('should ...', () => {
+            // Arrange
+            const getAccountAction: AccountAction = getAccount("awesome")
+            const socket = createWebSocketConnection("path")
+            const socketChannel = createSocketChannel(socket)
 
-        const actionInit: AccountAction = getAccount("awesome");
-        const {params} = actionInit;
-        const path = `/profiles?account=${params}`;
+            const mockAccount: AccountInterface = {balance: 0, profile: "awesome", status: "approved"}
+            const actionSuccess: AccountAction = {
+                type: ActionTypes.GET_ACCOUNT_DETAIL_SUCCESS,
+                state: {
+                    loading: false,
+                    error: false,
+                    data: mockAccount,
+                },
+            };
 
-        const saga = getAccountDetailSaga(actionInit);
+            // Act / Assert
+            return expectSaga(getAccountDetailSaga, getAccountAction)
+                // Double yield call
+                .provide([
+                    [call(createWebSocketConnection, "path"), socket],
+                    [matchers.call.fn(createSocketChannel), socketChannel],
+                ])
+                .take(socketChannel)
+                .put(actionSuccess)
+                .dispatch(getAccountAction)
+                .run(false);
+        });
 
-        expect(saga.next().value).toStrictEqual(call(createWebSocketConnection, path));
-        expect(saga.next().value).toStrictEqual(call(createSocketChannel, undefined));
+        it('handles errors', () => {
 
-        expect(saga.next().value).toStrictEqual(take());
+            // Arrange
+            const getAccountAction: AccountAction = getAccount("awesome")
+            const socket = createWebSocketConnection("path")
+            const socketChannel = createSocketChannel(socket)
 
-        const actionError: AccountAction = {
-            type: ActionTypes.GET_ACCOUNT_DETAIL_ERROR,
-            state: {
-                loading: false,
-                error: true,
-            }
-        }
-        expect(saga.next().value).toStrictEqual(put(actionError));
-        expect(saga.next().done).toEqual(true);
+            const actionError: AccountAction = {
+                type: ActionTypes.GET_ACCOUNT_DETAIL_ERROR,
+                state: {
+                    loading: false,
+                    error: true,
+                },
+            };
 
-    });
-
-});
+            // Act / Assert
+            return expectSaga(getAccountDetailSaga, getAccountAction)
+                // Double yield call
+                .provide([
+                    [call(createWebSocketConnection, "path"), socket],
+                    [matchers.call.fn(createSocketChannel), socketChannel],
+                ])
+                .take(socketChannel)
+                .put(actionError)
+                .dispatch(getAccountAction)
+                .run(false);
+        });
+    }
+)
