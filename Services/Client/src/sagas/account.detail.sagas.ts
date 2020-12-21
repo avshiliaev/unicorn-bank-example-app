@@ -5,7 +5,7 @@ import createWebSocketConnection from '../web.socket';
 import {AccountsStreamResponse} from '../interfaces/stream.interface';
 import {createSocketChannel} from './api';
 
-function* getAccountDetailSaga(action) {
+export function* getAccountDetailSaga(action) {
 
     const {params} = action;
     const path = `/profiles?account=${params}`;
