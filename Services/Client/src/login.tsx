@@ -2,12 +2,11 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Button, Col, Layout, Row} from 'antd';
 import FlexContainer from './components/layout/flex.container';
-import {logInAction} from './reducers/auth.reducer';
 import {useAuth0} from "@auth0/auth0-react";
 
 const {Content} = Layout;
 
-const Login = (props) => {
+const Login = ({windowSize, ...rest}) => {
 
     const {
         user,
@@ -20,8 +19,6 @@ const Login = (props) => {
         logout({
             returnTo: window.location.origin,
         });
-
-    const {windowSize, logInAction} = props;
 
     return (
         <Layout style={{minHeight: '100vh'}}>
@@ -63,10 +60,7 @@ const mapStateToProps = (state) => {
         windowSize: state.windowSize.greaterThan,
     };
 };
-
-const mapDispatchToProps = {
-    logInAction,
-};
+const mapDispatchToProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
 
