@@ -1,22 +1,27 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Button, Checkbox, Col, Form, Input, Layout, Row} from 'antd';
+import {Button, Col, Layout, Row} from 'antd';
 import FlexContainer from './components/layout/flex.container';
 import {logInAction} from './reducers/auth.reducer';
+import {useAuth0} from "@auth0/auth0-react";
 
 const {Content} = Layout;
 
 const Login = (props) => {
 
+    const {
+        user,
+        isAuthenticated,
+        loginWithRedirect,
+        logout,
+    } = useAuth0();
+
+    const logoutWithRedirect = () =>
+        logout({
+            returnTo: window.location.origin,
+        });
+
     const {windowSize, logInAction} = props;
-
-    const onFinish = async (values) => {
-        logInAction(values.username);
-    };
-
-    const onFinishFailed = errorInfo => {
-        console.log('Failed:', errorInfo);
-    };
 
     return (
         <Layout style={{minHeight: '100vh'}}>
@@ -30,30 +35,20 @@ const Login = (props) => {
                     <Col xs={24} sm={24} md={18} lg={8} xl={6} xxl={6}>
                         <div style={{background: '#fff', padding: 24}}>
                             <FlexContainer justify={'center'} align={'center'}>
-                                <Form
-                                    name="basic"
-                                    initialValues={{remember: true}}
-                                    onFinish={onFinish}
-                                    onFinishFailed={onFinishFailed}
+                                {!isAuthenticated &&
+                                <Button type="primary"
+                                        onClick={() => loginWithRedirect()}
                                 >
-                                    <Form.Item
-                                        label="Username"
-                                        name="username"
-                                        rules={[{required: true, message: 'Please input your username!'}]}
-                                    >
-                                        <Input/>
-                                    </Form.Item>
-
-                                    <Form.Item name="remember" valuePropName="checked">
-                                        <Checkbox>Remember me</Checkbox>
-                                    </Form.Item>
-
-                                    <Form.Item>
-                                        <Button type="primary" htmlType="submit">
-                                            Submit
-                                        </Button>
-                                    </Form.Item>
-                                </Form>
+                                    Log In
+                                </Button>
+                                }
+                                {isAuthenticated &&
+                                <Button type="primary"
+                                        onClick={() => logoutWithRedirect()}
+                                >
+                                    Log Out
+                                </Button>
+                                }
                             </FlexContainer>
                         </div>
                     </Col>

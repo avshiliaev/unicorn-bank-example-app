@@ -3,3 +3,4 @@
 *bin*
 *.DS_Store*
 *node_modules*
+Services/Client/src/auth_config.json
