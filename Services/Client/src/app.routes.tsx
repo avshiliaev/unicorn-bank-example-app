@@ -1,4 +1,4 @@
-import {Router} from '@reach/router';
+import {Redirect, Router} from '@reach/router';
 import React from 'react';
 import DashboardPage from './pages/dashboard/dashboard.page';
 import ProjectPage from './pages/account/account.page';
@@ -13,8 +13,9 @@ const AppRoutes = () => {
 
     return (
         <Router>
+            <Redirect noThrow from="/" to="dashboard/home" />
             <DashboardPage path="dashboard">
-                <DashboardOverviewRoute path="home"/>
+                <DashboardOverviewRoute default path="home"/>
                 <DashboardDiscoverRoute path="discover"/>
                 <DashboardNewRoute path="new"/>
             </DashboardPage>

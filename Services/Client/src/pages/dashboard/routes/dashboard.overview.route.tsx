@@ -17,6 +17,7 @@ interface DashboardOverviewProps {
     notifications: NotificationsReducerState,
     updateViewSettingsAction: any,
     path: any
+    default: any
 }
 
 const DashboardOverviewRoute = (
