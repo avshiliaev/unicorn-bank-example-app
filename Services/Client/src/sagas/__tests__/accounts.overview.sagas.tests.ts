@@ -1,54 +1,61 @@
 import {call} from 'redux-saga/effects';
 import {expectSaga} from 'redux-saga-test-plan';
 import * as matchers from 'redux-saga-test-plan/matchers';
-import {getAccountDetailSaga} from "../account.detail.sagas";
-import {getAccount} from "../../reducers/account.reducer";
-import {AccountAction, AccountInterface} from "../../interfaces/account.interface";
 import createWebSocketConnection from "../../web.socket";
 import {ActionTypes} from "../../constants";
 import {createSocketChannel} from "../channels";
+import {AccountInterface, AccountsOverviewAction} from "../../interfaces/account.interface";
+import {initAccounts} from "../../reducers/accounts.overview.reducer";
+import {getAccountsSaga} from "../accounts.overview.sagas";
 
-// TODO: based on the example https://github.com/jfairbank/redux-saga-test-plan#mocking-with-providers
-describe('getAccountDetailSaga', () => {
-        it('Gets an account via Websocket', () => {
+describe('getAccountsSaga', () => {
+        it('Gets accounts overview via Websocket', () => {
 
             // Arrange
-            const getAccountAction: AccountAction = getAccount("awesome")
+            const queryAccountsAction: AccountsOverviewAction = initAccounts(
+                "awesome"
+            )
             const socket = createWebSocketConnection("path")
             const socketChannel = createSocketChannel(socket)
 
-            const mockAccount: AccountInterface = {balance: 0, profile: "awesome", status: "approved"}
-            const actionSuccess: AccountAction = {
-                type: ActionTypes.GET_ACCOUNT_DETAIL_SUCCESS,
+            const mockAccountsOverview: AccountInterface = {
+                balance: 0,
+                profile: "profile",
+                status: "status"
+            }
+            const initAccountsSuccess: AccountsOverviewAction = {
+                type: ActionTypes.QUERY_ACCOUNTS_INIT,
                 state: {
                     loading: false,
                     error: false,
-                    data: mockAccount,
+                    data: [mockAccountsOverview],
                 },
             };
 
             // Act / Assert
-            return expectSaga(getAccountDetailSaga, getAccountAction)
+            return expectSaga(getAccountsSaga, queryAccountsAction)
                 // Double yield call
                 .provide([
                     [call(createWebSocketConnection, "path"), socket],
                     [matchers.call.fn(createSocketChannel), socketChannel],
                 ])
                 .take(socketChannel)
-                .put(actionSuccess)
-                .dispatch(getAccountAction)
+                .put(initAccountsSuccess)
+                .dispatch(queryAccountsAction)
                 .run(false);
         });
 
         it('handles errors', () => {
 
             // Arrange
-            const getAccountAction: AccountAction = getAccount("awesome")
+            const queryAccountsAction: AccountsOverviewAction = initAccounts(
+                "awesome"
+            )
             const socket = createWebSocketConnection("path")
             const socketChannel = createSocketChannel(socket)
 
-            const actionError: AccountAction = {
-                type: ActionTypes.GET_ACCOUNT_DETAIL_ERROR,
+            const initAccountsError: AccountsOverviewAction = {
+                type: ActionTypes.QUERY_ACCOUNTS_ERROR,
                 state: {
                     loading: false,
                     error: true,
@@ -56,15 +63,15 @@ describe('getAccountDetailSaga', () => {
             };
 
             // Act / Assert
-            return expectSaga(getAccountDetailSaga, getAccountAction)
+            return expectSaga(getAccountsSaga, queryAccountsAction)
                 // Double yield call
                 .provide([
                     [call(createWebSocketConnection, "path"), socket],
                     [matchers.call.fn(createSocketChannel), socketChannel],
                 ])
                 .take(socketChannel)
-                .put(actionError)
-                .dispatch(getAccountAction)
+                .put(initAccountsError)
+                .dispatch(queryAccountsAction)
                 .run(false);
         });
     }

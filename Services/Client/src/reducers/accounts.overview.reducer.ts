@@ -42,7 +42,7 @@ const accountsOverviewReducer = (
     switch (action.type) {
 
         case ActionTypes.QUERY_ACCOUNTS:
-            return {...state};
+            return {...state, ...action.state};
 
         case ActionTypes.QUERY_ACCOUNTS_INIT:
             // TODO the array gets overwritten!
@@ -65,7 +65,7 @@ const accountsOverviewReducer = (
                 return {...state, data};
             }
         case ActionTypes.QUERY_ACCOUNTS_ERROR:
-            return {...state};
+            return {...state, ...action.state};
 
         case ActionTypes.ADD_ACCOUNT:
             return {...state, data: [...state.data, ...action.state.data]};

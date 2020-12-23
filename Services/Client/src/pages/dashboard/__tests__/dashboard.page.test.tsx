@@ -4,11 +4,32 @@ import configureStore from 'redux-mock-store';
 import {cleanup} from '../../../../test-utils';
 import DashboardPage from '../dashboard.page';
 import {mount} from 'enzyme';
+import {AuthState} from "@auth0/auth0-react/dist/auth-state";
 
 
 jest.mock('react', () => ({
     ...jest.requireActual('react'),
     useEffect: (f) => console.debug('USE_EFFECT'),
+}));
+jest.mock('@auth0/auth0-react', () => ({
+    ...jest.requireActual('@auth0/auth0-react'),
+    useAuth0: (f) => {
+        const authState: AuthState = {
+            isAuthenticated: true,
+            isLoading: false,
+            user: {
+                email: "email",
+                email_verified: true,
+                name: "name",
+                nickname: "nickname",
+                picture: "picture",
+                sub: "sub",
+                updated_at: "updated_at"
+            }
+        }
+
+        return authState;
+    },
 }));
 
 describe('DashboardPage ', () => {
@@ -27,7 +48,6 @@ describe('DashboardPage ', () => {
                     extraLarge: false,
                 },
             },
-            auth: {isLoggedIn: true, userId: '1', userName: 'testUser'},
             router: {
                 location: {pathname: '/dashboard/home'},
             },

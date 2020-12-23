@@ -10,7 +10,7 @@ interface StreamResponse {
     payload: NotificationInterface[]
 }
 
-function* getNotificationsSaga(action) {
+export function* getNotificationsSaga(action) {
 
     const {params} = action;
     const path = "/notifications";

@@ -28,7 +28,7 @@ const notificationsReducer = (
     switch (action.type) {
 
         case ActionTypes.QUERY_NOTIFICATIONS:
-            return {...state};
+            return {...state, ...action.state};
 
         case ActionTypes.QUERY_NOTIFICATIONS_INIT:
             // TODO the array gets overwritten!
