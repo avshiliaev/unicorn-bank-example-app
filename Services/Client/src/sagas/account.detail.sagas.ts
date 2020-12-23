@@ -3,7 +3,7 @@ import {ActionTypes} from '../constants';
 import {AccountAction} from '../interfaces/account.interface';
 import createWebSocketConnection from '../web.socket';
 import {AccountsStreamResponse} from '../interfaces/stream.interface';
-import {createSocketChannel} from './api';
+import {createSocketChannel} from './channels';
 
 export function* getAccountDetailSaga(action) {
 

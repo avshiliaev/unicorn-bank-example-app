@@ -2,7 +2,7 @@ import {call, put, take, takeLatest} from 'redux-saga/effects';
 import {ActionTypes} from '../constants';
 import {AccountInterface, AccountsOverviewAction} from '../interfaces/account.interface';
 import createWebSocketConnection from '../web.socket';
-import {createSocketChannel} from './api';
+import {createSocketChannel} from './channels';
 
 interface StreamResponse {
     type: string,

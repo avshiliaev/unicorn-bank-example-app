@@ -51,7 +51,7 @@ const notificationsReducer = (
                 return {...state, data};
             }
         case ActionTypes.QUERY_NOTIFICATIONS_ERROR:
-            return {...state};
+            return {...state, ...action.state};
 
         case ActionTypes.ADD_ACCOUNT:
             return {...state, data: [...state.data, ...action.state.data]};
