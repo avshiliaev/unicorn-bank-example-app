@@ -7,7 +7,6 @@ import AppLogo from '../../components/logo.icon';
 import HeaderMenu from '../../components/header.menu';
 import ProfileIcon from '../../components/profile.icon';
 import UserSiderMenu from '../../components/user.sider.menu';
-import {getUser} from '../../reducers/user.reducer';
 import BasicDrawer from '../../components/layout/drawer.basic';
 import FooterMobile from '../../components/layout/footer.mobile';
 import {useAuth0} from "@auth0/auth0-react";
@@ -16,7 +15,6 @@ const {Content} = Layout;
 
 const UserPage = ({windowSize, getUser, children, location, id, ...rest}) => {
 
-    // getUser(id);
     const {user} = useAuth0();
 
     return (
@@ -50,7 +48,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-    getUser,
+
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserPage);

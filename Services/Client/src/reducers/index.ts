@@ -1,7 +1,6 @@
 import {combineReducers} from 'redux';
 import accountsOverviewReducer from './accounts.overview.reducer';
 import accountReducer from './account.reducer';
-import userReducer from './user.reducer';
 import {createResponsiveStateReducer} from 'redux-responsive';
 import {createReduxHistoryContext} from 'redux-first-history';
 import {createBrowserHistory} from 'history';
@@ -25,7 +24,6 @@ const rootReducer = combineReducers({
     notifications: notificationsReducer,
     accountsOverview: accountsOverviewReducer,
     account: accountReducer,
-    user: userReducer,
     router: routerReducer,
     windowSize: createResponsiveStateReducer(breakPoints),
 });
