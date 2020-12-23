@@ -10,12 +10,14 @@ import UserSiderMenu from '../../components/user.sider.menu';
 import {getUser} from '../../reducers/user.reducer';
 import BasicDrawer from '../../components/layout/drawer.basic';
 import FooterMobile from '../../components/layout/footer.mobile';
+import {useAuth0} from "@auth0/auth0-react";
 
 const {Content} = Layout;
 
-const UserPage = ({windowSize, auth, getUser, children, location, id, ...rest}) => {
+const UserPage = ({windowSize, getUser, children, location, id, ...rest}) => {
 
     // getUser(id);
+    const {user} = useAuth0();
 
     return (
         <Layout style={{minHeight: '100vh'}}>
@@ -25,14 +27,14 @@ const UserPage = ({windowSize, auth, getUser, children, location, id, ...rest}) 
                 slotMiddle={
                     <HeaderMenu windowSize={windowSize} location={location}/>
                 }
-                slotRight={<ProfileIcon id={auth.userId} size={30}/>}
+                slotRight={<ProfileIcon id={user.sub} size={30}/>}
             />
             <Layout>
                 {windowSize.large ? <SiderBasic><UserSiderMenu/></SiderBasic> : <div/>}
                 <Content style={{padding: windowSize.large ? 16 : 0}}>
                     {children}
                 </Content>
-                {!windowSize.large && <FooterMobile auth={auth} location={location}/>}
+                {!windowSize.large && <FooterMobile auth={user} location={location}/>}
             </Layout>
         </Layout>
     );

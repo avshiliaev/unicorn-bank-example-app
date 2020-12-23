@@ -1,7 +1,6 @@
 import React, {Fragment} from 'react';
 import {connect} from 'react-redux';
 import {Button} from 'antd';
-import {logOutAction} from '../../../reducers/auth.reducer';
 import FlexGridUser from '../../../components/layout/flex.grid.user';
 import BreadCrumbBasic from '../../../components/layout/breadcrumb.basic';
 import {UserInterface} from '../../../interfaces/user.interface';
@@ -71,7 +70,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-    logOutAction,
+
 };
 
 export default connect(

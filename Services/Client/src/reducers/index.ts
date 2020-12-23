@@ -1,5 +1,4 @@
 import {combineReducers} from 'redux';
-import authReducer from './auth.reducer';
 import accountsOverviewReducer from './accounts.overview.reducer';
 import accountReducer from './account.reducer';
 import userReducer from './user.reducer';
@@ -22,7 +21,6 @@ const breakPoints = {
 };
 
 const rootReducer = combineReducers({
-    auth: authReducer,
     viewSettings: viewSettingsReducer,
     notifications: notificationsReducer,
     accountsOverview: accountsOverviewReducer,

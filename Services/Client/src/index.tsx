@@ -10,7 +10,6 @@ import {createBrowserHistory} from "history";
 import configureStore from "./store";
 import {Auth0Provider} from "@auth0/auth0-react";
 import config from "./auth_config.json";
-import {logInAction} from "./reducers/auth.reducer";
 
 
 const {createReduxHistory, routerMiddleware} = createReduxHistoryContext({
@@ -29,9 +28,6 @@ ReactDOM.render(
                 clientId={config.clientId}
                 audience={config.audience}
                 redirectUri={window.location.origin}
-                onRedirectCallback={
-                    (appState) => store.dispatch(logInAction("wonder"))
-                }
             >
                 <App/>
             </Auth0Provider>

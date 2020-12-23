@@ -8,14 +8,13 @@ import ProfileIcon from '../../components/profile.icon';
 import {initAccounts} from '../../reducers/accounts.overview.reducer';
 import HeaderMenu from '../../components/header.menu';
 import {initNotifications} from '../../reducers/notifications.reducer';
-import {AuthReducerState} from '../../interfaces/auth.interface';
 import {ViewSettingsState} from '../../interfaces/view.settings.interface';
+import {useAuth0} from "@auth0/auth0-react";
 
 const {Content} = Layout;
 
 interface DashboardPageProps {
     windowSize: any
-    auth: AuthReducerState
     viewSettings: ViewSettingsState
     initAccounts: any
     initNotifications: any
@@ -25,12 +24,14 @@ interface DashboardPageProps {
 }
 
 const DashboardPage = (
-    {windowSize, auth, viewSettings, initAccounts, initNotifications, children, location, ...rest}: DashboardPageProps
+    {windowSize, viewSettings, initAccounts, initNotifications, children, location, ...rest}: DashboardPageProps
 ) => {
 
+    const {user} = useAuth0();
+
     useEffect(() => {
-        initAccounts(auth.userId);
-        initNotifications(auth.userId, viewSettings.notificationsCount);
+        initAccounts(user.sub);
+        initNotifications(user.sub, viewSettings.notificationsCount);
     }, []);
 
     return (
@@ -41,13 +42,13 @@ const DashboardPage = (
                 slotMiddle={
                     <HeaderMenu windowSize={windowSize} location={location}/>
                 }
-                slotRight={<ProfileIcon size={30} id={auth.userId}/>}
+                slotRight={<ProfileIcon size={30} id={user.sub}/>}
             />
             <Layout>
                 <Content style={{margin: windowSize.large ? 16 : 0}}>
                     {children}
                 </Content>
-                {!windowSize.large && <FooterMobile auth={auth} location={location}/>}
+                {!windowSize.large && <FooterMobile auth={user} location={location}/>}
             </Layout>
         </Layout>
     );
@@ -57,7 +58,6 @@ const mapStateToProps = (state) => {
     return {
         windowSize: state.windowSize.greaterThan,
         viewSettings: state.viewSettings,
-        auth: state.auth,
         location: state.router.location,
     };
 };

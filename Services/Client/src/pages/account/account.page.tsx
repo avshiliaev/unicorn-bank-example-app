@@ -10,10 +10,13 @@ import AccountSiderMenu from '../../components/account.sider.menu';
 import BasicDrawer from '../../components/layout/drawer.basic';
 import FooterMobile from '../../components/layout/footer.mobile';
 import HeaderMenu from '../../components/header.menu';
+import {useAuth0} from "@auth0/auth0-react";
 
 const {Content} = Layout;
 
-const AccountPage = ({windowSize, id, auth, children, getAccount, location, ...rest}) => {
+const AccountPage = ({windowSize, id, children, getAccount, location, ...rest}) => {
+
+    const {user} = useAuth0();
 
     useEffect(() => {
         getAccount(id);
@@ -27,14 +30,14 @@ const AccountPage = ({windowSize, id, auth, children, getAccount, location, ...r
                 slotMiddle={
                     <HeaderMenu windowSize={windowSize} location={location}/>
                 }
-                slotRight={<ProfileIcon id={auth.userId} size={30}/>}
+                slotRight={<ProfileIcon id={user.sub} size={30}/>}
             />
             <Layout>
                 {windowSize.large ? <SiderBasic><AccountSiderMenu/></SiderBasic> : <div/>}
                 <Content style={{padding: windowSize.large ? 16 : 0}}>
                     {children}
                 </Content>
-                {!windowSize.large && <FooterMobile auth={auth} location={location}/>}
+                {!windowSize.large && <FooterMobile auth={user} location={location}/>}
             </Layout>
         </Layout>
     );
@@ -43,7 +46,6 @@ const AccountPage = ({windowSize, id, auth, children, getAccount, location, ...r
 const mapStateToProps = (state) => {
     return {
         windowSize: state.windowSize.greaterThan,
-        auth: state.auth,
         location: state.router.location,
     };
 };

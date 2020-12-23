@@ -9,9 +9,9 @@ import ProfileStats from '../../../components/profile.stats';
 import {NotificationsReducerState} from '../../../interfaces/notification.interface';
 import {updateViewSettingsAction} from '../../../reducers/view.settings.reducer';
 import {ViewSettings} from '../../../interfaces/view.settings.interface';
+import {useAuth0} from "@auth0/auth0-react";
 
 interface DashboardOverviewProps {
-    auth: any,
     windowSize: any,
     accountsOverview: AccountsOverviewReducerState,
     notifications: NotificationsReducerState,
@@ -20,8 +20,10 @@ interface DashboardOverviewProps {
 }
 
 const DashboardOverviewRoute = (
-    {auth, windowSize, accountsOverview, notifications, updateViewSettingsAction, ...rest}: DashboardOverviewProps,
+    {windowSize, accountsOverview, notifications, updateViewSettingsAction, ...rest}: DashboardOverviewProps,
 ) => {
+
+    const {user} = useAuth0();
 
     const balance = accountsOverview.data.length ? accountsOverview.data
         .map(acc => acc.balance)
@@ -36,7 +38,7 @@ const DashboardOverviewRoute = (
         <Fragment>
             <FlexGridDashboard
                 windowSize={windowSize}
-                slotOne={<ProfileStats auth={auth} balance={balance} windowSize={windowSize}/>}
+                slotOne={<ProfileStats userId={user.sub} balance={balance} windowSize={windowSize}/>}
                 slotTwo={<AccountsActions/>}
                 slotThree={
                     <NotificationsList
@@ -60,7 +62,6 @@ const DashboardOverviewRoute = (
 const mapStateToProps = (state) => {
     return {
         windowSize: state.windowSize.greaterThan,
-        auth: state.auth,
         accountsOverview: state.accountsOverview,
         notifications: state.notifications,
     };
