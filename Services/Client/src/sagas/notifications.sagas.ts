@@ -3,7 +3,7 @@ import {ActionTypes} from '../constants';
 import createWebSocketConnection from '../web.socket';
 import {NotificationInterface, NotificationsAction} from '../interfaces/notification.interface';
 import {createSocketChannel} from './channels';
-import * as signalR from "@microsoft/signalr";
+import {HubConnection, IStreamResult} from "@microsoft/signalr";
 
 interface StreamResponse {
     type: string,
@@ -15,7 +15,7 @@ export function* getNotificationsSaga(action) {
     const {params} = action;
     const path = "/notifications";
 
-    let socket: signalR.HubConnection;
+    let socket: HubConnection;
 
     try {
 
@@ -24,8 +24,8 @@ export function* getNotificationsSaga(action) {
 
         // TODO: https://github.com/redux-saga/redux-saga/issues/1903
         // TODO: https://stackoverflow.com/questions/60422030/redux-saga-dispatch-return-so-many-requests
-        yield apply(socket, signalR.HubConnection.prototype.start, []);
-        yield apply(socket, signalR.HubConnection.prototype.invoke, ['Request', params.userId]);
+        yield apply(socket, HubConnection.prototype.start, []);
+        yield apply(socket, HubConnection.prototype.invoke, ['Request', params.userId]);
 
         while (true) {
             const action: StreamResponse = yield take(socketChannel);
@@ -54,7 +54,7 @@ export function* getNotificationsSaga(action) {
         };
         yield put(actionError);
     } finally {
-        yield apply(socket, signalR.HubConnection.prototype.stop, []);
+        yield apply(socket, HubConnection.prototype.stop, []);
     }
 }
 

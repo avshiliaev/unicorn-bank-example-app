@@ -7,8 +7,11 @@ import {createSocketChannel} from "../channels";
 import {initNotifications} from "../../reducers/notifications.reducer";
 import {NotificationInterface, NotificationsAction} from "../../interfaces/notification.interface";
 import {getNotificationsSaga} from "../notifications.sagas";
+import {createMockSocket} from "./__mocks__/socket.mock";
+import {HubConnection} from "@microsoft/signalr";
 
 describe('getNotificationsSaga', () => {
+
         it('Gets notifications via Websocket', () => {
 
             // Arrange
@@ -56,8 +59,9 @@ describe('getNotificationsSaga', () => {
                 "awesome",
                 5
             )
-            const socket = createWebSocketConnection("path")
-            const socketChannel = createSocketChannel(socket)
+
+            const mockSocket = createMockSocket();
+            const socketChannel = createSocketChannel(mockSocket)
 
             const initNotificationError: NotificationsAction = {
                 type: ActionTypes.QUERY_NOTIFICATIONS_ERROR,
@@ -71,9 +75,13 @@ describe('getNotificationsSaga', () => {
             return expectSaga(getNotificationsSaga, queryNotificationsAction)
                 // Double yield call
                 .provide([
-                    [call(createWebSocketConnection, "path"), socket],
+                    [call(createWebSocketConnection, "/notifications"), mockSocket],
                     [matchers.call.fn(createSocketChannel), socketChannel],
+                    [matchers.apply(mockSocket, HubConnection.prototype.start, []), {}],
+                    [matchers.apply(mockSocket, HubConnection.prototype.invoke, ['Request', "awesome"]), {}],
                 ])
+                // .apply(mockSocket, HubConnection.prototype.start, [])
+                // .apply(mockSocket, HubConnection.prototype.invoke, ['Request', "awesome"])
                 .take(socketChannel)
                 .put(initNotificationError)
                 .dispatch(queryNotificationsAction)
