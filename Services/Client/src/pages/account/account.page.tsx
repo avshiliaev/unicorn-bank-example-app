@@ -30,7 +30,7 @@ const AccountPage = ({windowSize, id, children, getAccount, location, ...rest}) 
                 slotMiddle={
                     <HeaderMenu windowSize={windowSize} location={location}/>
                 }
-                slotRight={<ProfileIcon id={user.sub} size={30}/>}
+                slotRight={<ProfileIcon id={user.sub} size={30} image={user.picture}/>}
             />
             <Layout>
                 {windowSize.large ? <SiderBasic><AccountSiderMenu/></SiderBasic> : <div/>}

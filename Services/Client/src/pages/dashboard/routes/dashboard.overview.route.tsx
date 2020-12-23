@@ -38,7 +38,7 @@ const DashboardOverviewRoute = (
         <Fragment>
             <FlexGridDashboard
                 windowSize={windowSize}
-                slotOne={<ProfileStats userId={user.sub} balance={balance} windowSize={windowSize}/>}
+                slotOne={<ProfileStats user={user} balance={balance} windowSize={windowSize}/>}
                 slotTwo={<AccountsActions/>}
                 slotThree={
                     <NotificationsList

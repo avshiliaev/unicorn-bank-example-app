@@ -3,13 +3,13 @@ import {Avatar} from 'antd';
 import {UserOutlined} from '@ant-design/icons';
 import {Link} from '@reach/router';
 
-const ProfileIcon = ({size, id}) => {
+const ProfileIcon = ({size, id, image}) => {
 
     const link = `/user/${id}/home`;
 
     return (
         <Link to={link}>
-            <Avatar size={size} icon={<UserOutlined/>}/>
+            <Avatar size={size} icon={<UserOutlined/>} src={image}/>
         </Link>
     );
 };

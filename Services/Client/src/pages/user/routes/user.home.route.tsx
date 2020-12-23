@@ -1,77 +1,62 @@
 import React, {Fragment} from 'react';
 import {connect} from 'react-redux';
-import {Button} from 'antd';
+import {Button, Descriptions} from 'antd';
 import FlexGridUser from '../../../components/layout/flex.grid.user';
 import BreadCrumbBasic from '../../../components/layout/breadcrumb.basic';
-import {UserInterface} from '../../../interfaces/user.interface';
 import DemoPlaceHolder from "../../../components/demo.placeholder";
+import {useAuth0} from "@auth0/auth0-react";
+import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 
-const LogOutButton = ({logOutAction}) => {
-    return (
-        <Button onClick={() => logOutAction()}>Log Out</Button>
-    );
-};
 
-const MyProfile = ({windowSize, theUser, logOutAction, location}) => {
+const UserHomeRoute = ({windowSize, location, ...rest}) => {
+
+    const LogOutButton = ({logOutAction}) => {
+        return (
+            <Button onClick={() => logOutAction()}>Log Out</Button>
+        );
+    };
+
+    const {user, logout} = useAuth0();
+
+    const logoutWithRedirect = () =>
+        logout({
+            returnTo: window.location.origin,
+        });
 
     return (
         <Fragment>
             <FlexGridUser
                 windowSize={windowSize}
                 breadCrumbs={<BreadCrumbBasic location={location}/>}
-                slotOne={<div>
-                    <LogOutButton logOutAction={logOutAction}/>
-                </div>}
+                slotOne={
+                    <div>
+                        <Descriptions title="User Info" layout="horizontal">
+                            <Descriptions.Item label="UserName">{user.nickname}</Descriptions.Item>
+                            <Descriptions.Item label="Telephone">1810000000</Descriptions.Item>
+                            <Descriptions.Item label="Email">{user.email}</Descriptions.Item>
+                            <Descriptions.Item label="Verified">
+                                {user.email_verified ? <CheckCircleOutlined /> : <CloseCircleOutlined />}
+                            </Descriptions.Item>
+                            <Descriptions.Item label="Actions">
+                                <LogOutButton logOutAction={logoutWithRedirect}/>
+                            </Descriptions.Item>
+                        </Descriptions>
+                    </div>
+                }
                 slotTwo={<DemoPlaceHolder/>}
             />
         </Fragment>
     );
 };
 
-const OtherProfile = ({windowSize, theUser, location}) => {
-
-    return (
-        <Fragment>
-            <FlexGridUser
-                windowSize={windowSize}
-                breadCrumbs={<BreadCrumbBasic location={location}/>}
-                slotOne={<div>This is NOT me</div>}
-                slotTwo={<div>{theUser.username}</div>}
-            />
-        </Fragment>
-    );
-};
-
-const UserHomeRoute = ({windowSize, logOutAction, location, auth, user, ...rest}) => {
-
-    const theUser: UserInterface = user;
-
-    return theUser.id !== undefined
-        ? (
-            theUser.id === auth.userId
-                ? <MyProfile
-                    location={location}
-                    windowSize={windowSize}
-                    theUser={theUser}
-                    logOutAction={logOutAction}
-                />
-                : <OtherProfile windowSize={windowSize} theUser={theUser} location={location}/>
-        )
-        : <div/>;
-};
-
 const mapStateToProps = (state) => {
     return {
         windowSize: state.windowSize.greaterThan,
-        auth: state.auth,
-        user: state.user,
         location: state.router.location,
     };
 };
 
-const mapDispatchToProps = {
-
-};
+const mapDispatchToProps = {};
 
 export default connect(
     mapStateToProps,

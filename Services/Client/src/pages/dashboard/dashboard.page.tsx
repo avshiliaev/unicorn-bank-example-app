@@ -42,7 +42,7 @@ const DashboardPage = (
                 slotMiddle={
                     <HeaderMenu windowSize={windowSize} location={location}/>
                 }
-                slotRight={<ProfileIcon size={30} id={user.sub}/>}
+                slotRight={<ProfileIcon size={30} id={user.sub} image={user.picture}/>}
             />
             <Layout>
                 <Content style={{margin: windowSize.large ? 16 : 0}}>
