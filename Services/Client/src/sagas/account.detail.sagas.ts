@@ -1,20 +1,19 @@
 import {call, put, take, takeLatest} from 'redux-saga/effects';
 import {ActionTypes} from '../constants';
 import {AccountAction} from '../interfaces/account.interface';
-import createWebSocketConnection from '../web.socket';
 import {AccountsStreamResponse} from '../interfaces/stream.interface';
 import {createSocketChannel} from './channels';
 
 export function* getAccountDetailSaga(action) {
 
     const {params} = action;
-    const path = `/profiles?account=${params}`;
-
-    const socket = yield call(createWebSocketConnection, path);
-    const socketChannel = yield call(createSocketChannel, socket);
+    const path = `/accounts?id=${params.accountId}`;
 
     // TODO move all function defining actions to ONE place!
     try {
+
+        const socketChannel = yield call(createSocketChannel, path, "Request");
+
         while (true) {
             const action: AccountsStreamResponse = yield take(socketChannel);
             const data = action.payload;

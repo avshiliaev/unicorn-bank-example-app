@@ -16,6 +16,8 @@ module.exports = {
     '<rootDir>/src/setupTests.js',
   ],
 
+  verbose: true,
+
   // Test spec file resolution pattern
   // Matches parent folder `__tests__` and filename
   // should contain `test` or `spec`.

@@ -1,91 +1,35 @@
-import {call} from 'redux-saga/effects';
-import {expectSaga} from 'redux-saga-test-plan';
-import * as matchers from 'redux-saga-test-plan/matchers';
-import createWebSocketConnection from "../../web.socket";
+import {testSaga} from 'redux-saga-test-plan';
 import {ActionTypes} from "../../constants";
 import {createSocketChannel} from "../channels";
 import {initNotifications} from "../../reducers/notifications.reducer";
-import {NotificationInterface, NotificationsAction} from "../../interfaces/notification.interface";
-import {getNotificationsSaga} from "../notifications.sagas";
-import {createMockSocket} from "./__mocks__/socket.mock";
-import {HubConnection} from "@microsoft/signalr";
+import {NotificationsAction} from "../../interfaces/notification.interface";
+import {getNotificationsSaga, StreamResponse} from "../notifications.sagas";
+
+jest.mock('../channels', () => require('../__mocks__/channels'));
 
 describe('getNotificationsSaga', () => {
 
-        it('Gets notifications via Websocket', () => {
+        it('puts error effect', () => {
 
-            // Arrange
-            const queryNotificationsAction: NotificationsAction = initNotifications(
-                "awesome",
-                5
-            )
-            const socket = createWebSocketConnection("path")
-            const socketChannel = createSocketChannel(socket)
-
-            const mockNotifications: NotificationInterface = {
-                description: "description",
-                profile: "awesome",
-                status: "status",
-                time: "time",
-                title: "title",
-                uuid: "uuid"
-            }
-            const initNotificationSuccess: NotificationsAction = {
-                type: ActionTypes.QUERY_NOTIFICATIONS_INIT,
-                state: {
-                    loading: false,
-                    error: false,
-                    data: [mockNotifications],
-                },
-            };
-
-            // Act / Assert
-            return expectSaga(getNotificationsSaga, queryNotificationsAction)
-                // Double yield call
-                .provide([
-                    [call(createWebSocketConnection, "path"), socket],
-                    [matchers.call.fn(createSocketChannel), socketChannel],
-                ])
-                .take(socketChannel)
-                .put(initNotificationSuccess)
-                .dispatch(queryNotificationsAction)
-                .run(false);
-        });
-
-        it('handles errors', () => {
-
-            // Arrange
-            const queryNotificationsAction: NotificationsAction = initNotifications(
-                "awesome",
-                5
-            )
-
-            const mockSocket = createMockSocket();
-            const socketChannel = createSocketChannel(mockSocket)
-
-            const initNotificationError: NotificationsAction = {
+            const userId = "awesome";
+            const path = `/notifications`;
+            const queryNotificationsAction: NotificationsAction = initNotifications(userId, 5)
+            const actionError: NotificationsAction = {
                 type: ActionTypes.QUERY_NOTIFICATIONS_ERROR,
                 state: {
                     loading: false,
                     error: true,
+                    data: [],
                 },
             };
 
-            // Act / Assert
-            return expectSaga(getNotificationsSaga, queryNotificationsAction)
-                // Double yield call
-                .provide([
-                    [call(createWebSocketConnection, "/notifications"), mockSocket],
-                    [matchers.call.fn(createSocketChannel), socketChannel],
-                    [matchers.apply(mockSocket, HubConnection.prototype.start, []), {}],
-                    [matchers.apply(mockSocket, HubConnection.prototype.invoke, ['Request', "awesome"]), {}],
-                ])
-                // .apply(mockSocket, HubConnection.prototype.start, [])
-                // .apply(mockSocket, HubConnection.prototype.invoke, ['Request', "awesome"])
-                .take(socketChannel)
-                .put(initNotificationError)
-                .dispatch(queryNotificationsAction)
-                .run(false);
+            testSaga(getNotificationsSaga, queryNotificationsAction)
+                .next()
+                .call(createSocketChannel, path, "Request")
+                .next()
+                .put(actionError)
+                .next()
+                .isDone();
         });
     }
 )

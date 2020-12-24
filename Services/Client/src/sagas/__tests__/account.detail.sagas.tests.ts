@@ -1,52 +1,20 @@
-import {call} from 'redux-saga/effects';
-import {expectSaga} from 'redux-saga-test-plan';
-import * as matchers from 'redux-saga-test-plan/matchers';
-import {getAccountDetailSaga} from "../account.detail.sagas";
-import {getAccount} from "../../reducers/account.reducer";
-import {AccountAction, AccountInterface} from "../../interfaces/account.interface";
-import createWebSocketConnection from "../../web.socket";
+import {testSaga} from 'redux-saga-test-plan';
 import {ActionTypes} from "../../constants";
 import {createSocketChannel} from "../channels";
+import {AccountAction} from "../../interfaces/account.interface";
+import {getAccountsSaga} from "../accounts.overview.sagas";
+import {getAccount} from "../../reducers/account.reducer";
+import {getAccountDetailSaga} from "../account.detail.sagas";
 
-// TODO: based on the example https://github.com/jfairbank/redux-saga-test-plan#mocking-with-providers
-describe('getAccountDetailSaga', () => {
-        it('Gets an account via Websocket', () => {
+jest.mock('../channels', () => require('../__mocks__/channels'));
 
-            // Arrange
-            const getAccountAction: AccountAction = getAccount("awesome")
-            const socket = createWebSocketConnection("path")
-            const socketChannel = createSocketChannel(socket)
+describe('getAccountsSaga', () => {
 
-            const mockAccount: AccountInterface = {balance: 0, profile: "awesome", status: "approved"}
-            const actionSuccess: AccountAction = {
-                type: ActionTypes.GET_ACCOUNT_DETAIL_SUCCESS,
-                state: {
-                    loading: false,
-                    error: false,
-                    data: mockAccount,
-                },
-            };
+        it('puts error effect', () => {
 
-            // Act / Assert
-            return expectSaga(getAccountDetailSaga, getAccountAction)
-                // Double yield call
-                .provide([
-                    [call(createWebSocketConnection, "path"), socket],
-                    [matchers.call.fn(createSocketChannel), socketChannel],
-                ])
-                .take(socketChannel)
-                .put(actionSuccess)
-                .dispatch(getAccountAction)
-                .run(false);
-        });
-
-        it('handles errors', () => {
-
-            // Arrange
-            const getAccountAction: AccountAction = getAccount("awesome")
-            const socket = createWebSocketConnection("path")
-            const socketChannel = createSocketChannel(socket)
-
+            const accountId = "awesome";
+            const path = `/accounts?id=${accountId}`;
+            const getAccountAction: AccountAction = getAccount(accountId)
             const actionError: AccountAction = {
                 type: ActionTypes.GET_ACCOUNT_DETAIL_ERROR,
                 state: {
@@ -55,17 +23,13 @@ describe('getAccountDetailSaga', () => {
                 },
             };
 
-            // Act / Assert
-            return expectSaga(getAccountDetailSaga, getAccountAction)
-                // Double yield call
-                .provide([
-                    [call(createWebSocketConnection, "path"), socket],
-                    [matchers.call.fn(createSocketChannel), socketChannel],
-                ])
-                .take(socketChannel)
+            testSaga(getAccountDetailSaga, getAccountAction)
+                .next()
+                .call(createSocketChannel, path, "Request")
+                .next()
                 .put(actionError)
-                .dispatch(getAccountAction)
-                .run(false);
+                .next()
+                .isDone();
         });
     }
 )

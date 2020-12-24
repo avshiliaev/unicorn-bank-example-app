@@ -1,78 +1,35 @@
-import {call} from 'redux-saga/effects';
-import {expectSaga} from 'redux-saga-test-plan';
-import * as matchers from 'redux-saga-test-plan/matchers';
-import createWebSocketConnection from "../../web.socket";
+import {testSaga} from 'redux-saga-test-plan';
 import {ActionTypes} from "../../constants";
 import {createSocketChannel} from "../channels";
-import {AccountInterface, AccountsOverviewAction} from "../../interfaces/account.interface";
+import {AccountsOverviewAction} from "../../interfaces/account.interface";
 import {initAccounts} from "../../reducers/accounts.overview.reducer";
 import {getAccountsSaga} from "../accounts.overview.sagas";
 
+jest.mock('../channels', () => require('../__mocks__/channels'));
+
 describe('getAccountsSaga', () => {
-        it('Gets accounts overview via Websocket', () => {
 
-            // Arrange
-            const queryAccountsAction: AccountsOverviewAction = initAccounts(
-                "awesome"
-            )
-            const socket = createWebSocketConnection("path")
-            const socketChannel = createSocketChannel(socket)
+        it('puts error effect', () => {
 
-            const mockAccountsOverview: AccountInterface = {
-                balance: 0,
-                profile: "profile",
-                status: "status"
-            }
-            const initAccountsSuccess: AccountsOverviewAction = {
-                type: ActionTypes.QUERY_ACCOUNTS_INIT,
-                state: {
-                    loading: false,
-                    error: false,
-                    data: [mockAccountsOverview],
-                },
-            };
-
-            // Act / Assert
-            return expectSaga(getAccountsSaga, queryAccountsAction)
-                // Double yield call
-                .provide([
-                    [call(createWebSocketConnection, "path"), socket],
-                    [matchers.call.fn(createSocketChannel), socketChannel],
-                ])
-                .take(socketChannel)
-                .put(initAccountsSuccess)
-                .dispatch(queryAccountsAction)
-                .run(false);
-        });
-
-        it('handles errors', () => {
-
-            // Arrange
-            const queryAccountsAction: AccountsOverviewAction = initAccounts(
-                "awesome"
-            )
-            const socket = createWebSocketConnection("path")
-            const socketChannel = createSocketChannel(socket)
-
-            const initAccountsError: AccountsOverviewAction = {
+            const userId = "awesome";
+            const path = "/profiles";
+            const queryAccountsAction: AccountsOverviewAction = initAccounts(userId)
+            const actionError: AccountsOverviewAction = {
                 type: ActionTypes.QUERY_ACCOUNTS_ERROR,
                 state: {
                     loading: false,
                     error: true,
+                    data: [],
                 },
             };
 
-            // Act / Assert
-            return expectSaga(getAccountsSaga, queryAccountsAction)
-                // Double yield call
-                .provide([
-                    [call(createWebSocketConnection, "path"), socket],
-                    [matchers.call.fn(createSocketChannel), socketChannel],
-                ])
-                .take(socketChannel)
-                .put(initAccountsError)
-                .dispatch(queryAccountsAction)
-                .run(false);
+            testSaga(getAccountsSaga, queryAccountsAction)
+                .next()
+                .call(createSocketChannel, path, "Request")
+                .next()
+                .put(actionError)
+                .next()
+                .isDone();
         });
     }
 )

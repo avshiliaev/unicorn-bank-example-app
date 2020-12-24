@@ -4,7 +4,7 @@ import {ActionTypes} from '../constants';
 const initAccounts = (userId: string): AccountsOverviewAction => {
     return {
         type: ActionTypes.QUERY_ACCOUNTS,
-        params: userId,
+        params: {userId},
         state: {
             loading: true,
             error: false,

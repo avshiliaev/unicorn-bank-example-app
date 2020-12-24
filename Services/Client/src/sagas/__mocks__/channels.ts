@@ -1,17 +1,17 @@
 import {eventChannel} from 'redux-saga';
-import {HubConnection} from "@microsoft/signalr";
-import createWebSocketConnection from "../web.socket";
+
+const EventEmitter = require('events');
+
+class MyEmitter extends EventEmitter {
+}
 
 export interface GenericStreamObject {
     type: string,
     payload?: any[],
 }
 
-const createSocketChannel = async (path: string, method: string) => {
-
-    const socket: HubConnection = createWebSocketConnection(path)
-    await socket.start()
-    await socket.invoke(method, {})
+export const mockSocket = new MyEmitter();
+const createSocketChannel = async (path: string, method: string, id: string) => {
 
     return eventChannel(emit => {
 
@@ -23,12 +23,13 @@ const createSocketChannel = async (path: string, method: string) => {
             emit(action);
         };
 
-        socket.on("Response", messageHandler);
+        mockSocket.on("Response", messageHandler);
 
         return () => {
-            socket.off('Response', messageHandler);
+            mockSocket.off('Response', messageHandler);
         };
     });
 }
 
+// @ts-ignore
 export {createSocketChannel};

@@ -1,34 +1,25 @@
-import {apply, call, put, take, takeLatest} from 'redux-saga/effects';
+import {call, put, take, takeLatest} from 'redux-saga/effects';
 import {ActionTypes} from '../constants';
-import createWebSocketConnection from '../web.socket';
 import {NotificationInterface, NotificationsAction} from '../interfaces/notification.interface';
 import {createSocketChannel} from './channels';
-import {HubConnection, IStreamResult} from "@microsoft/signalr";
 
-interface StreamResponse {
+
+export interface StreamResponse {
     type: string,
     payload: NotificationInterface[]
 }
 
 export function* getNotificationsSaga(action) {
 
-    const {params} = action;
     const path = "/notifications";
-
-    let socket: HubConnection;
 
     try {
 
-        socket = yield call(createWebSocketConnection, path);
-        const socketChannel = yield call(createSocketChannel, socket);
-
-        // TODO: https://github.com/redux-saga/redux-saga/issues/1903
-        // TODO: https://stackoverflow.com/questions/60422030/redux-saga-dispatch-return-so-many-requests
-        yield apply(socket, HubConnection.prototype.start, []);
-        yield apply(socket, HubConnection.prototype.invoke, ['Request', params.userId]);
+        const socketChannel = yield call(createSocketChannel, path, "Request");
 
         while (true) {
             const action: StreamResponse = yield take(socketChannel);
+
             const data = action.payload;
             const type = action.type === 'init'
                 ? ActionTypes.QUERY_NOTIFICATIONS_INIT
@@ -53,8 +44,6 @@ export function* getNotificationsSaga(action) {
             },
         };
         yield put(actionError);
-    } finally {
-        yield apply(socket, HubConnection.prototype.stop, []);
     }
 }
 
