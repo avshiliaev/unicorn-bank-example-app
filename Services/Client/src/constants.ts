@@ -20,21 +20,8 @@ const ActionTypes = {
     // Create new account
     ADD_ACCOUNT: 'ADD_ACCOUNT',
 
-    // Log in
-    LOG_IN: 'LOG_IN',
-    LOG_IN_SUCCESS: 'LOG_IN_SUCCESS',
-    LOG_IN_ERROR: 'LOG_IN_ERROR',
-
-    // Log out
-    LOG_OUT: 'LOG_OUT',
-
     // User view settings
     UPDATE_VIEW_SETTINGS: "UPDATE_VIEW_SETTINGS",
-
-    // Get one user
-    GET_USER: 'GET_USER',
-    GET_USER_SUCCESS: 'GET_USER_SUCCESS',
-    GET_USER_ERROR: 'GET_USER_ERROR',
 
 };
 

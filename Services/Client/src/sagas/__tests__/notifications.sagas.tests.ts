@@ -1,9 +1,9 @@
 import {testSaga} from 'redux-saga-test-plan';
 import {ActionTypes} from "../../constants";
-import {createSocketChannel} from "../channels";
+import createSocketChannel from "../channels";
 import {initNotifications} from "../../reducers/notifications.reducer";
 import {NotificationsAction} from "../../interfaces/notification.interface";
-import {getNotificationsSaga, StreamResponse} from "../notifications.sagas";
+import {getNotificationsSaga} from "../notifications.sagas";
 
 jest.mock('../channels', () => require('../__mocks__/channels'));
 

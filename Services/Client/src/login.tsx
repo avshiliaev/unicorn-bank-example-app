@@ -8,17 +8,7 @@ const {Content} = Layout;
 
 const Login = ({windowSize, ...rest}) => {
 
-    const {
-        user,
-        isAuthenticated,
-        loginWithRedirect,
-        logout,
-    } = useAuth0();
-
-    const logoutWithRedirect = () =>
-        logout({
-            returnTo: window.location.origin,
-        });
+    const {isAuthenticated, loginWithRedirect,} = useAuth0();
 
     return (
         <Layout style={{minHeight: '100vh'}}>
@@ -33,17 +23,8 @@ const Login = ({windowSize, ...rest}) => {
                         <div style={{background: '#fff', padding: 24}}>
                             <FlexContainer justify={'center'} align={'center'}>
                                 {!isAuthenticated &&
-                                <Button type="primary"
-                                        onClick={() => loginWithRedirect()}
-                                >
+                                <Button type="primary" onClick={() => loginWithRedirect()}>
                                     Log In
-                                </Button>
-                                }
-                                {isAuthenticated &&
-                                <Button type="primary"
-                                        onClick={() => logoutWithRedirect()}
-                                >
-                                    Log Out
                                 </Button>
                                 }
                             </FlexContainer>

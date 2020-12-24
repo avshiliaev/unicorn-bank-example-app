@@ -6,12 +6,10 @@ const createWebSocketConnection = (path: string) => {
     const wsUrl = 'http://localhost:5000';
     const url = `${wsUrl}${path}?access_token=${token}`
 
-    // https://auth0.com/docs/quickstart/backend/python/02-using
     return new signalR.HubConnectionBuilder()
         .withUrl(
             url,
             {
-                // headers: {authorization: 'Bearer ' + token},
                 skipNegotiation: true,
                 transport: HttpTransportType.WebSockets,
             }

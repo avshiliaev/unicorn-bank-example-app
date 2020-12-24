@@ -1,6 +1,6 @@
 import {testSaga} from 'redux-saga-test-plan';
 import {ActionTypes} from "../../constants";
-import {createSocketChannel} from "../channels";
+import createSocketChannel from "../channels";
 import {AccountAction} from "../../interfaces/account.interface";
 import {getAccountsSaga} from "../accounts.overview.sagas";
 import {getAccount} from "../../reducers/account.reducer";

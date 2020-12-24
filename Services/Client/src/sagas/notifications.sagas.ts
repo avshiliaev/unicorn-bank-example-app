@@ -1,13 +1,9 @@
 import {call, put, take, takeLatest} from 'redux-saga/effects';
 import {ActionTypes} from '../constants';
-import {NotificationInterface, NotificationsAction} from '../interfaces/notification.interface';
-import {createSocketChannel} from './channels';
+import {NotificationsAction} from '../interfaces/notification.interface';
+import createSocketChannel from './channels';
+import {NotificationStreamResponse} from "../interfaces/stream.interface";
 
-
-export interface StreamResponse {
-    type: string,
-    payload: NotificationInterface[]
-}
 
 export function* getNotificationsSaga(action) {
 
@@ -18,7 +14,7 @@ export function* getNotificationsSaga(action) {
         const socketChannel = yield call(createSocketChannel, path, "Request");
 
         while (true) {
-            const action: StreamResponse = yield take(socketChannel);
+            const action: NotificationStreamResponse = yield take(socketChannel);
 
             const data = action.payload;
             const type = action.type === 'init'

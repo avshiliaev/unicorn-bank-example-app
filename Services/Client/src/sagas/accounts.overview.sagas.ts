@@ -1,24 +1,19 @@
 import {call, put, take, takeLatest} from 'redux-saga/effects';
 import {ActionTypes} from '../constants';
-import {AccountInterface, AccountsOverviewAction} from '../interfaces/account.interface';
-import {createSocketChannel} from './channels';
+import {AccountsOverviewAction} from '../interfaces/account.interface';
+import createSocketChannel from './channels';
+import {AccountDetailStreamResponse} from "../interfaces/stream.interface";
 
-interface StreamResponse {
-    type: string,
-    payload: AccountInterface[]
-}
 
 export function* getAccountsSaga(action) {
 
     const path = "/profiles";
 
     try {
-
         const socketChannel = yield call(createSocketChannel, path, "Request");
 
         while (true) {
-
-            const action: StreamResponse = yield take(socketChannel);
+            const action: AccountDetailStreamResponse = yield take(socketChannel);
             const data = action.payload;
             const type = action.type === 'init'
                 ? ActionTypes.QUERY_ACCOUNTS_INIT

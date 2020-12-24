@@ -2,7 +2,7 @@ import {call, put, take, takeLatest} from 'redux-saga/effects';
 import {ActionTypes} from '../constants';
 import {AccountAction} from '../interfaces/account.interface';
 import {AccountsStreamResponse} from '../interfaces/stream.interface';
-import {createSocketChannel} from './channels';
+import createSocketChannel from "./channels";
 
 export function* getAccountDetailSaga(action) {
 
@@ -11,9 +11,7 @@ export function* getAccountDetailSaga(action) {
 
     // TODO move all function defining actions to ONE place!
     try {
-
         const socketChannel = yield call(createSocketChannel, path, "Request");
-
         while (true) {
             const action: AccountsStreamResponse = yield take(socketChannel);
             const data = action.payload;

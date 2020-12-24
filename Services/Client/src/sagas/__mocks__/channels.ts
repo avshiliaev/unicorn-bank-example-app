@@ -1,17 +1,11 @@
 import {eventChannel} from 'redux-saga';
+import {GenericStreamObject} from "../../interfaces/stream.interface";
 
 const EventEmitter = require('events');
 
-class MyEmitter extends EventEmitter {
-}
 
-export interface GenericStreamObject {
-    type: string,
-    payload?: any[],
-}
-
-export const mockSocket = new MyEmitter();
-const createSocketChannel = async (path: string, method: string, id: string) => {
+export const socketMock = new EventEmitter();
+const createSocketChannelMock = async (path: string, method: string, id: string) => {
 
     return eventChannel(emit => {
 
@@ -23,13 +17,12 @@ const createSocketChannel = async (path: string, method: string, id: string) => 
             emit(action);
         };
 
-        mockSocket.on("Response", messageHandler);
+        socketMock.on("Response", messageHandler);
 
         return () => {
-            mockSocket.off('Response', messageHandler);
+            socketMock.off('Response', messageHandler);
         };
     });
 }
 
-// @ts-ignore
-export {createSocketChannel};
+export default createSocketChannelMock;

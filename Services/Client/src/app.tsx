@@ -14,9 +14,7 @@ const App = () => {
 };
 
 const mapStateToProps = (state) => {
-    return {
-
-    };
+    return {};
 };
 
 export default connect(mapStateToProps)(App);

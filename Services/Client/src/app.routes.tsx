@@ -13,7 +13,7 @@ const AppRoutes = () => {
 
     return (
         <Router>
-            <Redirect noThrow from="/" to="dashboard/home" />
+            <Redirect noThrow from="/" to="dashboard/home"/>
             <DashboardPage path="dashboard">
                 <DashboardOverviewRoute default path="home"/>
                 <DashboardDiscoverRoute path="discover"/>
