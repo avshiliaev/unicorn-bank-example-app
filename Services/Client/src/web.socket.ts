@@ -3,7 +3,7 @@ import {HttpTransportType} from "@microsoft/signalr";
 
 const createWebSocketConnection = (path: string, token: string) => {
 
-    const wsUrl = 'http://localhost:5000';
+    const wsUrl = process.env.REACT_APP_PATHS_CROSS_ORIGIN ?? "";
     const url = `${wsUrl}${path}?access_token=${token}`
 
     return new signalR.HubConnectionBuilder()

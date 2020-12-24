@@ -77,6 +77,7 @@ const accountsOverviewReducer = (
             // TODO the array gets overwritten!
             return {...state, ...action.state};
 
+        // TODO: clean up!
         case ActionTypes.QUERY_ACCOUNTS_UPDATE:
             const update = action.state.data[0];
 

@@ -9,7 +9,7 @@ import {initAccountsError, initAccountsSuccess} from "../reducers/accounts.overv
 export function* getAccountsSaga(action) {
 
     const {token} = action.params;
-    const path = "/profiles";
+    const path: string = process.env.REACT_APP_PATHS_PROFILES ?? "/";
 
     try {
         const socketChannel = yield call(createSocketChannel, path, token, "Request");

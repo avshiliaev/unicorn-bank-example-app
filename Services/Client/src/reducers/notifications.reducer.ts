@@ -66,6 +66,7 @@ const notificationsReducer = (
             // TODO the array gets overwritten!
             return {...state, ...action.state};
 
+        // TODO: clean up!
         case ActionTypes.QUERY_NOTIFICATIONS_UPDATE:
             const update = action.state.data[0];
 

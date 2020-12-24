@@ -9,7 +9,7 @@ import {initNotificationsError, initNotificationsSuccess} from "../reducers/noti
 export function* getNotificationsSaga(action) {
 
     const {token} = action.params;
-    const path = "/notifications";
+    const path: string = process.env.REACT_APP_PATHS_ACCOUNT_NOTIFICATIONS ?? "/";
 
     try {
 

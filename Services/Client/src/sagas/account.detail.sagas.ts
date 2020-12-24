@@ -8,7 +8,7 @@ import {getAccountError, getAccountSuccess} from "../reducers/account.reducer";
 export function* getAccountDetailSaga(action) {
 
     const {accountId, token} = action.params;
-    const path = `/accounts?id=${accountId}`;
+    const path: string = `${process.env.REACT_APP_PATHS_ACCOUNT_DETAILS?? "/"}?id=${accountId}`;
 
     try {
         const socketChannel = yield call(createSocketChannel, path, token, "Request");
