@@ -8,7 +8,7 @@ const createSocketChannel = async (path: string, token: string, method: string) 
 
     const socket: HubConnection = createClient(path, token)
     await socket.start()
-    await socket.invoke(method, {})
+    await socket.invoke(method)
 
     return eventChannel(emit => {
 

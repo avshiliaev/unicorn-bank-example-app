@@ -31,8 +31,9 @@ namespace Sdk.Tests.Extensions
 
             protected override Task<AuthenticateResult> HandleAuthenticateAsync()
             {
-                var claim = new Claim("permissions", "write:accounts");
-                var identity = new ClaimsIdentity(new[] {claim}, "Test");
+                var user = new Claim(ClaimTypes.NameIdentifier, "awesome");
+                var permissions = new Claim("permissions", "write:accounts");
+                var identity = new ClaimsIdentity(new[] {permissions, user}, "Test");
                 var principal = new ClaimsPrincipal(identity);
                 var ticket = new AuthenticationTicket(principal, "Test");
                 var result = AuthenticateResult.Success(ticket);

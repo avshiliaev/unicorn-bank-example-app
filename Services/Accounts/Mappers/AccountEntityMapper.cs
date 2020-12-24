@@ -12,7 +12,7 @@ namespace Accounts.Mappers
             return new T
             {
                 Balance = accountModel.Balance,
-                ProfileId = accountModel.ProfileId.ToString(),
+                ProfileId = accountModel.ProfileId,
                 Approved = accountModel.Approved,
                 Id = accountModel.Id.ToString(),
                 Version = accountModel.Version
@@ -25,7 +25,7 @@ namespace Accounts.Mappers
             return new T
             {
                 Balance = accountModel.Balance,
-                ProfileId = accountModel.ProfileId.ToString(),
+                ProfileId = accountModel.ProfileId,
                 Approved = accountModel.Approved,
                 Id = accountModel.Id.ToString(),
                 Version = accountModel.Version

@@ -25,20 +25,20 @@ namespace Accounts.Managers
             _publishEndpoint = publishEndpoint;
         }
 
-        public async Task<AccountDto> CreateNewAccountAsync(Guid profileId)
+        public async Task<AccountDto?> CreateNewAccountAsync(string profileId)
         {
-            if (profileId != Guid.Empty)
+            if (!string.IsNullOrEmpty(profileId))
             {
-                var accountModel = new AccountDto {ProfileId = profileId.ToString()};
+                var accountModel = new AccountDto {ProfileId = profileId};
                 var newAccount = await _accountsService.CreateAccountAsync(accountModel.ToAccountEntity());
-                await _publishEndpoint.Publish(newAccount.ToAccountEvent<AccountCreatedEvent>());
-                return newAccount.ToAccountModel<AccountDto>();
+                await _publishEndpoint.Publish(newAccount?.ToAccountEvent<AccountCreatedEvent>());
+                return newAccount?.ToAccountModel<AccountDto>();
             }
 
             return null;
         }
 
-        public async Task<AccountDto> UpdateExistingAccountAsync(IAccountModel accountModel)
+        public async Task<AccountDto?> UpdateExistingAccountAsync(IAccountModel accountModel)
         {
             var accountEntity = accountModel.ToAccountEntity();
             var updatedAccount = await _accountsService.UpdateAccountAsync(accountEntity);
@@ -51,7 +51,7 @@ namespace Accounts.Managers
             return null;
         }
 
-        public async Task<AccountDto> AddTransactionToAccountAsync(ITransactionModel transactionModel)
+        public async Task<AccountDto?> AddTransactionToAccountAsync(ITransactionModel transactionModel)
         {
             var transactionEntity = transactionModel.ToTransactionEntity();
             var mappedAccount = await _accountsService.GetAccountByIdAsync(transactionEntity.AccountId);
@@ -59,8 +59,8 @@ namespace Accounts.Managers
             {
                 mappedAccount.Balance += transactionEntity.Amount;
                 var updatedAccount = await _accountsService.UpdateAccountAsync(mappedAccount);
-                await _publishEndpoint.Publish(updatedAccount.ToAccountEvent<AccountUpdatedEvent>());
-                return updatedAccount.ToAccountModel<AccountDto>();
+                await _publishEndpoint.Publish(updatedAccount?.ToAccountEvent<AccountUpdatedEvent>());
+                return updatedAccount?.ToAccountModel<AccountDto>();
             }
 
             return null;

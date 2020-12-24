@@ -13,7 +13,7 @@ namespace Accounts.Persistence.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Balance = table.Column<float>(type: "real", nullable: false),
-                    ProfileId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ProfileId = table.Column<string>(type: "text", nullable: true),
                     Approved = table.Column<bool>(type: "boolean", nullable: false),
                     Created = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Updated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),

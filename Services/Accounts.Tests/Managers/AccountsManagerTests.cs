@@ -23,21 +23,21 @@ namespace Accounts.Tests.Managers
             {
                 Id = 1.ToGuid(),
                 Balance = 1,
-                ProfileId = 1.ToGuid(),
+                ProfileId = 1.ToString(),
                 Version = 0
             },
             new AccountEntity
             {
                 Id = 2.ToGuid(),
                 Balance = 1,
-                ProfileId = 1.ToGuid(),
+                ProfileId = 1.ToString(),
                 Version = 0
             },
             new AccountEntity
             {
                 Id = 3.ToGuid(),
                 Balance = 1,
-                ProfileId = 2.ToGuid(),
+                ProfileId = 2.ToString(),
                 Version = 0
             }
         };
@@ -122,14 +122,14 @@ namespace Accounts.Tests.Managers
         [Fact]
         public async void ShouldSuccessfullyCreateANewAccount()
         {
-            var newCreatedAccount = await _manager.CreateNewAccountAsync(Guid.NewGuid());
+            var newCreatedAccount = await _manager.CreateNewAccountAsync("999");
             Assert.NotNull(newCreatedAccount);
         }
 
         [Fact]
         public async void ShouldNotCreateAnInvalidAccount()
         {
-            var newCreatedAccount = await _manager.CreateNewAccountAsync(Guid.Empty);
+            var newCreatedAccount = await _manager.CreateNewAccountAsync(string.Empty);
             Assert.Null(newCreatedAccount);
         }
 

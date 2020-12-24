@@ -1,4 +1,3 @@
-using System;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using Accounts.Interfaces;
@@ -7,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Sdk.Api.Dto;
+using Sdk.Auth.Extensions;
 
 namespace Accounts.Controllers
 {
@@ -16,25 +16,32 @@ namespace Accounts.Controllers
     {
         private readonly IAccountsManager _accountsManager;
         private readonly ILogger<AccountsController> _logger;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public AccountsController(
             ILogger<AccountsController> logger,
-            IAccountsManager accountsManager
+            IAccountsManager accountsManager,
+            IHttpContextAccessor httpContextAccessor
         )
         {
             _logger = logger;
             _accountsManager = accountsManager;
+            _httpContextAccessor = httpContextAccessor;
         }
 
-        [HttpGet("{profileId:Guid}")]
+        [HttpGet("")]
         [Authorize("write:accounts")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<AccountDto>> CreateNewAccount(Guid profileId)
+        public async Task<ActionResult<AccountDto>> CreateNewAccount()
         {
-            if (profileId == Guid.Empty) return NotFound();
+            var profileId = _httpContextAccessor.GetUserIdentifier();
+            if (profileId == null) return NotFound();
+            
             var newAccount = await _accountsManager.CreateNewAccountAsync(profileId);
+            if (newAccount == null) return NotFound();
+            
             return CreatedAtAction(nameof(CreateNewAccount), new {id = newAccount.Id}, newAccount);
         }
     }

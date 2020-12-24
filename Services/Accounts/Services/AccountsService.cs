@@ -15,19 +15,19 @@ namespace Accounts.Services
             _accountsRepository = accountsRepository;
         }
 
-        public async Task<AccountEntity> CreateAccountAsync(AccountEntity accountModel)
+        public Task<AccountEntity?> CreateAccountAsync(AccountEntity accountModel)
         {
-            return await _accountsRepository.AddAsync(accountModel);
+            return _accountsRepository.AddAsync(accountModel)!;
         }
 
-        public async Task<AccountEntity> GetAccountByIdAsync(Guid accountId)
+        public Task<AccountEntity?> GetAccountByIdAsync(Guid accountId)
         {
-            return await _accountsRepository.GetByIdAsync(accountId);
+            return _accountsRepository.GetByIdAsync(accountId)!;
         }
 
-        public async Task<AccountEntity> UpdateAccountAsync(AccountEntity accountModel)
+        public Task<AccountEntity?> UpdateAccountAsync(AccountEntity accountModel)
         {
-            return await _accountsRepository.UpdateActivelyAsync(accountModel);
+            return _accountsRepository.UpdateActivelyAsync(accountModel)!;
         }
     }
 }

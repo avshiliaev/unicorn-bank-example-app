@@ -34,8 +34,8 @@ namespace Accounts.Persistence.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<Guid>("ProfileId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("ProfileId")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("Updated")
                         .HasColumnType("timestamp without time zone");

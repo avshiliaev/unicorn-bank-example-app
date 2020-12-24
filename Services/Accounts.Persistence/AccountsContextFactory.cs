@@ -11,7 +11,7 @@ namespace Accounts.Persistence
             var optionsBuilder = new DbContextOptionsBuilder<AccountsContext>();
             optionsBuilder.BuildPostgreSqlConfiguration(
                 "Accounts",
-                "AccountsContext"
+                "PostgreSql"
             );
             return new AccountsContext(optionsBuilder.Options);
         }

@@ -6,10 +6,10 @@ namespace Accounts.Interfaces
 {
     public interface IAccountsService
     {
-        Task<AccountEntity> CreateAccountAsync(AccountEntity accountEntity);
+        Task<AccountEntity?> CreateAccountAsync(AccountEntity accountEntity);
 
-        Task<AccountEntity> GetAccountByIdAsync(Guid accountId);
+        Task<AccountEntity?> GetAccountByIdAsync(Guid accountId);
 
-        Task<AccountEntity> UpdateAccountAsync(AccountEntity accountEntity);
+        Task<AccountEntity?> UpdateAccountAsync(AccountEntity accountEntity);
     }
 }

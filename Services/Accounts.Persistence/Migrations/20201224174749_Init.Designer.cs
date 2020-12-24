@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Accounts.Persistence.Migrations
 {
     [DbContext(typeof(AccountsContext))]
-    [Migration("20201211134356_Init")]
+    [Migration("20201224174749_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,8 +36,8 @@ namespace Accounts.Persistence.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<Guid>("ProfileId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("ProfileId")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("Updated")
                         .HasColumnType("timestamp without time zone");

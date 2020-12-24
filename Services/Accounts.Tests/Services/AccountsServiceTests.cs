@@ -17,21 +17,21 @@ namespace Accounts.Tests.Services
             {
                 Id = 1.ToGuid(),
                 Balance = 1,
-                ProfileId = 1.ToGuid(),
+                ProfileId = 1.ToString(),
                 Version = 0
             },
             new AccountEntity
             {
                 Id = 2.ToGuid(),
                 Balance = 1,
-                ProfileId = 1.ToGuid(),
+                ProfileId = 1.ToString(),
                 Version = 0
             },
             new AccountEntity
             {
                 Id = 3.ToGuid(),
                 Balance = 1,
-                ProfileId = 2.ToGuid(),
+                ProfileId = 2.ToString(),
                 Version = 0
             }
         };
@@ -49,7 +49,7 @@ namespace Accounts.Tests.Services
         {
             var newAccountEntity = new AccountEntity
             {
-                ProfileId = Guid.NewGuid()
+                ProfileId = "999"
             };
             var newCreatedAccountEntity = await _service.CreateAccountAsync(newAccountEntity);
             Assert.NotNull(newCreatedAccountEntity);
@@ -61,7 +61,7 @@ namespace Accounts.Tests.Services
             var accountEntity = new AccountEntity
             {
                 Id = 1.ToGuid(),
-                ProfileId = 1.ToGuid(),
+                ProfileId = 1.ToString(),
                 Balance = 100,
                 Version = 0
             };
@@ -76,7 +76,7 @@ namespace Accounts.Tests.Services
             var invalidAccountEntity = new AccountEntity
             {
                 Id = 5.ToGuid(),
-                ProfileId = 1.ToGuid(),
+                ProfileId = 1.ToString(),
                 Balance = 100,
                 Version = 1
             };
@@ -90,7 +90,7 @@ namespace Accounts.Tests.Services
             var invalidAccountEntity = new AccountEntity
             {
                 Id = 1.ToGuid(),
-                ProfileId = 1.ToGuid(),
+                ProfileId = 1.ToString(),
                 Balance = 100,
                 Version = 3
             };
