@@ -42,9 +42,10 @@ namespace Notifications
             {
                 app.UseCors(builder =>
                 {
-                    builder.AllowAnyOrigin();
-                    builder.AllowAnyMethod();
-                    builder.AllowAnyHeader();
+                    builder.WithOrigins("http://localhost:3000")
+                        .AllowAnyHeader()
+                        .WithMethods("GET", "POST")
+                        .AllowCredentials();
                 });
                 app.UseDeveloperExceptionPage();
             }
