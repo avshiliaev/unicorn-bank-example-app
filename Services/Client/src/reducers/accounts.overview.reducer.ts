@@ -40,6 +40,7 @@ const initAccountsError = (): AccountsOverviewAction => {
     };
 }
 
+// TODO: add saga for adding a new account
 const addAccountAsHost = (account: AccountInterface): AccountsOverviewAction => {
     return {
         type: ActionTypes.ADD_ACCOUNT,

@@ -1,10 +1,10 @@
 import {testSaga} from 'redux-saga-test-plan';
 import {ActionTypes} from "../../constants";
-import createSocketChannel from "../channels";
 import {AccountAction} from "../../interfaces/account.interface";
 import {getAccountsSaga} from "../accounts.overview.sagas";
 import {getAccount} from "../../reducers/account.reducer";
 import {getAccountDetailSaga} from "../account.detail.sagas";
+import createSocketChannel from "../channels";
 
 jest.mock('../channels', () => require('../__mocks__/channels'));
 

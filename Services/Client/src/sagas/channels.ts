@@ -1,12 +1,12 @@
 import {eventChannel} from 'redux-saga';
 import {HubConnection} from "@microsoft/signalr";
-import createWebSocketConnection from "../web.socket";
 import {GenericStreamObject} from "../interfaces/stream.interface";
+import createClient from "../api/web.socket.api.client";
 
 
 const createSocketChannel = async (path: string, token: string, method: string) => {
 
-    const socket: HubConnection = createWebSocketConnection(path, token)
+    const socket: HubConnection = createClient(path, token)
     await socket.start()
     await socket.invoke(method, {})
 

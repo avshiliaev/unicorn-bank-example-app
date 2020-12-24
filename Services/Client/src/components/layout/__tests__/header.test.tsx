@@ -8,6 +8,7 @@ describe('Header', () => {
     // automatically unmount and cleanup DOM after the test is finished.
     afterEach(cleanup);
 
+    // TODO: add more snapshot test
     it('renders without error', () => {
 
         const wrapper = shallow(

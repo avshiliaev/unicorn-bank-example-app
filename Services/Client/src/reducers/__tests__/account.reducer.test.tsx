@@ -11,7 +11,7 @@ describe('accountReducer', () => {
 
         // should switch to loading state
         const state: AccountReducerState = {error: false, loading: false}
-        const action = getAccount("awesome")
+        const action = getAccount("awesome", "token")
         const newState: AccountReducerState = action.state;
 
         expect(

@@ -1,7 +1,7 @@
 import * as signalR from "@microsoft/signalr";
 import {HttpTransportType} from "@microsoft/signalr";
 
-const createWebSocketConnection = (path: string, token: string) => {
+const createClient = (path: string, token: string) => {
 
     const wsUrl = process.env.REACT_APP_PATHS_CROSS_ORIGIN ?? "";
     const url = `${wsUrl}${path}?access_token=${token}`
@@ -18,4 +18,4 @@ const createWebSocketConnection = (path: string, token: string) => {
         .build();
 };
 
-export default createWebSocketConnection;
+export default createClient;
