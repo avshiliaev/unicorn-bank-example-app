@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Button, Col, Layout, Row} from 'antd';
+import {Button, Col, Layout, Row, Spin} from 'antd';
 import FlexContainer from './components/layout/flex.container';
 import {useAuth0} from "@auth0/auth0-react";
 
@@ -8,7 +8,7 @@ const {Content} = Layout;
 
 const Login = ({windowSize, ...rest}) => {
 
-    const {isAuthenticated, loginWithRedirect,} = useAuth0();
+    const {isAuthenticated, loginWithRedirect, isLoading} = useAuth0();
 
     return (
         <Layout style={{minHeight: '100vh'}}>
@@ -21,13 +21,20 @@ const Login = ({windowSize, ...rest}) => {
                 >
                     <Col xs={24} sm={24} md={18} lg={8} xl={6} xxl={6}>
                         <div style={{background: '#fff', padding: 24}}>
+                            <div style={{height: "200px"}}>
                             <FlexContainer justify={'center'} align={'center'}>
-                                {!isAuthenticated &&
-                                <Button type="primary" onClick={() => loginWithRedirect()}>
-                                    Log In
-                                </Button>
-                                }
+
+                                    {!isAuthenticated && !isLoading &&
+                                    <Button type="primary" onClick={() => loginWithRedirect()}>
+                                        Log In
+                                    </Button>
+                                    }
+                                    {isLoading &&
+                                    <Spin size="large"/>
+                                    }
+
                             </FlexContainer>
+                            </div>
                         </div>
                     </Col>
                 </Row>
