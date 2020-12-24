@@ -16,10 +16,12 @@ const {Content} = Layout;
 
 const AccountPage = ({windowSize, id, children, getAccount, location, ...rest}) => {
 
-    const {user} = useAuth0();
+    const {user, getAccessTokenSilently, getAccessTokenWithPopup} = useAuth0();
 
     useEffect(() => {
-        getAccount(id);
+        getAccessTokenSilently().then(token => {
+            getAccount(id, token);
+        })
     }, []);
 
     return (

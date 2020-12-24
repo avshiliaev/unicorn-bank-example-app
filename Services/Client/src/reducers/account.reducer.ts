@@ -2,10 +2,10 @@ import {AccountAction, AccountInterface, AccountReducerState} from '../interface
 import {ActionTypes} from '../constants';
 import {AccountsStreamResponse} from "../interfaces/stream.interface";
 
-const getAccount = (accountId: string): AccountAction => {
+const getAccount = (accountId: string, token: string): AccountAction => {
     return {
         type: ActionTypes.GET_ACCOUNT_DETAIL,
-        params: {accountId},
+        params: {accountId, token},
         state: {
             loading: true,
             error: false,

@@ -13,8 +13,9 @@ describe('getAccountsSaga', () => {
         it('puts error effect', () => {
 
             const accountId = "awesome";
+            const token = "token";
             const path = `/accounts?id=${accountId}`;
-            const getAccountAction: AccountAction = getAccount(accountId)
+            const getAccountAction: AccountAction = getAccount(accountId, token)
             const actionError: AccountAction = {
                 type: ActionTypes.GET_ACCOUNT_DETAIL_ERROR,
                 state: {
@@ -25,7 +26,7 @@ describe('getAccountsSaga', () => {
 
             testSaga(getAccountDetailSaga, getAccountAction)
                 .next()
-                .call(createSocketChannel, path, "Request")
+                .call(createSocketChannel, path, token, "Request")
                 .next()
                 .put(actionError)
                 .next()

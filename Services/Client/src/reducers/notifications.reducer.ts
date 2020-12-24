@@ -2,10 +2,10 @@ import {ActionTypes} from '../constants';
 import {NotificationsAction, NotificationsReducerState} from '../interfaces/notification.interface';
 import {NotificationStreamResponse} from "../interfaces/stream.interface";
 
-const initNotifications = (userId: string, count: number): NotificationsAction => {
+const initNotifications = (token: string, count: number): NotificationsAction => {
     return {
         type: ActionTypes.QUERY_NOTIFICATIONS,
-        params: {userId, count},
+        params: {token, count},
         state: {
             loading: true,
             error: false,

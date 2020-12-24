@@ -8,10 +8,11 @@ import {initAccountsError, initAccountsSuccess} from "../reducers/accounts.overv
 
 export function* getAccountsSaga(action) {
 
+    const {token} = action.params;
     const path = "/profiles";
 
     try {
-        const socketChannel = yield call(createSocketChannel, path, "Request");
+        const socketChannel = yield call(createSocketChannel, path, token, "Request");
 
         while (true) {
             const response: AccountDetailStreamResponse = yield take(socketChannel);

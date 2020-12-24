@@ -5,7 +5,7 @@ const EventEmitter = require('events');
 
 
 export const socketMock = new EventEmitter();
-const createSocketChannelMock = async (path: string, method: string, id: string) => {
+const createSocketChannelMock = async (path: string, token: string, method: string) => {
 
     return eventChannel(emit => {
 

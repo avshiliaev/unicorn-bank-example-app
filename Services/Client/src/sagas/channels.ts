@@ -4,9 +4,9 @@ import createWebSocketConnection from "../web.socket";
 import {GenericStreamObject} from "../interfaces/stream.interface";
 
 
-const createSocketChannel = async (path: string, method: string) => {
+const createSocketChannel = async (path: string, token: string, method: string) => {
 
-    const socket: HubConnection = createWebSocketConnection(path)
+    const socket: HubConnection = createWebSocketConnection(path, token)
     await socket.start()
     await socket.invoke(method, {})
 

@@ -11,9 +11,9 @@ describe('getNotificationsSaga', () => {
 
         it('puts error effect', () => {
 
-            const userId = "awesome";
+            const token = "token";
             const path = `/notifications`;
-            const queryNotificationsAction: NotificationsAction = initNotifications(userId, 5)
+            const queryNotificationsAction: NotificationsAction = initNotifications(token, 5)
             const actionError: NotificationsAction = {
                 type: ActionTypes.QUERY_NOTIFICATIONS_ERROR,
                 state: {
@@ -25,7 +25,7 @@ describe('getNotificationsSaga', () => {
 
             testSaga(getNotificationsSaga, queryNotificationsAction)
                 .next()
-                .call(createSocketChannel, path, "Request")
+                .call(createSocketChannel, path, token, "Request")
                 .next()
                 .put(actionError)
                 .next()

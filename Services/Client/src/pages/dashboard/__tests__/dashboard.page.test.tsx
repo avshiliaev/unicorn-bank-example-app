@@ -79,7 +79,7 @@ describe('DashboardPage ', () => {
         // console.debug(wrapper.props().children.props)
         expect(wrapper.props().store.getState()).toEqual(initialState);
 
-        console.debug(wrapper.find('DashboardPage').props())
+        // console.debug(wrapper.find('DashboardPage').props())
 
     });
 

@@ -7,11 +7,11 @@ import {getAccountError, getAccountSuccess} from "../reducers/account.reducer";
 
 export function* getAccountDetailSaga(action) {
 
-    const {params} = action;
-    const path = `/accounts?id=${params.accountId}`;
+    const {accountId, token} = action.params;
+    const path = `/accounts?id=${accountId}`;
 
     try {
-        const socketChannel = yield call(createSocketChannel, path, "Request");
+        const socketChannel = yield call(createSocketChannel, path, token, "Request");
         while (true) {
             const response: AccountsStreamResponse = yield take(socketChannel);
             const actionSuccess: AccountAction = getAccountSuccess(response);

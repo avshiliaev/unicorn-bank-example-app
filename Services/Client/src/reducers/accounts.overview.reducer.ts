@@ -2,10 +2,10 @@ import {AccountInterface, AccountsOverviewAction, AccountsOverviewReducerState} 
 import {ActionTypes} from '../constants';
 import {AccountDetailStreamResponse} from "../interfaces/stream.interface";
 
-const initAccounts = (userId: string): AccountsOverviewAction => {
+const initAccounts = (token: string): AccountsOverviewAction => {
     return {
         type: ActionTypes.QUERY_ACCOUNTS,
-        params: {userId},
+        params: {token},
         state: {
             loading: true,
             error: false,

@@ -27,11 +27,13 @@ const DashboardPage = (
     {windowSize, viewSettings, initAccounts, initNotifications, children, location, ...rest}: DashboardPageProps
 ) => {
 
-    const {user} = useAuth0();
+    const {user, getAccessTokenSilently, getAccessTokenWithPopup} = useAuth0();
 
     useEffect(() => {
-        initAccounts(user.sub);
-        initNotifications(user.sub, viewSettings.notificationsCount);
+        getAccessTokenSilently().then(token => {
+            initAccounts(token);
+            initNotifications(token, viewSettings.notificationsCount);
+        });
     }, []);
 
     return (

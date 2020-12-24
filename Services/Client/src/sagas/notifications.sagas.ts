@@ -8,11 +8,12 @@ import {initNotificationsError, initNotificationsSuccess} from "../reducers/noti
 
 export function* getNotificationsSaga(action) {
 
+    const {token} = action.params;
     const path = "/notifications";
 
     try {
 
-        const socketChannel = yield call(createSocketChannel, path, "Request");
+        const socketChannel = yield call(createSocketChannel, path, token, "Request");
 
         while (true) {
             const response: NotificationStreamResponse = yield take(socketChannel);
