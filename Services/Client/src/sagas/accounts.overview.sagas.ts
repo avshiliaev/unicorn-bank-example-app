@@ -3,6 +3,7 @@ import {ActionTypes} from '../constants';
 import {AccountsOverviewAction} from '../interfaces/account.interface';
 import createSocketChannel from './channels';
 import {AccountDetailStreamResponse} from "../interfaces/stream.interface";
+import {initAccountsError, initAccountsSuccess} from "../reducers/accounts.overview.reducer";
 
 
 export function* getAccountsSaga(action) {
@@ -13,30 +14,12 @@ export function* getAccountsSaga(action) {
         const socketChannel = yield call(createSocketChannel, path, "Request");
 
         while (true) {
-            const action: AccountDetailStreamResponse = yield take(socketChannel);
-            const data = action.payload;
-            const type = action.type === 'init'
-                ? ActionTypes.QUERY_ACCOUNTS_INIT
-                : ActionTypes.QUERY_ACCOUNTS_UPDATE;
-            const actionSuccess: AccountsOverviewAction = {
-                type,
-                state: {
-                    loading: false,
-                    error: false,
-                    data,
-                },
-            };
+            const response: AccountDetailStreamResponse = yield take(socketChannel);
+            const actionSuccess: AccountsOverviewAction = initAccountsSuccess(response);
             yield put(actionSuccess);
         }
     } catch (error) {
-        const actionError: AccountsOverviewAction = {
-            type: ActionTypes.QUERY_ACCOUNTS_ERROR,
-            state: {
-                loading: false,
-                error: true,
-                data: [],
-            },
-        };
+        const actionError: AccountsOverviewAction = initAccountsError();
         yield put(actionError);
     }
 }

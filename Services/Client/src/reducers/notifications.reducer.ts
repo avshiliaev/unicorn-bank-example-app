@@ -1,5 +1,6 @@
 import {ActionTypes} from '../constants';
 import {NotificationsAction, NotificationsReducerState} from '../interfaces/notification.interface';
+import {NotificationStreamResponse} from "../interfaces/stream.interface";
 
 const initNotifications = (userId: string, count: number): NotificationsAction => {
     return {
@@ -13,7 +14,38 @@ const initNotifications = (userId: string, count: number): NotificationsAction =
     };
 };
 
-export {initNotifications};
+const initNotificationsSuccess = (response: NotificationStreamResponse): NotificationsAction => {
+
+    const data = response.payload;
+    const type = response.type === 'init'
+        ? ActionTypes.QUERY_NOTIFICATIONS_INIT
+        : ActionTypes.QUERY_NOTIFICATIONS_UPDATE;
+    return {
+        type,
+        state: {
+            loading: false,
+            error: false,
+            data,
+        },
+    };
+}
+
+const initNotificationsError = (): NotificationsAction => {
+    return {
+        type: ActionTypes.QUERY_NOTIFICATIONS_ERROR,
+        state: {
+            loading: false,
+            error: true,
+            data: [],
+        },
+    }
+};
+
+export {
+    initNotifications,
+    initNotificationsSuccess,
+    initNotificationsError
+};
 
 const notificationsInitialState: NotificationsReducerState = {
     loading: false,

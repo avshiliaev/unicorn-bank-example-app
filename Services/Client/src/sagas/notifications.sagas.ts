@@ -3,6 +3,7 @@ import {ActionTypes} from '../constants';
 import {NotificationsAction} from '../interfaces/notification.interface';
 import createSocketChannel from './channels';
 import {NotificationStreamResponse} from "../interfaces/stream.interface";
+import {initNotificationsError, initNotificationsSuccess} from "../reducers/notifications.reducer";
 
 
 export function* getNotificationsSaga(action) {
@@ -14,31 +15,12 @@ export function* getNotificationsSaga(action) {
         const socketChannel = yield call(createSocketChannel, path, "Request");
 
         while (true) {
-            const action: NotificationStreamResponse = yield take(socketChannel);
-
-            const data = action.payload;
-            const type = action.type === 'init'
-                ? ActionTypes.QUERY_NOTIFICATIONS_INIT
-                : ActionTypes.QUERY_NOTIFICATIONS_UPDATE;
-            const actionSuccess: NotificationsAction = {
-                type,
-                state: {
-                    loading: false,
-                    error: false,
-                    data,
-                },
-            };
+            const response: NotificationStreamResponse = yield take(socketChannel);
+            const actionSuccess: NotificationsAction = initNotificationsSuccess(response);
             yield put(actionSuccess);
         }
     } catch (error) {
-        const actionError: NotificationsAction = {
-            type: ActionTypes.QUERY_NOTIFICATIONS_ERROR,
-            state: {
-                loading: false,
-                error: true,
-                data: [],
-            },
-        };
+        const actionError: NotificationsAction = initNotificationsError();
         yield put(actionError);
     }
 }

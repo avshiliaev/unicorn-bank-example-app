@@ -1,5 +1,6 @@
 import {AccountInterface, AccountsOverviewAction, AccountsOverviewReducerState} from '../interfaces/account.interface';
 import {ActionTypes} from '../constants';
+import {AccountDetailStreamResponse} from "../interfaces/stream.interface";
 
 const initAccounts = (userId: string): AccountsOverviewAction => {
     return {
@@ -12,6 +13,32 @@ const initAccounts = (userId: string): AccountsOverviewAction => {
         },
     };
 };
+
+const initAccountsSuccess = (response: AccountDetailStreamResponse): AccountsOverviewAction => {
+    const data = response.payload;
+    const type = response.type === 'init'
+        ? ActionTypes.QUERY_ACCOUNTS_INIT
+        : ActionTypes.QUERY_ACCOUNTS_UPDATE;
+    return {
+        type,
+        state: {
+            loading: false,
+            error: false,
+            data,
+        },
+    };
+}
+
+const initAccountsError = (): AccountsOverviewAction => {
+    return {
+        type: ActionTypes.QUERY_ACCOUNTS_ERROR,
+        state: {
+            loading: false,
+            error: true,
+            data: [],
+        },
+    };
+}
 
 const addAccountAsHost = (account: AccountInterface): AccountsOverviewAction => {
     return {
@@ -26,6 +53,8 @@ const addAccountAsHost = (account: AccountInterface): AccountsOverviewAction => 
 
 export {
     initAccounts,
+    initAccountsSuccess,
+    initAccountsError,
     addAccountAsHost,
 };
 
