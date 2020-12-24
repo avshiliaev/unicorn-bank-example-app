@@ -10,6 +10,26 @@ const Login = ({windowSize, ...rest}) => {
 
     const {isAuthenticated, loginWithRedirect, isLoading} = useAuth0();
 
+    const LogInView = () => {
+        return (
+            <div style={{background: '#fff', padding: 24, height: "200px"}}>
+                <FlexContainer justify={'center'} align={'center'}>
+                    <Button type="primary" onClick={() => loginWithRedirect()}>
+                        Log In
+                    </Button>
+                </FlexContainer>
+            </div>
+        )
+    }
+
+    const LoadingView = () => {
+        return (
+            <FlexContainer justify={'center'} align={'center'}>
+                <Spin size="large"/>
+            </FlexContainer>
+        )
+    }
+
     return (
         <Layout style={{minHeight: '100vh'}}>
             <Content style={{padding: windowSize.large ? 16 : 0}}>
@@ -20,22 +40,8 @@ const Login = ({windowSize, ...rest}) => {
                     style={{minHeight: '100vh'}}
                 >
                     <Col xs={24} sm={24} md={18} lg={8} xl={6} xxl={6}>
-                        <div style={{background: '#fff', padding: 24}}>
-                            <div style={{height: "200px"}}>
-                            <FlexContainer justify={'center'} align={'center'}>
-
-                                    {!isAuthenticated && !isLoading &&
-                                    <Button type="primary" onClick={() => loginWithRedirect()}>
-                                        Log In
-                                    </Button>
-                                    }
-                                    {isLoading &&
-                                    <Spin size="large"/>
-                                    }
-
-                            </FlexContainer>
-                            </div>
-                        </div>
+                        {!isAuthenticated && !isLoading && <LogInView/>}
+                        {isLoading && <LoadingView/>}
                     </Col>
                 </Row>
             </Content>

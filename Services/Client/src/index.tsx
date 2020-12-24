@@ -9,7 +9,6 @@ import {createReduxHistoryContext, reachify} from "redux-first-history";
 import {createBrowserHistory} from "history";
 import configureStore from "./store";
 import {Auth0Provider} from "@auth0/auth0-react";
-import config from "./auth_config.json";
 
 
 const {createReduxHistory, routerMiddleware} = createReduxHistoryContext({
@@ -24,9 +23,9 @@ ReactDOM.render(
     <Provider store={store}>
         <LocationProvider history={reachHistory}>
             <Auth0Provider
-                domain={config.domain}
-                clientId={config.clientId}
-                audience={config.audience}
+                domain={process.env.REACT_APP_DOMAIN}
+                clientId={process.env.REACT_APP_CLIENT_ID}
+                audience={process.env.REACT_APP_AUDIENCE}
                 redirectUri={window.location.origin}
             >
                 <App/>
