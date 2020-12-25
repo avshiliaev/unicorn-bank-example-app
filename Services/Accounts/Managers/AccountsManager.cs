@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Accounts.Interfaces;
 using Accounts.Mappers;
@@ -48,6 +49,16 @@ namespace Accounts.Managers
                 if (updatedAccount != null)
                 {
                     await _publishEndpoint.Publish(updatedAccount.ToAccountEvent<AccountUpdatedEvent>());
+                    await _publishEndpoint.Publish(new NotificationEvent
+                    {
+                        Description = "Your account has been approved.",
+                        ProfileId = updatedAccount.ProfileId,
+                        Status = "approved",
+                        TimeStamp = DateTime.Now,
+                        Title = "Account approved",
+                        Id = Guid.NewGuid(),
+                        Version = 0
+                    });
                     return updatedAccount.ToAccountModel<AccountDto>();
                 }
             }

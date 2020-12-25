@@ -1,3 +1,4 @@
+using System;
 using System.Globalization;
 using Notifications.Persistence.Entities;
 using Sdk.Api.Interfaces;
@@ -10,9 +11,10 @@ namespace Notifications.Mappers
         {
             return new NotificationEntity
             {
-                Id = notificationModel.Id.ToString(),
                 Description = notificationModel.Description,
                 ProfileId = notificationModel.ProfileId,
+                Created = DateTime.Now,
+                Updated = DateTime.Now,
                 Status = notificationModel.Status,
                 TimeStamp = notificationModel.TimeStamp.ToString(CultureInfo.InvariantCulture),
                 Title = notificationModel.Title,
