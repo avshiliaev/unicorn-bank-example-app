@@ -1,0 +1,38 @@
+version: '3.3'
+
+services:
+  accounts:
+    build:
+      context: .
+      dockerfile: Accounts.Dockerfile
+    networks:
+      - unicorn-network
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+      - "5002:80"
+    depends_on:
+      - rabbitmq
+      - postgres
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: my-rabbit
+    networks:
+      - unicorn-network
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - unicorn-network
+    ports:
+      - "5432:5432"
+
+networks:
+  unicorn-network:
+    driver: bridge
