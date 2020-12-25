@@ -8,7 +8,7 @@ services:
       context: .
       dockerfile: Accounts.Dockerfile
     networks:
-      - unicorn-network
+      - internal-network
     ports:
       - "5001:80"
     depends_on:
@@ -20,7 +20,7 @@ services:
       context: .
       dockerfile: Approvals.Dockerfile
     networks:
-      - unicorn-network
+      - internal-network
     ports:
       - "5002:80"
     depends_on:
@@ -32,7 +32,7 @@ services:
       context: .
       dockerfile: Notifications.Dockerfile
     networks:
-      - unicorn-network
+      - internal-network
     ports:
       - "5003:80"
     depends_on:
@@ -44,7 +44,8 @@ services:
     image: rabbitmq:3-management
     hostname: my-rabbit
     networks:
-      - unicorn-network
+      - external-network
+      - internal-network
     ports:
       - "15672:15672"
       - "5672:5672"
@@ -54,10 +55,30 @@ services:
     environment:
       - POSTGRES_PASSWORD=postgres
     networks:
-      - unicorn-network
+      - external-network
+      - internal-network
     ports:
       - "5432:5432"
 
+  nginx-proxy:
+    container_name: nginx-proxy
+    restart: always
+    build:
+      context: .
+      dockerfile: Proxy.Dockerfile
+    ports:
+      - '80:80'
+    links:
+      - accounts
+    networks:
+      - external-network
+      - internal-network
+    command: [ nginx, '-g', 'daemon off;' ]
+
+
 networks:
-  unicorn-network:
+  external-network:
     driver: bridge
+  internal-network:
+    driver: bridge
+    internal: true
