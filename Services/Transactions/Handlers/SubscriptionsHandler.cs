@@ -8,8 +8,8 @@ namespace Transactions.Handlers
 {
     public class TransactionsSubscriptionsHandler : IConsumer<TransactionProcessedEvent>
     {
-        private readonly ITransactionsManager _transactionsManager;
         private readonly ILogger<TransactionsSubscriptionsHandler> _logger;
+        private readonly ITransactionsManager _transactionsManager;
 
         public TransactionsSubscriptionsHandler(
             ILogger<TransactionsSubscriptionsHandler> logger,
@@ -23,7 +23,7 @@ namespace Transactions.Handlers
         public TransactionsSubscriptionsHandler()
         {
         }
-        
+
         public async Task Consume(ConsumeContext<TransactionProcessedEvent> context)
         {
             _logger.LogDebug($"Received new TransactionProcessedEvent for {context.Message.Id}");

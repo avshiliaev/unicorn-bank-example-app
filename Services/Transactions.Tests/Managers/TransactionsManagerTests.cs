@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Sdk.Api.Dto;
 using Sdk.Api.Events;
 using Sdk.Api.Interfaces;
 using Sdk.Tests.Extensions;
@@ -17,6 +15,8 @@ namespace Transactions.Tests.Managers
 {
     public class TransactionsManagerTests
     {
+        private readonly ITransactionsManager _manager;
+
         private readonly List<TransactionEntity> _transactionEntities = new List<TransactionEntity>
         {
             new TransactionEntity
@@ -41,7 +41,6 @@ namespace Transactions.Tests.Managers
                 Version = 0
             }
         };
-        private readonly ITransactionsManager _manager;
 
         public TransactionsManagerTests()
         {
@@ -52,7 +51,7 @@ namespace Transactions.Tests.Managers
 
             _manager = new TransactionsManager(
                 new Mock<ILogger<TransactionsManager>>().Object,
-                new TransactionsService(transactionsRepositoryMock.Object), 
+                new TransactionsService(transactionsRepositoryMock.Object),
                 publishEndpoint.Object
             );
         }

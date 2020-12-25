@@ -49,7 +49,7 @@ namespace Notifications.Tests.Managers
                 new NotificationsService(notificationsRepositoryMock.Object)
             );
         }
-        
+
         [Fact]
         public void ShouldSuccessfullyCreateNewNotification()
         {
@@ -61,7 +61,7 @@ namespace Notifications.Tests.Managers
                 TimeStamp = DateTime.Now,
                 Title = "Title",
                 Id = Guid.NewGuid(),
-                Version = 0 
+                Version = 0
             };
             var newNotification = _manager.AddNewNotification(notificationEvent);
             Assert.NotNull(newNotification);

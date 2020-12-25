@@ -14,9 +14,9 @@ namespace Transactions.Controllers
     [Route("api/[controller]")]
     public class TransactionsController : ControllerBase
     {
-        private readonly ITransactionsManager _transactionsManager;
-        private readonly ILogger<TransactionsController> _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ILogger<TransactionsController> _logger;
+        private readonly ITransactionsManager _transactionsManager;
 
         public TransactionsController(
             ILogger<TransactionsController> logger,
@@ -38,10 +38,10 @@ namespace Transactions.Controllers
         {
             var profileId = _httpContextAccessor.GetUserIdentifier();
             if (profileId == null) return NotFound();
-            
+
             var newTransaction = await _transactionsManager.CreateNewTransactionAsync(profileId);
             if (newTransaction == null) return NotFound();
-            
+
             return CreatedAtAction(nameof(CreateNewTransaction), new {id = newTransaction.Id}, newTransaction);
         }
     }

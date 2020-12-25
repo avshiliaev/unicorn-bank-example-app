@@ -15,8 +15,8 @@ namespace Accounts.Controllers
     public class AccountsController : ControllerBase
     {
         private readonly IAccountsManager _accountsManager;
-        private readonly ILogger<AccountsController> _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ILogger<AccountsController> _logger;
 
         public AccountsController(
             ILogger<AccountsController> logger,
@@ -38,10 +38,10 @@ namespace Accounts.Controllers
         {
             var profileId = _httpContextAccessor.GetUserIdentifier();
             if (profileId == null) return NotFound();
-            
+
             var newAccount = await _accountsManager.CreateNewAccountAsync(profileId);
             if (newAccount == null) return NotFound();
-            
+
             return CreatedAtAction(nameof(CreateNewAccount), new {id = newAccount.Id}, newAccount);
         }
     }

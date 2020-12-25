@@ -13,8 +13,8 @@ namespace Transactions.Managers
 {
     public class TransactionsManager : ITransactionsManager
     {
-        private readonly ITransactionsService _transactionsService;
         private readonly IPublishEndpoint _publishEndpoint;
+        private readonly ITransactionsService _transactionsService;
 
         public TransactionsManager(
             ILogger<TransactionsManager> logger,
@@ -31,7 +31,8 @@ namespace Transactions.Managers
             if (!string.IsNullOrEmpty(profileId))
             {
                 var transactionDto = new TransactionDto {ProfileId = profileId};
-                var newTransaction = await _transactionsService.CreateTransactionAsync(transactionDto.ToTransactionEntity());
+                var newTransaction =
+                    await _transactionsService.CreateTransactionAsync(transactionDto.ToTransactionEntity());
                 await _publishEndpoint.Publish(newTransaction?.ToTransactionModel<TransactionCreatedEvent>());
                 return newTransaction?.ToTransactionModel<TransactionDto>();
             }

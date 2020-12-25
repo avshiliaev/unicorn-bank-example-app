@@ -3,7 +3,7 @@ using Sdk.Api.Interfaces;
 
 namespace Sdk.Api.Events
 {
-    public class NotificationEvent: INotificationModel
+    public class NotificationEvent : INotificationModel
     {
         public string Description { get; set; }
         public string ProfileId { get; set; }

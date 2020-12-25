@@ -39,7 +39,7 @@ namespace Accounts.Tests.Controllers
         public async Task CreateNewAccountRightData()
         {
             // Arrange
-            var requestUrl = $"/api/accounts";
+            var requestUrl = "/api/accounts";
 
             // Act
             var response = await _client.GetAsync(requestUrl);

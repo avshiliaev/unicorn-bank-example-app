@@ -10,6 +10,8 @@ namespace Transactions.Tests.Services
 {
     public class TransactionsServiceTests
     {
+        private readonly ITransactionsService _service;
+
         private readonly List<TransactionEntity> _transactionEntities = new List<TransactionEntity>
         {
             new TransactionEntity
@@ -34,8 +36,6 @@ namespace Transactions.Tests.Services
                 Version = 0
             }
         };
-
-        private readonly ITransactionsService _service;
 
         public TransactionsServiceTests()
         {

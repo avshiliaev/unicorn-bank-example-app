@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using Sdk.Api.Dto;
 using Sdk.Api.Interfaces;

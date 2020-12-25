@@ -15,12 +15,12 @@ namespace Notifications.Hubs
     public class NotificationsHub : Hub
     {
         private readonly INotificationsService _notificationsService;
-        private IHttpContextAccessor _httpContextAccessor;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public NotificationsHub(
             INotificationsService notificationsService,
             IHttpContextAccessor httpContextAccessor
-            )
+        )
         {
             _notificationsService = notificationsService;
             _httpContextAccessor = httpContextAccessor;
