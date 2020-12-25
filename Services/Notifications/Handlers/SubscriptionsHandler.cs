@@ -6,10 +6,7 @@ using Sdk.Api.Events;
 
 namespace Notifications.Handlers
 {
-    public class NotificationsSubscriptionsHandler
-        :
-            IConsumer<AccountApprovedEvent>,
-            IConsumer<TransactionProcessedEvent>
+    public class NotificationsSubscriptionsHandler : IConsumer<NotificationEvent>
     {
         private readonly ILogger<NotificationsSubscriptionsHandler> _logger;
         private readonly INotificationsManager _notificationsManager;
@@ -27,20 +24,10 @@ namespace Notifications.Handlers
         {
         }
 
-        public Task Consume(ConsumeContext<AccountApprovedEvent> context)
+        public Task Consume(ConsumeContext<NotificationEvent> context)
         {
-            _logger.LogDebug($"Received new AccountApprovedEvent for {context.Message.Id}");
-            var notificationDto = _notificationsManager.AddFromAccount(context.Message);
-
-            if (notificationDto != null)
-                return Task.CompletedTask;
-            return null;
-        }
-
-        public Task Consume(ConsumeContext<TransactionProcessedEvent> context)
-        {
-            _logger.LogDebug($"Received new TransactionProcessedEvent for {context.Message.Version}");
-            var notificationDto = _notificationsManager.AddFromTransaction(context.Message);
+            _logger.LogDebug($"Received new NotificationEvent for {context.Message.Id}");
+            var notificationDto = _notificationsManager.AddNewNotification(context.Message);
 
             if (notificationDto != null)
                 return Task.CompletedTask;

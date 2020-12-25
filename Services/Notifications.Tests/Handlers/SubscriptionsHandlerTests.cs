@@ -10,7 +10,7 @@ namespace Notifications.Tests.Handlers
     public class SubscriptionsHandlerTests
     {
         [Fact]
-        public async Task ShouldConsumeAccountApprovedEvent()
+        public async Task ShouldConsumeNotificationEvent()
         {
             var harness = new InMemoryTestHarness();
             var consumerHarness = harness.Consumer<NotificationsSubscriptionsHandler>();
@@ -18,39 +18,16 @@ namespace Notifications.Tests.Handlers
             await harness.Start();
             try
             {
-                await harness.InputQueueSendEndpoint.Send(new AccountApprovedEvent
+                await harness.InputQueueSendEndpoint.Send(new NotificationEvent
                 {
                     ProfileId = Guid.NewGuid().ToString()
                 });
 
                 // did the endpoint consume the message
-                Assert.True(await harness.Consumed.Any<AccountApprovedEvent>());
+                Assert.True(await harness.Consumed.Any<NotificationEvent>());
 
                 // did the actual consumer consume the message
-                Assert.True(await consumerHarness.Consumed.Any<AccountApprovedEvent>());
-            }
-            finally
-            {
-                await harness.Stop();
-            }
-        }
-
-        [Fact]
-        public async Task ShouldConsumeTransactionProcessedEvent()
-        {
-            var harness = new InMemoryTestHarness();
-            var consumerHarness = harness.Consumer<NotificationsSubscriptionsHandler>();
-
-            await harness.Start();
-            try
-            {
-                await harness.InputQueueSendEndpoint.Send(new TransactionProcessedEvent());
-
-                // did the endpoint consume the message
-                Assert.True(await harness.Consumed.Any<TransactionProcessedEvent>());
-
-                // did the actual consumer consume the message
-                Assert.True(await consumerHarness.Consumed.Any<TransactionProcessedEvent>());
+                Assert.True(await consumerHarness.Consumed.Any<NotificationEvent>());
             }
             finally
             {

@@ -20,19 +20,11 @@ namespace Notifications.Managers
             _notificationsService = notificationsService;
         }
 
-        public NotificationDto AddFromAccount(IAccountModel accountModel)
+        public NotificationDto AddNewNotification(INotificationModel notificationModel)
         {
-            if (string.IsNullOrEmpty(accountModel.ProfileId))
+            if (string.IsNullOrEmpty(notificationModel.ProfileId))
                 return null;
-            var notification = _notificationsService.Create(accountModel.ToNotificationEntity());
-            return notification.ToNotificationsModel<NotificationDto>();
-        }
-
-        public NotificationDto AddFromTransaction(ITransactionModel transactionModel)
-        {
-            if (string.IsNullOrEmpty(transactionModel.ProfileId))
-                return null;
-            var notification = _notificationsService.Create(transactionModel.ToNotificationEntity());
+            var notification = _notificationsService.Create(notificationModel.ToNotificationsEntity());
             return notification.ToNotificationsModel<NotificationDto>();
         }
     }

@@ -1,9 +1,9 @@
 using System;
-using Sdk.Interfaces;
+using Sdk.Api.Interfaces;
 
-namespace Sdk.Api.Interfaces
+namespace Sdk.Api.Events
 {
-    public interface INotificationModel : IDataModel
+    public class NotificationEvent: INotificationModel
     {
         public string Description { get; set; }
         public string ProfileId { get; set; }

@@ -12,7 +12,7 @@ namespace Notifications.Mappers
             {
                 Id = notificationModel.Id.ToString(),
                 Description = notificationModel.Description,
-                ProfileId = notificationModel.ProfileId.ToString(),
+                ProfileId = notificationModel.ProfileId,
                 Status = notificationModel.Status,
                 TimeStamp = notificationModel.TimeStamp.ToString(CultureInfo.InvariantCulture),
                 Title = notificationModel.Title,

@@ -5,7 +5,6 @@ namespace Notifications.Interfaces
 {
     public interface INotificationsManager
     {
-        NotificationDto AddFromAccount(IAccountModel accountModel);
-        NotificationDto AddFromTransaction(ITransactionModel transactionModel);
+        NotificationDto AddNewNotification(INotificationModel notificationModel);
     }
 }

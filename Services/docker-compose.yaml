@@ -1,6 +1,8 @@
 version: '3.3'
 
 services:
+  
+  # --- Services ---
   accounts:
     build:
       context: .
@@ -8,13 +10,36 @@ services:
     networks:
       - unicorn-network
     ports:
-      - "5000:5000"
-      - "5001:5001"
+      - "5001:80"
+    depends_on:
+      - rabbitmq
+      - postgres
+
+  approvals:
+    build:
+      context: .
+      dockerfile: Approvals.Dockerfile
+    networks:
+      - unicorn-network
+    ports:
       - "5002:80"
     depends_on:
       - rabbitmq
       - postgres
 
+  notifications:
+    build:
+      context: .
+      dockerfile: Notifications.Dockerfile
+    networks:
+      - unicorn-network
+    ports:
+      - "5003:80"
+    depends_on:
+      - rabbitmq
+      - postgres
+
+  # --- Infrastructure ---
   rabbitmq:
     image: rabbitmq:3-management
     hostname: my-rabbit

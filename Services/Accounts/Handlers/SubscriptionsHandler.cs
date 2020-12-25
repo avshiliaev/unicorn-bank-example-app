@@ -33,7 +33,7 @@ namespace Accounts.Handlers
         public async Task Consume(ConsumeContext<AccountApprovedEvent> context)
         {
             _logger.LogDebug($"Received new AccountApprovedEvent for {context.Message.Id}");
-            await _accountsManager.UpdateExistingAccountAsync(context.Message);
+            await _accountsManager.AddApprovalToAccountAsync(context.Message);
         }
 
         public async Task Consume(ConsumeContext<TransactionCreatedEvent> context)

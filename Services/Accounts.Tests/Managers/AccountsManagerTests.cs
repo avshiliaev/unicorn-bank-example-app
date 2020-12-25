@@ -56,30 +56,30 @@ namespace Accounts.Tests.Managers
             );
         }
 
-        #region UpdateExistingAccountAsync
+        #region AddApprovalToAccountAsync
 
         [Fact]
-        public async void ShouldSuccessfullyUpdateExistingAccount()
+        public async void ShouldSuccessfullyAddApprovalToAccountAsync()
         {
-            var newAccountDto = new AccountDto
+            var accountApprovedEvent = new AccountApprovedEvent
             {
                 Id = 1.ToGuid().ToString(),
-                Balance = 3
+                Approved = true
             };
-            var newCreatedAccount = await _manager.UpdateExistingAccountAsync(newAccountDto);
+            var newCreatedAccount = await _manager.AddApprovalToAccountAsync(accountApprovedEvent);
             Assert.NotNull(newCreatedAccount);
-            Assert.Equal(3, newCreatedAccount.Balance);
+            Assert.True(newCreatedAccount.Approved);
         }
 
         [Fact]
-        public async void ShouldNotUpdateAnInvalidAccount()
+        public async void ShouldNotAddApprovalToAnInvalidAccount()
         {
-            var newAccountDto = new AccountDto
+            var accountApprovedEvent = new AccountApprovedEvent
             {
                 Id = 5.ToGuid().ToString(),
-                Balance = 3
+                Approved = true
             };
-            var newCreatedAccount = await _manager.UpdateExistingAccountAsync(newAccountDto);
+            var newCreatedAccount = await _manager.AddApprovalToAccountAsync(accountApprovedEvent);
             Assert.Null(newCreatedAccount);
         }
 

@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using Accounts.Interfaces;
 using Accounts.Mappers;
@@ -7,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Sdk.Api.Dto;
 using Sdk.Api.Events;
 using Sdk.Api.Interfaces;
+using Sdk.Extensions;
 
 namespace Accounts.Managers
 {
@@ -38,14 +38,18 @@ namespace Accounts.Managers
             return null;
         }
 
-        public async Task<AccountDto?> UpdateExistingAccountAsync(IAccountModel accountModel)
+        public async Task<AccountDto?> AddApprovalToAccountAsync(IAccountModel accountModel)
         {
-            var accountEntity = accountModel.ToAccountEntity();
-            var updatedAccount = await _accountsService.UpdateAccountAsync(accountEntity);
-            if (updatedAccount != null)
+            var accountEntity = await _accountsService.GetAccountByIdAsync(accountModel.Id.ToGuid());
+            if (accountEntity != null)
             {
-                await _publishEndpoint.Publish(updatedAccount.ToAccountEvent<AccountUpdatedEvent>());
-                return updatedAccount.ToAccountModel<AccountDto>();
+                accountEntity.Approved = accountModel.Approved;
+                var updatedAccount = await _accountsService.UpdateAccountAsync(accountEntity);
+                if (updatedAccount != null)
+                {
+                    await _publishEndpoint.Publish(updatedAccount.ToAccountEvent<AccountUpdatedEvent>());
+                    return updatedAccount.ToAccountModel<AccountDto>();
+                }
             }
 
             return null;
