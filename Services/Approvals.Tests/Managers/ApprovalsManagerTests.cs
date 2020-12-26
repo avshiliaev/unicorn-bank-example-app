@@ -57,7 +57,14 @@ namespace Approvals.Tests.Managers
         [Fact]
         public async void ShouldSuccessfullyCreateANewApproval()
         {
-            var accountCreatedEvent = new AccountCreatedEvent();
+            var accountCreatedEvent = new AccountCreatedEvent
+            {
+                Version = 0,
+                Id = 1.ToGuid().ToString(),
+                Balance = 0f,
+                ProfileId = "awesome",
+                Approved = false
+            };
             var newCreatedApproval = await _manager
                 .EvaluateAccountAsync(accountCreatedEvent);
             Assert.NotNull(newCreatedApproval);

@@ -102,7 +102,7 @@ namespace Transactions.Tests.Managers
                 Info = "Info"
             };
             var transactionDto = transactionViewModel.ToTransactionModel<TransactionDto>(1.ToString());
-            
+
             var newCreatedAccount = await _manager.CreateNewTransactionAsync(transactionDto);
             Assert.NotNull(newCreatedAccount);
         }
@@ -117,7 +117,7 @@ namespace Transactions.Tests.Managers
                 Info = "Info"
             };
             var transactionDto = transactionViewModel.ToTransactionModel<TransactionDto>(1.ToGuid().ToString());
-            
+
             var newCreatedAccount = await _manager.CreateNewTransactionAsync(transactionDto);
             Assert.Null(newCreatedAccount);
         }

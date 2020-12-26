@@ -15,17 +15,17 @@ namespace Billings.Services
             _billingsRepository = billingsRepository;
         }
 
-        public async Task<BillingEntity> CreateBillingAsync(BillingEntity billingEntity)
+        public Task<BillingEntity?> CreateBillingAsync(BillingEntity billingEntity)
         {
-            return await _billingsRepository.AddAsync(billingEntity);
+            return _billingsRepository.AddAsync(billingEntity)!;
         }
 
-        public Task<BillingEntity> GetBillingByIdAsync(Guid billingId)
+        public Task<BillingEntity?> GetBillingByIdAsync(Guid billingId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<BillingEntity> UpdateBillingAsync(BillingEntity billingEntity)
+        public Task<BillingEntity?> UpdateBillingAsync(BillingEntity billingEntity)
         {
             throw new NotImplementedException();
         }

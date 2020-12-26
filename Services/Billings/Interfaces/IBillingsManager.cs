@@ -5,6 +5,6 @@ namespace Billings.Interfaces
 {
     public interface IBillingsManager
     {
-        Task<ITransactionModel> EvaluateTransactionAsync(ITransactionModel accountCreatedEvent);
+        Task<ITransactionModel?> EvaluateTransactionAsync(ITransactionModel accountCreatedEvent);
     }
 }

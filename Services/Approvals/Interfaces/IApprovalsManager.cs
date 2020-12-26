@@ -5,6 +5,6 @@ namespace Approvals.Interfaces
 {
     public interface IApprovalsManager
     {
-        Task<IAccountModel> EvaluateAccountAsync(IAccountModel accountCreatedEvent);
+        Task<IAccountModel?> EvaluateAccountAsync(IAccountModel accountCreatedEvent);
     }
 }

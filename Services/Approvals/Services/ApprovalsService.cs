@@ -15,17 +15,17 @@ namespace Approvals.Services
             _approvalsRepository = approvalsRepository;
         }
 
-        public async Task<ApprovalEntity> CreateApprovalAsync(ApprovalEntity approvalEntity)
+        public async Task<ApprovalEntity?> CreateApprovalAsync(ApprovalEntity approvalEntity)
         {
-            return await _approvalsRepository.AddAsync(approvalEntity);
+            return await _approvalsRepository.AddAsync(approvalEntity)!;
         }
 
-        public Task<ApprovalEntity> GetApprovalByIdAsync(Guid approvalId)
+        public Task<ApprovalEntity?> GetApprovalByIdAsync(Guid approvalId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ApprovalEntity> UpdateApprovalAsync(ApprovalEntity approvalEntity)
+        public Task<ApprovalEntity?> UpdateApprovalAsync(ApprovalEntity approvalEntity)
         {
             throw new NotImplementedException();
         }

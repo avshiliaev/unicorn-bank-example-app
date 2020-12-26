@@ -11,7 +11,7 @@ namespace Transactions.Mappers
             return new T
             {
                 Amount = transactionViewModel.Amount,
-                AccountId = transactionViewModel.AccountId.ToString(),
+                AccountId = transactionViewModel.AccountId,
                 ProfileId = profileId,
                 Approved = false,
                 Version = 0

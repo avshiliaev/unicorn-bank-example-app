@@ -29,13 +29,13 @@ namespace Transactions.Managers
         public async Task<TransactionDto?> CreateNewTransactionAsync(ITransactionModel transactionModel)
         {
             if (
-                !string.IsNullOrEmpty(transactionModel.ProfileId) && 
+                !string.IsNullOrEmpty(transactionModel.ProfileId) &&
                 transactionModel.AccountId != Guid.Empty.ToString()
-                )
+            )
             {
                 var newTransaction = await _transactionsService.CreateTransactionAsync(
                     transactionModel.ToTransactionEntity()
-                    );
+                );
                 await _publishEndpoint.Publish(newTransaction?.ToTransactionModel<TransactionCreatedEvent>());
                 return newTransaction?.ToTransactionModel<TransactionDto>();
             }
@@ -58,15 +58,15 @@ namespace Transactions.Managers
                         );
                     await _publishEndpoint
                         .Publish(new NotificationEvent
-                    {
-                        Description = "Your transaction has been processed.",
-                        ProfileId = updatedTransaction.ProfileId,
-                        Status = "processed",
-                        TimeStamp = DateTime.Now,
-                        Title = "Transaction processed",
-                        Id = Guid.NewGuid(),
-                        Version = 0
-                    });
+                        {
+                            Description = "Your transaction has been processed.",
+                            ProfileId = updatedTransaction.ProfileId,
+                            Status = "processed",
+                            TimeStamp = DateTime.Now,
+                            Title = "Transaction processed",
+                            Id = Guid.NewGuid(),
+                            Version = 0
+                        });
                     return updatedTransaction.ToTransactionModel<TransactionDto>();
                 }
             }

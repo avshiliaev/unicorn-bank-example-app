@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Approvals.Interfaces;
 using MassTransit;
@@ -28,7 +29,9 @@ namespace Approvals.Handlers
         public async Task Consume(ConsumeContext<AccountCreatedEvent> context)
         {
             _logger.LogDebug($"Received new AccountCreatedEvent for {context.Message.Id}");
-            await _approvalsManager.EvaluateAccountAsync(context.Message);
+            var result = await _approvalsManager.EvaluateAccountAsync(context.Message);
+            
+            if (result == null) throw new Exception($"Could not process an event {context.Message.Id}");
         }
     }
 }

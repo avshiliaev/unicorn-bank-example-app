@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Accounts.Interfaces;
 using MassTransit;
@@ -39,7 +40,9 @@ namespace Accounts.Handlers
         public async Task Consume(ConsumeContext<TransactionCreatedEvent> context)
         {
             _logger.LogDebug($"Received new TransactionCreatedEvent for {context.Message.Version}");
-            await _accountsManager.AddTransactionToAccountAsync(context.Message);
+            var result = await _accountsManager.AddTransactionToAccountAsync(context.Message);
+            
+            if (result == null) throw new Exception($"Could not process an event {context.Message.Id}");
         }
     }
 }

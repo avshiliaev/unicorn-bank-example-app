@@ -2,7 +2,6 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
 
 namespace Sdk.Tests.Extensions
 {
@@ -21,7 +20,7 @@ namespace Sdk.Tests.Extensions
                 );
 
             var sp = services.BuildServiceProvider();
-            
+
             services.AddLogging(builder => builder
                 .AddConsole()
                 .AddFilter(level => level >= LogLevel.Trace)

@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Billings.Interfaces;
 using MassTransit;
@@ -6,8 +7,7 @@ using Sdk.Api.Events;
 
 namespace Billings.Handlers
 {
-    public class BillingsSubscriptionsHandler
-        : IConsumer<TransactionCreatedEvent>
+    public class BillingsSubscriptionsHandler : IConsumer<TransactionCreatedEvent>
     {
         private readonly IBillingsManager _billingsManager;
         private readonly ILogger<BillingsSubscriptionsHandler> _logger;
@@ -28,7 +28,9 @@ namespace Billings.Handlers
         public async Task Consume(ConsumeContext<TransactionCreatedEvent> context)
         {
             _logger.LogDebug($"Received new TransactionCreatedEvent for {context.Message.Id}");
-            await _billingsManager.EvaluateTransactionAsync(context.Message);
+            var result = await _billingsManager.EvaluateTransactionAsync(context.Message);
+            
+            if (result == null) throw new Exception($"Could not process an event {context.Message.Id}");
         }
     }
 }

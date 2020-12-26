@@ -1,4 +1,3 @@
-using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -37,12 +36,12 @@ namespace Transactions.Tests.Controllers
 
             // Act
             var response = await _client.PostAsync(
-                requestUrl, 
+                requestUrl,
                 new StringContent(JsonSerializer.Serialize(newTransaction), Encoding.UTF8)
                 {
-                    Headers = { ContentType = new MediaTypeHeaderValue("application/json") }
+                    Headers = {ContentType = new MediaTypeHeaderValue("application/json")}
                 }
-                );
+            );
 
             // Assert
             Assert.Equal(
@@ -65,10 +64,10 @@ namespace Transactions.Tests.Controllers
 
             // Act
             var response = await _client.PostAsync(
-                requestUrl, 
+                requestUrl,
                 new StringContent(JsonSerializer.Serialize(newTransaction), Encoding.UTF8)
                 {
-                    Headers = { ContentType = new MediaTypeHeaderValue("application/json") }
+                    Headers = {ContentType = new MediaTypeHeaderValue("application/json")}
                 }
             );
 

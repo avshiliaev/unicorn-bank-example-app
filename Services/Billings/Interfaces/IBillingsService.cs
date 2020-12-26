@@ -6,10 +6,10 @@ namespace Billings.Interfaces
 {
     public interface IBillingsService
     {
-        Task<BillingEntity> CreateBillingAsync(BillingEntity billingEntity);
+        Task<BillingEntity?> CreateBillingAsync(BillingEntity billingEntity);
 
-        Task<BillingEntity> GetBillingByIdAsync(Guid billingId);
+        Task<BillingEntity?> GetBillingByIdAsync(Guid billingId);
 
-        Task<BillingEntity> UpdateBillingAsync(BillingEntity billingEntity);
+        Task<BillingEntity?> UpdateBillingAsync(BillingEntity billingEntity);
     }
 }

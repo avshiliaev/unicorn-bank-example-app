@@ -24,17 +24,34 @@ namespace Billings.Managers
             _publishEndpoint = publishEndpoint;
         }
 
-        public async Task<ITransactionModel> EvaluateTransactionAsync(ITransactionModel transactionCreatedEvent)
+        public async Task<ITransactionModel?> EvaluateTransactionAsync(ITransactionModel transactionCreatedEvent)
         {
+
+            if (
+                string.IsNullOrEmpty(transactionCreatedEvent.ProfileId) ||  
+                string.IsNullOrEmpty(transactionCreatedEvent.AccountId)
+            )
+                return null;
+            
             Thread.Sleep(5000);
             var approval = true;
+            
             var approvedEntity = await _billingsService.CreateBillingAsync(
                 transactionCreatedEvent.ToBillingEntity(approval)
             );
-            var transactionApprovedEvent = approvedEntity.ToTransactionModel<TransactionProcessedEvent>();
-            await _publishEndpoint.Publish(transactionApprovedEvent);
 
-            return transactionCreatedEvent;
+            if (approvedEntity != null)
+            {
+                var transactionApprovedEvent = approvedEntity.ToTransactionModel<TransactionProcessedEvent>(
+                    transactionCreatedEvent
+                );
+                await _publishEndpoint.Publish(transactionApprovedEvent);
+
+                return transactionApprovedEvent;
+            }
+
+            return null;
+
         }
     }
 }

@@ -14,8 +14,8 @@ namespace Notifications.Hubs
     [Authorize("read:notifications")]
     public class NotificationsHub : Hub
     {
-        private readonly INotificationsService _notificationsService;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly INotificationsService _notificationsService;
 
         public NotificationsHub(
             INotificationsService notificationsService,

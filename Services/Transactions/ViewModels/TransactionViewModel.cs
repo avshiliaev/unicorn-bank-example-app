@@ -1,4 +1,3 @@
-using System;
 using Sdk.Api.Validators;
 
 namespace Transactions.ViewModels

@@ -24,17 +24,31 @@ namespace Approvals.Managers
             _publishEndpoint = publishEndpoint;
         }
 
-        public async Task<IAccountModel> EvaluateAccountAsync(IAccountModel accountCreatedEvent)
+        public async Task<IAccountModel?> EvaluateAccountAsync(IAccountModel accountCreatedEvent)
         {
+            
+            if (
+                string.IsNullOrEmpty(accountCreatedEvent.ProfileId) ||  
+                string.IsNullOrEmpty(accountCreatedEvent.Id)
+            )
+                return null;
+            
             Thread.Sleep(5000);
             var approval = true;
+            
             var approvedEntity = await _approvalsService.CreateApprovalAsync(
                 accountCreatedEvent.ToApprovalEntity(approval)
             );
-            var accountApprovedEvent = approvedEntity.ToAccountModel<AccountApprovedEvent>();
-            await _publishEndpoint.Publish(accountApprovedEvent);
 
-            return accountCreatedEvent;
+            if (approvedEntity != null)
+            {
+                var accountApprovedEvent = approvedEntity.ToAccountModel<AccountApprovedEvent>();
+                await _publishEndpoint.Publish(accountApprovedEvent);
+
+                return accountApprovedEvent;
+            }
+
+            return null;
         }
     }
 }

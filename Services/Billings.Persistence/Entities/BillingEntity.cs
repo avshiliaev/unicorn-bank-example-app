@@ -7,6 +7,7 @@ namespace Billings.Persistence.Entities
     {
         public Guid Id { get; set; }
         public Guid TransactionId { get; set; }
+        public string ProfileId { get; set; }
         public bool Approved { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }

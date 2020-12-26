@@ -6,10 +6,10 @@ namespace Approvals.Interfaces
 {
     public interface IApprovalsService
     {
-        Task<ApprovalEntity> CreateApprovalAsync(ApprovalEntity approvalEntity);
+        Task<ApprovalEntity?> CreateApprovalAsync(ApprovalEntity approvalEntity);
 
-        Task<ApprovalEntity> GetApprovalByIdAsync(Guid approvalId);
+        Task<ApprovalEntity?> GetApprovalByIdAsync(Guid approvalId);
 
-        Task<ApprovalEntity> UpdateApprovalAsync(ApprovalEntity approvalEntity);
+        Task<ApprovalEntity?> UpdateApprovalAsync(ApprovalEntity approvalEntity);
     }
 }

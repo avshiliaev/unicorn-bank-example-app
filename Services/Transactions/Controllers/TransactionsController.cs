@@ -38,23 +38,23 @@ namespace Transactions.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<TransactionDto>> CreateNewTransaction(
             [FromBody] TransactionViewModel transactionViewModel
-            )
+        )
         {
             if (!ModelState.IsValid) return BadRequest();
-            
+
             var profileId = _httpContextAccessor.GetUserIdentifier();
             if (profileId == null) return NotFound();
 
             var newTransaction = await _transactionsManager.CreateNewTransactionAsync(
                 transactionViewModel.ToTransactionModel<TransactionDto>(profileId)
-                );
+            );
             if (newTransaction == null) return NotFound();
 
             return CreatedAtAction(
-                nameof(CreateNewTransaction), 
-                new {id = newTransaction.Id}, 
+                nameof(CreateNewTransaction),
+                new {id = newTransaction.Id},
                 newTransaction
-                );
+            );
         }
     }
 }
