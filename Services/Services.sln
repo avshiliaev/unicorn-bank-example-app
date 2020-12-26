@@ -38,6 +38,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transactions.Tests", "Trans
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Billings", "Billings\Billings.csproj", "{A840144A-585F-43A7-B41C-5277D564D6B6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Billings.Persistence", "Billings.Persistence\Billings.Persistence.csproj", "{91037739-F2BD-4C6A-A906-6A203BD080CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -120,5 +122,9 @@ Global
 		{A840144A-585F-43A7-B41C-5277D564D6B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A840144A-585F-43A7-B41C-5277D564D6B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A840144A-585F-43A7-B41C-5277D564D6B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91037739-F2BD-4C6A-A906-6A203BD080CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91037739-F2BD-4C6A-A906-6A203BD080CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91037739-F2BD-4C6A-A906-6A203BD080CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91037739-F2BD-4C6A-A906-6A203BD080CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
