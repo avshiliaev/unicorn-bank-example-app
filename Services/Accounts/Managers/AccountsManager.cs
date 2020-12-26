@@ -83,6 +83,7 @@ namespace Accounts.Managers
                     return null;
                 
                 mappedAccount.Balance += transactionEntity.Amount;
+                mappedAccount.LastTransactionNumber = transactionEntity.SequentialNumber;
                 var updatedAccount = await _accountsService.UpdateAccountAsync(mappedAccount);
                 await _publishEndpoint.Publish(updatedAccount?.ToAccountEvent<AccountUpdatedEvent>());
                 return updatedAccount?.ToAccountModel<AccountDto>();
