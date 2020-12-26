@@ -1,14 +1,17 @@
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Sdk.Api.Dto;
 using Sdk.Api.Events;
 using Sdk.Api.Interfaces;
 using Sdk.Tests.Extensions;
 using Sdk.Tests.Mocks;
 using Transactions.Interfaces;
 using Transactions.Managers;
+using Transactions.Mappers;
 using Transactions.Persistence.Entities;
 using Transactions.Services;
+using Transactions.ViewModels;
 using Xunit;
 
 namespace Transactions.Tests.Managers
@@ -82,7 +85,7 @@ namespace Transactions.Tests.Managers
                 Approved = true
             };
             var updatedTransaction = await _manager.UpdateStatusOfTransactionAsync(transactionProcessedEvent);
-            Assert.NotNull(updatedTransaction);
+            Assert.Null(updatedTransaction);
         }
 
         #endregion
@@ -90,16 +93,32 @@ namespace Transactions.Tests.Managers
         #region CreateNewTransactionAsync
 
         [Fact]
-        public async void ShouldSuccessfullyCreateANewTransaction()
+        public async void ShouldSuccessfullyCreateNewTransactionAsync()
         {
-            var newCreatedAccount = await _manager.CreateNewTransactionAsync("999");
+            var transactionViewModel = new TransactionViewModel
+            {
+                AccountId = 1.ToGuid().ToString(),
+                Amount = 0f,
+                Info = "Info"
+            };
+            var transactionDto = transactionViewModel.ToTransactionModel<TransactionDto>(1.ToString());
+            
+            var newCreatedAccount = await _manager.CreateNewTransactionAsync(transactionDto);
             Assert.NotNull(newCreatedAccount);
         }
 
         [Fact]
         public async void ShouldNotCreateAnInvalidAccount()
         {
-            var newCreatedAccount = await _manager.CreateNewTransactionAsync(string.Empty);
+            var transactionViewModel = new TransactionViewModel
+            {
+                AccountId = 0.ToGuid().ToString(),
+                Amount = 0f,
+                Info = "Info"
+            };
+            var transactionDto = transactionViewModel.ToTransactionModel<TransactionDto>(1.ToGuid().ToString());
+            
+            var newCreatedAccount = await _manager.CreateNewTransactionAsync(transactionDto);
             Assert.Null(newCreatedAccount);
         }
 

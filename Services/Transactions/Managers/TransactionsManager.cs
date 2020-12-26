@@ -26,13 +26,16 @@ namespace Transactions.Managers
             _publishEndpoint = publishEndpoint;
         }
 
-        public async Task<TransactionDto?> CreateNewTransactionAsync(string profileId)
+        public async Task<TransactionDto?> CreateNewTransactionAsync(ITransactionModel transactionModel)
         {
-            if (!string.IsNullOrEmpty(profileId))
+            if (
+                !string.IsNullOrEmpty(transactionModel.ProfileId) && 
+                transactionModel.AccountId != Guid.Empty.ToString()
+                )
             {
-                var transactionDto = new TransactionDto {ProfileId = profileId};
-                var newTransaction =
-                    await _transactionsService.CreateTransactionAsync(transactionDto.ToTransactionEntity());
+                var newTransaction = await _transactionsService.CreateTransactionAsync(
+                    transactionModel.ToTransactionEntity()
+                    );
                 await _publishEndpoint.Publish(newTransaction?.ToTransactionModel<TransactionCreatedEvent>());
                 return newTransaction?.ToTransactionModel<TransactionDto>();
             }
@@ -49,8 +52,12 @@ namespace Transactions.Managers
                 var updatedTransaction = await _transactionsService.UpdateTransactionAsync(transactionEntity);
                 if (updatedTransaction != null)
                 {
-                    await _publishEndpoint.Publish(updatedTransaction.ToTransactionModel<TransactionUpdatedEvent>());
-                    await _publishEndpoint.Publish(new NotificationEvent
+                    await _publishEndpoint
+                        .Publish(
+                            updatedTransaction.ToTransactionModel<TransactionUpdatedEvent>()
+                        );
+                    await _publishEndpoint
+                        .Publish(new NotificationEvent
                     {
                         Description = "Your transaction has been processed.",
                         ProfileId = updatedTransaction.ProfileId,

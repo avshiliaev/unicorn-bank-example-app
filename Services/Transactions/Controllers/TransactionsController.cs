@@ -7,6 +7,8 @@ using Microsoft.Extensions.Logging;
 using Sdk.Api.Dto;
 using Sdk.Auth.Extensions;
 using Transactions.Interfaces;
+using Transactions.Mappers;
+using Transactions.ViewModels;
 
 namespace Transactions.Controllers
 {
@@ -29,20 +31,30 @@ namespace Transactions.Controllers
             _httpContextAccessor = httpContextAccessor;
         }
 
-        [HttpGet("")]
+        [HttpPost("")]
         [Authorize("write:transactions")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<TransactionDto>> CreateNewTransaction()
+        public async Task<ActionResult<TransactionDto>> CreateNewTransaction(
+            [FromBody] TransactionViewModel transactionViewModel
+            )
         {
+            if (!ModelState.IsValid) return BadRequest();
+            
             var profileId = _httpContextAccessor.GetUserIdentifier();
             if (profileId == null) return NotFound();
 
-            var newTransaction = await _transactionsManager.CreateNewTransactionAsync(profileId);
+            var newTransaction = await _transactionsManager.CreateNewTransactionAsync(
+                transactionViewModel.ToTransactionModel<TransactionDto>(profileId)
+                );
             if (newTransaction == null) return NotFound();
 
-            return CreatedAtAction(nameof(CreateNewTransaction), new {id = newTransaction.Id}, newTransaction);
+            return CreatedAtAction(
+                nameof(CreateNewTransaction), 
+                new {id = newTransaction.Id}, 
+                newTransaction
+                );
         }
     }
 }

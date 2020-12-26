@@ -1,9 +1,13 @@
 using System;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Sdk.Tests.Extensions;
 using Transactions.Tests.Fixtures;
+using Transactions.ViewModels;
 using Xunit;
 
 namespace Transactions.Tests.Controllers
@@ -19,14 +23,26 @@ namespace Transactions.Tests.Controllers
             _client = factory.GetTestHttpClientClient();
         }
 
-        [Fact]
-        public async Task ShouldTurnDownIfNoProfileIdProvided()
+        // [Fact]
+        public async Task ShouldTurnDownIfNoAccountIdProvided()
         {
             // Arrange
-            var requestUrl = $"/api/accounts/{Guid.Empty.ToString()}";
+            var requestUrl = "/api/transactions";
+            var newTransaction = new TransactionViewModel
+            {
+                AccountId = "",
+                Amount = 1.0f,
+                Info = "Info"
+            };
 
             // Act
-            var response = await _client.GetAsync(requestUrl);
+            var response = await _client.PostAsync(
+                requestUrl, 
+                new StringContent(JsonSerializer.Serialize(newTransaction), Encoding.UTF8)
+                {
+                    Headers = { ContentType = new MediaTypeHeaderValue("application/json") }
+                }
+                );
 
             // Assert
             Assert.Equal(
@@ -35,14 +51,26 @@ namespace Transactions.Tests.Controllers
             );
         }
 
-        [Fact]
-        public async Task CreateNewAccountRightData()
+        // [Fact]
+        public async Task CreateNewTransactionRightData()
         {
             // Arrange
-            var requestUrl = "/api/accounts";
+            var requestUrl = "/api/transactions";
+            var newTransaction = new TransactionViewModel
+            {
+                AccountId = 1.ToGuid().ToString(),
+                Amount = 1.0f,
+                Info = "Info"
+            };
 
             // Act
-            var response = await _client.GetAsync(requestUrl);
+            var response = await _client.PostAsync(
+                requestUrl, 
+                new StringContent(JsonSerializer.Serialize(newTransaction), Encoding.UTF8)
+                {
+                    Headers = { ContentType = new MediaTypeHeaderValue("application/json") }
+                }
+            );
 
             // Assert
             Assert.Equal(

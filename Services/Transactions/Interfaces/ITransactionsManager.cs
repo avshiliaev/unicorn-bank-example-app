@@ -6,7 +6,7 @@ namespace Transactions.Interfaces
 {
     public interface ITransactionsManager
     {
-        Task<TransactionDto?> CreateNewTransactionAsync(string profileId);
+        Task<TransactionDto?> CreateNewTransactionAsync(ITransactionModel transactionModel);
         Task<TransactionDto?> UpdateStatusOfTransactionAsync(ITransactionModel transactionModel);
     }
 }
