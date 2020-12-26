@@ -8,6 +8,7 @@ services:
       context: .
       dockerfile: Accounts.Dockerfile
     networks:
+      - external-network
       - internal-network
     ports:
       - "5001:80"
@@ -20,9 +21,23 @@ services:
       context: .
       dockerfile: Approvals.Dockerfile
     networks:
+      - external-network
       - internal-network
     ports:
       - "5002:80"
+    depends_on:
+      - rabbitmq
+      - postgres
+
+  transactions:
+    build:
+      context: .
+      dockerfile: Transactions.Dockerfile
+    networks:
+      - external-network
+      - internal-network
+    ports:
+      - "5003:80"
     depends_on:
       - rabbitmq
       - postgres
@@ -32,9 +47,10 @@ services:
       context: .
       dockerfile: Notifications.Dockerfile
     networks:
+      - external-network
       - internal-network
     ports:
-      - "5003:80"
+      - "5004:80"
     depends_on:
       - rabbitmq
       - postgres
