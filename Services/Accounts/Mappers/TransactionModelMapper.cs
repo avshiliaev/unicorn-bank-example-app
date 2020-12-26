@@ -14,7 +14,9 @@ namespace Accounts.Mappers
                 Amount = transactionModel.Amount,
                 AccountId = transactionModel.AccountId.ToGuid(),
                 Approved = transactionModel.Approved,
-                Version = transactionModel.Version
+                Pending = transactionModel.Pending,
+                Version = transactionModel.Version,
+                SequentialNumber = transactionModel.SequentialNumber
             };
         }
     }

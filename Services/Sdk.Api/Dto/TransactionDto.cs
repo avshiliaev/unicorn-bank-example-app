@@ -11,6 +11,8 @@ namespace Sdk.Api.Dto
         public float Amount { get; set; }
         public string Info { get; set; }
         public bool Approved { get; set; }
+        public bool Pending { get; set; }
         public string Timestamp { get; set; }
+        public int SequentialNumber { get; set; }
     }
 }

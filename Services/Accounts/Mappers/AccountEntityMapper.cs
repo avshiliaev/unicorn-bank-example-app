@@ -14,8 +14,10 @@ namespace Accounts.Mappers
                 Balance = accountModel.Balance,
                 ProfileId = accountModel.ProfileId,
                 Approved = accountModel.Approved,
+                Pending = accountModel.Pending,
                 Id = accountModel.Id.ToString(),
-                Version = accountModel.Version
+                Version = accountModel.Version,
+                LastTransactionNumber = accountModel.LastTransactionNumber
             };
         }
 
@@ -27,8 +29,10 @@ namespace Accounts.Mappers
                 Balance = accountModel.Balance,
                 ProfileId = accountModel.ProfileId,
                 Approved = accountModel.Approved,
+                Pending = accountModel.Pending,
                 Id = accountModel.Id.ToString(),
-                Version = accountModel.Version
+                Version = accountModel.Version,
+                LastTransactionNumber = accountModel.LastTransactionNumber
             };
         }
     }

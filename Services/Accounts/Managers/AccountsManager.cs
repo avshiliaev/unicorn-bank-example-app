@@ -30,7 +30,11 @@ namespace Accounts.Managers
         {
             if (!string.IsNullOrEmpty(profileId))
             {
-                var accountModel = new AccountDto {ProfileId = profileId};
+                var accountModel = new AccountDto
+                {
+                    ProfileId = profileId, 
+                    Pending = true
+                };
                 var newAccount = await _accountsService.CreateAccountAsync(accountModel.ToAccountEntity());
                 await _publishEndpoint.Publish(newAccount?.ToAccountEvent<AccountCreatedEvent>());
                 return newAccount?.ToAccountModel<AccountDto>();
@@ -45,19 +49,21 @@ namespace Accounts.Managers
             if (accountEntity != null)
             {
                 accountEntity.Approved = accountModel.Approved;
+                accountEntity.Pending = false;
+                
+                // Optimistic Concurrency Control: update incrementing the version
                 var updatedAccount = await _accountsService.UpdateAccountAsync(accountEntity);
                 if (updatedAccount != null)
                 {
                     await _publishEndpoint.Publish(updatedAccount.ToAccountEvent<AccountUpdatedEvent>());
                     await _publishEndpoint.Publish(new NotificationEvent
                     {
-                        Description = "Your account has been approved.",
+                        Description = $"Your account has been {(accountEntity.Approved?"approved":"declined")}.",
                         ProfileId = updatedAccount.ProfileId,
-                        Status = "approved",
+                        Status = accountEntity.Approved?"approved":"declined",
                         TimeStamp = DateTime.Now,
-                        Title = "Account approved",
-                        Id = Guid.NewGuid(),
-                        Version = 0
+                        Title = $"{(accountEntity.Approved?"Approval":"Denial")}",
+                        Id = Guid.NewGuid()
                     });
                     return updatedAccount.ToAccountModel<AccountDto>();
                 }
@@ -72,6 +78,10 @@ namespace Accounts.Managers
             var mappedAccount = await _accountsService.GetAccountByIdAsync(transactionEntity.AccountId);
             if (mappedAccount != null)
             {
+                // Optimistic Concurrency Control: check version
+                if (transactionEntity.SequentialNumber != mappedAccount.LastTransactionNumber + 1)
+                    return null;
+                
                 mappedAccount.Balance += transactionEntity.Amount;
                 var updatedAccount = await _accountsService.UpdateAccountAsync(mappedAccount);
                 await _publishEndpoint.Publish(updatedAccount?.ToAccountEvent<AccountUpdatedEvent>());

@@ -14,7 +14,9 @@ namespace Accounts.Mappers
                 Balance = accountEvent.Balance,
                 ProfileId = accountEvent.ProfileId,
                 Approved = accountEvent.Approved,
-                Version = accountEvent.Version
+                Pending = accountEvent.Pending,
+                Version = accountEvent.Version,
+                LastTransactionNumber = accountEvent.LastTransactionNumber
             };
         }
     }
