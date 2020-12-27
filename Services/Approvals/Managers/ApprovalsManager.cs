@@ -33,7 +33,6 @@ namespace Approvals.Managers
             )
                 return null;
             
-            Thread.Sleep(5000);
             var approval = true;
             
             var approvedEntity = await _approvalsService.CreateApprovalAsync(
@@ -42,7 +41,7 @@ namespace Approvals.Managers
 
             if (approvedEntity != null)
             {
-                var accountApprovedEvent = approvedEntity.ToAccountModel<AccountApprovedEvent>();
+                var accountApprovedEvent = approvedEntity.ToAccountModel<AccountApprovedEvent>(accountCreatedEvent);
                 await _publishEndpoint.Publish(accountApprovedEvent);
 
                 return accountApprovedEvent;

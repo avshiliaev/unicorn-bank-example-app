@@ -5,6 +5,6 @@ namespace Notifications.Interfaces
 {
     public interface INotificationsManager
     {
-        NotificationDto AddNewNotification(INotificationModel notificationModel);
+        NotificationDto? AddNewNotification(INotificationModel notificationModel);
     }
 }

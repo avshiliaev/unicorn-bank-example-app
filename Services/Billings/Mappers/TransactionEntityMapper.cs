@@ -21,6 +21,7 @@ namespace Billings.Mappers
                 Approved = billingEntity.Approved,
                 Timestamp = transactionModel.Timestamp,
                 Version = transactionModel.Version,
+                SequentialNumber = transactionModel.SequentialNumber
             };
         }
     }

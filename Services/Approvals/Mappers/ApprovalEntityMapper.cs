@@ -5,15 +5,17 @@ namespace Approvals.Mappers
 {
     public static class ApprovalEntityMapper
     {
-        public static TModel ToAccountModel<TModel>(this ApprovalEntity approvalEntity)
+        public static TModel ToAccountModel<TModel>(this ApprovalEntity approvalEntity, IAccountModel accountModel)
             where TModel : class, IAccountModel, new()
         {
-            // TODO: issue with not fully defined class instance!
             return new TModel
             {
-                Id = approvalEntity.AccountId.ToString(),
+                Id = accountModel.Id,
+                Balance = accountModel.Balance,
+                ProfileId = accountModel.ProfileId,
                 Approved = approvalEntity.Approved,
-                Version = approvalEntity.Version
+                Pending = false,
+                LastTransactionNumber = accountModel.LastTransactionNumber
             };
         }
     }

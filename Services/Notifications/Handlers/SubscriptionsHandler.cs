@@ -24,7 +24,8 @@ namespace Notifications.Handlers
         {
         }
 
-        public Task Consume(ConsumeContext<NotificationEvent> context)
+        // TODO: Does ? change the signature?
+        public Task? Consume(ConsumeContext<NotificationEvent> context)
         {
             _logger.LogDebug($"Received new NotificationEvent for {context.Message.Id}");
             var notificationDto = _notificationsManager.AddNewNotification(context.Message);

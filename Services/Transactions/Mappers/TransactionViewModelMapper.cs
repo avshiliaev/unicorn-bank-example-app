@@ -1,3 +1,5 @@
+using System;
+using System.Globalization;
 using Sdk.Api.Interfaces;
 using Transactions.ViewModels;
 
@@ -10,11 +12,14 @@ namespace Transactions.Mappers
         {
             return new T
             {
-                Amount = transactionViewModel.Amount,
                 AccountId = transactionViewModel.AccountId,
                 ProfileId = profileId,
+                Amount = transactionViewModel.Amount,
+                Info = transactionViewModel.Info,
                 Approved = false,
-                Version = 0
+                Pending = true,
+                Timestamp = DateTime.Now.ToString(CultureInfo.InvariantCulture),
+                SequentialNumber = 0
             };
         }
     }

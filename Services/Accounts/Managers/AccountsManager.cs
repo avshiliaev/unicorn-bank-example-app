@@ -84,6 +84,8 @@ namespace Accounts.Managers
                 
                 mappedAccount.Balance += transactionEntity.Amount;
                 mappedAccount.LastTransactionNumber = transactionEntity.SequentialNumber;
+                
+                // Optimistic Concurrency Control: update incrementing the version
                 var updatedAccount = await _accountsService.UpdateAccountAsync(mappedAccount);
                 await _publishEndpoint.Publish(updatedAccount?.ToAccountEvent<AccountUpdatedEvent>());
                 return updatedAccount?.ToAccountModel<AccountDto>();

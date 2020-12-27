@@ -17,7 +17,7 @@ namespace Billings.Mappers
                 Approved = isApproved,
                 Created = DateTime.Now,
                 Updated = DateTime.Now,
-                Version = transactionModel.Version
+                Version = 0
             };
         }
     }

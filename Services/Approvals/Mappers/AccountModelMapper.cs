@@ -16,7 +16,7 @@ namespace Approvals.Mappers
                 Approved = approved,
                 Created = DateTime.Now,
                 Updated = DateTime.Now,
-                Version = accountModel.Version
+                Version = 0
             };
         }
     }

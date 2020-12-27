@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Sdk.Persistence.Interfaces;
 using Transactions.Interfaces;
@@ -13,6 +15,13 @@ namespace Transactions.Services
         public TransactionsService(IRepository<TransactionEntity> transactionRepository)
         {
             _transactionRepository = transactionRepository;
+        }
+
+        public Task<IEnumerable<TransactionEntity?>> GetLastTransactionNumber(
+            Expression<Func<TransactionEntity?, bool>> predicate
+            )
+        {
+            return _transactionRepository.GetManyByParameterAsync(predicate!)!;
         }
 
         public Task<TransactionEntity?> CreateTransactionAsync(TransactionEntity transactionEntity)

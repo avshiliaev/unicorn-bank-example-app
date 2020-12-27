@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.Extensions.Logging;
@@ -33,8 +34,13 @@ namespace Transactions.Managers
                 transactionModel.AccountId != Guid.Empty.ToString()
             )
             {
+                var allTransactions = await _transactionsService.GetLastTransactionNumber(
+                    entity => entity!.ProfileId == transactionModel.ProfileId
+                );
+                var lastTransactionNumber = allTransactions.Max(t => t?.SequentialNumber);
+                
                 var newTransaction = await _transactionsService.CreateTransactionAsync(
-                    transactionModel.ToTransactionEntity()
+                    transactionModel.ToTransactionEntity(lastTransactionNumber.GetValueOrDefault(0) + 1)
                 );
                 await _publishEndpoint.Publish(newTransaction?.ToTransactionModel<TransactionCreatedEvent>());
                 return newTransaction?.ToTransactionModel<TransactionDto>();

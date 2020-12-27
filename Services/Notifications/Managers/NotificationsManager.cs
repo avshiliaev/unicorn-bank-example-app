@@ -20,7 +20,7 @@ namespace Notifications.Managers
             _notificationsService = notificationsService;
         }
 
-        public NotificationDto AddNewNotification(INotificationModel notificationModel)
+        public NotificationDto? AddNewNotification(INotificationModel notificationModel)
         {
             if (string.IsNullOrEmpty(notificationModel.ProfileId))
                 return null;

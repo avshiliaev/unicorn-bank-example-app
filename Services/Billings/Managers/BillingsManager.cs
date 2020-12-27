@@ -32,8 +32,7 @@ namespace Billings.Managers
                 string.IsNullOrEmpty(transactionCreatedEvent.AccountId)
             )
                 return null;
-            
-            Thread.Sleep(5000);
+
             var approval = true;
             
             var approvedEntity = await _billingsService.CreateBillingAsync(

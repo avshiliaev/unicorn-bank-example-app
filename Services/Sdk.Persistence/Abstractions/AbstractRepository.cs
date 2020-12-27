@@ -37,9 +37,14 @@ namespace Sdk.Persistence.Abstractions
                 .FirstOrDefaultAsync(acc => acc.Id == id);
         }
 
-        public async Task<TEntity> GetByParameterAsync(Expression<Func<TEntity, bool>> predicate)
+        public async Task<TEntity> GetOneByParameterAsync(Expression<Func<TEntity, bool>> predicate)
         {
             return await _context.Set<TEntity>().Where(predicate).SingleAsync();
+        }
+
+        public async Task<IEnumerable<TEntity>> GetManyByParameterAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await _context.Set<TEntity>().Where(predicate).ToArrayAsync();
         }
 
         public async Task<TEntity> AddAsync(TEntity entity)
