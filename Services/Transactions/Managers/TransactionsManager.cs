@@ -34,6 +34,7 @@ namespace Transactions.Managers
                 transactionModel.AccountId != Guid.Empty.ToString()
             )
             {
+                // Optimistic Concurrency Control: set the sequential number
                 var allTransactions = await _transactionsService.GetLastTransactionNumber(
                     entity => entity!.ProfileId == transactionModel.ProfileId
                 );
@@ -55,6 +56,9 @@ namespace Transactions.Managers
             if (transactionEntity != null)
             {
                 transactionEntity.Approved = transactionModel.Approved;
+                transactionEntity.Pending = false;
+                
+                // Optimistic Concurrency Control: increment the version on update
                 var updatedTransaction = await _transactionsService.UpdateTransactionAsync(transactionEntity);
                 if (updatedTransaction != null)
                 {
@@ -62,17 +66,15 @@ namespace Transactions.Managers
                         .Publish(
                             updatedTransaction.ToTransactionModel<TransactionUpdatedEvent>()
                         );
-                    await _publishEndpoint
-                        .Publish(new NotificationEvent
-                        {
-                            Description = "Your transaction has been processed.",
-                            ProfileId = updatedTransaction.ProfileId,
-                            Status = "processed",
-                            TimeStamp = DateTime.Now,
-                            Title = "Transaction processed",
-                            Id = Guid.NewGuid(),
-                            Version = 0
-                        });
+                    await _publishEndpoint.Publish(new NotificationEvent
+                    {
+                        Description = $"Your transaction has been {(transactionEntity.Approved?"processed":"declined")}.",
+                        ProfileId = updatedTransaction.ProfileId,
+                        Status = updatedTransaction.Approved?"processed":"declined",
+                        TimeStamp = DateTime.Now,
+                        Title = $"{(updatedTransaction.Approved?"Processing":"Denial")}",
+                        Id = Guid.NewGuid()
+                    });
                     return updatedTransaction.ToTransactionModel<TransactionDto>();
                 }
             }
