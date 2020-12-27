@@ -8,31 +8,28 @@ namespace Transactions.Persistence.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Transactions",
-                columns: table => new
+                "Transactions",
+                table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    AccountId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ProfileId = table.Column<string>(type: "text", nullable: true),
-                    Amount = table.Column<float>(type: "real", nullable: false),
-                    Approved = table.Column<bool>(type: "boolean", nullable: false),
-                    Pending = table.Column<bool>(type: "boolean", nullable: false),
-                    Info = table.Column<string>(type: "text", nullable: true),
-                    Created = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    Updated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    Version = table.Column<int>(type: "integer", nullable: false),
-                    SequentialNumber = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<Guid>("uuid", nullable: false),
+                    AccountId = table.Column<Guid>("uuid", nullable: false),
+                    ProfileId = table.Column<string>("text", nullable: true),
+                    Amount = table.Column<float>("real", nullable: false),
+                    Approved = table.Column<bool>("boolean", nullable: false),
+                    Pending = table.Column<bool>("boolean", nullable: false),
+                    Info = table.Column<string>("text", nullable: true),
+                    Created = table.Column<DateTime>("timestamp without time zone", nullable: false),
+                    Updated = table.Column<DateTime>("timestamp without time zone", nullable: false),
+                    Version = table.Column<int>("integer", nullable: false),
+                    SequentialNumber = table.Column<int>("integer", nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Transactions", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_Transactions", x => x.Id); });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Transactions");
+                "Transactions");
         }
     }
 }

@@ -32,7 +32,7 @@ namespace Accounts.Managers
             {
                 var accountModel = new AccountDto
                 {
-                    ProfileId = profileId, 
+                    ProfileId = profileId,
                     Pending = true
                 };
                 var newAccount = await _accountsService.CreateAccountAsync(accountModel.ToAccountEntity());
@@ -50,7 +50,7 @@ namespace Accounts.Managers
             {
                 accountEntity.Approved = accountModel.Approved;
                 accountEntity.Pending = false;
-                
+
                 // Optimistic Concurrency Control: update incrementing the version
                 var updatedAccount = await _accountsService.UpdateAccountAsync(accountEntity);
                 if (updatedAccount != null)
@@ -58,11 +58,11 @@ namespace Accounts.Managers
                     await _publishEndpoint.Publish(updatedAccount.ToAccountEvent<AccountUpdatedEvent>());
                     await _publishEndpoint.Publish(new NotificationEvent
                     {
-                        Description = $"Your account has been {(accountEntity.Approved?"approved":"declined")}.",
+                        Description = $"Your account has been {(accountEntity.Approved ? "approved" : "declined")}.",
                         ProfileId = updatedAccount.ProfileId,
-                        Status = accountEntity.Approved?"approved":"declined",
+                        Status = accountEntity.Approved ? "approved" : "declined",
                         TimeStamp = DateTime.Now,
-                        Title = $"{(accountEntity.Approved?"Approval":"Denial")}",
+                        Title = $"{(accountEntity.Approved ? "Approval" : "Denial")}",
                         Id = Guid.NewGuid()
                     });
                     return updatedAccount.ToAccountModel<AccountDto>();
@@ -81,10 +81,10 @@ namespace Accounts.Managers
                 // Optimistic Concurrency Control: check version
                 if (transactionEntity.SequentialNumber != mappedAccount.LastTransactionNumber + 1)
                     return null;
-                
+
                 mappedAccount.Balance += transactionEntity.Amount;
                 mappedAccount.LastTransactionNumber = transactionEntity.SequentialNumber;
-                
+
                 // Optimistic Concurrency Control: update incrementing the version
                 var updatedAccount = await _accountsService.UpdateAccountAsync(mappedAccount);
                 await _publishEndpoint.Publish(updatedAccount?.ToAccountEvent<AccountUpdatedEvent>());

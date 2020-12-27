@@ -9,10 +9,10 @@ namespace Accounts.Persistence.Entities
         public float Amount { get; set; }
         public bool Approved { get; set; }
         public bool Pending { get; set; }
+        public int SequentialNumber { get; set; }
         public Guid Id { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
         public int Version { get; set; }
-        public int SequentialNumber { get; set; }
     }
 }

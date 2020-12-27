@@ -39,7 +39,7 @@ namespace Transactions.Managers
                     entity => entity!.ProfileId == transactionModel.ProfileId
                 );
                 var lastTransactionNumber = allTransactions.Max(t => t?.SequentialNumber);
-                
+
                 var newTransaction = await _transactionsService.CreateTransactionAsync(
                     transactionModel.ToTransactionEntity(lastTransactionNumber.GetValueOrDefault(0) + 1)
                 );
@@ -57,7 +57,7 @@ namespace Transactions.Managers
             {
                 transactionEntity.Approved = transactionModel.Approved;
                 transactionEntity.Pending = false;
-                
+
                 // Optimistic Concurrency Control: increment the version on update
                 var updatedTransaction = await _transactionsService.UpdateTransactionAsync(transactionEntity);
                 if (updatedTransaction != null)
@@ -68,11 +68,12 @@ namespace Transactions.Managers
                         );
                     await _publishEndpoint.Publish(new NotificationEvent
                     {
-                        Description = $"Your transaction has been {(transactionEntity.Approved?"processed":"declined")}.",
+                        Description =
+                            $"Your transaction has been {(transactionEntity.Approved ? "processed" : "declined")}.",
                         ProfileId = updatedTransaction.ProfileId,
-                        Status = updatedTransaction.Approved?"processed":"declined",
+                        Status = updatedTransaction.Approved ? "processed" : "declined",
                         TimeStamp = DateTime.Now,
-                        Title = $"{(updatedTransaction.Approved?"Processing":"Denial")}",
+                        Title = $"{(updatedTransaction.Approved ? "Processing" : "Denial")}",
                         Id = Guid.NewGuid()
                     });
                     return updatedTransaction.ToTransactionModel<TransactionDto>();

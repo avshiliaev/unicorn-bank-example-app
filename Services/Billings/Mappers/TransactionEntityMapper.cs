@@ -6,7 +6,7 @@ namespace Billings.Mappers
     public static class BillingEntityMapper
     {
         public static TModel ToTransactionModel<TModel>(
-            this BillingEntity billingEntity, 
+            this BillingEntity billingEntity,
             ITransactionModel transactionModel
         )
             where TModel : class, ITransactionModel, new()

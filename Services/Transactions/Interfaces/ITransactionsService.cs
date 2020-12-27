@@ -10,6 +10,7 @@ namespace Transactions.Interfaces
     {
         Task<IEnumerable<TransactionEntity?>> GetLastTransactionNumber(
             Expression<Func<TransactionEntity?, bool>> predicate);
+
         Task<TransactionEntity?> CreateTransactionAsync(TransactionEntity transactionEntity);
 
         Task<TransactionEntity?> GetTransactionByIdAsync(Guid transactionID);

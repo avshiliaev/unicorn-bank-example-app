@@ -30,7 +30,7 @@ namespace Approvals.Handlers
         {
             _logger.LogDebug($"Received new AccountCreatedEvent for {context.Message.Id}");
             var result = await _approvalsManager.EvaluateAccountAsync(context.Message);
-            
+
             if (result == null) throw new Exception($"Could not process an event {context.Message.Id}");
         }
     }

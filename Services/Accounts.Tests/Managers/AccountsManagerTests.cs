@@ -117,7 +117,7 @@ namespace Accounts.Tests.Managers
             var newCreatedAccount = await _manager.AddTransactionToAccountAsync(invalidTransaction);
             Assert.Null(newCreatedAccount);
         }
-        
+
         [Fact]
         public async void ShouldNotAddTransactionToAccountOutOfOrder()
         {

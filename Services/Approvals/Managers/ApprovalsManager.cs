@@ -1,4 +1,3 @@
-using System.Threading;
 using System.Threading.Tasks;
 using Approvals.Interfaces;
 using Approvals.Mappers;
@@ -26,15 +25,14 @@ namespace Approvals.Managers
 
         public async Task<IAccountModel?> EvaluateAccountAsync(IAccountModel accountCreatedEvent)
         {
-            
             if (
-                string.IsNullOrEmpty(accountCreatedEvent.ProfileId) ||  
+                string.IsNullOrEmpty(accountCreatedEvent.ProfileId) ||
                 string.IsNullOrEmpty(accountCreatedEvent.Id)
             )
                 return null;
-            
+
             var approval = true;
-            
+
             var approvedEntity = await _approvalsService.CreateApprovalAsync(
                 accountCreatedEvent.ToApprovalEntity(approval)
             );

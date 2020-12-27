@@ -1,4 +1,3 @@
-using System.Threading;
 using System.Threading.Tasks;
 using Billings.Interfaces;
 using Billings.Mappers;
@@ -26,15 +25,14 @@ namespace Billings.Managers
 
         public async Task<ITransactionModel?> EvaluateTransactionAsync(ITransactionModel transactionCreatedEvent)
         {
-
             if (
-                string.IsNullOrEmpty(transactionCreatedEvent.ProfileId) ||  
+                string.IsNullOrEmpty(transactionCreatedEvent.ProfileId) ||
                 string.IsNullOrEmpty(transactionCreatedEvent.AccountId)
             )
                 return null;
 
             var approval = true;
-            
+
             var approvedEntity = await _billingsService.CreateBillingAsync(
                 transactionCreatedEvent.ToBillingEntity(approval)
             );
@@ -50,7 +48,6 @@ namespace Billings.Managers
             }
 
             return null;
-
         }
     }
 }

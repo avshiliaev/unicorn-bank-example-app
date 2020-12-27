@@ -19,7 +19,7 @@ namespace Transactions.Services
 
         public Task<IEnumerable<TransactionEntity?>> GetLastTransactionNumber(
             Expression<Func<TransactionEntity?, bool>> predicate
-            )
+        )
         {
             return _transactionRepository.GetManyByParameterAsync(predicate!)!;
         }

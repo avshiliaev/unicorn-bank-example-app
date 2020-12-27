@@ -29,7 +29,7 @@ namespace Billings.Handlers
         {
             _logger.LogDebug($"Received new TransactionCreatedEvent for {context.Message.Id}");
             var result = await _billingsManager.EvaluateTransactionAsync(context.Message);
-            
+
             if (result == null) throw new Exception($"Could not process an event {context.Message.Id}");
         }
     }

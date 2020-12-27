@@ -35,7 +35,7 @@ namespace Accounts.Handlers
         {
             _logger.LogDebug($"Received new AccountApprovedEvent for {context.Message.Id}");
             var result = await _accountsManager.AddApprovalToAccountAsync(context.Message);
-            
+
             if (result == null) throw new Exception($"Could not process an event {context.Message.Id}");
         }
 
@@ -43,7 +43,7 @@ namespace Accounts.Handlers
         {
             _logger.LogDebug($"Received new TransactionCreatedEvent for {context.Message.Version}");
             var result = await _accountsManager.AddTransactionToAccountAsync(context.Message);
-            
+
             if (result == null) throw new Exception($"Could not process an event {context.Message.Id}");
         }
     }
