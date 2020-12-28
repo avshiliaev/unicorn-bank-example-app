@@ -5,6 +5,7 @@ using MassTransit;
 using Microsoft.Extensions.Logging;
 using Sdk.Api.Events;
 using Sdk.Api.Interfaces;
+using Sdk.Concurrency.Extensions;
 
 namespace Approvals.Managers
 {
@@ -31,10 +32,10 @@ namespace Approvals.Managers
             )
                 return null;
 
-            var approval = true;
+            accountCreatedEvent.SetApproval();
 
             var approvedEntity = await _approvalsService.CreateApprovalAsync(
-                accountCreatedEvent.ToApprovalEntity(approval)
+                accountCreatedEvent.ToApprovalEntity()
             );
 
             if (approvedEntity != null)

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Billings.Interfaces;
 using Billings.Persistence.Entities;
@@ -13,6 +15,13 @@ namespace Billings.Services
         public BillingsService(IRepository<BillingEntity> billingsRepository)
         {
             _billingsRepository = billingsRepository;
+        }
+
+        public Task<IEnumerable<BillingEntity?>> GetManyByParameterAsync(
+            Expression<Func<BillingEntity?, bool>> predicate
+            )
+        {
+            return _billingsRepository.GetManyByParameterAsync(predicate!)!;
         }
 
         public Task<BillingEntity?> CreateBillingAsync(BillingEntity billingEntity)

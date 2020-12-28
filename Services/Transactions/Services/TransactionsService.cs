@@ -17,7 +17,7 @@ namespace Transactions.Services
             _transactionRepository = transactionRepository;
         }
 
-        public Task<IEnumerable<TransactionEntity?>> GetLastTransactionNumber(
+        public Task<IEnumerable<TransactionEntity?>> GetManyByParameterAsync(
             Expression<Func<TransactionEntity?, bool>> predicate
         )
         {

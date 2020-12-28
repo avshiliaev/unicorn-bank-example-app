@@ -7,7 +7,7 @@ namespace Accounts.Interfaces
     public interface IAccountsManager
     {
         Task<AccountDto?> CreateNewAccountAsync(string profileId);
-        Task<AccountDto?> AddApprovalToAccountAsync(IAccountModel accountEvent);
-        Task<AccountDto?> AddTransactionToAccountAsync(ITransactionModel transactionModel);
+        Task<AccountDto?> ProcessAccountApprovedEventAsync(IAccountModel accountEvent);
+        Task<AccountDto?> ProcessTransactionUpdatedEventAsync(ITransactionModel transactionModel);
     }
 }

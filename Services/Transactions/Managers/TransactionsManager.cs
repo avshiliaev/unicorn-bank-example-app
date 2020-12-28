@@ -35,7 +35,7 @@ namespace Transactions.Managers
             )
             {
                 // Optimistic Concurrency Control: set the sequential number
-                var allTransactions = await _transactionsService.GetLastTransactionNumber(
+                var allTransactions = await _transactionsService.GetManyByParameterAsync(
                     entity => entity!.ProfileId == transactionModel.ProfileId 
                               && entity!.AccountId == transactionModel.AccountId.ToGuid()
                 );

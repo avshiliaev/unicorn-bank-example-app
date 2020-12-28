@@ -7,14 +7,20 @@ namespace Billings.Mappers
 {
     public static class TransactionModelMapper
     {
-        public static BillingEntity ToBillingEntity(this ITransactionModel transactionModel, bool isApproved)
+        public static BillingEntity ToBillingEntity(this ITransactionModel transactionModel)
         {
             return new BillingEntity
             {
                 Id = Guid.NewGuid(),
-                TransactionId = transactionModel.Id.ToGuid(),
+
                 ProfileId = transactionModel.ProfileId,
-                Approved = isApproved,
+                AccountId = transactionModel.AccountId.ToGuid(),
+                TransactionId = transactionModel.Id.ToGuid(),
+
+                Amount = transactionModel.Amount,
+                Approved = transactionModel.Approved,
+                Pending = transactionModel.Pending,
+
                 Created = DateTime.Now,
                 Updated = DateTime.Now,
                 Version = 0

@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Billings.Interfaces;
 using Billings.Mappers;
@@ -5,6 +6,8 @@ using MassTransit;
 using Microsoft.Extensions.Logging;
 using Sdk.Api.Events;
 using Sdk.Api.Interfaces;
+using Sdk.Concurrency.Extensions;
+using Sdk.Extensions;
 
 namespace Billings.Managers
 {
@@ -30,11 +33,16 @@ namespace Billings.Managers
                 string.IsNullOrEmpty(transactionCreatedEvent.AccountId)
             )
                 return null;
+            
+            var allTransactions = await _billingsService.GetManyByParameterAsync(
+                b => b!.Approved && b.AccountId == transactionCreatedEvent.AccountId.ToGuid()
+            );
+            var lastTransactionNumber = allTransactions.Max(t => t?.Amount);
 
-            var approval = true;
-
+            transactionCreatedEvent.SetApproval();
+            
             var approvedEntity = await _billingsService.CreateBillingAsync(
-                transactionCreatedEvent.ToBillingEntity(approval)
+                transactionCreatedEvent.ToBillingEntity()
             );
 
             if (approvedEntity != null)

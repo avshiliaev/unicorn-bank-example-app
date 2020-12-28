@@ -8,7 +8,7 @@ namespace Transactions.Interfaces
 {
     public interface ITransactionsService
     {
-        Task<IEnumerable<TransactionEntity?>> GetLastTransactionNumber(
+        Task<IEnumerable<TransactionEntity?>> GetManyByParameterAsync(
             Expression<Func<TransactionEntity?, bool>> predicate);
 
         Task<TransactionEntity?> CreateTransactionAsync(TransactionEntity transactionEntity);

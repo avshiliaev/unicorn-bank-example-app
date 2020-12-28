@@ -44,13 +44,13 @@ namespace Accounts.Tests.Handlers
             await harness.Start();
             try
             {
-                await harness.InputQueueSendEndpoint.Send(new TransactionCreatedEvent());
+                await harness.InputQueueSendEndpoint.Send(new TransactionUpdatedEvent());
 
                 // did the endpoint consume the message
-                Assert.True(await harness.Consumed.Any<TransactionCreatedEvent>());
+                Assert.True(await harness.Consumed.Any<TransactionUpdatedEvent>());
 
                 // did the actual consumer consume the message
-                Assert.True(await consumerHarness.Consumed.Any<TransactionCreatedEvent>());
+                Assert.True(await consumerHarness.Consumed.Any<TransactionUpdatedEvent>());
             }
             finally
             {

@@ -16,7 +16,7 @@ namespace Accounts.Mappers
                 Approved = accountEvent.Approved,
                 Pending = accountEvent.Pending,
                 Version = accountEvent.Version,
-                LastTransactionNumber = accountEvent.LastTransactionNumber
+                LastSequentialNumber = accountEvent.LastSequentialNumber
             };
         }
     }

@@ -1,17 +1,26 @@
 using System;
+using Sdk.Interfaces;
 using Sdk.Persistence.Interfaces;
 
 namespace Transactions.Persistence.Entities
 {
-    public class TransactionEntity : IEntity
+    public class TransactionEntity : IEntity, IConcurrent
     {
+        
+        // Foreign Properties
         public Guid AccountId { get; set; }
         public string ProfileId { get; set; }
+        
+        // Properties
         public float Amount { get; set; }
         public bool Approved { get; set; }
         public bool Pending { get; set; }
         public string Info { get; set; }
+        
+        // Concurrency
         public int SequentialNumber { get; set; }
+        
+        // Common Entity
         public Guid Id { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }

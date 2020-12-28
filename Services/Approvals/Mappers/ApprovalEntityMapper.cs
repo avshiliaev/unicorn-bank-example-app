@@ -13,9 +13,10 @@ namespace Approvals.Mappers
                 Id = accountModel.Id,
                 Balance = accountModel.Balance,
                 ProfileId = accountModel.ProfileId,
-                Approved = approvalEntity.Approved,
-                Pending = false,
-                LastTransactionNumber = accountModel.LastTransactionNumber
+                Approved = accountModel.Approved,
+                Pending = accountModel.Pending,
+                Version = accountModel.Version,
+                LastSequentialNumber = accountModel.LastSequentialNumber
             };
         }
     }

@@ -8,7 +8,7 @@ using Sdk.Api.Events;
 namespace Accounts.Handlers
 {
     public class AccountsSubscriptionsHandler
-        : IConsumer<AccountApprovedEvent>, IConsumer<TransactionCreatedEvent>
+        : IConsumer<AccountApprovedEvent>, IConsumer<TransactionUpdatedEvent>
     {
         private readonly IAccountsManager _accountsManager;
         private readonly ILogger<AccountsSubscriptionsHandler> _logger;
@@ -34,15 +34,15 @@ namespace Accounts.Handlers
         public async Task Consume(ConsumeContext<AccountApprovedEvent> context)
         {
             _logger.LogDebug($"Received new AccountApprovedEvent for {context.Message.Id}");
-            var result = await _accountsManager.AddApprovalToAccountAsync(context.Message);
+            var result = await _accountsManager.ProcessAccountApprovedEventAsync(context.Message);
 
             if (result == null) throw new Exception($"Could not process an event {context.Message.Id}");
         }
 
-        public async Task Consume(ConsumeContext<TransactionCreatedEvent> context)
+        public async Task Consume(ConsumeContext<TransactionUpdatedEvent> context)
         {
             _logger.LogDebug($"Received new TransactionCreatedEvent for {context.Message.Version}");
-            var result = await _accountsManager.AddTransactionToAccountAsync(context.Message);
+            var result = await _accountsManager.ProcessTransactionUpdatedEventAsync(context.Message);
 
             if (result == null) throw new Exception($"Could not process an event {context.Message.Id}");
         }
