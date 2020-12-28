@@ -17,20 +17,20 @@ namespace Transactions.Mappers
                 // Common
                 Id = transactionEntity.Id.ToString(),
                 Version = transactionEntity.Version,
-                
+
                 // Foreign
                 AccountId = transactionEntity.AccountId.ToString(),
                 ProfileId = transactionEntity.ProfileId,
-                
+
                 // Properties
                 Amount = transactionEntity.Amount,
                 Info = transactionEntity.Info,
                 Timestamp = transactionEntity.Created.ToString(CultureInfo.InvariantCulture),
-                
+
                 // Approvable
                 Approved = transactionEntity.Approved,
                 Pending = transactionEntity.Pending,
-                
+
                 // Concurrent
                 SequentialNumber = transactionEntity.SequentialNumber
             };
@@ -50,5 +50,4 @@ namespace Transactions.Mappers
             };
         }
     }
-    
 }

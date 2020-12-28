@@ -14,17 +14,16 @@ namespace Transactions.Managers
         {
             _transactionsService = transactionsService;
         }
-        
+
         public async Task<ITransactionModel> SetNextSequentialNumber(ITransactionModel transactionModel)
         {
-            
             var allTransactions = await _transactionsService.GetManyByParameterAsync(
-                entity => entity!.ProfileId == transactionModel.ProfileId 
+                entity => entity!.ProfileId == transactionModel.ProfileId
                           && entity!.AccountId == transactionModel.AccountId.ToGuid()
             );
             var lastTransactionNumber = allTransactions.Max(t => t?.SequentialNumber);
             transactionModel.SequentialNumber = lastTransactionNumber.GetValueOrDefault(0) + 1;
-            
+
             return transactionModel;
         }
     }

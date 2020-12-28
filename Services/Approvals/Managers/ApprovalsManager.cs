@@ -5,7 +5,7 @@ using MassTransit;
 using Microsoft.Extensions.Logging;
 using Sdk.Api.Events;
 using Sdk.Api.Interfaces;
-using Sdk.Concurrency.Extensions;
+using Sdk.Extensions;
 
 namespace Approvals.Managers
 {

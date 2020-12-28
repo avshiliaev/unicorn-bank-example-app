@@ -9,7 +9,7 @@ namespace Billings.Interfaces
     public interface IBillingsService
     {
         Task<IEnumerable<BillingEntity?>> GetManyByParameterAsync(Expression<Func<BillingEntity?, bool>> predicate);
-        
+
         Task<BillingEntity?> CreateBillingAsync(BillingEntity billingEntity);
 
         Task<BillingEntity?> GetBillingByIdAsync(Guid billingId);

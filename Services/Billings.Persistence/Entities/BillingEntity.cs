@@ -13,7 +13,7 @@ namespace Billings.Persistence.Entities
 
         // Properties
         public float Amount { get; set; }
-        
+
         // Approvable
         public bool Approved { get; set; }
         public bool Pending { get; set; }

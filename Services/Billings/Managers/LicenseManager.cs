@@ -7,7 +7,7 @@ using Sdk.Extensions;
 
 namespace Billings.Managers
 {
-    public class LicenseManager: ILicenseManager
+    public class LicenseManager : ILicenseManager
     {
         private readonly IBillingsService _billingsService;
 

@@ -10,7 +10,7 @@ namespace Sdk.Extensions
                 return false;
             return true;
         }
-        
+
         public static IConcurrentHost IncrementConcurrentController(this IConcurrentHost concurrentHost)
         {
             concurrentHost.LastSequentialNumber += 1;

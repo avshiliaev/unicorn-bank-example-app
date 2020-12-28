@@ -8,7 +8,7 @@ namespace Approvals.Persistence.Entities
     {
         // Foreign Properties
         public Guid AccountId { get; set; }
-        
+
         // Approvable
         public bool Approved { get; set; }
         public bool Pending { get; set; }

@@ -4,21 +4,21 @@ using System.Threading.Tasks;
 using Moq;
 using Sdk.Api.Interfaces;
 using Sdk.Extensions;
-using Sdk.Interfaces;
 using Sdk.Tests.Interfaces;
 using Transactions.Interfaces;
 using Transactions.Persistence.Entities;
 
-namespace Billings.Tests.Mocks
+namespace Transactions.Tests.Mocks
 {
-    public class ConcurrencyManagerMockFactory: IMockFactory<IConcurrencyManager>
+    public class ConcurrencyManagerMockFactory : IMockFactory<IConcurrencyManager>
     {
-        private List<TransactionEntity> _entities;
+        private readonly List<TransactionEntity> _entities;
 
         public ConcurrencyManagerMockFactory(List<TransactionEntity> entities)
         {
             _entities = entities;
         }
+
         public Mock<IConcurrencyManager> GetInstance()
         {
             var licenseManager = new Mock<IConcurrencyManager>();
@@ -31,11 +31,11 @@ namespace Billings.Tests.Mocks
                 .Returns((ITransactionModel transactionModel) =>
                 {
                     var allTransactions = _entities.Where(
-                        entity => entity!.ProfileId == transactionModel.ProfileId 
+                        entity => entity!.ProfileId == transactionModel.ProfileId
                                   && entity!.AccountId == transactionModel.AccountId.ToGuid()
                     );
                     var lastTransactionNumber = allTransactions.Max(t => t.SequentialNumber);
-                    
+
                     transactionModel.SequentialNumber = lastTransactionNumber + 1;
                     return Task.FromResult(transactionModel);
                 });

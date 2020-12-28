@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Billings.Tests.Mocks;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Sdk.Api.Dto;
@@ -12,6 +11,7 @@ using Transactions.Managers;
 using Transactions.Mappers;
 using Transactions.Persistence.Entities;
 using Transactions.Services;
+using Transactions.Tests.Mocks;
 using Transactions.ViewModels;
 using Xunit;
 

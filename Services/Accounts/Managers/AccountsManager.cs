@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using Accounts.Interfaces;
 using Accounts.Mappers;
@@ -7,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using Sdk.Api.Dto;
 using Sdk.Api.Events;
 using Sdk.Api.Interfaces;
-using Sdk.Concurrency.Extensions;
 using Sdk.Extensions;
 
 namespace Accounts.Managers

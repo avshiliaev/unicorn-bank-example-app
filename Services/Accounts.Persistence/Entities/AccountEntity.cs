@@ -8,22 +8,21 @@ namespace Accounts.Persistence.Entities
     {
         // Properties
         public float Balance { get; set; }
-        
-        // Concurrent Host
-        public int LastSequentialNumber { get; set; }
-        
+
+        // Foreign Properties
+        public string ProfileId { get; set; }
+
         // Approvable
         public bool Approved { get; set; }
         public bool Pending { get; set; }
 
-        // Foreign Properties
-        public string ProfileId { get; set; }
+        // Concurrent Host
+        public int LastSequentialNumber { get; set; }
 
         // Common Entity
         public Guid Id { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
         public int Version { get; set; }
-        
     }
 }

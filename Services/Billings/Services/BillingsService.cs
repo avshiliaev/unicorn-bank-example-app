@@ -19,7 +19,7 @@ namespace Billings.Services
 
         public Task<IEnumerable<BillingEntity?>> GetManyByParameterAsync(
             Expression<Func<BillingEntity?, bool>> predicate
-            )
+        )
         {
             return _billingsRepository.GetManyByParameterAsync(predicate!)!;
         }

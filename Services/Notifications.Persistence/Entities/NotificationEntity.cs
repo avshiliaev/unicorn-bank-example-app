@@ -12,7 +12,7 @@ namespace Notifications.Persistence.Entities
         public string Status { get; set; }
         public string TimeStamp { get; set; }
         public string Title { get; set; }
-        
+
         // Foreign Properties
         public string ProfileId { get; set; }
 

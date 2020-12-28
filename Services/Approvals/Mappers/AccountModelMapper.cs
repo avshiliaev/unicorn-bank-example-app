@@ -15,11 +15,11 @@ namespace Approvals.Mappers
                 Created = DateTime.Now,
                 Updated = DateTime.Now,
                 Version = 0,
-                    
+
                 AccountId = accountModel.Id.ToGuid(),
-                
+
                 Approved = accountModel.Approved,
-                Pending = accountModel.Pending,
+                Pending = accountModel.Pending
             };
         }
     }

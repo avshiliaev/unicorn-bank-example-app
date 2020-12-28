@@ -14,20 +14,20 @@ namespace Transactions.Mappers
             {
                 // Common
                 Version = 0,
-                
+
                 // Foreign
                 AccountId = transactionViewModel.AccountId,
                 ProfileId = profileId,
-                
+
                 // Properties
                 Amount = transactionViewModel.Amount,
                 Info = transactionViewModel.Info,
                 Timestamp = DateTime.Now.ToString(CultureInfo.InvariantCulture),
-                
+
                 // Approvable
                 Approved = false,
                 Pending = true,
-                
+
                 // Concurrent
                 SequentialNumber = 1
             };

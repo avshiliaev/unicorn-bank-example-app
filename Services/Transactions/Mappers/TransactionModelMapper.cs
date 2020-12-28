@@ -13,19 +13,19 @@ namespace Transactions.Mappers
                 // Common
                 Id = transactionModel.Id.ToGuid(),
                 Version = transactionModel.Version,
-                
+
                 // Foreign
                 AccountId = transactionModel.AccountId.ToGuid(),
                 ProfileId = transactionModel.ProfileId,
-                
+
                 // Properties
                 Amount = transactionModel.Amount,
                 Info = transactionModel.Info,
-                
+
                 // Approvable
                 Approved = transactionModel.Approved,
                 Pending = transactionModel.Pending,
-                
+
                 // Concurrent
                 SequentialNumber = transactionModel.SequentialNumber
             };

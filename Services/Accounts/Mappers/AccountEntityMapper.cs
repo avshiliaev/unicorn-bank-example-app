@@ -37,7 +37,7 @@ namespace Accounts.Mappers
                 LastSequentialNumber = accountEntity.LastSequentialNumber
             };
         }
-        
+
         public static NotificationEvent ToNotificationEvent(this AccountEntity accountEntity)
         {
             return new NotificationEvent
