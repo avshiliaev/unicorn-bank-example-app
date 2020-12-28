@@ -5,6 +5,7 @@ using Billings.Interfaces;
 using Billings.Managers;
 using Billings.Persistence.Entities;
 using Billings.Services;
+using Billings.Tests.Mocks;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Sdk.Api.Events;
@@ -48,10 +49,12 @@ namespace Billings.Tests.Managers
         {
             var publishEndpoint = new PublishEndpointMockFactory<ITransactionModel>().GetInstance();
             var billingsRepositoryMock = new RepositoryMockFactory<BillingEntity>(_billingEntities).GetInstance();
+            var licenseManagerMock = new LicenseManagerMockFactory().GetInstance();
 
             _manager = new BillingsManager(
                 new Mock<ILogger<BillingsManager>>().Object,
                 new BillingsService(billingsRepositoryMock.Object),
+                licenseManagerMock.Object,
                 publishEndpoint.Object
             );
         }

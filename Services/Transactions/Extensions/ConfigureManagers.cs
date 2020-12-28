@@ -8,7 +8,9 @@ namespace Transactions.Extensions
     {
         public static IServiceCollection AddBusinessLogicManagers(this IServiceCollection services)
         {
-            services.AddTransient<ITransactionsManager, TransactionsManager>();
+            services
+                .AddTransient<ITransactionsManager, TransactionsManager>()
+                .AddTransient<IConcurrencyManager, ConcurrencyManager>();
             return services;
         }
     }

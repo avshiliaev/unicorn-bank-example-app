@@ -14,13 +14,18 @@ namespace Billings.Mappers
             return new TModel
             {
                 Id = transactionModel.Id,
+                Version = transactionModel.Version,
+                Timestamp = transactionModel.Timestamp,
+                
                 AccountId = transactionModel.AccountId,
                 ProfileId = transactionModel.ProfileId,
+                
                 Amount = transactionModel.Amount,
                 Info = transactionModel.Info,
+                
                 Approved = billingEntity.Approved,
-                Timestamp = transactionModel.Timestamp,
-                Version = transactionModel.Version,
+                Pending = billingEntity.Pending,
+                
                 SequentialNumber = transactionModel.SequentialNumber
             };
         }

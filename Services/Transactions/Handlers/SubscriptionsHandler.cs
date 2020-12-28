@@ -28,7 +28,7 @@ namespace Transactions.Handlers
         public async Task Consume(ConsumeContext<TransactionProcessedEvent> context)
         {
             _logger.LogDebug($"Received new TransactionProcessedEvent for {context.Message.Id}");
-            var result = await _transactionsManager.UpdateStatusOfTransactionAsync(context.Message);
+            var result = await _transactionsManager.ProcessTransactionProcessedEventAsync(context.Message);
 
             if (result == null) throw new Exception($"Could not process an event {context.Message.Id}");
         }

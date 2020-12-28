@@ -4,7 +4,7 @@ using Sdk.Persistence.Interfaces;
 
 namespace Transactions.Persistence.Entities
 {
-    public class TransactionEntity : IEntity, IConcurrent
+    public class TransactionEntity : IEntity, IConcurrent, IApprovable
     {
         
         // Foreign Properties
@@ -13,9 +13,11 @@ namespace Transactions.Persistence.Entities
         
         // Properties
         public float Amount { get; set; }
+        public string Info { get; set; }
+        
+        // Approvable
         public bool Approved { get; set; }
         public bool Pending { get; set; }
-        public string Info { get; set; }
         
         // Concurrency
         public int SequentialNumber { get; set; }

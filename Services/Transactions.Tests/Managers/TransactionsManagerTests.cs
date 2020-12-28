@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Billings.Tests.Mocks;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Sdk.Api.Dto;
@@ -51,15 +52,17 @@ namespace Transactions.Tests.Managers
                 .GetInstance();
             var transactionsRepositoryMock = new RepositoryMockFactory<TransactionEntity>(_transactionEntities)
                 .GetInstance();
+            var concurrencyManagerMock = new ConcurrencyManagerMockFactory(_transactionEntities).GetInstance();
 
             _manager = new TransactionsManager(
                 new Mock<ILogger<TransactionsManager>>().Object,
                 new TransactionsService(transactionsRepositoryMock.Object),
-                publishEndpoint.Object
+                publishEndpoint.Object,
+                concurrencyManagerMock.Object
             );
         }
 
-        #region UpdateStatusOfTransactionAsync
+        #region ProcessTransactionProcessedEventAsync
 
         [Fact]
         public async void ShouldSuccessfullyUpdateStatusOfTransactionAsync()
@@ -70,7 +73,7 @@ namespace Transactions.Tests.Managers
                 ProfileId = 1.ToGuid().ToString(),
                 Approved = true
             };
-            var updatedTransaction = await _manager.UpdateStatusOfTransactionAsync(transactionProcessedEvent);
+            var updatedTransaction = await _manager.ProcessTransactionProcessedEventAsync(transactionProcessedEvent);
             Assert.NotNull(updatedTransaction);
             Assert.True(updatedTransaction.Approved);
         }
@@ -84,7 +87,7 @@ namespace Transactions.Tests.Managers
                 ProfileId = 1.ToGuid().ToString(),
                 Approved = true
             };
-            var updatedTransaction = await _manager.UpdateStatusOfTransactionAsync(transactionProcessedEvent);
+            var updatedTransaction = await _manager.ProcessTransactionProcessedEventAsync(transactionProcessedEvent);
             Assert.Null(updatedTransaction);
         }
 
