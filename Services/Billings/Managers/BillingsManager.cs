@@ -35,9 +35,9 @@ namespace Billings.Managers
             )
                 return null;
 
-            var isUserAllowed = await _licenseManager.EvaluateByUserLicenseScope(transactionCreatedEvent);
+            var isTransactionAllowed = await _licenseManager.EvaluateByUserLicenseScope(transactionCreatedEvent);
 
-            if (isUserAllowed)
+            if (isTransactionAllowed)
                 transactionCreatedEvent.SetApproval();
             else
                 transactionCreatedEvent.SetDenial();

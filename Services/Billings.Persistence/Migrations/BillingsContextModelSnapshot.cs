@@ -4,10 +4,10 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace Accounts.Persistence.Migrations
+namespace Billings.Persistence.Migrations
 {
-    [DbContext(typeof(AccountsContext))]
-    internal class AccountsContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(BillingsContext))]
+    internal class BillingsContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -17,29 +17,35 @@ namespace Accounts.Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.0");
 
-            modelBuilder.Entity("Accounts.Persistence.Entities.AccountEntity", b =>
+            modelBuilder.Entity("Billings.Persistence.Entities.BillingEntity", b =>
             {
                 b.Property<Guid>("Id")
                     .ValueGeneratedOnAdd()
                     .HasColumnType("uuid");
 
+                b.Property<Guid>("AccountId")
+                    .HasColumnType("uuid");
+
+                b.Property<float>("Amount")
+                    .HasColumnType("real");
+
                 b.Property<bool>("Approved")
                     .HasColumnType("boolean");
 
-                b.Property<float>("Balance")
-                    .HasColumnType("real");
-
                 b.Property<DateTime>("Created")
                     .HasColumnType("timestamp without time zone");
-
-                b.Property<int>("LastSequentialNumber")
-                    .HasColumnType("integer");
 
                 b.Property<bool>("Pending")
                     .HasColumnType("boolean");
 
                 b.Property<string>("ProfileId")
                     .HasColumnType("text");
+
+                b.Property<int>("SequentialNumber")
+                    .HasColumnType("integer");
+
+                b.Property<Guid>("TransactionId")
+                    .HasColumnType("uuid");
 
                 b.Property<DateTime>("Updated")
                     .HasColumnType("timestamp without time zone");
@@ -49,7 +55,7 @@ namespace Accounts.Persistence.Migrations
 
                 b.HasKey("Id");
 
-                b.ToTable("Accounts");
+                b.ToTable("Billings");
             });
 #pragma warning restore 612, 618
         }

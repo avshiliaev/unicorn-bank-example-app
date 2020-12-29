@@ -4,6 +4,7 @@ using Accounts.Interfaces;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Sdk.Api.Events;
+using Sdk.Extensions;
 
 namespace Accounts.Handlers
 {
@@ -26,11 +27,6 @@ namespace Accounts.Handlers
         {
         }
 
-        /*
-         * The Consume method returns a Task that is awaited by MassTransit. While the consumer method is executing,
-         * the message is unavailable to other receive endpoints. If the Task completes successfully, the message is
-         * acknowledged and removed from the queue.
-         */
         public async Task Consume(ConsumeContext<AccountApprovedEvent> context)
         {
             _logger.LogDebug($"Received new AccountApprovedEvent for {context.Message.Id}");
@@ -42,8 +38,9 @@ namespace Accounts.Handlers
         public async Task Consume(ConsumeContext<TransactionUpdatedEvent> context)
         {
             _logger.LogDebug($"Received new TransactionCreatedEvent for {context.Message.Version}");
-            var result = await _accountsManager.ProcessTransactionUpdatedEventAsync(context.Message);
 
+            if (!context.Message.IsApproved()) return;
+            var result = await _accountsManager.ProcessTransactionUpdatedEventAsync(context.Message);
             if (result == null) throw new Exception($"Could not process an event {context.Message.Id}");
         }
     }

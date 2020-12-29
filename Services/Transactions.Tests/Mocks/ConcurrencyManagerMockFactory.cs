@@ -34,9 +34,9 @@ namespace Transactions.Tests.Mocks
                         entity => entity!.ProfileId == transactionModel.ProfileId
                                   && entity!.AccountId == transactionModel.AccountId.ToGuid()
                     );
-                    var lastTransactionNumber = allTransactions.Max(t => t.SequentialNumber);
+                    var lastTransactionNumber = allTransactions.Max(t => t?.SequentialNumber);
 
-                    transactionModel.SequentialNumber = lastTransactionNumber + 1;
+                    transactionModel.SequentialNumber = lastTransactionNumber.GetValueOrDefault(0) + 1;
                     return Task.FromResult(transactionModel);
                 });
             return licenseManager;

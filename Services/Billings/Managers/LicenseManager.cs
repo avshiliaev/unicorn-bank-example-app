@@ -22,11 +22,14 @@ namespace Billings.Managers
         public async Task<bool> EvaluateByUserLicenseScope(ITransactionModel transactionModel)
         {
             var allTransactions = await _billingsService.GetManyByParameterAsync(
-                b => b!.Approved && b.AccountId == transactionModel.AccountId.ToGuid()
+                b =>
+                    b!.Approved
+                    && b.AccountId == transactionModel.AccountId.ToGuid()
+                // && b.Created == DateTime.Today
             );
-            var lastTransactionNumber = allTransactions.Max(t => t?.Amount);
+            var transactionsToday = allTransactions.Count();
 
-            return false;
+            return transactionsToday < 100;
         }
     }
 }

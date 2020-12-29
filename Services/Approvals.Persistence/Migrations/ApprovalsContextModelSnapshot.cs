@@ -32,6 +32,9 @@ namespace Approvals.Persistence.Migrations
                 b.Property<DateTime>("Created")
                     .HasColumnType("timestamp without time zone");
 
+                b.Property<bool>("Pending")
+                    .HasColumnType("boolean");
+
                 b.Property<DateTime>("Updated")
                     .HasColumnType("timestamp without time zone");
 

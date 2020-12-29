@@ -1,4 +1,5 @@
 using System;
+using GreenPipes;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,7 +37,14 @@ namespace Sdk.Communication.Extensions
 
                     cfg.ReceiveEndpoint(
                         queueName,
-                        e => { e.ConfigureConsumer<TC>(context); });
+                        e =>
+                        {
+                            e.UseMessageRetry(
+                                r => r.Interval(100, TimeSpan.FromSeconds(2))
+                            );
+                            e.ConfigureConsumer<TC>(context);
+                        }
+                    );
                 });
             });
             services.AddMassTransitHostedService();
