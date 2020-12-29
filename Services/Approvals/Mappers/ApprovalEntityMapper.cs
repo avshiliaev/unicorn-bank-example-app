@@ -11,11 +11,15 @@ namespace Approvals.Mappers
             return new TModel
             {
                 Id = accountModel.Id,
+                Version = accountModel.Version,
+                
                 Balance = accountModel.Balance,
+                
                 ProfileId = accountModel.ProfileId,
+                
                 Approved = accountModel.Approved,
                 Pending = accountModel.Pending,
-                Version = accountModel.Version,
+                
                 LastSequentialNumber = accountModel.LastSequentialNumber
             };
         }

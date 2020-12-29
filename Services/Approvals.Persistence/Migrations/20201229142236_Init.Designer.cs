@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Approvals.Persistence.Migrations
 {
     [DbContext(typeof(ApprovalsContext))]
-    [Migration("20201229124409_Init")]
+    [Migration("20201229142236_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,6 +39,9 @@ namespace Approvals.Persistence.Migrations
                     b.Property<bool>("Pending")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("ProfileId")
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("Updated")
                         .HasColumnType("timestamp without time zone");
 
@@ -47,7 +50,7 @@ namespace Approvals.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Accounts");
+                    b.ToTable("Approvals");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Billings.Interfaces;
@@ -10,6 +11,7 @@ namespace Billings.Managers
     public class LicenseManager : ILicenseManager
     {
         private readonly IBillingsService _billingsService;
+        private readonly int _maxTransactionsPerDay = 100;
 
         public LicenseManager(
             ILogger<LicenseManager> logger,
@@ -25,11 +27,11 @@ namespace Billings.Managers
                 b =>
                     b!.Approved
                     && b.AccountId == transactionModel.AccountId.ToGuid()
-                // && b.Created == DateTime.Today
+                    && b.Created.Date == DateTime.Today
             );
             var transactionsToday = allTransactions.Count();
 
-            return transactionsToday < 100;
+            return transactionsToday < _maxTransactionsPerDay;
         }
     }
 }

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Approvals.Interfaces;
 using Approvals.Persistence.Entities;
@@ -13,6 +15,13 @@ namespace Approvals.Services
         public ApprovalsService(IRepository<ApprovalEntity> approvalsRepository)
         {
             _approvalsRepository = approvalsRepository;
+        }
+
+        public Task<IEnumerable<ApprovalEntity?>> GetManyByParameterAsync(
+            Expression<Func<ApprovalEntity?, bool>> predicate
+        )
+        {
+            return _approvalsRepository.GetManyByParameterAsync(predicate!)!;
         }
 
         public async Task<ApprovalEntity?> CreateApprovalAsync(ApprovalEntity approvalEntity)

@@ -14,7 +14,7 @@ namespace Approvals.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ApprovalEntity>().ToTable("Accounts");
+            modelBuilder.Entity<ApprovalEntity>().ToTable("Approvals");
             base.OnModelCreating(modelBuilder);
         }
     }

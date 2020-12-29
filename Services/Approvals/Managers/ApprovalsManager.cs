@@ -13,15 +13,18 @@ namespace Approvals.Managers
     {
         private readonly IApprovalsService _approvalsService;
         private readonly IPublishEndpoint _publishEndpoint;
+        private readonly ILicenseManager _licenseManager;
 
         public ApprovalsManager(
             ILogger<ApprovalsManager> logger,
             IApprovalsService approvalsService,
-            IPublishEndpoint publishEndpoint
+            IPublishEndpoint publishEndpoint,
+            ILicenseManager licenseManager
         )
         {
             _approvalsService = approvalsService;
             _publishEndpoint = publishEndpoint;
+            _licenseManager = licenseManager;
         }
 
         public async Task<IAccountModel?> EvaluateAccountAsync(IAccountModel accountCreatedEvent)
@@ -32,7 +35,12 @@ namespace Approvals.Managers
             )
                 return null;
 
-            accountCreatedEvent.SetApproval();
+            var isAllowed = await _licenseManager.EvaluateByUserLicenseScope(accountCreatedEvent);
+
+            if (isAllowed)
+                accountCreatedEvent.SetApproval();
+            else
+                accountCreatedEvent.SetDenial();
 
             var approvedEntity = await _approvalsService.CreateApprovalAsync(
                 accountCreatedEvent.ToApprovalEntity()

@@ -13,12 +13,16 @@ namespace Accounts.Mappers
         {
             return new T
             {
-                Balance = accountEntity.Balance,
-                ProfileId = accountEntity.ProfileId,
-                Approved = accountEntity.Approved,
-                Pending = accountEntity.Pending,
                 Id = accountEntity.Id.ToString(),
                 Version = accountEntity.Version,
+                
+                Balance = accountEntity.Balance,
+                
+                ProfileId = accountEntity.ProfileId,
+                
+                Approved = accountEntity.Approved,
+                Pending = accountEntity.Pending,
+                
                 LastSequentialNumber = accountEntity.LastSequentialNumber
             };
         }
@@ -28,12 +32,16 @@ namespace Accounts.Mappers
         {
             return new T
             {
-                Balance = accountEntity.Balance,
-                ProfileId = accountEntity.ProfileId,
-                Approved = accountEntity.Approved,
-                Pending = accountEntity.Pending,
                 Id = accountEntity.Id.ToString(),
                 Version = accountEntity.Version,
+                
+                Balance = accountEntity.Balance,
+                
+                ProfileId = accountEntity.ProfileId,
+                
+                Approved = accountEntity.Approved,
+                Pending = accountEntity.Pending,
+
                 LastSequentialNumber = accountEntity.LastSequentialNumber
             };
         }

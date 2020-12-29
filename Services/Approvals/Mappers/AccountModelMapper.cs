@@ -17,6 +17,7 @@ namespace Approvals.Mappers
                 Version = 0,
 
                 AccountId = accountModel.Id.ToGuid(),
+                ProfileId = accountModel.ProfileId,
 
                 Approved = accountModel.Approved,
                 Pending = accountModel.Pending
