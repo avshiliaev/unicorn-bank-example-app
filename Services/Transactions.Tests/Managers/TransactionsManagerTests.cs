@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Sdk.Api.Dto;
 using Sdk.Api.Events;
+using Sdk.Api.Events.Local;
 using Sdk.Api.Interfaces;
 using Sdk.Tests.Extensions;
 using Sdk.Tests.Mocks;

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Sdk.Api.Events;
+using Sdk.Api.Events.Local;
 using Transactions.Interfaces;
 
 namespace Transactions.Handlers

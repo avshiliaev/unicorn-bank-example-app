@@ -13,6 +13,7 @@ namespace Approvals.Persistence.Entities
         // Approvable
         public bool Approved { get; set; }
         public bool Pending { get; set; }
+        public bool Blocked { get; set; }
 
         // Common Entity
         public Guid Id { get; set; }

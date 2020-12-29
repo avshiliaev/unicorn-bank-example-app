@@ -4,6 +4,7 @@ using Accounts.Interfaces;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Sdk.Api.Events;
+using Sdk.Api.Events.Local;
 using Sdk.Extensions;
 
 namespace Accounts.Handlers

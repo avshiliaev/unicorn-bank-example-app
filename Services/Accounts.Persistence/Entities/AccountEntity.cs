@@ -15,6 +15,7 @@ namespace Accounts.Persistence.Entities
         // Approvable
         public bool Approved { get; set; }
         public bool Pending { get; set; }
+        public bool Blocked { get; set; }
 
         // Concurrent Host
         public int LastSequentialNumber { get; set; }

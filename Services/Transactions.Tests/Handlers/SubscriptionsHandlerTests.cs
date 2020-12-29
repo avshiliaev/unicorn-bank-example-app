@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using MassTransit.Testing;
 using Sdk.Api.Events;
+using Sdk.Api.Events.Local;
 using Transactions.Handlers;
 using Xunit;
 

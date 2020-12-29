@@ -4,6 +4,7 @@ using Billings.Mappers;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Sdk.Api.Events;
+using Sdk.Api.Events.Local;
 using Sdk.Api.Interfaces;
 using Sdk.Extensions;
 

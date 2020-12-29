@@ -12,6 +12,13 @@ namespace Sdk.Extensions
                 return false;
             return true;
         }
+        
+        public static bool IsBlocked(this IApprovable approvable)
+        {
+            if (!approvable.Blocked || approvable.Pending)
+                return false;
+            return true;
+        }
 
         # endregion
 
@@ -21,6 +28,7 @@ namespace Sdk.Extensions
         {
             approvable.Approved = true;
             approvable.Pending = false;
+            approvable.Blocked = false;
 
             return approvable;
         }
@@ -29,6 +37,7 @@ namespace Sdk.Extensions
         {
             approvable.Approved = false;
             approvable.Pending = true;
+            approvable.Blocked = false;
 
             return approvable;
         }
@@ -37,6 +46,7 @@ namespace Sdk.Extensions
         {
             approvable.Approved = false;
             approvable.Pending = true;
+            approvable.Blocked = false;
 
             return approvable;
         }
@@ -45,6 +55,16 @@ namespace Sdk.Extensions
         {
             approvable.Approved = false;
             approvable.Pending = false;
+            approvable.Blocked = false;
+
+            return approvable;
+        }
+        
+        public static IApprovable SetBlocked(this IApprovable approvable)
+        {
+            approvable.Approved = true;
+            approvable.Pending = false;
+            approvable.Blocked = true;
 
             return approvable;
         }

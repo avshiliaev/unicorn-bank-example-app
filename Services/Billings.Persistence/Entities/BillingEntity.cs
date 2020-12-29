@@ -17,6 +17,7 @@ namespace Billings.Persistence.Entities
         // Approvable
         public bool Approved { get; set; }
         public bool Pending { get; set; }
+        public bool Blocked { get; set; }
 
         // Concurrency
         public int SequentialNumber { get; set; }
