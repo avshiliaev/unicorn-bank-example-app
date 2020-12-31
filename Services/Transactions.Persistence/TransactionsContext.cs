@@ -11,10 +11,12 @@ namespace Transactions.Persistence
         }
 
         public DbSet<TransactionEntity> Transactions { get; set; }
+        public DbSet<AccountEntity> Accounts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<TransactionEntity>().ToTable("Transactions");
+            modelBuilder.Entity<AccountEntity>().ToTable("Accounts");
             base.OnModelCreating(modelBuilder);
         }
     }

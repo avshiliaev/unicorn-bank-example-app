@@ -8,6 +8,7 @@ using Moq;
 using Sdk.Api.Events;
 using Sdk.Api.Events.Local;
 using Sdk.Api.Interfaces;
+using Sdk.Extensions;
 using Sdk.Tests.Extensions;
 using Sdk.Tests.Mocks;
 using Xunit;
@@ -63,12 +64,12 @@ namespace Accounts.Tests.Managers
         [Fact]
         public async void ShouldSuccessfullyAddApprovalToAccountAsync()
         {
-            var accountApprovedEvent = new AccountApprovedEvent
+            var accountApprovedEvent = new AccountIsCheckedEvent
             {
-                Id = 1.ToGuid().ToString(),
-                Approved = true
+                Id = 1.ToGuid().ToString()
             };
-            var newCreatedAccount = await _manager.ProcessAccountApprovedEventAsync(accountApprovedEvent);
+            accountApprovedEvent.SetApproval();
+            var newCreatedAccount = await _manager.ProcessAccountIsCheckedEventAsync(accountApprovedEvent);
             Assert.NotNull(newCreatedAccount);
             Assert.True(newCreatedAccount.Approved);
         }
@@ -76,12 +77,12 @@ namespace Accounts.Tests.Managers
         [Fact]
         public async void ShouldNotAddApprovalToAnInvalidAccount()
         {
-            var accountApprovedEvent = new AccountApprovedEvent
+            var accountApprovedEvent = new AccountIsCheckedEvent
             {
                 Id = 5.ToGuid().ToString(),
                 Approved = true
             };
-            var newCreatedAccount = await _manager.ProcessAccountApprovedEventAsync(accountApprovedEvent);
+            var newCreatedAccount = await _manager.ProcessAccountIsCheckedEventAsync(accountApprovedEvent);
             Assert.Null(newCreatedAccount);
         }
 

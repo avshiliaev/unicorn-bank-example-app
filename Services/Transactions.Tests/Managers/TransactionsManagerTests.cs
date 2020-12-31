@@ -54,12 +54,14 @@ namespace Transactions.Tests.Managers
             var transactionsRepositoryMock = new RepositoryMockFactory<TransactionEntity>(_transactionEntities)
                 .GetInstance();
             var concurrencyManagerMock = new ConcurrencyManagerMockFactory(_transactionEntities).GetInstance();
+            var licenseManagerMock = new LicenseManagerMockFactory().GetInstance();
 
             _manager = new TransactionsManager(
                 new Mock<ILogger<TransactionsManager>>().Object,
                 new TransactionsService(transactionsRepositoryMock.Object),
                 publishEndpoint.Object,
-                concurrencyManagerMock.Object
+                concurrencyManagerMock.Object,
+                licenseManagerMock.Object
             );
         }
 
@@ -68,13 +70,13 @@ namespace Transactions.Tests.Managers
         [Fact]
         public async void ShouldSuccessfullyUpdateStatusOfTransactionAsync()
         {
-            var transactionProcessedEvent = new TransactionProcessedEvent
+            var transactionProcessedEvent = new TransactionIsCheckedEvent
             {
                 Id = 1.ToGuid().ToString(),
                 ProfileId = 1.ToGuid().ToString(),
                 Approved = true
             };
-            var updatedTransaction = await _manager.ProcessTransactionProcessedEventAsync(transactionProcessedEvent);
+            var updatedTransaction = await _manager.ProcessTransactionCheckedEventAsync(transactionProcessedEvent);
             Assert.NotNull(updatedTransaction);
             Assert.True(updatedTransaction.Approved);
         }
@@ -82,13 +84,13 @@ namespace Transactions.Tests.Managers
         [Fact]
         public async void ShouldNotUpdateStatusOfAnInvalidTransactionAsync()
         {
-            var transactionProcessedEvent = new TransactionProcessedEvent
+            var transactionProcessedEvent = new TransactionIsCheckedEvent
             {
                 Id = 99.ToGuid().ToString(),
                 ProfileId = 1.ToGuid().ToString(),
                 Approved = true
             };
-            var updatedTransaction = await _manager.ProcessTransactionProcessedEventAsync(transactionProcessedEvent);
+            var updatedTransaction = await _manager.ProcessTransactionCheckedEventAsync(transactionProcessedEvent);
             Assert.Null(updatedTransaction);
         }
 

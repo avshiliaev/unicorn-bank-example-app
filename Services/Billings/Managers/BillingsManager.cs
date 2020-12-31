@@ -49,7 +49,7 @@ namespace Billings.Managers
 
             if (processedEntity != null)
             {
-                var transactionProcessedEvent = processedEntity.ToTransactionModel<TransactionProcessedEvent>(
+                var transactionProcessedEvent = processedEntity.ToTransactionModel<TransactionIsCheckedEvent>(
                     transactionCreatedEvent
                 );
                 await _publishEndpoint.Publish(transactionProcessedEvent);

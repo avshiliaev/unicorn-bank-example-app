@@ -19,16 +19,16 @@ namespace Accounts.Tests.Handlers
             await harness.Start();
             try
             {
-                await harness.InputQueueSendEndpoint.Send(new AccountApprovedEvent
+                await harness.InputQueueSendEndpoint.Send(new AccountIsCheckedEvent
                 {
                     ProfileId = Guid.NewGuid().ToString()
                 });
 
                 // did the endpoint consume the message
-                Assert.True(await harness.Consumed.Any<AccountApprovedEvent>());
+                Assert.True(await harness.Consumed.Any<AccountIsCheckedEvent>());
 
                 // did the actual consumer consume the message
-                Assert.True(await consumerHarness.Consumed.Any<AccountApprovedEvent>());
+                Assert.True(await consumerHarness.Consumed.Any<AccountIsCheckedEvent>());
             }
             finally
             {

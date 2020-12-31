@@ -8,7 +8,9 @@ namespace Approvals.Extensions
     {
         public static IServiceCollection AddBusinessLogicManagers(this IServiceCollection services)
         {
-            services.AddTransient<IApprovalsManager, ApprovalsManager>();
+            services
+                .AddTransient<IApprovalsManager, ApprovalsManager>()
+                .AddTransient<ILicenseManager, LicenseManager>();
             return services;
         }
     }

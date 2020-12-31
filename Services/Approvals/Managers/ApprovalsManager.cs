@@ -28,7 +28,7 @@ namespace Approvals.Managers
             _licenseManager = licenseManager;
         }
 
-        public async Task<IAccountModel?> EvaluateAccountAsync(IAccountModel accountCreatedEvent)
+        public async Task<IAccountModel?> EvaluateAccountPendingAsync(IAccountModel accountCreatedEvent)
         {
             if (
                 string.IsNullOrEmpty(accountCreatedEvent.ProfileId) ||
@@ -36,9 +36,9 @@ namespace Approvals.Managers
             )
                 return null;
 
-            var isAllowed = await _licenseManager.EvaluateByUserLicenseScope(accountCreatedEvent);
+            var isCreationAllowed = await _licenseManager.EvaluateCreationAllowedAsync(accountCreatedEvent);
 
-            if (isAllowed)
+            if (isCreationAllowed)
                 accountCreatedEvent.SetApproval();
             else
                 accountCreatedEvent.SetDenial();
@@ -49,11 +49,46 @@ namespace Approvals.Managers
 
             if (approvedEntity != null)
             {
-                var accountApprovedEvent = approvedEntity.ToAccountModel<AccountApprovedEvent>(accountCreatedEvent);
+                var accountApprovedEvent = approvedEntity.ToAccountModel<AccountIsCheckedEvent>(accountCreatedEvent);
                 await _publishEndpoint.Publish(accountApprovedEvent);
 
                 return accountApprovedEvent;
             }
+
+            return null;
+        }
+        
+        public async Task<IAccountModel?> EvaluateAccountRunningAsync(IAccountModel accountCreatedEvent)
+        {
+            if (
+                string.IsNullOrEmpty(accountCreatedEvent.ProfileId) ||
+                string.IsNullOrEmpty(accountCreatedEvent.Id)
+            )
+                return null;
+
+            var isValidState = await _licenseManager.EvaluateStateAllowedAsync(accountCreatedEvent);
+            if (isValidState) return accountCreatedEvent;
+
+            var approvalRecord = await _approvalsService.GetOneByParameterAsync(
+                a => a != null && a.AccountId == accountCreatedEvent.Id.ToGuid()
+                );
+
+            if (approvalRecord != null)
+            {
+                approvalRecord.SetBlocked();
+                var approvedEntity = await _approvalsService.UpdateApprovalAsync(
+                    approvalRecord
+                );
+
+                if (approvedEntity != null)
+                {
+                    var accountApprovedEvent = approvedEntity.ToAccountModel<AccountIsCheckedEvent>(accountCreatedEvent);
+                    await _publishEndpoint.Publish(accountApprovedEvent);
+
+                    return accountApprovedEvent;
+                }
+            }
+
 
             return null;
         }

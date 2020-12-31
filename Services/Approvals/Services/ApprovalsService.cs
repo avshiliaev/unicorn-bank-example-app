@@ -24,6 +24,11 @@ namespace Approvals.Services
             return _approvalsRepository.GetManyByParameterAsync(predicate!)!;
         }
 
+        public Task<ApprovalEntity?> GetOneByParameterAsync(Expression<Func<ApprovalEntity?, bool>> predicate)
+        {
+            return _approvalsRepository.GetOneByParameterAsync(predicate!)!;
+        }
+
         public async Task<ApprovalEntity?> CreateApprovalAsync(ApprovalEntity approvalEntity)
         {
             return await _approvalsRepository.AddAsync(approvalEntity)!;
@@ -36,7 +41,7 @@ namespace Approvals.Services
 
         public Task<ApprovalEntity?> UpdateApprovalAsync(ApprovalEntity approvalEntity)
         {
-            throw new NotImplementedException();
+            return _approvalsRepository.UpdateActivelyAsync(approvalEntity)!;
         }
     }
 }

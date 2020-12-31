@@ -4,11 +4,14 @@ using MassTransit;
 using Microsoft.Extensions.Logging;
 using Sdk.Api.Events;
 using Sdk.Api.Events.Local;
+using Sdk.Extensions;
 using Transactions.Interfaces;
 
 namespace Transactions.Handlers
 {
-    public class TransactionsSubscriptionsHandler : IConsumer<TransactionProcessedEvent>
+    public class TransactionsSubscriptionsHandler : 
+        IConsumer<TransactionIsCheckedEvent>, 
+        IConsumer<AccountUpdatedEvent>
     {
         private readonly ILogger<TransactionsSubscriptionsHandler> _logger;
         private readonly ITransactionsManager _transactionsManager;
@@ -26,11 +29,18 @@ namespace Transactions.Handlers
         {
         }
 
-        public async Task Consume(ConsumeContext<TransactionProcessedEvent> context)
+        public async Task Consume(ConsumeContext<TransactionIsCheckedEvent> context)
         {
             _logger.LogDebug($"Received new TransactionProcessedEvent for {context.Message.Id}");
-            var result = await _transactionsManager.ProcessTransactionProcessedEventAsync(context.Message);
+            var result = await _transactionsManager.ProcessTransactionCheckedEventAsync(context.Message);
 
+            if (result == null) throw new Exception($"Could not process an event {context.Message.Id}");
+        }
+        
+        public async Task Consume(ConsumeContext<AccountUpdatedEvent> context)
+        {
+            _logger.LogDebug($"Received new AccountUpdatedEvent for {context.Message.Version}");
+            var result = await _transactionsManager.ProcessAccountUpdatedEventAsync(context.Message);
             if (result == null) throw new Exception($"Could not process an event {context.Message.Id}");
         }
     }

@@ -15,7 +15,7 @@ namespace Sdk.Extensions
         
         public static bool IsBlocked(this IApprovable approvable)
         {
-            if (!approvable.Blocked || approvable.Pending)
+            if (!approvable.Blocked)
                 return false;
             return true;
         }

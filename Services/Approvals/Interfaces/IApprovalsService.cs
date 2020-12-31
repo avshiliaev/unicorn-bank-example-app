@@ -9,6 +9,7 @@ namespace Approvals.Interfaces
     public interface IApprovalsService
     {
         Task<IEnumerable<ApprovalEntity?>> GetManyByParameterAsync(Expression<Func<ApprovalEntity?, bool>> predicate);
+        Task<ApprovalEntity?> GetOneByParameterAsync(Expression<Func<ApprovalEntity?, bool>> predicate);
         Task<ApprovalEntity?> CreateApprovalAsync(ApprovalEntity approvalEntity);
 
         Task<ApprovalEntity?> GetApprovalByIdAsync(Guid approvalId);

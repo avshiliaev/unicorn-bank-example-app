@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Billings.Handlers;
 using MassTransit.Testing;
 using Sdk.Api.Events;
+using Sdk.Api.Events.Local;
 using Xunit;
 
 namespace Billings.Tests.Handlers
@@ -18,17 +19,17 @@ namespace Billings.Tests.Handlers
             await harness.Start();
             try
             {
-                await harness.InputQueueSendEndpoint.Send(new TransactionCreatedEvent
+                await harness.InputQueueSendEndpoint.Send(new TransactionCheckCommand
                 {
                     Id = Guid.NewGuid().ToString(),
                     ProfileId = Guid.NewGuid().ToString()
                 });
 
                 // did the endpoint consume the message
-                Assert.True(await harness.Consumed.Any<TransactionCreatedEvent>());
+                Assert.True(await harness.Consumed.Any<TransactionCheckCommand>());
 
                 // did the actual consumer consume the message
-                Assert.True(await consumerHarness.Consumed.Any<TransactionCreatedEvent>());
+                Assert.True(await consumerHarness.Consumed.Any<TransactionCheckCommand>());
             }
             finally
             {

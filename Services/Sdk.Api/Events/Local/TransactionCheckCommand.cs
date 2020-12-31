@@ -3,24 +3,27 @@ using Sdk.Interfaces;
 
 namespace Sdk.Api.Events.Local
 {
-    public class AccountApprovedEvent : IAccountModel, IEvent
+    public class TransactionCheckCommand: ITransactionModel, IEvent
     {
         // Common
         public string Id { get; set; }
         public int Version { get; set; }
         
-        // Concurrent Host
-        public int LastSequentialNumber { get; set; }
-        
-        // Properties
-        public float Balance { get; set; }
-        
         // Foreign
+        public string AccountId { get; set; }
         public string ProfileId { get; set; }
         
-        // Approvable 
+        // Properties
+        public float Amount { get; set; }
+        public string Info { get; set; }
+        public string Timestamp { get; set; }
+        
+        // Approvable
         public bool Approved { get; set; }
         public bool Pending { get; set; }
         public bool Blocked { get; set; }
+
+        // Concurrent
+        public int SequentialNumber { get; set; }
     }
 }

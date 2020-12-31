@@ -19,16 +19,16 @@ namespace Transactions.Tests.Handlers
             await harness.Start();
             try
             {
-                await harness.InputQueueSendEndpoint.Send(new TransactionProcessedEvent
+                await harness.InputQueueSendEndpoint.Send(new TransactionIsCheckedEvent
                 {
                     ProfileId = Guid.NewGuid().ToString()
                 });
 
                 // did the endpoint consume the message
-                Assert.True(await harness.Consumed.Any<TransactionProcessedEvent>());
+                Assert.True(await harness.Consumed.Any<TransactionIsCheckedEvent>());
 
                 // did the actual consumer consume the message
-                Assert.True(await consumerHarness.Consumed.Any<TransactionProcessedEvent>());
+                Assert.True(await consumerHarness.Consumed.Any<TransactionIsCheckedEvent>());
             }
             finally
             {

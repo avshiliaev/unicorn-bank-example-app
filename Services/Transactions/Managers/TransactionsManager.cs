@@ -4,6 +4,7 @@ using MassTransit;
 using Microsoft.Extensions.Logging;
 using Sdk.Api.Dto;
 using Sdk.Api.Events;
+using Sdk.Api.Events.Local;
 using Sdk.Api.Interfaces;
 using Sdk.Extensions;
 using Transactions.Interfaces;
@@ -16,24 +17,28 @@ namespace Transactions.Managers
         private readonly IConcurrencyManager _concurrencyManager;
         private readonly IPublishEndpoint _publishEndpoint;
         private readonly ITransactionsService _transactionsService;
+        private readonly ILicenseManager _licenseManager;
 
         public TransactionsManager(
             ILogger<TransactionsManager> logger,
             ITransactionsService transactionsService,
             IPublishEndpoint publishEndpoint,
-            IConcurrencyManager concurrencyManager
+            IConcurrencyManager concurrencyManager,
+            ILicenseManager licenseManager
         )
         {
             _transactionsService = transactionsService;
             _publishEndpoint = publishEndpoint;
             _concurrencyManager = concurrencyManager;
+            _licenseManager = licenseManager;
         }
 
         public async Task<TransactionDto?> CreateNewTransactionAsync(ITransactionModel transactionModel)
         {
             if (
                 string.IsNullOrEmpty(transactionModel.ProfileId) ||
-                transactionModel.AccountId == Guid.Empty.ToString()
+                transactionModel.AccountId == Guid.Empty.ToString() ||
+                await _licenseManager.CheckAccountStateAsync(transactionModel.AccountId.ToGuid())
             )
                 return null;
 
@@ -47,13 +52,14 @@ namespace Transactions.Managers
             if (newTransaction != null)
             {
                 await _publishEndpoint.Publish(newTransaction.ToTransactionModel<TransactionCreatedEvent>());
+                await _publishEndpoint.Publish(newTransaction.ToTransactionModel<TransactionCheckCommand>());
                 return newTransaction.ToTransactionModel<TransactionDto>();
             }
 
             return null;
         }
 
-        public async Task<TransactionDto?> ProcessTransactionProcessedEventAsync(ITransactionModel transactionModel)
+        public async Task<TransactionDto?> ProcessTransactionCheckedEventAsync(ITransactionModel transactionModel)
         {
             var transactionEntity = await _transactionsService.GetTransactionByIdAsync(transactionModel.Id.ToGuid());
             if (transactionEntity != null)
@@ -76,6 +82,11 @@ namespace Transactions.Managers
             }
 
             return null;
+        }
+
+        public Task<IAccountModel?> ProcessAccountUpdatedEventAsync(IAccountModel accountModel)
+        {
+            return _licenseManager.UpdateAccountStateAsync(accountModel);
         }
     }
 }

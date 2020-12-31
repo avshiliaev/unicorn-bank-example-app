@@ -10,6 +10,8 @@ namespace Approvals.Managers
     {
         private readonly IApprovalsService _approvalsService;
         private readonly int _maxAccountPerUser = 10;
+        private readonly int _maxAccountLowerRange = -500;
+        private readonly int _maxAccountUpperRange = (int)1e6;
 
         public LicenseManager(
             ILogger<LicenseManager> logger,
@@ -19,7 +21,7 @@ namespace Approvals.Managers
             _approvalsService = approvalsService;
         }
 
-        public async Task<bool> EvaluateByUserLicenseScope(IAccountModel accountModel)
+        public async Task<bool> EvaluateCreationAllowedAsync(IAccountModel accountModel)
         {
             var allApprovals = await _approvalsService.GetManyByParameterAsync(
                 b =>
@@ -28,6 +30,14 @@ namespace Approvals.Managers
             );
 
             return allApprovals.Count() <= _maxAccountPerUser;
+        }
+
+        public async Task<bool> EvaluateStateAllowedAsync(IAccountModel accountModel)
+        {
+            if (accountModel.Balance<= _maxAccountUpperRange && accountModel.Balance >= _maxAccountLowerRange)
+                return true;
+            
+            return false;
         }
     }
 }

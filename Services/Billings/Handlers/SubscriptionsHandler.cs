@@ -4,10 +4,11 @@ using Billings.Interfaces;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Sdk.Api.Events;
+using Sdk.Api.Events.Local;
 
 namespace Billings.Handlers
 {
-    public class BillingsSubscriptionsHandler : IConsumer<TransactionCreatedEvent>
+    public class BillingsSubscriptionsHandler : IConsumer<TransactionCheckCommand>
     {
         private readonly IBillingsManager _billingsManager;
         private readonly ILogger<BillingsSubscriptionsHandler> _logger;
@@ -25,7 +26,7 @@ namespace Billings.Handlers
         {
         }
 
-        public async Task Consume(ConsumeContext<TransactionCreatedEvent> context)
+        public async Task Consume(ConsumeContext<TransactionCheckCommand> context)
         {
             _logger.LogDebug($"Received new TransactionCreatedEvent for {context.Message.Id}");
             var result = await _billingsManager.EvaluateTransactionAsync(context.Message);

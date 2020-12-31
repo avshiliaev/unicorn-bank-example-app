@@ -8,7 +8,9 @@ namespace Transactions.Extensions
     {
         public static IServiceCollection AddDataAccessServices(this IServiceCollection services)
         {
-            services.AddTransient<ITransactionsService, TransactionsService>();
+            services
+                .AddTransient<ITransactionsService, TransactionsService>()
+                .AddTransient<IAccountsService, AccountsService>();
             return services;
         }
     }

@@ -7,6 +7,7 @@ namespace Transactions.Interfaces
     public interface ITransactionsManager
     {
         Task<TransactionDto?> CreateNewTransactionAsync(ITransactionModel transactionModel);
-        Task<TransactionDto?> ProcessTransactionProcessedEventAsync(ITransactionModel transactionModel);
+        Task<TransactionDto?> ProcessTransactionCheckedEventAsync(ITransactionModel transactionModel);
+        Task<IAccountModel?> ProcessAccountUpdatedEventAsync(IAccountModel transactionModel);
     }
 }

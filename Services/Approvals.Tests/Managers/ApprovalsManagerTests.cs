@@ -69,7 +69,7 @@ namespace Approvals.Tests.Managers
                 Approved = false
             };
             var newCreatedApproval = await _manager
-                .EvaluateAccountAsync(accountCreatedEvent);
+                .EvaluateAccountPendingAsync(accountCreatedEvent);
             Assert.NotNull(newCreatedApproval);
         }
 
@@ -78,7 +78,7 @@ namespace Approvals.Tests.Managers
         {
             var accountCreatedEvent = new AccountCreatedEvent();
             var newCreatedApproval = await _manager
-                .EvaluateAccountAsync(accountCreatedEvent);
+                .EvaluateAccountPendingAsync(accountCreatedEvent);
             Assert.Null(newCreatedApproval);
         }
     }

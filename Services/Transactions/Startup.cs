@@ -7,6 +7,7 @@ using Sdk.Api.Extensions;
 using Sdk.Auth.Extensions;
 using Sdk.Communication.Extensions;
 using Sdk.Persistence.Extensions;
+using Sdk.Persistence.Interfaces;
 using Transactions.Extensions;
 using Transactions.Handlers;
 using Transactions.Persistence;
@@ -33,6 +34,7 @@ namespace Transactions
             services
                 .AddCors()
                 .AddPostgreSql<TransactionsRepository, TransactionEntity, TransactionsContext>(_configuration)
+                .AddTransient<IRepository<AccountEntity>, AccountsRepository>() // TODO: Refactor!
                 .AddAuth0(_configuration)
                 .AddDataAccessServices()
                 .AddBusinessLogicManagers()

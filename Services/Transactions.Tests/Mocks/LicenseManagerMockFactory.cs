@@ -1,10 +1,13 @@
+using System;
 using System.Threading.Tasks;
-using Approvals.Interfaces;
 using Moq;
+using Sdk.Api.Dto;
+using Sdk.Api.Events;
 using Sdk.Api.Interfaces;
 using Sdk.Tests.Interfaces;
+using Transactions.Interfaces;
 
-namespace Approvals.Tests.Mocks
+namespace Transactions.Tests.Mocks
 {
     public class LicenseManagerMockFactory : IMockFactory<ILicenseManager>
     {
@@ -13,18 +16,14 @@ namespace Approvals.Tests.Mocks
             var licenseManager = new Mock<ILicenseManager>();
             licenseManager
                 .Setup(
-                    p => p.EvaluateCreationAllowedAsync(
-                        It.IsAny<IAccountModel>()
+                    p => p.CheckAccountStateAsync(
+                        It.IsAny<Guid>()
                     )
                 )
-                .Returns(Task.FromResult(true));
+                .Returns(Task.FromResult(false));
             licenseManager
-                .Setup(
-                    p => p.EvaluateStateAllowedAsync(
-                        It.IsAny<IAccountModel>()
-                    )
-                )
-                .Returns(Task.FromResult(true));
+                .Setup(p => p.UpdateAccountStateAsync(It.IsAny<IAccountModel>()))
+                .Returns(((IAccountModel accountModel) => Task.FromResult(accountModel)));
             return licenseManager;
         }
     }

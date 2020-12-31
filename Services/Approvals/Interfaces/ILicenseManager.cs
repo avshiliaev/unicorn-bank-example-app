@@ -5,6 +5,7 @@ namespace Approvals.Interfaces
 {
     public interface ILicenseManager
     {
-        public Task<bool> EvaluateByUserLicenseScope(IAccountModel accountModel);
+        public Task<bool> EvaluateCreationAllowedAsync(IAccountModel accountModel);
+        public Task<bool> EvaluateStateAllowedAsync(IAccountModel accountModel);
     }
 }

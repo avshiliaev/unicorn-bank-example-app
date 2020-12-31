@@ -17,8 +17,9 @@ namespace Approvals.Mappers
                 
                 ProfileId = accountModel.ProfileId,
                 
-                Approved = accountModel.Approved,
-                Pending = accountModel.Pending,
+                Approved = approvalEntity.Approved,
+                Pending = approvalEntity.Pending,
+                Blocked = approvalEntity.Blocked,
                 
                 LastSequentialNumber = accountModel.LastSequentialNumber
             };
