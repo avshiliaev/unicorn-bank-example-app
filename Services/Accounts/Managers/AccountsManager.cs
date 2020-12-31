@@ -51,10 +51,14 @@ namespace Accounts.Managers
             {
                 if (accountModel.IsBlocked())
                     accountEntity.SetBlocked();
-                if (accountModel.IsApproved())
-                    accountEntity.SetApproval();
                 else
-                    accountEntity.SetDenial();
+                {
+                    if (accountModel.IsApproved())
+                        accountEntity.SetApproval();
+                    else
+                        accountEntity.SetDenial();
+                }
+
                 // Optimistic Concurrency Control: update incrementing the version
                 var updatedAccount = await _accountsService.UpdateAccountAsync(accountEntity);
                 if (updatedAccount != null)

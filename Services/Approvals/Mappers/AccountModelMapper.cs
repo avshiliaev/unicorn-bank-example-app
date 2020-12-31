@@ -20,7 +20,8 @@ namespace Approvals.Mappers
                 ProfileId = accountModel.ProfileId,
 
                 Approved = accountModel.Approved,
-                Pending = accountModel.Pending
+                Pending = accountModel.Pending,
+                Blocked = accountModel.Blocked,
             };
         }
     }

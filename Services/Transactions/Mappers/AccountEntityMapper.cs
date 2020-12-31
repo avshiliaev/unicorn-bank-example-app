@@ -22,6 +22,7 @@ namespace Transactions.Mappers
                 
                 Approved = accountEntity.Approved,
                 Pending = accountEntity.Pending,
+                Blocked = accountEntity.Blocked,
                 
                 LastSequentialNumber = accountEntity.LastSequentialNumber
             };
@@ -41,6 +42,7 @@ namespace Transactions.Mappers
                 
                 Approved = accountEntity.Approved,
                 Pending = accountEntity.Pending,
+                Blocked = accountEntity.Blocked,
 
                 LastSequentialNumber = accountEntity.LastSequentialNumber
             };
