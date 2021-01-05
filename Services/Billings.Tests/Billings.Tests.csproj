@@ -16,7 +16,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Billings\Billings.csproj" />
-      <ProjectReference Include="..\Sdk.Tests\Sdk.Tests.csproj" />
+      <ProjectReference Include="..\Sdk.TestingTools\Sdk.TestingTools.csproj" />
     </ItemGroup>
 
 </Project>

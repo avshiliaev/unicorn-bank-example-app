@@ -23,7 +23,7 @@ namespace Transactions.Tests.Controllers
         }
 
         // [Fact]
-        public async Task ShouldTurnDownIfNoAccountIdProvided()
+        public async Task ShouldNot_PostAsync_Invalid()
         {
             // Arrange
             var requestUrl = "/api/transactions";
@@ -51,7 +51,7 @@ namespace Transactions.Tests.Controllers
         }
 
         // [Fact]
-        public async Task CreateNewTransactionRightData()
+        public async Task Should_PostAsync_Valid()
         {
             // Arrange
             var requestUrl = "/api/transactions";

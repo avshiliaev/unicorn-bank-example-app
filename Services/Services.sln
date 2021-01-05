@@ -14,7 +14,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accounts.Tests", "Accounts.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sdk.Persistence", "Sdk.Persistence\Sdk.Persistence.csproj", "{E53CF96E-6116-4068-A282-3B6C08934257}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sdk.Tests", "Sdk.Tests\Sdk.Tests.csproj", "{EDEF46CE-6BE0-4DFC-9212-9679ADD25F01}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sdk.TestingTools", "Sdk.TestingTools\Sdk.TestingTools.csproj", "{EDEF46CE-6BE0-4DFC-9212-9679ADD25F01}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications", "Notifications\Notifications.csproj", "{1A87E30F-2B87-4B86-B966-030C73216941}"
 EndProject

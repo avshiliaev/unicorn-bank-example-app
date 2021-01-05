@@ -15,7 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Sdk.Tests\Sdk.Tests.csproj" />
+      <ProjectReference Include="..\Sdk.TestingTools\Sdk.TestingTools.csproj" />
       <ProjectReference Include="..\Transactions\Transactions.csproj" />
     </ItemGroup>
 

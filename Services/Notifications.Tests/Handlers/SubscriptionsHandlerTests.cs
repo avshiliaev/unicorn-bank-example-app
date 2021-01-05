@@ -10,7 +10,7 @@ namespace Notifications.Tests.Handlers
     public class SubscriptionsHandlerTests
     {
         [Fact]
-        public async Task Should_ConsumeNotificationEvent()
+        public async Task Should_Consume_NotificationEvent()
         {
             var harness = new InMemoryTestHarness();
             var consumerHarness = harness.Consumer<NotificationsSubscriptionsHandler>();

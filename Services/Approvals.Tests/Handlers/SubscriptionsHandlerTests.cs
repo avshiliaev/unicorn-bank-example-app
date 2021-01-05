@@ -10,7 +10,7 @@ namespace Approvals.Tests.Handlers
     public class SubscriptionsHandlerTests
     {
         [Fact]
-        public async Task ShouldConsumeAccountCreatedEvent()
+        public async Task Should_Consume_AccountCheckCommand()
         {
             var harness = new InMemoryTestHarness();
             var consumerHarness = harness.Consumer<ApprovalsSubscriptionsHandler>();

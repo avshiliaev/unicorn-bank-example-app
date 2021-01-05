@@ -5,7 +5,6 @@ using Approvals.Persistence.Entities;
 using Approvals.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Sdk.Api.Events;
 using Sdk.Api.Events.Local;
 using Sdk.Api.Interfaces;
 using Sdk.Extensions;
@@ -57,9 +56,9 @@ namespace Approvals.Tests.Managers
                 licenseManagerMock.Object
             );
         }
-    
+
         # region EvaluateAccountPendingAsync
-        
+
         [Fact]
         public async void Should_EvaluateAccountPendingAsync_Valid()
         {
@@ -87,10 +86,11 @@ namespace Approvals.Tests.Managers
                 .EvaluateAccountPendingAsync(accountCheckCommand);
             Assert.Null(accountIsCheckedEvent);
         }
+
         # endregion
-        
+
         # region EvaluateAccountRunningAsync
-        
+
         [Fact]
         public async void Should_EvaluateAccountRunningAsync_Valid()
         {
@@ -116,6 +116,7 @@ namespace Approvals.Tests.Managers
                 .EvaluateAccountRunningAsync(accountCheckCommand);
             Assert.Null(accountIsCheckedEvent);
         }
+
         # endregion
     }
 }

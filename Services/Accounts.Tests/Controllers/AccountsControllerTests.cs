@@ -20,7 +20,7 @@ namespace Accounts.Tests.Controllers
         }
 
         [Fact]
-        public async Task ShouldTurnDownIfNoProfileIdProvided()
+        public async Task ShouldNot_GetAsync_Invalid()
         {
             // Arrange
             var requestUrl = $"/api/accounts/{Guid.Empty.ToString()}";
@@ -36,7 +36,7 @@ namespace Accounts.Tests.Controllers
         }
 
         [Fact]
-        public async Task CreateNewAccountRightData()
+        public async Task Should_GetAsync_Valid()
         {
             // Arrange
             var requestUrl = "/api/accounts";

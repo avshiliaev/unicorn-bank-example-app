@@ -45,7 +45,7 @@ namespace Transactions.Tests.Services
         }
 
         [Fact]
-        public async void ShouldSuccessfullyCreateANewTransaction()
+        public async void Should_CreateTransactionAsync_Valid()
         {
             var newTransactionEntity = new TransactionEntity
             {
@@ -59,7 +59,7 @@ namespace Transactions.Tests.Services
         }
 
         [Fact]
-        public async void ShouldActivelyUpdateExistingTransactions()
+        public async void Should_UpdateTransactionAsync_Valid()
         {
             var transactionEntity = new TransactionEntity
             {
@@ -75,7 +75,7 @@ namespace Transactions.Tests.Services
         }
 
         [Fact]
-        public async void ShouldNotUpdateAnInvalidTransactions()
+        public async void ShouldNot_UpdateTransactionAsync_Invalid()
         {
             var invalidTransactionsEntity = new TransactionEntity
             {
@@ -90,7 +90,7 @@ namespace Transactions.Tests.Services
         }
 
         [Fact]
-        public async void ShouldNotUpdateAnAccountWithWrongVersion()
+        public async void ShouldNot_UpdateTransactionAsync_OutOfOrder()
         {
             var transactionEntity = new TransactionEntity
             {

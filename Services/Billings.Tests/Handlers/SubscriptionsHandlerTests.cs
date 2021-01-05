@@ -10,7 +10,7 @@ namespace Billings.Tests.Handlers
     public class SubscriptionsHandlerTests
     {
         [Fact]
-        public async Task ShouldConsumeTransactionCreatedEvent()
+        public async Task Should_Consume_TransactionCheckCommand()
         {
             var harness = new InMemoryTestHarness();
             var consumerHarness = harness.Consumer<BillingsSubscriptionsHandler>();

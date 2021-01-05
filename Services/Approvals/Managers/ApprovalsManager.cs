@@ -84,7 +84,7 @@ namespace Approvals.Managers
                 {
                     var accountIsCheckedEvent = approvedEntity.ToAccountModel<AccountIsCheckedEvent>(
                         accountCheckCommand
-                        );
+                    );
                     await _publishEndpoint.Publish(accountIsCheckedEvent);
 
                     return accountIsCheckedEvent;

@@ -76,7 +76,7 @@ namespace Billings.Tests.Managers
             transactionCheckCommand.SetPending();
             var transactionIsCheckedEvent = await _manager.EvaluateTransactionAsync(
                 transactionCheckCommand
-                );
+            );
             Assert.NotNull(transactionIsCheckedEvent);
             Assert.True(transactionIsCheckedEvent.IsApproved());
         }

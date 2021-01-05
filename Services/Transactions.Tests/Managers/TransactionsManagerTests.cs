@@ -80,7 +80,7 @@ namespace Transactions.Tests.Managers
             Assert.NotNull(updatedTransaction);
             Assert.True(updatedTransaction.IsApproved());
         }
-        
+
         [Fact]
         public async void Should_ProcessTransactionCheckedEventAsync_Blocked()
         {

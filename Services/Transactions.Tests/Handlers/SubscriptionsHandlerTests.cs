@@ -10,7 +10,7 @@ namespace Transactions.Tests.Handlers
     public class SubscriptionsHandlerTests
     {
         [Fact]
-        public async Task Should_ConsumeTransactionProcessedEvent()
+        public async Task Should_Consume_TransactionIsCheckedEvent()
         {
             var harness = new InMemoryTestHarness();
             var consumerHarness = harness.Consumer<TransactionsSubscriptionsHandler>();
