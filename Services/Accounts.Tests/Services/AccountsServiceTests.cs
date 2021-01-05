@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Accounts.Interfaces;
 using Accounts.Persistence.Entities;
@@ -45,7 +44,7 @@ namespace Accounts.Tests.Services
         }
 
         [Fact]
-        public async void ShouldSuccessfullyCreateANewAccount()
+        public async void Should_CreateAccountAsync_Valid()
         {
             var newAccountEntity = new AccountEntity
             {
@@ -56,7 +55,7 @@ namespace Accounts.Tests.Services
         }
 
         [Fact]
-        public async void ShouldActivelyUpdateExistingAccount()
+        public async void Should_UpdateAccountAsync_Valid()
         {
             var accountEntity = new AccountEntity
             {
@@ -71,7 +70,7 @@ namespace Accounts.Tests.Services
         }
 
         [Fact]
-        public async void ShouldNotUpdateAnInvalidAccount()
+        public async void ShouldNot_UpdateAccountAsync_Invalid()
         {
             var invalidAccountEntity = new AccountEntity
             {
@@ -85,7 +84,7 @@ namespace Accounts.Tests.Services
         }
 
         [Fact]
-        public async void ShouldNotUpdateAnAccountWithWrongVersion()
+        public async void ShouldNot_UpdateAccountAsync_OutOfOrder()
         {
             var invalidAccountEntity = new AccountEntity
             {

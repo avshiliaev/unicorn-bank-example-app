@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -49,55 +50,29 @@ namespace Notifications.Tests.Managers
             );
         }
 
-        #region AddFromAccount
-
         [Fact]
-        public void ShouldSuccessfullyCreateFromAccount()
+        public void Should_AddNewNotification_Valid()
         {
-            var approvedAccountEvent = new AccountApprovedEvent
+            var notificationEvent = new NotificationEvent
             {
-                Id = 1.ToGuid().ToString(),
-                ProfileId = 1.ToGuid().ToString(),
-                Balance = 3,
-                Approved = true
+                Description = "Description",
+                ProfileId = "awesome",
+                Status = "approved",
+                TimeStamp = DateTime.Now,
+                Title = "Title",
+                Id = Guid.NewGuid(),
+                Version = 0
             };
-            var newNotification = _manager.AddFromAccount(approvedAccountEvent);
+            var newNotification = _manager.AddNewNotification(notificationEvent);
             Assert.NotNull(newNotification);
         }
 
         [Fact]
-        public void ShouldNotCreateFromInvalidAccount()
+        public void ShouldNot_AddNewNotification_Invalid()
         {
-            var approvedAccountEvent = new AccountApprovedEvent();
-            var newNotification = _manager.AddFromAccount(approvedAccountEvent);
+            var notificationEvent = new NotificationEvent();
+            var newNotification = _manager.AddNewNotification(notificationEvent);
             Assert.Null(newNotification);
         }
-
-        #endregion
-
-        #region AddFromTransaction
-
-        [Fact]
-        public void ShouldSuccessfullyCreateFromTransaction()
-        {
-            var transactionProcessedEvent = new TransactionProcessedEvent
-            {
-                Id = 1.ToGuid().ToString(),
-                ProfileId = 1.ToGuid().ToString(),
-                Approved = true
-            };
-            var newNotification = _manager.AddFromTransaction(transactionProcessedEvent);
-            Assert.NotNull(newNotification);
-        }
-
-        [Fact]
-        public void ShouldNotCreateFromInvalidTransaction()
-        {
-            var transactionProcessedEvent = new TransactionProcessedEvent();
-            var newNotification = _manager.AddFromTransaction(transactionProcessedEvent);
-            Assert.Null(newNotification);
-        }
-
-        #endregion
     }
 }

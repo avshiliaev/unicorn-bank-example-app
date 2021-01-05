@@ -14,13 +14,13 @@ namespace Notifications.Hubs
     [Authorize("read:notifications")]
     public class NotificationsHub : Hub
     {
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly INotificationsService _notificationsService;
-        private IHttpContextAccessor _httpContextAccessor;
 
         public NotificationsHub(
             INotificationsService notificationsService,
             IHttpContextAccessor httpContextAccessor
-            )
+        )
         {
             _notificationsService = notificationsService;
             _httpContextAccessor = httpContextAccessor;

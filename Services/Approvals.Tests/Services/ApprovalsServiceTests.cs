@@ -45,7 +45,7 @@ namespace Approvals.Tests.Services
         }
 
         [Fact]
-        public async void ShouldSuccessfullyCreateANewApproval()
+        public async void Should_CreateApprovalAsync_Valid()
         {
             var newAccountEntity = new ApprovalEntity
             {

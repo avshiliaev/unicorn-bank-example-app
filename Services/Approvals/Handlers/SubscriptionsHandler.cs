@@ -1,13 +1,15 @@
+using System;
 using System.Threading.Tasks;
 using Approvals.Interfaces;
 using MassTransit;
 using Microsoft.Extensions.Logging;
-using Sdk.Api.Events;
+using Sdk.Api.Events.Local;
+using Sdk.Api.Interfaces;
+using Sdk.Extensions;
 
 namespace Approvals.Handlers
 {
-    public class ApprovalsSubscriptionsHandler
-        : IConsumer<AccountCreatedEvent>
+    public class ApprovalsSubscriptionsHandler : IConsumer<AccountCheckCommand>
     {
         private readonly IApprovalsManager _approvalsManager;
         private readonly ILogger<ApprovalsSubscriptionsHandler> _logger;
@@ -25,10 +27,18 @@ namespace Approvals.Handlers
         {
         }
 
-        public async Task Consume(ConsumeContext<AccountCreatedEvent> context)
+        public async Task Consume(ConsumeContext<AccountCheckCommand> context)
         {
-            _logger.LogDebug($"Received new AccountCreatedEvent for {context.Message.Id}");
-            await _approvalsManager.EvaluateAccountAsync(context.Message);
+            _logger.LogDebug($"Received new AccountCheckCommand for {context.Message.Id}");
+            if (context.Message.IsBlocked()) return;
+
+            IAccountModel? result;
+            if (!context.Message.IsApproved())
+                result = await _approvalsManager.EvaluateAccountPendingAsync(context.Message);
+            else
+                result = await _approvalsManager.EvaluateAccountRunningAsync(context.Message);
+
+            if (result == null) throw new Exception($"Could not process an event {context.Message.Id}");
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Notifications.Mappers
             {
                 Id = notificationEntity.Id.ToGuid(),
                 Description = notificationEntity.Description,
-                ProfileId = notificationEntity.ProfileId.ToGuid(),
+                ProfileId = notificationEntity.ProfileId,
                 Status = notificationEntity.Status,
                 TimeStamp = DateTime.Parse(notificationEntity.TimeStamp, CultureInfo.InvariantCulture),
                 Title = notificationEntity.Title,

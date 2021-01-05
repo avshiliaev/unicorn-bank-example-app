@@ -2,10 +2,10 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="MassTransit" Version="7.0.6" />
       <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.1.0" />
     </ItemGroup>
 

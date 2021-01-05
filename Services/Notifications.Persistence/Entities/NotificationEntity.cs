@@ -7,12 +7,16 @@ namespace Notifications.Persistence.Entities
 {
     public class NotificationEntity : IMongoEntity
     {
+        // Properties
         public string Description { get; set; }
         public string Status { get; set; }
         public string TimeStamp { get; set; }
         public string Title { get; set; }
+
+        // Foreign Properties
         public string ProfileId { get; set; }
 
+        // Common entity
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }

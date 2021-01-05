@@ -2,19 +2,23 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
+
+        <IsPackable>false</IsPackable>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="MassTransit" Version="7.0.6" />
-      <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
-      <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.1.9" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.0" />
-      <PackageReference Include="Moq" Version="4.15.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+        <PackageReference Include="Moq" Version="4.15.2" />
+        <PackageReference Include="xunit" Version="2.4.0" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
+        <PackageReference Include="coverlet.collector" Version="1.2.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Sdk.Core\Sdk.Core.csproj" />
       <ProjectReference Include="..\Sdk.Persistence\Sdk.Persistence.csproj" />
+      <ProjectReference Include="..\Sdk.TestingTools\Sdk.TestingTools.csproj" />
     </ItemGroup>
 
 </Project>

@@ -11,10 +11,17 @@ namespace Accounts.Mappers
             return new AccountEntity
             {
                 Id = accountEvent.Id.ToGuid(),
+                Version = accountEvent.Version,
+
                 Balance = accountEvent.Balance,
+
                 ProfileId = accountEvent.ProfileId,
+
                 Approved = accountEvent.Approved,
-                Version = accountEvent.Version
+                Pending = accountEvent.Pending,
+                Blocked = accountEvent.Blocked,
+
+                LastSequentialNumber = accountEvent.LastSequentialNumber
             };
         }
     }

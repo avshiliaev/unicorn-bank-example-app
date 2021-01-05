@@ -1,4 +1,5 @@
 using System;
+using GreenPipes;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,18 +16,35 @@ namespace Sdk.Communication.Extensions
         {
             var messageBusSettings = new MessageBusSettingsModel();
             configuration.GetSection("MessageBus").Bind(messageBusSettings);
+
             var queueName = messageBusSettings.QueueName ?? throw new ArgumentNullException(
                 typeof(MessageBusSettingsModel).ToString()
             );
+            var host = messageBusSettings.Host ?? "localhost";
+            var username = messageBusSettings.Username ?? "guest";
+            var password = messageBusSettings.Password ?? "guest";
 
             services.AddMassTransit(x =>
             {
                 x.AddConsumer<TC>();
                 x.UsingRabbitMq((context, cfg) =>
                 {
+                    cfg.Host(host, "/", h =>
+                    {
+                        h.Username(username);
+                        h.Password(password);
+                    });
+
                     cfg.ReceiveEndpoint(
                         queueName,
-                        e => { e.ConfigureConsumer<TC>(context); });
+                        e =>
+                        {
+                            e.UseMessageRetry(
+                                r => r.Interval(100, TimeSpan.FromSeconds(2))
+                            );
+                            e.ConfigureConsumer<TC>(context);
+                        }
+                    );
                 });
             });
             services.AddMassTransitHostedService();
@@ -37,6 +55,10 @@ namespace Sdk.Communication.Extensions
 
     public class MessageBusSettingsModel
     {
+        public string Host { get; set; }
+
+        public string Username { get; set; }
+        public string Password { get; set; }
         public string QueueName { get; set; }
     }
 }

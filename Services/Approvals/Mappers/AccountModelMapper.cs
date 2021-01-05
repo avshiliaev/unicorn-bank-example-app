@@ -7,16 +7,21 @@ namespace Approvals.Mappers
 {
     public static class AccountModelMapper
     {
-        public static ApprovalEntity ToApprovalEntity(this IAccountModel accountModel, bool approved)
+        public static ApprovalEntity ToApprovalEntity(this IAccountModel accountModel)
         {
             return new ApprovalEntity
             {
                 Id = Guid.NewGuid(),
-                AccountId = accountModel.Id.ToGuid(),
-                Approved = approved,
                 Created = DateTime.Now,
                 Updated = DateTime.Now,
-                Version = accountModel.Version
+                Version = 0,
+
+                AccountId = accountModel.Id.ToGuid(),
+                ProfileId = accountModel.ProfileId,
+
+                Approved = accountModel.Approved,
+                Pending = accountModel.Pending,
+                Blocked = accountModel.Blocked
             };
         }
     }

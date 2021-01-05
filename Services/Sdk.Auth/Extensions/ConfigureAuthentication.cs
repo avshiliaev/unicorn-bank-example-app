@@ -44,7 +44,7 @@ namespace Sdk.Auth.Extensions
                     {
                         NameClaimType = ClaimTypes.NameIdentifier
                     };
-                    
+
                     // TODO: https://docs.microsoft.com/en-us/aspnet/core/signalr/authn-and-authz?view=aspnetcore-5.0
                     options.Events = new JwtBearerEvents
                     {
@@ -55,10 +55,8 @@ namespace Sdk.Auth.Extensions
                             // If the request is for our hub...
                             var path = context.HttpContext.Request.Path;
                             if (!string.IsNullOrEmpty(accessToken))
-                            {
                                 // Read the token out of the query string
                                 context.Token = accessToken;
-                            }
                             return Task.CompletedTask;
                         }
                     };

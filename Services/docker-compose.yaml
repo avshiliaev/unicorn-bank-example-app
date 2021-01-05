@@ -1,0 +1,100 @@
+version: '3.3'
+
+services:
+  
+  # --- Services ---
+  accounts:
+    build:
+      context: .
+      dockerfile: Accounts.Dockerfile
+    networks:
+      - external-network
+      - internal-network
+    ports:
+      - "5001:80"
+    depends_on:
+      - rabbitmq
+      - postgres
+
+  approvals:
+    build:
+      context: .
+      dockerfile: Approvals.Dockerfile
+    networks:
+      - external-network
+      - internal-network
+    ports:
+      - "5002:80"
+    depends_on:
+      - rabbitmq
+      - postgres
+
+  transactions:
+    build:
+      context: .
+      dockerfile: Transactions.Dockerfile
+    networks:
+      - external-network
+      - internal-network
+    ports:
+      - "5003:80"
+    depends_on:
+      - rabbitmq
+      - postgres
+
+  notifications:
+    build:
+      context: .
+      dockerfile: Notifications.Dockerfile
+    networks:
+      - external-network
+      - internal-network
+    ports:
+      - "5004:80"
+    depends_on:
+      - rabbitmq
+      - postgres
+
+  # --- Infrastructure ---
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: my-rabbit
+    networks:
+      - external-network
+      - internal-network
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - external-network
+      - internal-network
+    ports:
+      - "5432:5432"
+
+  nginx-proxy:
+    container_name: nginx-proxy
+    restart: always
+    build:
+      context: .
+      dockerfile: Proxy.Dockerfile
+    ports:
+      - '80:80'
+    links:
+      - accounts
+    networks:
+      - external-network
+      - internal-network
+    command: [ nginx, '-g', 'daemon off;' ]
+
+
+networks:
+  external-network:
+    driver: bridge
+  internal-network:
+    driver: bridge
+    internal: true

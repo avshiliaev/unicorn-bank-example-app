@@ -1,13 +1,16 @@
+using System;
 using System.Threading.Tasks;
 using Accounts.Interfaces;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Sdk.Api.Events;
+using Sdk.Api.Events.Local;
+using Sdk.Extensions;
 
 namespace Accounts.Handlers
 {
     public class AccountsSubscriptionsHandler
-        : IConsumer<AccountApprovedEvent>, IConsumer<TransactionCreatedEvent>
+        : IConsumer<AccountIsCheckedEvent>, IConsumer<TransactionUpdatedEvent>
     {
         private readonly IAccountsManager _accountsManager;
         private readonly ILogger<AccountsSubscriptionsHandler> _logger;
@@ -25,21 +28,21 @@ namespace Accounts.Handlers
         {
         }
 
-        /*
-         * The Consume method returns a Task that is awaited by MassTransit. While the consumer method is executing,
-         * the message is unavailable to other receive endpoints. If the Task completes successfully, the message is
-         * acknowledged and removed from the queue.
-         */
-        public async Task Consume(ConsumeContext<AccountApprovedEvent> context)
+        public async Task Consume(ConsumeContext<AccountIsCheckedEvent> context)
         {
             _logger.LogDebug($"Received new AccountApprovedEvent for {context.Message.Id}");
-            await _accountsManager.UpdateExistingAccountAsync(context.Message);
+
+            var result = await _accountsManager.ProcessAccountIsCheckedEventAsync(context.Message);
+            if (result == null) throw new Exception($"Could not process an event {context.Message.Id}");
         }
 
-        public async Task Consume(ConsumeContext<TransactionCreatedEvent> context)
+        public async Task Consume(ConsumeContext<TransactionUpdatedEvent> context)
         {
             _logger.LogDebug($"Received new TransactionCreatedEvent for {context.Message.Version}");
-            await _accountsManager.AddTransactionToAccountAsync(context.Message);
+
+            if (!context.Message.IsApproved()) return;
+            var result = await _accountsManager.ProcessTransactionUpdatedEventAsync(context.Message);
+            if (result == null) throw new Exception($"Could not process an event {context.Message.Id}");
         }
     }
 }

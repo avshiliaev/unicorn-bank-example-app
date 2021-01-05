@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Approvals.Interfaces;
 using Approvals.Persistence.Entities;
@@ -15,19 +17,31 @@ namespace Approvals.Services
             _approvalsRepository = approvalsRepository;
         }
 
-        public async Task<ApprovalEntity> CreateApprovalAsync(ApprovalEntity approvalEntity)
+        public Task<IEnumerable<ApprovalEntity?>> GetManyByParameterAsync(
+            Expression<Func<ApprovalEntity?, bool>> predicate
+        )
         {
-            return await _approvalsRepository.AddAsync(approvalEntity);
+            return _approvalsRepository.GetManyByParameterAsync(predicate!)!;
         }
 
-        public Task<ApprovalEntity> GetApprovalByIdAsync(Guid approvalId)
+        public Task<ApprovalEntity?> GetOneByParameterAsync(Expression<Func<ApprovalEntity?, bool>> predicate)
+        {
+            return _approvalsRepository.GetOneByParameterAsync(predicate!)!;
+        }
+
+        public async Task<ApprovalEntity?> CreateApprovalAsync(ApprovalEntity approvalEntity)
+        {
+            return await _approvalsRepository.AddAsync(approvalEntity)!;
+        }
+
+        public Task<ApprovalEntity?> GetApprovalByIdAsync(Guid approvalId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ApprovalEntity> UpdateApprovalAsync(ApprovalEntity approvalEntity)
+        public Task<ApprovalEntity?> UpdateApprovalAsync(ApprovalEntity approvalEntity)
         {
-            throw new NotImplementedException();
+            return _approvalsRepository.UpdateActivelyAsync(approvalEntity)!;
         }
     }
 }

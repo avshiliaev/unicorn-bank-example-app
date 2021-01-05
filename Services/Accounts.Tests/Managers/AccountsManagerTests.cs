@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Accounts.Interfaces;
 using Accounts.Managers;
@@ -6,9 +5,10 @@ using Accounts.Persistence.Entities;
 using Accounts.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Sdk.Api.Dto;
 using Sdk.Api.Events;
+using Sdk.Api.Events.Local;
 using Sdk.Api.Interfaces;
+using Sdk.Extensions;
 using Sdk.Tests.Extensions;
 using Sdk.Tests.Mocks;
 using Xunit;
@@ -24,21 +24,24 @@ namespace Accounts.Tests.Managers
                 Id = 1.ToGuid(),
                 Balance = 1,
                 ProfileId = 1.ToString(),
-                Version = 0
+                Version = 0,
+                LastSequentialNumber = 1
             },
             new AccountEntity
             {
                 Id = 2.ToGuid(),
                 Balance = 1,
                 ProfileId = 1.ToString(),
-                Version = 0
+                Version = 0,
+                LastSequentialNumber = 2
             },
             new AccountEntity
             {
                 Id = 3.ToGuid(),
                 Balance = 1,
                 ProfileId = 2.ToString(),
-                Version = 0
+                Version = 0,
+                LastSequentialNumber = 3
             }
         };
 
@@ -56,62 +59,110 @@ namespace Accounts.Tests.Managers
             );
         }
 
-        #region UpdateExistingAccountAsync
+        #region ProcessAccountIsCheckedEventAsync
 
         [Fact]
-        public async void ShouldSuccessfullyUpdateExistingAccount()
+        public async void Should_ProcessAccountIsCheckedEventAsync_Approved()
         {
-            var newAccountDto = new AccountDto
+            var accountApprovedEvent = new AccountIsCheckedEvent
             {
-                Id = 1.ToGuid().ToString(),
-                Balance = 3
+                Id = 1.ToGuid().ToString()
             };
-            var newCreatedAccount = await _manager.UpdateExistingAccountAsync(newAccountDto);
+            accountApprovedEvent.SetApproval();
+            var newCreatedAccount = await _manager.ProcessAccountIsCheckedEventAsync(accountApprovedEvent);
             Assert.NotNull(newCreatedAccount);
-            Assert.Equal(3, newCreatedAccount.Balance);
+            Assert.True(newCreatedAccount.IsApproved());
         }
 
         [Fact]
-        public async void ShouldNotUpdateAnInvalidAccount()
+        public async void Should_ProcessAccountIsCheckedEventAsync_Blocked()
         {
-            var newAccountDto = new AccountDto
+            var accountApprovedEvent = new AccountIsCheckedEvent
             {
-                Id = 5.ToGuid().ToString(),
-                Balance = 3
+                Id = 1.ToGuid().ToString()
             };
-            var newCreatedAccount = await _manager.UpdateExistingAccountAsync(newAccountDto);
+            accountApprovedEvent.SetBlocked();
+            var newCreatedAccount = await _manager.ProcessAccountIsCheckedEventAsync(accountApprovedEvent);
+            Assert.NotNull(newCreatedAccount);
+            Assert.True(newCreatedAccount.IsBlocked());
+        }
+
+        [Fact]
+        public async void ShouldNot_ProcessAccountIsCheckedEventAsync_Invalid()
+        {
+            var accountApprovedEvent = new AccountIsCheckedEvent
+            {
+                Id = 5.ToGuid().ToString()
+            };
+            accountApprovedEvent.SetApproval();
+            var newCreatedAccount = await _manager.ProcessAccountIsCheckedEventAsync(accountApprovedEvent);
             Assert.Null(newCreatedAccount);
         }
 
         #endregion
 
-        #region AddTransactionToAccountAsync
+        #region ProcessTransactionUpdatedEventAsync
 
         [Fact]
-        public async void ShouldSuccessfullyAddTransactionToAccount()
+        public async void Should_ProcessTransactionUpdatedEventAsync_Valid()
         {
             var newTransaction = new TransactionCreatedEvent
             {
                 Id = 1.ToGuid().ToString(),
                 AccountId = 1.ToGuid().ToString(),
-                Amount = 1
+                Amount = 1,
+                SequentialNumber = 2
             };
-            var newCreatedAccount = await _manager.AddTransactionToAccountAsync(newTransaction);
+            newTransaction.SetApproval();
+            var newCreatedAccount = await _manager.ProcessTransactionUpdatedEventAsync(newTransaction);
             Assert.NotNull(newCreatedAccount);
             Assert.Equal(2, newCreatedAccount.Balance);
         }
 
         [Fact]
-        public async void ShouldNotAddInvalidTransactionToAccount()
+        public async void ShouldNot_ProcessTransactionUpdatedEventAsync_InvalidAccount()
         {
             var nonExistentAccountId = 4.ToGuid().ToString();
-            var invalidTransaction = new TransactionCreatedEvent
+            var invalidTransaction = new TransactionUpdatedEvent
             {
                 Id = 1.ToGuid().ToString(),
                 AccountId = nonExistentAccountId,
-                Amount = 1
+                Amount = 1,
+                SequentialNumber = 3
             };
-            var newCreatedAccount = await _manager.AddTransactionToAccountAsync(invalidTransaction);
+            invalidTransaction.SetApproval();
+            var newCreatedAccount = await _manager.ProcessTransactionUpdatedEventAsync(invalidTransaction);
+            Assert.Null(newCreatedAccount);
+        }
+
+        [Fact]
+        public async void ShouldNot_ProcessTransactionUpdatedEventAsync_Declined()
+        {
+            var newTransaction = new TransactionCreatedEvent
+            {
+                Id = 1.ToGuid().ToString(),
+                AccountId = 2.ToGuid().ToString(),
+                Amount = 1,
+                SequentialNumber = 3
+            };
+            newTransaction.SetDenial();
+            var newCreatedAccount = await _manager.ProcessTransactionUpdatedEventAsync(newTransaction);
+            Assert.Null(newCreatedAccount);
+        }
+
+        [Fact]
+        public async void ShouldNot_ProcessTransactionUpdatedEventAsync_OutOfOrder()
+        {
+            var nonExistentAccountId = 4.ToGuid().ToString();
+            var invalidTransaction = new TransactionUpdatedEvent
+            {
+                Id = 1.ToGuid().ToString(),
+                AccountId = nonExistentAccountId,
+                Amount = 1,
+                SequentialNumber = 10
+            };
+            invalidTransaction.SetApproval();
+            var newCreatedAccount = await _manager.ProcessTransactionUpdatedEventAsync(invalidTransaction);
             Assert.Null(newCreatedAccount);
         }
 
@@ -120,14 +171,14 @@ namespace Accounts.Tests.Managers
         #region CreateNewAccountAsync
 
         [Fact]
-        public async void ShouldSuccessfullyCreateANewAccount()
+        public async void Should_CreateNewAccountAsync_Valid()
         {
             var newCreatedAccount = await _manager.CreateNewAccountAsync("999");
             Assert.NotNull(newCreatedAccount);
         }
 
         [Fact]
-        public async void ShouldNotCreateAnInvalidAccount()
+        public async void ShouldNot_CreateNewAccountAsync_Invalid()
         {
             var newCreatedAccount = await _manager.CreateNewAccountAsync(string.Empty);
             Assert.Null(newCreatedAccount);
