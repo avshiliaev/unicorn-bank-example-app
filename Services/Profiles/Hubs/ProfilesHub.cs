@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -31,16 +32,32 @@ namespace Profiles.Hubs
             var profileId = _httpContextAccessor.GetUserIdentifier();
             var profiles = _profilesService.GetAll(profileId);
             var profilesDto = profiles
-                .Select(n => n.ToProfilesModel<ProfileDto>())
+                .Select(n => n?.ToProfileDto())
                 .ToList();
             await Clients.All.SendAsync("Response", profilesDto);
 
-            var enumerator = _profilesService.SubscribeToChanges(profileId);
+            var enumerator = _profilesService.SubscribeToChangesMany(profileId);
             while (enumerator.MoveNext())
                 if (enumerator.Current != null)
                     await Clients.All.SendAsync(
                         "Response",
-                        enumerator.Current.FullDocument.ToProfilesModel<ProfileDto>()
+                        enumerator.Current.FullDocument.ToProfileDto()
+                    );
+            return true;
+        }
+        
+        public async Task<bool> RequestOne(Guid accountId)
+        {
+            var profileId = _httpContextAccessor.GetUserIdentifier();
+            var profile = _profilesService.Get(accountId.ToString());
+            await Clients.All.SendAsync("Response", profile?.ToProfileDto());
+
+            var enumerator = _profilesService.SubscribeToChangesMany(profileId);
+            while (enumerator.MoveNext())
+                if (enumerator.Current != null)
+                    await Clients.All.SendAsync(
+                        "Response",
+                        enumerator.Current.FullDocument.ToProfileDto()
                     );
             return true;
         }

@@ -59,7 +59,7 @@ namespace Sdk.Tests.Mocks
                 .Setup(a => a.Get(It.IsAny<string>()))
                 .Returns((string id) => _entities.FirstOrDefault(e => e.Id == id));
             repository
-                .Setup(a => a.SubscribeToChangesStream(It.IsAny<string>()))
+                .Setup(a => a.SubscribeToChangesStreamMany(It.IsAny<string>()))
                 .Returns((string id) => new MongoChangeStreamMock<TEntity>(_entities));
             repository
                 .Setup(a => a.Create(It.IsAny<TEntity>()))

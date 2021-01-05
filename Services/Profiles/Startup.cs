@@ -6,9 +6,12 @@ using Microsoft.Extensions.Hosting;
 using Profiles.Extensions;
 using Profiles.Handlers;
 using Profiles.Hubs;
+using Profiles.Persistence.Entities;
+using Profiles.Persistence.Repositories;
 using Sdk.Api.Extensions;
 using Sdk.Auth.Extensions;
 using Sdk.Communication.Extensions;
+using Sdk.Persistence.Extensions;
 
 namespace Profiles
 {
@@ -23,9 +26,10 @@ namespace Profiles
 
         public void ConfigureServices(IServiceCollection services)
         {
-            ConfigureAuthentication.AddAuth0(services
-                    .AddCors()
-                    .AddMongoDb<ProfilesRepository, ProfileEntity>(_configuration), _configuration)
+            services
+                .AddCors()
+                .AddMongoDb<ProfilesRepository, ProfileEntity>(_configuration)
+                .AddAuth0(_configuration)
                 .AddDataAccessServices()
                 .AddBusinessLogicManagers()
                 .AddMessageBus<ProfilesSubscriptionsHandler>(_configuration)

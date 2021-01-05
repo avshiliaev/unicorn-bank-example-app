@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Profiles.Persistence.Entities;
 using Sdk.Api.Interfaces;
 
@@ -12,7 +13,7 @@ namespace Profiles.Mappers
             {
                 // Properties
                 Balance = accountEvent.Balance,
-                Transactions = new TransactionSubEntity[] { },
+                Transactions = new List<TransactionSubEntity>(),
 
                 // Foreign Properties
                 ProfileId = accountEvent.ProfileId,
@@ -37,7 +38,7 @@ namespace Profiles.Mappers
             {
                 // Properties
                 Balance = accountEvent.Balance,
-                Transactions = new TransactionSubEntity[] { },
+                Transactions = new List<TransactionSubEntity>(),
 
                 // Foreign Properties
                 ProfileId = accountEvent.ProfileId,

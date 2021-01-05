@@ -35,9 +35,9 @@ namespace Profiles.Services
             return _mongoRepository.Update(id, entity);
         }
 
-        public IEnumerator<ChangeStreamDocument<ProfileEntity>> SubscribeToChanges(string profileId)
+        public IEnumerator<ChangeStreamDocument<ProfileEntity>> SubscribeToChangesMany(string profileId)
         {
-            return _mongoRepository.SubscribeToChangesStream(profileId)!;
+            return _mongoRepository.SubscribeToChangesStreamMany(profileId)!;
         }
     }
 }

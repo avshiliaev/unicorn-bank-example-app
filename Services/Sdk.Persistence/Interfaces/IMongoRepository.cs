@@ -11,6 +11,6 @@ namespace Sdk.Persistence.Interfaces
         TEntity Update(string id, TEntity entityIn);
         TEntity Remove(TEntity entityIn);
         bool Remove(string id);
-        IEnumerator<ChangeStreamDocument<TEntity>> SubscribeToChangesStream(string id);
+        IEnumerator<ChangeStreamDocument<TEntity>> SubscribeToChangesStreamMany(string id);
     }
 }

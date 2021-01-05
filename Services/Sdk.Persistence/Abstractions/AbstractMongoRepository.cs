@@ -57,7 +57,7 @@ namespace Sdk.Persistence.Abstractions
             return result.IsAcknowledged;
         }
 
-        public IEnumerator<ChangeStreamDocument<TEntity>> SubscribeToChangesStream(string id)
+        public IEnumerator<ChangeStreamDocument<TEntity>> SubscribeToChangesStreamMany(string id)
         {
             var options = new ChangeStreamOptions
             {
