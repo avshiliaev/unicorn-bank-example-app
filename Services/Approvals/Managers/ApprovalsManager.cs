@@ -28,49 +28,49 @@ namespace Approvals.Managers
             _licenseManager = licenseManager;
         }
 
-        public async Task<IAccountModel?> EvaluateAccountPendingAsync(IAccountModel accountCreatedEvent)
+        public async Task<IAccountModel?> EvaluateAccountPendingAsync(IAccountModel accountCheckCommand)
         {
             if (
-                string.IsNullOrEmpty(accountCreatedEvent.ProfileId) ||
-                string.IsNullOrEmpty(accountCreatedEvent.Id)
+                string.IsNullOrEmpty(accountCheckCommand.ProfileId) ||
+                string.IsNullOrEmpty(accountCheckCommand.Id)
             )
                 return null;
 
-            var isCreationAllowed = await _licenseManager.EvaluateNewEntityAsync(accountCreatedEvent);
+            var isCreationAllowed = await _licenseManager.EvaluateNewEntityAsync(accountCheckCommand);
 
             if (isCreationAllowed)
-                accountCreatedEvent.SetApproval();
+                accountCheckCommand.SetApproval();
             else
-                accountCreatedEvent.SetDenial();
+                accountCheckCommand.SetDenial();
 
             var approvedEntity = await _approvalsService.CreateApprovalAsync(
-                accountCreatedEvent.ToApprovalEntity()
+                accountCheckCommand.ToApprovalEntity()
             );
 
             if (approvedEntity != null)
             {
-                var accountApprovedEvent = approvedEntity.ToAccountModel<AccountIsCheckedEvent>(accountCreatedEvent);
-                await _publishEndpoint.Publish(accountApprovedEvent);
+                var accountIsCheckedEvent = approvedEntity.ToAccountModel<AccountIsCheckedEvent>(accountCheckCommand);
+                await _publishEndpoint.Publish(accountIsCheckedEvent);
 
-                return accountApprovedEvent;
+                return accountIsCheckedEvent;
             }
 
             return null;
         }
 
-        public async Task<IAccountModel?> EvaluateAccountRunningAsync(IAccountModel accountCreatedEvent)
+        public async Task<IAccountModel?> EvaluateAccountRunningAsync(IAccountModel accountCheckCommand)
         {
             if (
-                string.IsNullOrEmpty(accountCreatedEvent.ProfileId) ||
-                string.IsNullOrEmpty(accountCreatedEvent.Id)
+                string.IsNullOrEmpty(accountCheckCommand.ProfileId) ||
+                string.IsNullOrEmpty(accountCheckCommand.Id)
             )
                 return null;
 
-            var isValidState = await _licenseManager.EvaluateStateEntityAsync(accountCreatedEvent);
-            if (isValidState) return accountCreatedEvent;
+            var isValidState = await _licenseManager.EvaluateStateEntityAsync(accountCheckCommand);
+            if (isValidState) return accountCheckCommand;
 
             var approvalRecord = await _approvalsService.GetOneByParameterAsync(
-                a => a != null && a.AccountId == accountCreatedEvent.Id.ToGuid()
+                a => a != null && a.AccountId == accountCheckCommand.Id.ToGuid()
             );
 
             if (approvalRecord != null)
@@ -82,11 +82,12 @@ namespace Approvals.Managers
 
                 if (approvedEntity != null)
                 {
-                    var accountApprovedEvent =
-                        approvedEntity.ToAccountModel<AccountIsCheckedEvent>(accountCreatedEvent);
-                    await _publishEndpoint.Publish(accountApprovedEvent);
+                    var accountIsCheckedEvent = approvedEntity.ToAccountModel<AccountIsCheckedEvent>(
+                        accountCheckCommand
+                        );
+                    await _publishEndpoint.Publish(accountIsCheckedEvent);
 
-                    return accountApprovedEvent;
+                    return accountIsCheckedEvent;
                 }
             }
 
