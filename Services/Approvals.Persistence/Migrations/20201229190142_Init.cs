@@ -8,29 +8,26 @@ namespace Approvals.Persistence.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Approvals",
-                columns: table => new
+                "Approvals",
+                table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    AccountId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ProfileId = table.Column<string>(type: "text", nullable: true),
-                    Approved = table.Column<bool>(type: "boolean", nullable: false),
-                    Pending = table.Column<bool>(type: "boolean", nullable: false),
-                    Blocked = table.Column<bool>(type: "boolean", nullable: false),
-                    Created = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    Updated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    Version = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<Guid>("uuid", nullable: false),
+                    AccountId = table.Column<Guid>("uuid", nullable: false),
+                    ProfileId = table.Column<string>("text", nullable: true),
+                    Approved = table.Column<bool>("boolean", nullable: false),
+                    Pending = table.Column<bool>("boolean", nullable: false),
+                    Blocked = table.Column<bool>("boolean", nullable: false),
+                    Created = table.Column<DateTime>("timestamp without time zone", nullable: false),
+                    Updated = table.Column<DateTime>("timestamp without time zone", nullable: false),
+                    Version = table.Column<int>("integer", nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Approvals", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_Approvals", x => x.Id); });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Approvals");
+                "Approvals");
         }
     }
 }
