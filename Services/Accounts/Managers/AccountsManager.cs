@@ -75,6 +75,8 @@ namespace Accounts.Managers
 
         public async Task<AccountDto?> ProcessTransactionUpdatedEventAsync(ITransactionModel transactionModel)
         {
+            if (!transactionModel.IsApproved())
+                return null;
             var transactionEntity = transactionModel.ToTransactionEntity();
             var mappedAccount = await _accountsService.GetAccountByIdAsync(transactionEntity.AccountId);
             if (mappedAccount != null)
