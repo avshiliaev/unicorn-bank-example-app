@@ -8,7 +8,6 @@ using Profiles.Handlers;
 using Profiles.Hubs;
 using Sdk.Api.Extensions;
 using Sdk.Auth.Extensions;
-using Sdk.Persistence.Extensions;
 using Sdk.Communication.Extensions;
 
 namespace Profiles
@@ -24,10 +23,9 @@ namespace Profiles
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services
-                .AddCors()
-                .AddMongoDb<ProfilesRepository, ProfileEntity>(_configuration)
-                .AddAuth0(_configuration)
+            ConfigureAuthentication.AddAuth0(services
+                    .AddCors()
+                    .AddMongoDb<ProfilesRepository, ProfileEntity>(_configuration), _configuration)
                 .AddDataAccessServices()
                 .AddBusinessLogicManagers()
                 .AddMessageBus<ProfilesSubscriptionsHandler>(_configuration)

@@ -1,0 +1,59 @@
+using System;
+using Profiles.Persistence.Entities;
+using Sdk.Api.Interfaces;
+
+namespace Profiles.Mappers
+{
+    public static class AccountModelMapper
+    {
+        public static ProfileEntity ToNewProfileEntity(this IAccountModel accountEvent)
+        {
+            return new ProfileEntity
+            {
+                // Properties
+                Balance = accountEvent.Balance,
+                Transactions = new TransactionSubEntity[] { },
+
+                // Foreign Properties
+                ProfileId = accountEvent.ProfileId,
+
+                // Approvable
+                Approved = accountEvent.Approved,
+                Pending = accountEvent.Pending,
+                Blocked = accountEvent.Blocked,
+
+                // Concurrent Host
+                LastSequentialNumber = accountEvent.LastSequentialNumber,
+
+                Created = DateTime.Now,
+                Updated = DateTime.Now,
+                Version = accountEvent.Version
+            };
+        }
+
+        public static ProfileEntity ToProfileEntity(this IAccountModel accountEvent)
+        {
+            return new ProfileEntity
+            {
+                // Properties
+                Balance = accountEvent.Balance,
+                Transactions = new TransactionSubEntity[] { },
+
+                // Foreign Properties
+                ProfileId = accountEvent.ProfileId,
+
+                // Approvable
+                Approved = accountEvent.Approved,
+                Pending = accountEvent.Pending,
+                Blocked = accountEvent.Blocked,
+
+                // Concurrent Host
+                LastSequentialNumber = accountEvent.LastSequentialNumber,
+
+                Created = DateTime.Now,
+                Updated = DateTime.Now,
+                Version = accountEvent.Version
+            };
+        }
+    }
+}

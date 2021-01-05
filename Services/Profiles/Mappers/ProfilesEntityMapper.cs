@@ -1,5 +1,3 @@
-using System;
-using System.Globalization;
 using Profiles.Persistence.Entities;
 using Sdk.Api.Interfaces;
 using Sdk.Extensions;
@@ -13,7 +11,7 @@ namespace Profiles.Mappers
         {
             return new TModel
             {
-                Id = profileEntity.Id,
+                Id = profileEntity.Id.ToGuid(),
                 Version = profileEntity.Version
             };
         }

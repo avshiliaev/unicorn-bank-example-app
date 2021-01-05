@@ -26,7 +26,7 @@ namespace Profiles.Hubs
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<bool> Request()
+        public async Task<bool> RequestAll()
         {
             var profileId = _httpContextAccessor.GetUserIdentifier();
             var profiles = _profilesService.GetAll(profileId);

@@ -11,6 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Sdk.Core\Sdk.Core.csproj" />
         <ProjectReference Include="..\Sdk.Persistence\Sdk.Persistence.csproj" />
     </ItemGroup>
 

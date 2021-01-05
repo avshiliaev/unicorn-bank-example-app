@@ -5,6 +5,9 @@ namespace Profiles.Interfaces
 {
     public interface IProfilesManager
     {
-        ProfileDto? AddNewProfile(IProfileModel notificationModel);
+        ProfileDto? AddNewProfile(IAccountModel accountModel);
+        ProfileDto? UpdateProfile(IAccountModel accountModel);
+        ProfileDto? AddTransactionToProfile(ITransactionModel transactionModel);
+        ProfileDto? UpdateTransactionOnProfile(ITransactionModel transactionModel);
     }
 }

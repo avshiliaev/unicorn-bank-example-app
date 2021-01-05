@@ -15,19 +15,24 @@ namespace Profiles.Services
             _mongoRepository = mongoRepository;
         }
 
-        public List<ProfileEntity> GetAll(string profileId)
+        public List<ProfileEntity?> GetAll(string profileId)
         {
             return _mongoRepository.GetAll(profileId)!;
         }
 
-        public ProfileEntity Get(string id)
+        public ProfileEntity? Get(string id)
         {
             return _mongoRepository.Get(id);
         }
 
-        public ProfileEntity Create(ProfileEntity entity)
+        public ProfileEntity? Create(ProfileEntity entity)
         {
             return _mongoRepository.Create(entity);
+        }
+
+        public ProfileEntity? Update(string id, ProfileEntity entity)
+        {
+            return _mongoRepository.Update(id, entity);
         }
 
         public IEnumerator<ChangeStreamDocument<ProfileEntity>> SubscribeToChanges(string profileId)

@@ -1,5 +1,4 @@
 using System;
-using System.Globalization;
 using Profiles.Persistence.Entities;
 using Sdk.Api.Interfaces;
 
