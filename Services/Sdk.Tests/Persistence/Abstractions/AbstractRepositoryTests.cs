@@ -4,12 +4,10 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Sdk.Persistence.Abstractions;
 using Sdk.Persistence.Interfaces;
-using Sdk.Tests.Extensions;
 using Xunit;
 
 namespace Sdk.Tests.Persistence.Abstractions
 {
-
     public class TestEntity : IEntity
     {
         public Guid Id { get; set; }
@@ -17,16 +15,16 @@ namespace Sdk.Tests.Persistence.Abstractions
         public DateTime Updated { get; set; }
         public int Version { get; set; }
     }
-    
+
     public class TestContext : DbContext
     {
-        protected DbContextOptions<TestContext> ContextOptions { get; }
-        
         public TestContext(DbContextOptions<TestContext> options)
             : base(options)
         {
             ContextOptions = options;
         }
+
+        protected DbContextOptions<TestContext> ContextOptions { get; }
 
         public DbSet<TestEntity> Entities { get; set; }
 
@@ -36,7 +34,7 @@ namespace Sdk.Tests.Persistence.Abstractions
             base.OnModelCreating(modelBuilder);
         }
     }
-    
+
     public class TestRepository : AbstractRepository<TestContext, TestEntity>
     {
         public TestRepository(
@@ -54,10 +52,10 @@ namespace Sdk.Tests.Persistence.Abstractions
                 new DbContextOptionsBuilder<TestContext>()
                     .UseInMemoryDatabase("InMemoryDbForTesting")
                     .Options
-                )
+            )
         {
         }
-        
+
         [Fact]
         public async void Should_AddAsync_Valid()
         {
@@ -70,7 +68,7 @@ namespace Sdk.Tests.Persistence.Abstractions
             var result = await repository.AddAsync(newEntity);
             Assert.NotNull(result);
         }
-        
+
         [Fact]
         public async void Should_ListAllAsync_Valid()
         {
@@ -85,7 +83,7 @@ namespace Sdk.Tests.Persistence.Abstractions
             Assert.NotNull(result);
             Assert.NotEmpty(result);
         }
-        
+
         [Fact]
         public async void Should_GetByIdAsync_Valid()
         {
@@ -99,7 +97,7 @@ namespace Sdk.Tests.Persistence.Abstractions
             var result = await repository.GetByIdAsync(newEntitySaved.Id);
             Assert.NotNull(result);
         }
-        
+
         [Fact]
         public async void Should_GetOneByParameterAsync_Valid()
         {
@@ -108,15 +106,15 @@ namespace Sdk.Tests.Persistence.Abstractions
                 new Mock<ILogger<AbstractRepository<TestContext, TestEntity>>>().Object,
                 context
             );
-            var newEntity = new TestEntity{Version = 99};
+            var newEntity = new TestEntity {Version = 99};
             var _ = await repository.AddAsync(newEntity);
-            
+
             var result = await repository.GetOneByParameterAsync(
-                (e) =>  e.Version == 99
-                );
+                e => e.Version == 99
+            );
             Assert.NotNull(result);
         }
-        
+
         [Fact]
         public async void Should_GetManyByParameterAsync_Valid()
         {
@@ -125,15 +123,15 @@ namespace Sdk.Tests.Persistence.Abstractions
                 new Mock<ILogger<AbstractRepository<TestContext, TestEntity>>>().Object,
                 context
             );
-            var newEntity = new TestEntity{Version = 10};
+            var newEntity = new TestEntity {Version = 10};
             var _ = await repository.AddAsync(newEntity);
-            
+
             var result = await repository.GetManyByParameterAsync(
-                (e) =>  e.Version == 10
-                );
+                e => e.Version == 10
+            );
             Assert.Single(result);
         }
-        
+
         [Fact]
         public async void Should_DeleteAsync_Valid()
         {
@@ -147,7 +145,7 @@ namespace Sdk.Tests.Persistence.Abstractions
             var result = await repository.DeleteAsync(newEntitySaved.Id);
             Assert.NotNull(result);
         }
-        
+
         [Fact]
         public async void Should_UpdateActivelyAsync_Valid()
         {
@@ -162,7 +160,7 @@ namespace Sdk.Tests.Persistence.Abstractions
             var result = await repository.UpdateActivelyAsync(newEntitySaved);
             Assert.NotNull(result);
         }
-        
+
         [Fact]
         public async void Should_UpdatePassivelyAsync_Valid()
         {
