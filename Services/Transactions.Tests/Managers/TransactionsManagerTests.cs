@@ -54,7 +54,7 @@ namespace Transactions.Tests.Managers
             var transactionsRepositoryMock = new RepositoryMockFactory<TransactionEntity>(_transactionEntities)
                 .GetInstance();
             var concurrencyManagerMock = new ConcurrencyManagerMockFactory(_transactionEntities).GetInstance();
-            var licenseManagerMock = new LicenseManagerMockFactory().GetInstance();
+            var licenseManagerMock = new LicenseManagerMockFactory<ITransactionModel>().GetInstance();
 
             _manager = new TransactionsManager(
                 new Mock<ILogger<TransactionsManager>>().Object,

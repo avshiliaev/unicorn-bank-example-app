@@ -1,5 +1,6 @@
 using Billings.Extensions;
 using Billings.Handlers;
+using Billings.Managers;
 using Billings.Persistence;
 using Billings.Persistence.Entities;
 using Billings.Persistence.Repositories;
@@ -9,7 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Sdk.Api.Extensions;
+using Sdk.Api.Interfaces;
 using Sdk.Communication.Extensions;
+using Sdk.License.Extensions;
 using Sdk.Persistence.Extensions;
 
 namespace Billings
@@ -34,6 +37,7 @@ namespace Billings
                 .AddPostgreSql<BillingsRepository, BillingEntity, BillingsContext>(_configuration)
                 .AddDataAccessServices()
                 .AddBusinessLogicManagers()
+                .AddLicenseManager<LicenseManager, ITransactionModel>()
                 .AddMessageBus<BillingsSubscriptionsHandler>(_configuration);
         }
 

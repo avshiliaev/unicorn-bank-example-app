@@ -3,12 +3,13 @@ using System.Threading.Tasks;
 using Sdk.Api.Dto;
 using Sdk.Api.Interfaces;
 using Sdk.Extensions;
+using Sdk.License.Abstractions;
 using Transactions.Interfaces;
 using Transactions.Mappers;
 
 namespace Transactions.Managers
 {
-    public class LicenseManager : ILicenseManager
+    public class LicenseManager : ALicenseManager<ITransactionModel>
     {
         private readonly IAccountsService _accountsService;
 
@@ -16,28 +17,16 @@ namespace Transactions.Managers
         {
             _accountsService = accountsService;
         }
-        
-        public async Task<IAccountModel?> UpdateAccountStateAsync(IAccountModel accountModel)
+
+        public override async Task<bool> EvaluateNewEntityAsync(ITransactionModel model)
         {
-            var existingAccount = await _accountsService.GetAccountByIdAsync(accountModel.Id.ToGuid());
-            if (existingAccount != null)
-            {
-                if (accountModel.IsBlocked())
-                    existingAccount.SetBlocked();
-                var updatedAccount = await _accountsService.UpdateAccountAsync(existingAccount);
-                return updatedAccount?.ToAccountModel<AccountDto>();
-            }
-            else
-            {
-                var createdAccount = await _accountsService.CreateAccountAsync(accountModel.ToAccountEntity());
-                return createdAccount?.ToAccountModel<AccountDto>();
-            }
+            var account = await _accountsService.GetAccountByIdAsync(model.AccountId.ToGuid());
+            return !account.IsBlocked();
         }
 
-        public async Task<bool> CheckAccountStateAsync(Guid accountId)
+        public override Task<bool> EvaluateStateEntityAsync(ITransactionModel dataModel)
         {
-            var account = await _accountsService.GetAccountByIdAsync(accountId);
-            return account.IsBlocked();
+            throw new NotImplementedException();
         }
     }
 }

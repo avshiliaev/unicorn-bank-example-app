@@ -5,10 +5,11 @@ using Billings.Interfaces;
 using Microsoft.Extensions.Logging;
 using Sdk.Api.Interfaces;
 using Sdk.Extensions;
+using Sdk.License.Abstractions;
 
 namespace Billings.Managers
 {
-    public class LicenseManager : ILicenseManager
+    public class LicenseManager : ALicenseManager<ITransactionModel>
     {
         private readonly IBillingsService _billingsService;
         private readonly int _maxTransactionsPerDay = 100;
@@ -21,7 +22,7 @@ namespace Billings.Managers
             _billingsService = billingsService;
         }
 
-        public async Task<bool> EvaluateByUserLicenseScope(ITransactionModel transactionModel)
+        public override async Task<bool> EvaluateNewEntityAsync(ITransactionModel transactionModel)
         {
             var allTransactions = await _billingsService.GetManyByParameterAsync(
                 b =>
@@ -32,6 +33,11 @@ namespace Billings.Managers
             var transactionsToday = allTransactions.Count();
 
             return transactionsToday < _maxTransactionsPerDay;
+        }
+
+        public override Task<bool> EvaluateStateEntityAsync(ITransactionModel dataModel)
+        {
+            throw new NotImplementedException();
         }
     }
 }

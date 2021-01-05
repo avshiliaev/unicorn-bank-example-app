@@ -7,19 +7,20 @@ using Sdk.Api.Events;
 using Sdk.Api.Events.Local;
 using Sdk.Api.Interfaces;
 using Sdk.Extensions;
+using Sdk.License.Interfaces;
 
 namespace Billings.Managers
 {
     public class BillingsManager : IBillingsManager
     {
         private readonly IBillingsService _billingsService;
-        private readonly ILicenseManager _licenseManager;
+        private readonly ILicenseManager<ITransactionModel> _licenseManager;
         private readonly IPublishEndpoint _publishEndpoint;
 
         public BillingsManager(
             ILogger<BillingsManager> logger,
             IBillingsService billingsService,
-            ILicenseManager licenseManager,
+            ILicenseManager<ITransactionModel> licenseManager,
             IPublishEndpoint publishEndpoint
         )
         {
@@ -36,7 +37,7 @@ namespace Billings.Managers
             )
                 return null;
 
-            var isTransactionAllowed = await _licenseManager.EvaluateByUserLicenseScope(transactionCreatedEvent);
+            var isTransactionAllowed = await _licenseManager.EvaluateNewEntityAsync(transactionCreatedEvent);
 
             if (isTransactionAllowed)
                 transactionCreatedEvent.SetApproval();

@@ -8,6 +8,5 @@ namespace Transactions.Interfaces
     {
         Task<TransactionDto?> CreateNewTransactionAsync(ITransactionModel transactionModel);
         Task<TransactionDto?> ProcessTransactionCheckedEventAsync(ITransactionModel transactionModel);
-        Task<IAccountModel?> ProcessAccountUpdatedEventAsync(IAccountModel transactionModel);
     }
 }

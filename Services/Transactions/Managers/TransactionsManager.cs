@@ -7,6 +7,7 @@ using Sdk.Api.Events;
 using Sdk.Api.Events.Local;
 using Sdk.Api.Interfaces;
 using Sdk.Extensions;
+using Sdk.License.Interfaces;
 using Transactions.Interfaces;
 using Transactions.Mappers;
 
@@ -17,14 +18,14 @@ namespace Transactions.Managers
         private readonly IConcurrencyManager _concurrencyManager;
         private readonly IPublishEndpoint _publishEndpoint;
         private readonly ITransactionsService _transactionsService;
-        private readonly ILicenseManager _licenseManager;
+        private readonly ILicenseManager<ITransactionModel> _licenseManager;
 
         public TransactionsManager(
             ILogger<TransactionsManager> logger,
             ITransactionsService transactionsService,
             IPublishEndpoint publishEndpoint,
             IConcurrencyManager concurrencyManager,
-            ILicenseManager licenseManager
+            ILicenseManager<ITransactionModel> licenseManager
         )
         {
             _transactionsService = transactionsService;
@@ -38,7 +39,7 @@ namespace Transactions.Managers
             if (
                 string.IsNullOrEmpty(transactionModel.ProfileId) ||
                 transactionModel.AccountId == Guid.Empty.ToString() ||
-                await _licenseManager.CheckAccountStateAsync(transactionModel.AccountId.ToGuid())
+                !await _licenseManager.EvaluateNewEntityAsync(transactionModel)
             )
                 return null;
 
@@ -64,10 +65,15 @@ namespace Transactions.Managers
             var transactionEntity = await _transactionsService.GetTransactionByIdAsync(transactionModel.Id.ToGuid());
             if (transactionEntity != null)
             {
-                if (transactionModel.IsApproved())
-                    transactionEntity.SetApproval();
+                if (transactionModel.IsBlocked())
+                    transactionEntity.SetBlocked();
                 else
-                    transactionEntity.SetDenial();
+                {
+                    if (transactionModel.IsApproved())
+                        transactionEntity.SetApproval();
+                    else
+                        transactionEntity.SetDenial();
+                }
 
                 // Optimistic Concurrency Control: increment the version on update
                 var updatedTransaction = await _transactionsService.UpdateTransactionAsync(transactionEntity);
@@ -84,9 +90,5 @@ namespace Transactions.Managers
             return null;
         }
 
-        public Task<IAccountModel?> ProcessAccountUpdatedEventAsync(IAccountModel accountModel)
-        {
-            return _licenseManager.UpdateAccountStateAsync(accountModel);
-        }
     }
 }

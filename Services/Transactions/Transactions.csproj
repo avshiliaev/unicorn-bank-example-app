@@ -9,6 +9,7 @@
       <ProjectReference Include="..\Sdk.Api\Sdk.Api.csproj" />
       <ProjectReference Include="..\Sdk.Auth\Sdk.Auth.csproj" />
       <ProjectReference Include="..\Sdk.Communication\Sdk.Communication.csproj" />
+      <ProjectReference Include="..\Sdk.License\Sdk.License.csproj" />
       <ProjectReference Include="..\Transactions.Persistence\Transactions.Persistence.csproj" />
     </ItemGroup>
 

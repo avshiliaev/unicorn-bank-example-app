@@ -10,7 +10,7 @@ namespace Transactions.Extensions
         {
             services
                 .AddTransient<ITransactionsManager, TransactionsManager>()
-                .AddTransient<ILicenseManager, LicenseManager>()
+                .AddTransient<IAccountsManager, AccountsManager>()
                 .AddTransient<IConcurrencyManager, ConcurrencyManager>();
             return services;
         }

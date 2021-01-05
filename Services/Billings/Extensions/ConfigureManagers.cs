@@ -9,8 +9,7 @@ namespace Billings.Extensions
         public static IServiceCollection AddBusinessLogicManagers(this IServiceCollection services)
         {
             services
-                .AddTransient<IBillingsManager, BillingsManager>()
-                .AddTransient<ILicenseManager, LicenseManager>();
+                .AddTransient<IBillingsManager, BillingsManager>();
             return services;
         }
     }
