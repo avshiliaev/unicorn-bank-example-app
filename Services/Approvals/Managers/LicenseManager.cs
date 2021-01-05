@@ -3,10 +3,12 @@ using System.Threading.Tasks;
 using Approvals.Interfaces;
 using Microsoft.Extensions.Logging;
 using Sdk.Api.Interfaces;
+using Sdk.Interfaces;
+using Sdk.License.Abstractions;
 
 namespace Approvals.Managers
 {
-    public class LicenseManager : ILicenseManager
+    public class LicenseManager : ALicenseManager<IAccountModel>
     {
         private readonly IApprovalsService _approvalsService;
         private readonly int _maxAccountPerUser = 10;
@@ -21,7 +23,7 @@ namespace Approvals.Managers
             _approvalsService = approvalsService;
         }
 
-        public async Task<bool> EvaluateCreationAllowedAsync(IAccountModel accountModel)
+        public override async Task<bool> EvaluateNewEntityAsync(IAccountModel accountModel)
         {
             var allApprovals = await _approvalsService.GetManyByParameterAsync(
                 b =>
@@ -32,7 +34,7 @@ namespace Approvals.Managers
             return allApprovals.Count() <= _maxAccountPerUser;
         }
 
-        public async Task<bool> EvaluateStateAllowedAsync(IAccountModel accountModel)
+        public override async Task<bool> EvaluateStateEntityAsync(IAccountModel accountModel)
         {
             if (accountModel.Balance<= _maxAccountUpperRange && accountModel.Balance >= _maxAccountLowerRange)
                 return true;

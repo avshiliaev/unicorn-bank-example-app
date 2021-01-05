@@ -7,6 +7,7 @@ using Sdk.Api.Events;
 using Sdk.Api.Events.Local;
 using Sdk.Api.Interfaces;
 using Sdk.Extensions;
+using Sdk.License.Interfaces;
 
 namespace Approvals.Managers
 {
@@ -14,13 +15,13 @@ namespace Approvals.Managers
     {
         private readonly IApprovalsService _approvalsService;
         private readonly IPublishEndpoint _publishEndpoint;
-        private readonly ILicenseManager _licenseManager;
+        private readonly ILicenseManager<IAccountModel> _licenseManager;
 
         public ApprovalsManager(
             ILogger<ApprovalsManager> logger,
             IApprovalsService approvalsService,
             IPublishEndpoint publishEndpoint,
-            ILicenseManager licenseManager
+            ILicenseManager<IAccountModel> licenseManager
         )
         {
             _approvalsService = approvalsService;
@@ -36,7 +37,7 @@ namespace Approvals.Managers
             )
                 return null;
 
-            var isCreationAllowed = await _licenseManager.EvaluateCreationAllowedAsync(accountCreatedEvent);
+            var isCreationAllowed = await _licenseManager.EvaluateNewEntityAsync(accountCreatedEvent);
 
             if (isCreationAllowed)
                 accountCreatedEvent.SetApproval();
@@ -66,7 +67,7 @@ namespace Approvals.Managers
             )
                 return null;
 
-            var isValidState = await _licenseManager.EvaluateStateAllowedAsync(accountCreatedEvent);
+            var isValidState = await _licenseManager.EvaluateStateEntityAsync(accountCreatedEvent);
             if (isValidState) return accountCreatedEvent;
 
             var approvalRecord = await _approvalsService.GetOneByParameterAsync(

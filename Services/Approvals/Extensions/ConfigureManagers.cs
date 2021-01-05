@@ -1,6 +1,8 @@
 using Approvals.Interfaces;
 using Approvals.Managers;
 using Microsoft.Extensions.DependencyInjection;
+using Sdk.Interfaces;
+using Sdk.License.Abstractions;
 
 namespace Approvals.Extensions
 {
@@ -9,8 +11,7 @@ namespace Approvals.Extensions
         public static IServiceCollection AddBusinessLogicManagers(this IServiceCollection services)
         {
             services
-                .AddTransient<IApprovalsManager, ApprovalsManager>()
-                .AddTransient<ILicenseManager, LicenseManager>();
+                .AddTransient<IApprovalsManager, ApprovalsManager>();
             return services;
         }
     }

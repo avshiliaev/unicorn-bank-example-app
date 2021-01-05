@@ -3,7 +3,6 @@ using Approvals.Interfaces;
 using Approvals.Managers;
 using Approvals.Persistence.Entities;
 using Approvals.Services;
-using Approvals.Tests.Mocks;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Sdk.Api.Events;
@@ -47,7 +46,7 @@ namespace Approvals.Tests.Managers
         {
             var publishEndpoint = new PublishEndpointMockFactory<IAccountModel>().GetInstance();
             var approvalsRepositoryMock = new RepositoryMockFactory<ApprovalEntity>(_approvalEntities).GetInstance();
-            var licenseManagerMock = new LicenseManagerMockFactory().GetInstance();
+            var licenseManagerMock = new LicenseManagerMockFactory<IAccountModel>().GetInstance();
 
             _manager = new ApprovalsManager(
                 new Mock<ILogger<ApprovalsManager>>().Object,

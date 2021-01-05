@@ -1,5 +1,6 @@
 using Approvals.Extensions;
 using Approvals.Handlers;
+using Approvals.Managers;
 using Approvals.Persistence;
 using Approvals.Persistence.Entities;
 using Approvals.Persistence.Repositories;
@@ -9,7 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Sdk.Api.Extensions;
+using Sdk.Api.Interfaces;
 using Sdk.Communication.Extensions;
+using Sdk.License.Extensions;
 using Sdk.Persistence.Extensions;
 
 namespace Approvals
@@ -34,6 +37,7 @@ namespace Approvals
                 .AddPostgreSql<ApprovalsRepository, ApprovalEntity, ApprovalsContext>(_configuration)
                 .AddDataAccessServices()
                 .AddBusinessLogicManagers()
+                .AddLicenseManager<LicenseManager, IAccountModel>()
                 .AddMessageBus<ApprovalsSubscriptionsHandler>(_configuration);
         }
 
