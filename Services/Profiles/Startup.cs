@@ -1,37 +1,59 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Profiles.Extensions;
+using Profiles.Handlers;
+using Profiles.Hubs;
+using Sdk.Api.Extensions;
+using Sdk.Auth.Extensions;
+using Sdk.Persistence.Extensions;
+using Sdk.Communication.Extensions;
 
 namespace Profiles
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public void ConfigureServices(IServiceCollection services)
+        private readonly IConfiguration _configuration;
+
+        public Startup(IConfiguration configuration)
         {
+            _configuration = configuration;
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services
+                .AddCors()
+                .AddMongoDb<ProfilesRepository, ProfileEntity>(_configuration)
+                .AddAuth0(_configuration)
+                .AddDataAccessServices()
+                .AddBusinessLogicManagers()
+                .AddMessageBus<ProfilesSubscriptionsHandler>(_configuration)
+                .AddSignalR();
+        }
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
+                app.UseCors(builder =>
+                {
+                    builder.WithOrigins("http://localhost:3000")
+                        .AllowAnyHeader()
+                        .WithMethods("GET", "POST")
+                        .AllowCredentials();
+                });
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseRouting();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapGet("/", async context => { await context.Response.WriteAsync("Hello World!"); });
-            });
+            app
+                .ConfigureExceptionHandler()
+                .UseRouting()
+                .UseAuthentication()
+                .UseAuthorization()
+                .UseEndpoints(endpoints => { endpoints.MapHub<ProfilesHub>("/profiles"); });
         }
     }
 }
