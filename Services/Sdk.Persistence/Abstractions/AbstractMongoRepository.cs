@@ -57,15 +57,16 @@ namespace Sdk.Persistence.Abstractions
             return result.IsAcknowledged;
         }
 
-        public IEnumerator<ChangeStreamDocument<TEntity>> SubscribeToChangesStreamMany(string id)
+        public IEnumerator<ChangeStreamDocument<TEntity>> SubscribeToChangesStreamMany(string pipeline)
         {
             var options = new ChangeStreamOptions
             {
                 FullDocument = ChangeStreamFullDocumentOption.UpdateLookup
             };
-            var pipeline = new EmptyPipelineDefinition<ChangeStreamDocument<TEntity>>()
-                .Match("{ operationType: { $in: [ 'insert', 'update', 'replace' ] } }");
-            var cursor = _mongoCollection.Watch(pipeline, options);
+            var fullPipeline = new EmptyPipelineDefinition<ChangeStreamDocument<TEntity>>()
+                .Match("{ operationType: { $in: [ 'insert', 'update', 'replace' ] } }")
+                .Match(pipeline);
+            var cursor = _mongoCollection.Watch(fullPipeline, options);
             var enumerator = cursor.ToEnumerable().GetEnumerator();
             return enumerator;
         }

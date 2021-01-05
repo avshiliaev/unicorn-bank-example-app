@@ -32,7 +32,8 @@ namespace Notifications.Services
 
         public IEnumerator<ChangeStreamDocument<NotificationEntity>> SubscribeToChanges(string profileId)
         {
-            return _mongoRepository.SubscribeToChangesStreamMany(profileId)!;
+            var pipeline = @"{ ProfileId: $profileId }";
+            return _mongoRepository.SubscribeToChangesStreamMany(pipeline)!;
         }
     }
 }
