@@ -8,7 +8,9 @@ using Billings.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Sdk.Api.Events;
+using Sdk.Api.Events.Local;
 using Sdk.Api.Interfaces;
+using Sdk.Extensions;
 using Sdk.Tests.Extensions;
 using Sdk.Tests.Mocks;
 using Xunit;
@@ -59,31 +61,34 @@ namespace Billings.Tests.Managers
         }
 
         [Fact]
-        public async void ShouldSuccessfullyCreateANewBilling()
+        public async void Should_EvaluateTransactionAsync_Valid()
         {
-            var transactionCreatedEvent = new TransactionCreatedEvent
+            var transactionCheckCommand = new TransactionCheckCommand
             {
                 Id = 1.ToGuid().ToString(),
                 AccountId = 1.ToGuid().ToString(),
                 ProfileId = "awesome",
                 Amount = 1,
                 Info = "info",
-                Approved = false,
                 Timestamp = DateTime.Now.ToString(CultureInfo.InvariantCulture),
                 Version = 0
             };
-            var newCreatedBilling = await _manager
-                .EvaluateTransactionAsync(transactionCreatedEvent);
-            Assert.NotNull(newCreatedBilling);
+            transactionCheckCommand.SetPending();
+            var transactionIsCheckedEvent = await _manager.EvaluateTransactionAsync(
+                transactionCheckCommand
+                );
+            Assert.NotNull(transactionIsCheckedEvent);
+            Assert.True(transactionIsCheckedEvent.IsApproved());
         }
 
         [Fact]
-        public async void ShouldNotCreateAnInvalidBilling()
+        public async void ShouldNot_EvaluateTransactionAsync_Invalid()
         {
-            var transactionCreatedEvent = new TransactionCreatedEvent();
-            var newCreatedBilling = await _manager
-                .EvaluateTransactionAsync(transactionCreatedEvent);
-            Assert.Null(newCreatedBilling);
+            var transactionCheckCommand = new TransactionCreatedEvent();
+            transactionCheckCommand.SetPending();
+            var transactionIsCheckedEvent = await _manager
+                .EvaluateTransactionAsync(transactionCheckCommand);
+            Assert.Null(transactionIsCheckedEvent);
         }
     }
 }
