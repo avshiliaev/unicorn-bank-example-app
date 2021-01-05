@@ -30,6 +30,7 @@ namespace Transactions.Mappers
                 // Approvable
                 Approved = transactionEntity.Approved,
                 Pending = transactionEntity.Pending,
+                Blocked = transactionEntity.Blocked,
 
                 // Concurrent
                 SequentialNumber = transactionEntity.SequentialNumber

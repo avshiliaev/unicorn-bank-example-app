@@ -25,6 +25,7 @@ namespace Transactions.Mappers
                 // Approvable
                 Approved = transactionModel.Approved,
                 Pending = transactionModel.Pending,
+                Blocked = transactionModel.Blocked,
 
                 // Concurrent
                 SequentialNumber = transactionModel.SequentialNumber

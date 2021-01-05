@@ -4,6 +4,7 @@ using Moq;
 using Sdk.Api.Dto;
 using Sdk.Api.Events.Local;
 using Sdk.Api.Interfaces;
+using Sdk.Extensions;
 using Sdk.Tests.Extensions;
 using Sdk.Tests.Mocks;
 using Transactions.Interfaces;
@@ -64,31 +65,45 @@ namespace Transactions.Tests.Managers
             );
         }
 
-        #region ProcessTransactionProcessedEventAsync
+        #region ProcessTransactionCheckedEventAsync
 
         [Fact]
-        public async void ShouldSuccessfullyUpdateStatusOfTransactionAsync()
+        public async void Should_ProcessTransactionCheckedEventAsync_Approved()
         {
             var transactionProcessedEvent = new TransactionIsCheckedEvent
             {
                 Id = 1.ToGuid().ToString(),
-                ProfileId = 1.ToGuid().ToString(),
-                Approved = true
+                ProfileId = 1.ToGuid().ToString()
             };
+            transactionProcessedEvent.SetApproval();
             var updatedTransaction = await _manager.ProcessTransactionCheckedEventAsync(transactionProcessedEvent);
             Assert.NotNull(updatedTransaction);
-            Assert.True(updatedTransaction.Approved);
+            Assert.True(updatedTransaction.IsApproved());
+        }
+        
+        [Fact]
+        public async void Should_ProcessTransactionCheckedEventAsync_Blocked()
+        {
+            var transactionProcessedEvent = new TransactionIsCheckedEvent
+            {
+                Id = 1.ToGuid().ToString(),
+                ProfileId = 1.ToGuid().ToString()
+            };
+            transactionProcessedEvent.SetBlocked();
+            var updatedTransaction = await _manager.ProcessTransactionCheckedEventAsync(transactionProcessedEvent);
+            Assert.NotNull(updatedTransaction);
+            Assert.True(updatedTransaction.IsBlocked());
         }
 
         [Fact]
-        public async void ShouldNotUpdateStatusOfAnInvalidTransactionAsync()
+        public async void ShouldNot_ProcessTransactionCheckedEventAsync_Invalid()
         {
             var transactionProcessedEvent = new TransactionIsCheckedEvent
             {
                 Id = 99.ToGuid().ToString(),
-                ProfileId = 1.ToGuid().ToString(),
-                Approved = true
+                ProfileId = 1.ToGuid().ToString()
             };
+            transactionProcessedEvent.SetApproval();
             var updatedTransaction = await _manager.ProcessTransactionCheckedEventAsync(transactionProcessedEvent);
             Assert.Null(updatedTransaction);
         }
@@ -98,7 +113,7 @@ namespace Transactions.Tests.Managers
         #region CreateNewTransactionAsync
 
         [Fact]
-        public async void ShouldSuccessfullyCreateNewTransactionAsync()
+        public async void Should_CreateNewTransactionAsync_Valid()
         {
             var transactionViewModel = new TransactionViewModel
             {
@@ -113,7 +128,7 @@ namespace Transactions.Tests.Managers
         }
 
         [Fact]
-        public async void ShouldNotCreateAnInvalidAccount()
+        public async void ShouldNot_CreateNewTransactionAsync_Invalid()
         {
             var transactionViewModel = new TransactionViewModel
             {

@@ -92,9 +92,9 @@ namespace Accounts.Tests.Managers
         {
             var accountApprovedEvent = new AccountIsCheckedEvent
             {
-                Id = 5.ToGuid().ToString(),
-                Approved = true
+                Id = 5.ToGuid().ToString()
             };
+            accountApprovedEvent.SetApproval();
             var newCreatedAccount = await _manager.ProcessAccountIsCheckedEventAsync(accountApprovedEvent);
             Assert.Null(newCreatedAccount);
         }

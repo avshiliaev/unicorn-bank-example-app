@@ -27,6 +27,7 @@ namespace Transactions.Mappers
                 // Approvable
                 Approved = false,
                 Pending = true,
+                Blocked = false,
 
                 // Concurrent
                 SequentialNumber = 1
