@@ -51,7 +51,7 @@ namespace Notifications.Tests.Managers
         }
 
         [Fact]
-        public void ShouldSuccessfullyCreateNewNotification()
+        public void Should_AddNewNotification_Valid()
         {
             var notificationEvent = new NotificationEvent
             {
@@ -68,7 +68,7 @@ namespace Notifications.Tests.Managers
         }
 
         [Fact]
-        public void ShouldNotCreateInvalidNotification()
+        public void ShouldNot_AddNewNotification_Invalid()
         {
             var notificationEvent = new NotificationEvent();
             var newNotification = _manager.AddNewNotification(notificationEvent);

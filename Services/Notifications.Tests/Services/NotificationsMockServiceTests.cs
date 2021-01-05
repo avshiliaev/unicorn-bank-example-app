@@ -44,7 +44,7 @@ namespace Notifications.Tests.Services
         }
 
         [Fact]
-        public void ShouldSuccessfullyCreateANewNotification()
+        public void Should_Create_Valid()
         {
             var newNotificationEntity = new NotificationEntity
             {
@@ -63,7 +63,7 @@ namespace Notifications.Tests.Services
         }
 
         [Fact]
-        public void ShouldNotCreateAnInvalidNotification()
+        public void ShouldNot_Create_Invalid()
         {
             var invalidNotificationEntity = new NotificationEntity();
             var newCreatedAccountEntity = _service.Create(invalidNotificationEntity);
