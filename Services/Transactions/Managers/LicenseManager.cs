@@ -1,11 +1,9 @@
 using System;
 using System.Threading.Tasks;
-using Sdk.Api.Dto;
 using Sdk.Api.Interfaces;
 using Sdk.Extensions;
 using Sdk.License.Abstractions;
 using Transactions.Interfaces;
-using Transactions.Mappers;
 
 namespace Transactions.Managers
 {

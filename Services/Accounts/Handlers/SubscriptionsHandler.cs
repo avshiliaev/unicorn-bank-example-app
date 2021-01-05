@@ -31,7 +31,7 @@ namespace Accounts.Handlers
         public async Task Consume(ConsumeContext<AccountIsCheckedEvent> context)
         {
             _logger.LogDebug($"Received new AccountApprovedEvent for {context.Message.Id}");
-            
+
             var result = await _accountsManager.ProcessAccountIsCheckedEventAsync(context.Message);
             if (result == null) throw new Exception($"Could not process an event {context.Message.Id}");
         }

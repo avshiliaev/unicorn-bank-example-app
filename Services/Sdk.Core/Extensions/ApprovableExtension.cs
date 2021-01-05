@@ -12,7 +12,7 @@ namespace Sdk.Extensions
                 return false;
             return true;
         }
-        
+
         public static bool IsBlocked(this IApprovable approvable)
         {
             if (!approvable.Blocked)
@@ -59,7 +59,7 @@ namespace Sdk.Extensions
 
             return approvable;
         }
-        
+
         public static IApprovable SetBlocked(this IApprovable approvable)
         {
             approvable.Approved = true;

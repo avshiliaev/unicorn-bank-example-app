@@ -3,7 +3,6 @@ using Approvals.Interfaces;
 using Approvals.Mappers;
 using MassTransit;
 using Microsoft.Extensions.Logging;
-using Sdk.Api.Events;
 using Sdk.Api.Events.Local;
 using Sdk.Api.Interfaces;
 using Sdk.Extensions;
@@ -14,8 +13,8 @@ namespace Approvals.Managers
     public class ApprovalsManager : IApprovalsManager
     {
         private readonly IApprovalsService _approvalsService;
-        private readonly IPublishEndpoint _publishEndpoint;
         private readonly ILicenseManager<IAccountModel> _licenseManager;
+        private readonly IPublishEndpoint _publishEndpoint;
 
         public ApprovalsManager(
             ILogger<ApprovalsManager> logger,
@@ -58,7 +57,7 @@ namespace Approvals.Managers
 
             return null;
         }
-        
+
         public async Task<IAccountModel?> EvaluateAccountRunningAsync(IAccountModel accountCreatedEvent)
         {
             if (
@@ -72,7 +71,7 @@ namespace Approvals.Managers
 
             var approvalRecord = await _approvalsService.GetOneByParameterAsync(
                 a => a != null && a.AccountId == accountCreatedEvent.Id.ToGuid()
-                );
+            );
 
             if (approvalRecord != null)
             {
@@ -83,7 +82,8 @@ namespace Approvals.Managers
 
                 if (approvedEntity != null)
                 {
-                    var accountApprovedEvent = approvedEntity.ToAccountModel<AccountIsCheckedEvent>(accountCreatedEvent);
+                    var accountApprovedEvent =
+                        approvedEntity.ToAccountModel<AccountIsCheckedEvent>(accountCreatedEvent);
                     await _publishEndpoint.Publish(accountApprovedEvent);
 
                     return accountApprovedEvent;

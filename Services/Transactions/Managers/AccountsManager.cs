@@ -7,7 +7,7 @@ using Transactions.Mappers;
 
 namespace Transactions.Managers
 {
-    public class AccountsManager: IAccountsManager
+    public class AccountsManager : IAccountsManager
     {
         private readonly IAccountsService _accountsService;
 
@@ -15,7 +15,7 @@ namespace Transactions.Managers
         {
             _accountsService = accountsService;
         }
-        
+
         public async Task<IAccountModel?> ProcessTransactionCheckedEventAsync(IAccountModel accountModel)
         {
             var existingAccount = await _accountsService.GetAccountByIdAsync(accountModel.Id.ToGuid());
@@ -26,11 +26,9 @@ namespace Transactions.Managers
                 var updatedAccount = await _accountsService.UpdateAccountAsync(existingAccount);
                 return updatedAccount?.ToAccountModel<AccountDto>();
             }
-            else
-            {
-                var createdAccount = await _accountsService.CreateAccountAsync(accountModel.ToAccountEntity());
-                return createdAccount?.ToAccountModel<AccountDto>();
-            }
+
+            var createdAccount = await _accountsService.CreateAccountAsync(accountModel.ToAccountEntity());
+            return createdAccount?.ToAccountModel<AccountDto>();
         }
     }
 }

@@ -34,10 +34,10 @@ namespace Accounts.Managers
                 accountRequest.SetPending();
 
                 var newAccount = await _accountsService.CreateAccountAsync(accountRequest.ToAccountEntity());
-                
+
                 await _publishEndpoint.Publish(newAccount?.ToAccountEvent<AccountCreatedEvent>());
                 await _publishEndpoint.Publish(newAccount?.ToAccountEvent<AccountCheckCommand>());
-                
+
                 return newAccount?.ToAccountModel<AccountDto>();
             }
 
@@ -50,7 +50,9 @@ namespace Accounts.Managers
             if (accountEntity != null)
             {
                 if (accountModel.IsBlocked())
+                {
                     accountEntity.SetBlocked();
+                }
                 else
                 {
                     if (accountModel.IsApproved())
@@ -65,7 +67,7 @@ namespace Accounts.Managers
                 {
                     await _publishEndpoint.Publish(updatedAccount.ToAccountEvent<AccountUpdatedEvent>());
                     await _publishEndpoint.Publish(updatedAccount.ToNotificationEvent());
-                    
+
                     return updatedAccount.ToAccountModel<AccountDto>();
                 }
             }
@@ -90,10 +92,10 @@ namespace Accounts.Managers
 
                 // Optimistic Concurrency Control: update incrementing the version
                 var updatedAccount = await _accountsService.UpdateAccountAsync(mappedAccount);
-                
+
                 await _publishEndpoint.Publish(updatedAccount?.ToAccountEvent<AccountUpdatedEvent>());
                 await _publishEndpoint.Publish(updatedAccount?.ToAccountEvent<AccountCheckCommand>());
-                
+
                 return updatedAccount?.ToAccountModel<AccountDto>();
             }
 

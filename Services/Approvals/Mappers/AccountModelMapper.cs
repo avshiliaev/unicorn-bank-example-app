@@ -21,7 +21,7 @@ namespace Approvals.Mappers
 
                 Approved = accountModel.Approved,
                 Pending = accountModel.Pending,
-                Blocked = accountModel.Blocked,
+                Blocked = accountModel.Blocked
             };
         }
     }

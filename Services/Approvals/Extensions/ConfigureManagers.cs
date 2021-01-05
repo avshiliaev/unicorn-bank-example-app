@@ -1,8 +1,6 @@
 using Approvals.Interfaces;
 using Approvals.Managers;
 using Microsoft.Extensions.DependencyInjection;
-using Sdk.Interfaces;
-using Sdk.License.Abstractions;
 
 namespace Approvals.Extensions
 {

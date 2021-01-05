@@ -15,15 +15,15 @@ namespace Accounts.Mappers
             {
                 Id = accountEntity.Id.ToString(),
                 Version = accountEntity.Version,
-                
+
                 Balance = accountEntity.Balance,
-                
+
                 ProfileId = accountEntity.ProfileId,
-                
+
                 Approved = accountEntity.Approved,
                 Pending = accountEntity.Pending,
                 Blocked = accountEntity.Blocked,
-                
+
                 LastSequentialNumber = accountEntity.LastSequentialNumber
             };
         }
@@ -35,11 +35,11 @@ namespace Accounts.Mappers
             {
                 Id = accountEntity.Id.ToString(),
                 Version = accountEntity.Version,
-                
+
                 Balance = accountEntity.Balance,
-                
+
                 ProfileId = accountEntity.ProfileId,
-                
+
                 Approved = accountEntity.Approved,
                 Pending = accountEntity.Pending,
                 Blocked = accountEntity.Blocked,

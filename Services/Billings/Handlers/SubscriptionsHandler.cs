@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Billings.Interfaces;
 using MassTransit;
 using Microsoft.Extensions.Logging;
-using Sdk.Api.Events;
 using Sdk.Api.Events.Local;
 
 namespace Billings.Handlers

@@ -12,15 +12,15 @@ namespace Approvals.Mappers
             {
                 Id = accountModel.Id,
                 Version = accountModel.Version,
-                
+
                 Balance = accountModel.Balance,
-                
+
                 ProfileId = accountModel.ProfileId,
-                
+
                 Approved = approvalEntity.Approved,
                 Pending = approvalEntity.Pending,
                 Blocked = approvalEntity.Blocked,
-                
+
                 LastSequentialNumber = accountModel.LastSequentialNumber
             };
         }

@@ -1,5 +1,3 @@
-using System;
-using Sdk.Api.Events;
 using Sdk.Api.Interfaces;
 using Sdk.Interfaces;
 using Transactions.Persistence.Entities;
@@ -15,15 +13,15 @@ namespace Transactions.Mappers
             {
                 Id = accountEntity.Id.ToString(),
                 Version = accountEntity.Version,
-                
+
                 Balance = accountEntity.Balance,
-                
+
                 ProfileId = accountEntity.ProfileId,
-                
+
                 Approved = accountEntity.Approved,
                 Pending = accountEntity.Pending,
                 Blocked = accountEntity.Blocked,
-                
+
                 LastSequentialNumber = accountEntity.LastSequentialNumber
             };
         }
@@ -35,11 +33,11 @@ namespace Transactions.Mappers
             {
                 Id = accountEntity.Id.ToString(),
                 Version = accountEntity.Version,
-                
+
                 Balance = accountEntity.Balance,
-                
+
                 ProfileId = accountEntity.ProfileId,
-                
+
                 Approved = accountEntity.Approved,
                 Pending = accountEntity.Pending,
                 Blocked = accountEntity.Blocked,

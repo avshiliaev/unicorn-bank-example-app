@@ -73,7 +73,7 @@ namespace Accounts.Tests.Managers
             Assert.NotNull(newCreatedAccount);
             Assert.True(newCreatedAccount.IsApproved());
         }
-        
+
         [Fact]
         public async void Should_ProcessAccountIsCheckedEventAsync_Blocked()
         {

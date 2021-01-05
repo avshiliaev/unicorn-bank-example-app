@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Approvals.Interfaces;
 using Microsoft.Extensions.Logging;
 using Sdk.Api.Interfaces;
-using Sdk.Interfaces;
 using Sdk.License.Abstractions;
 
 namespace Approvals.Managers
@@ -11,9 +10,9 @@ namespace Approvals.Managers
     public class LicenseManager : ALicenseManager<IAccountModel>
     {
         private readonly IApprovalsService _approvalsService;
-        private readonly int _maxAccountPerUser = 10;
         private readonly int _maxAccountLowerRange = -500;
-        private readonly int _maxAccountUpperRange = (int)1e6;
+        private readonly int _maxAccountPerUser = 10;
+        private readonly int _maxAccountUpperRange = (int) 1e6;
 
         public LicenseManager(
             ILogger<LicenseManager> logger,
@@ -36,9 +35,9 @@ namespace Approvals.Managers
 
         public override async Task<bool> EvaluateStateEntityAsync(IAccountModel accountModel)
         {
-            if (accountModel.Balance<= _maxAccountUpperRange && accountModel.Balance >= _maxAccountLowerRange)
+            if (accountModel.Balance <= _maxAccountUpperRange && accountModel.Balance >= _maxAccountLowerRange)
                 return true;
-            
+
             return false;
         }
     }

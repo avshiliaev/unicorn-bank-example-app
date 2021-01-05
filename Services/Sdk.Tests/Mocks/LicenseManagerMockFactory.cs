@@ -6,8 +6,8 @@ using Sdk.Tests.Interfaces;
 
 namespace Sdk.Tests.Mocks
 {
-    public class LicenseManagerMockFactory<TModel> : IMockFactory<ILicenseManager<TModel>> 
-        where TModel: class, IDataModel
+    public class LicenseManagerMockFactory<TModel> : IMockFactory<ILicenseManager<TModel>>
+        where TModel : class, IDataModel
     {
         public Mock<ILicenseManager<TModel>> GetInstance()
         {

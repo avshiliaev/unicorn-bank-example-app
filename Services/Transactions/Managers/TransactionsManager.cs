@@ -16,9 +16,9 @@ namespace Transactions.Managers
     public class TransactionsManager : ITransactionsManager
     {
         private readonly IConcurrencyManager _concurrencyManager;
+        private readonly ILicenseManager<ITransactionModel> _licenseManager;
         private readonly IPublishEndpoint _publishEndpoint;
         private readonly ITransactionsService _transactionsService;
-        private readonly ILicenseManager<ITransactionModel> _licenseManager;
 
         public TransactionsManager(
             ILogger<TransactionsManager> logger,
@@ -66,7 +66,9 @@ namespace Transactions.Managers
             if (transactionEntity != null)
             {
                 if (transactionModel.IsBlocked())
+                {
                     transactionEntity.SetBlocked();
+                }
                 else
                 {
                     if (transactionModel.IsApproved())
@@ -89,6 +91,5 @@ namespace Transactions.Managers
 
             return null;
         }
-
     }
 }

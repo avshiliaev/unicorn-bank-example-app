@@ -9,6 +9,5 @@ namespace Sdk.License.Abstractions
         public abstract Task<bool> EvaluateNewEntityAsync(TModel model);
 
         public abstract Task<bool> EvaluateStateEntityAsync(TModel dataModel);
-        
     }
 }
