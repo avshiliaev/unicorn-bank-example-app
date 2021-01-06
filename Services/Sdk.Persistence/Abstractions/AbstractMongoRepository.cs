@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using MongoDB.Driver;
 using Sdk.Persistence.Interfaces;
 
@@ -20,6 +22,16 @@ namespace Sdk.Persistence.Abstractions
         public List<TEntity> GetAll(string profileId)
         {
             return _mongoCollection.Find(e => e.ProfileId == profileId).ToList();
+        }
+        
+        public List<TEntity> GetManyByParameter(Expression<Func<TEntity, bool>> predicate)
+        {
+            return _mongoCollection.Find(predicate).ToList();
+        }
+        
+        public TEntity GetSingleByParameter(Expression<Func<TEntity, bool>> predicate)
+        {
+            return _mongoCollection.Find(predicate).Single();
         }
 
         public TEntity Get(string id)

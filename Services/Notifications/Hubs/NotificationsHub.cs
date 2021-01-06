@@ -30,13 +30,15 @@ namespace Notifications.Hubs
         public async Task<bool> Request()
         {
             var profileId = _httpContextAccessor.GetUserIdentifier();
-            var notifications = _notificationsService.GetAll(profileId);
+            var notifications = _notificationsService.GetManyByParameter(
+                e => e.ProfileId == profileId
+            );
             var notificationsDto = notifications
                 .Select(n => n.ToNotificationsModel<NotificationDto>())
                 .ToList();
             await Clients.All.SendAsync("Response", notificationsDto);
 
-            var pipeline = profileId.ToMongoPipelineMatchByProfileId();
+            var pipeline = profileId.ToMongoPipelineMatchMany();
             var enumerator = _notificationsService.SubscribeToChanges(pipeline);
             while (enumerator.MoveNext())
                 if (enumerator.Current != null)

@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using MongoDB.Driver;
 using Profiles.Interfaces;
 using Profiles.Persistence.Entities;
@@ -19,6 +21,11 @@ namespace Profiles.Services
         public List<ProfileEntity?> GetAll(string profileId)
         {
             return _mongoRepository.GetAll(profileId)!;
+        }
+
+        public List<ProfileEntity?> GetManyByParameter(Expression<Func<ProfileEntity, bool>> predicate)
+        {
+            return _mongoRepository.GetManyByParameter(predicate)!;
         }
 
         public ProfileEntity? Get(string id)

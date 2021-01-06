@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using MongoDB.Driver;
 using Notifications.Interfaces;
 using Notifications.Persistence.Entities;
@@ -21,6 +23,12 @@ namespace Notifications.Services
             return _mongoRepository.GetAll(profileId)!;
         }
 
+        public List<NotificationEntity> GetManyByParameter(Expression<Func<NotificationEntity, bool>> predicate)
+        {
+            return _mongoRepository.GetManyByParameter(predicate)!;
+        }
+
+        
         public NotificationEntity Get(string id)
         {
             return _mongoRepository.Get(id);

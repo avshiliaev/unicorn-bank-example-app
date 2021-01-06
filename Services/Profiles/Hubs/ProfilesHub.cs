@@ -31,13 +31,15 @@ namespace Profiles.Hubs
         public async Task<bool> RequestAll()
         {
             var profileId = _httpContextAccessor.GetUserIdentifier();
-            var profiles = _profilesService.GetAll(profileId);
+            var profiles = _profilesService.GetManyByParameter(
+                e => e.ProfileId == profileId
+            );
             var profilesDto = profiles
                 .Select(n => n?.ToProfileDto())
                 .ToList();
             await Clients.All.SendAsync("Response", profilesDto);
 
-            var pipeline = profileId.ToMongoPipelineMatchByProfileId();
+            var pipeline = profileId.ToMongoPipelineMatchMany();
             var enumerator = _profilesService.SubscribeToChangesMany(pipeline);
             while (enumerator.MoveNext())
                 if (enumerator.Current != null)
@@ -48,13 +50,18 @@ namespace Profiles.Hubs
             return true;
         }
         
-        public async Task<bool> RequestOne(Guid accountId)
+        public async Task<bool> RequestOne(string accountId)
         {
             var profileId = _httpContextAccessor.GetUserIdentifier();
-            var profile = _profilesService.Get(accountId.ToString());
-            await Clients.All.SendAsync("Response", profile?.ToProfileDto());
+            var profiles = _profilesService.GetManyByParameter(
+                e => e.ProfileId == profileId && e.AccountId == accountId
+            );
+            var profilesDto = profiles
+                .Select(n => n?.ToProfileDto())
+                .ToList();
+            await Clients.All.SendAsync("Response", profilesDto);
 
-            var pipeline = profileId.ToMongoPipelineMatchByProfileId();
+            var pipeline = profileId.ToMongoPipelineMatchSingle(accountId);
             var enumerator = _profilesService.SubscribeToChangesMany(pipeline);
             while (enumerator.MoveNext())
                 if (enumerator.Current != null)
