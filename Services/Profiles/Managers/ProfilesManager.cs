@@ -97,10 +97,6 @@ namespace Profiles.Managers
             );
             if (profile != null || !string.IsNullOrEmpty(profile?.Id))
             {
-                // Optimistic Concurrency Control: check last transaction version
-                if (!profile.CheckConcurrentController(transactionModel))
-                    return null;
-                
                 // If there is no such transaction or the transaction version is wrong
                 if (
                     !profile.Transactions.Select(
