@@ -4,12 +4,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Sdk.Api.Extensions;
+using Sdk.Api.Interfaces;
 using Sdk.Auth.Extensions;
 using Sdk.Communication.Extensions;
+using Sdk.License.Extensions;
 using Sdk.Persistence.Extensions;
 using Sdk.Persistence.Interfaces;
 using Transactions.Extensions;
 using Transactions.Handlers;
+using Transactions.Managers;
 using Transactions.Persistence;
 using Transactions.Persistence.Entities;
 using Transactions.Persistence.Repositories;
@@ -38,6 +41,7 @@ namespace Transactions
                 .AddAuth0(_configuration)
                 .AddDataAccessServices()
                 .AddBusinessLogicManagers()
+                .AddLicenseManager<LicenseManager, ITransactionModel>()
                 .AddMessageBus<TransactionsSubscriptionsHandler>(_configuration);
         }
 
