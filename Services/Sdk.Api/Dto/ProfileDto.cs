@@ -12,6 +12,7 @@ namespace Sdk.Api.Dto
         
         // Foreign Properties
         public string ProfileId { get; set; }
+        public string AccountId { get; set; }
         
         // Properties
         public float Balance { get; set; }

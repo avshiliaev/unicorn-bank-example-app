@@ -44,12 +44,12 @@ namespace Profiles.Persistence.Entities
 
         // Foreign Properties
         public string ProfileId { get; set; }
+        public string AccountId { get; set; }
 
         // Common entity
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
-
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
         public int Version { get; set; }

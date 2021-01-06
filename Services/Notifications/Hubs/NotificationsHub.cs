@@ -7,6 +7,7 @@ using Notifications.Interfaces;
 using Notifications.Mappers;
 using Sdk.Api.Dto;
 using Sdk.Auth.Extensions;
+using Sdk.Persistence.Extensions;
 
 // https://docs.microsoft.com/en-us/aspnet/core/signalr/introduction?view=aspnetcore-5.0
 namespace Notifications.Hubs
@@ -35,7 +36,8 @@ namespace Notifications.Hubs
                 .ToList();
             await Clients.All.SendAsync("Response", notificationsDto);
 
-            var enumerator = _notificationsService.SubscribeToChanges(profileId);
+            var pipeline = profileId.ToMongoPipelineMatchByProfileId();
+            var enumerator = _notificationsService.SubscribeToChanges(pipeline);
             while (enumerator.MoveNext())
                 if (enumerator.Current != null)
                     await Clients.All.SendAsync(

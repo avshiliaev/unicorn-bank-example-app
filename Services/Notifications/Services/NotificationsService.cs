@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using MongoDB.Driver;
 using Notifications.Interfaces;
 using Notifications.Persistence.Entities;
+using Sdk.Persistence.Extensions;
 using Sdk.Persistence.Interfaces;
 
 namespace Notifications.Services
@@ -30,9 +31,8 @@ namespace Notifications.Services
             return _mongoRepository.Create(entity);
         }
 
-        public IEnumerator<ChangeStreamDocument<NotificationEntity>> SubscribeToChanges(string profileId)
+        public IEnumerator<ChangeStreamDocument<NotificationEntity>> SubscribeToChanges(string pipeline)
         {
-            var pipeline = @"{ ProfileId: $profileId }";
             return _mongoRepository.SubscribeToChangesStreamMany(pipeline)!;
         }
     }

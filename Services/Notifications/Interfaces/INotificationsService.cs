@@ -9,6 +9,6 @@ namespace Notifications.Interfaces
         List<NotificationEntity> GetAll(string profileId);
         NotificationEntity Get(string id);
         NotificationEntity Create(NotificationEntity entity);
-        IEnumerator<ChangeStreamDocument<NotificationEntity>> SubscribeToChanges(string profileId);
+        IEnumerator<ChangeStreamDocument<NotificationEntity>> SubscribeToChanges(string pipeline);
     }
 }

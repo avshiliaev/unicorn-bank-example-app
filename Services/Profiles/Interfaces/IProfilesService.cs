@@ -10,6 +10,6 @@ namespace Profiles.Interfaces
         ProfileEntity? Get(string id);
         ProfileEntity? Create(ProfileEntity entity);
         ProfileEntity? Update(string id, ProfileEntity entity);
-        IEnumerator<ChangeStreamDocument<ProfileEntity>> SubscribeToChangesMany(string profileId);
+        IEnumerator<ChangeStreamDocument<ProfileEntity>> SubscribeToChangesMany(string pipeline);
     }
 }

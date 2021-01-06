@@ -17,6 +17,7 @@ namespace Profiles.Mappers
 
                 // Foreign Properties
                 ProfileId = accountEvent.ProfileId,
+                AccountId = accountEvent.Id,
 
                 // Approvable
                 Approved = accountEvent.Approved,

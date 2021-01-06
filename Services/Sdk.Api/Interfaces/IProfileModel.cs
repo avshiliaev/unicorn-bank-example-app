@@ -9,8 +9,11 @@ namespace Sdk.Api.Interfaces
         where TTransaction: class, ITransactionModel
     {
         public string Id { get; set; }
+        
         public float Balance { get; set; }
         public string ProfileId { get; set; }
+        public string AccountId { get; set; }
+        
         public List<TTransaction> Transactions { get; set; }
     }
 }

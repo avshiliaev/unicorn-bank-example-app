@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using MongoDB.Driver;
 using Profiles.Interfaces;
 using Profiles.Persistence.Entities;
+using Sdk.Persistence.Extensions;
 using Sdk.Persistence.Interfaces;
 
 namespace Profiles.Services
@@ -35,9 +36,8 @@ namespace Profiles.Services
             return _mongoRepository.Update(id, entity);
         }
 
-        public IEnumerator<ChangeStreamDocument<ProfileEntity>> SubscribeToChangesMany(string profileId)
+        public IEnumerator<ChangeStreamDocument<ProfileEntity>> SubscribeToChangesMany(string pipeline)
         {
-            var pipeline = @"{ ProfileId: $profileId }";
             return _mongoRepository.SubscribeToChangesStreamMany(pipeline)!;
         }
     }

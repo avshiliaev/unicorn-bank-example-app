@@ -59,6 +59,8 @@ namespace Sdk.Persistence.Abstractions
 
         public IEnumerator<ChangeStreamDocument<TEntity>> SubscribeToChangesStreamMany(string pipeline)
         {
+            if (string.IsNullOrEmpty(pipeline)) return null;
+            
             var options = new ChangeStreamOptions
             {
                 FullDocument = ChangeStreamFullDocumentOption.UpdateLookup
