@@ -17,7 +17,7 @@ namespace Profiles.Persistence.Entities
         public int SequentialNumber { get; set; }
 
         // Common entity
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
         public int Version { get; set; }

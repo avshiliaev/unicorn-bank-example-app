@@ -11,7 +11,7 @@ namespace Profiles.Mappers
             return new TransactionSubEntity
             {
                 // Common
-                Id = transactionModel.Id.ToGuid(),
+                Id = transactionModel.Id,
                 Version = transactionModel.Version,
 
                 // Properties

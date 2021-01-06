@@ -19,7 +19,7 @@ namespace Profiles.Mappers
                     .Select(transaction => new TransactionSubEntity
                     {
                         // Common
-                        Id = transaction.Id.ToGuid(),
+                        Id = transaction.Id,
                         Version = transaction.Version,
 
                         // Properties

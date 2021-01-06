@@ -93,10 +93,20 @@ namespace Profiles.Managers
             );
             if (profile != null || !string.IsNullOrEmpty(profile?.Id))
             {
+                // If there is no such transaction or the transaction is out of order
+                if (
+                    !profile.Transactions.Select(
+                        t => t.Id == transactionModel.Id 
+                             && t.Version.Equals(transactionModel.Version - 1)).Any()
+                )
+                    return null;
+                
+                // Update the entire transaction
                 profile.Transactions = profile.Transactions
-                    .Where(t => t.Id != transactionModel.Id.ToGuid())
+                    .Where(t => t.Id != transactionModel.Id)
                     .ToList();
                 profile.Transactions.Add(transactionModel.ToTransactionSubEntity());
+                
                 var updated = _profilesService.Update(profile.Id, profile);
                 return updated?.ToProfileDto();
             }
