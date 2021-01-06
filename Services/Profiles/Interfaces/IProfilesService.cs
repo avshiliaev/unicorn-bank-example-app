@@ -13,7 +13,8 @@ namespace Profiles.Interfaces
         ProfileEntity? GetSingleByParameter(Expression<Func<ProfileEntity, bool>> predicate);
         ProfileEntity? Get(string id);
         ProfileEntity? Create(ProfileEntity entity);
-        ProfileEntity? Update(string id, ProfileEntity entity);
+        ProfileEntity? UpdatePassively(string id, ProfileEntity entity);
+        ProfileEntity? UpdateIgnoreConcurrency(string id, ProfileEntity entity);
         IEnumerator<ChangeStreamDocument<ProfileEntity>> SubscribeToChangesMany(string pipeline);
     }
 }

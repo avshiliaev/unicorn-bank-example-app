@@ -13,6 +13,7 @@ namespace Sdk.Persistence.Interfaces
         TEntity Get(string id);
         TEntity Create(TEntity entity);
         TEntity UpdatePassively(string id, TEntity entityIn);
+        TEntity UpdateIgnoreConcurrency(string id, TEntity entityIn);
         TEntity Remove(TEntity entityIn);
         bool Remove(string id);
         IEnumerator<ChangeStreamDocument<TEntity>> SubscribeToChangesStreamMany(string pipeline);

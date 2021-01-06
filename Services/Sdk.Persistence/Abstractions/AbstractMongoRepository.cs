@@ -61,6 +61,23 @@ namespace Sdk.Persistence.Abstractions
                 return entityIn;
             return null;
         }
+        
+        public TEntity UpdateIgnoreConcurrency(string id, TEntity entityIn)
+        {
+            if (
+                entityIn == null ||
+                string.IsNullOrEmpty(id) ||
+                !_mongoCollection
+                    .Find(e => e.Id == id)
+                    .Any()
+            )
+                return null;
+            
+            var result = _mongoCollection.ReplaceOne(e => e.Id == id, entityIn);
+            if (result.IsAcknowledged)
+                return entityIn;
+            return null;
+        }
 
         public TEntity Remove(TEntity entityIn)
         {

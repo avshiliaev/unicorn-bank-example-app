@@ -48,7 +48,7 @@ namespace Profiles.Managers
                 newEntity.Id = profile.Id;
                 newEntity.Transactions = profile.Transactions;
                 
-                var updated = _profilesService.Update(newEntity.Id, newEntity);
+                var updated = _profilesService.UpdatePassively(newEntity.Id, newEntity);
                 return updated?.ToProfileDto();
             }
 
@@ -70,8 +70,12 @@ namespace Profiles.Managers
             );
             if (profile != null || !string.IsNullOrEmpty(profile?.Id))
             {
+                // Optimistic Concurrency Control: check last transaction version
+                if (!profile.CheckConcurrentController(transactionModel))
+                    return null;
+                
                 profile.Transactions.Add(transactionModel.ToTransactionSubEntity());
-                var updated = _profilesService.Update(profile.Id, profile);
+                var updated = _profilesService.UpdateIgnoreConcurrency(profile.Id, profile);
                 return updated?.ToProfileDto();
             }
 
@@ -93,7 +97,11 @@ namespace Profiles.Managers
             );
             if (profile != null || !string.IsNullOrEmpty(profile?.Id))
             {
-                // If there is no such transaction or the transaction is out of order
+                // Optimistic Concurrency Control: check last transaction version
+                if (!profile.CheckConcurrentController(transactionModel))
+                    return null;
+                
+                // If there is no such transaction or the transaction version is wrong
                 if (
                     !profile.Transactions.Select(
                         t => t.Id == transactionModel.Id 
@@ -107,7 +115,7 @@ namespace Profiles.Managers
                     .ToList();
                 profile.Transactions.Add(transactionModel.ToTransactionSubEntity());
                 
-                var updated = _profilesService.Update(profile.Id, profile);
+                var updated = _profilesService.UpdateIgnoreConcurrency(profile.Id, profile);
                 return updated?.ToProfileDto();
             }
 

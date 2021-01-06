@@ -43,9 +43,14 @@ namespace Profiles.Services
             return _mongoRepository.Create(entity);
         }
 
-        public ProfileEntity? Update(string id, ProfileEntity entity)
+        public ProfileEntity? UpdatePassively(string id, ProfileEntity entity)
         {
             return _mongoRepository.UpdatePassively(id, entity);
+        }
+        
+        public ProfileEntity? UpdateIgnoreConcurrency(string id, ProfileEntity entity)
+        {
+            return _mongoRepository.UpdateIgnoreConcurrency(id, entity);
         }
 
         public IEnumerator<ChangeStreamDocument<ProfileEntity>> SubscribeToChangesMany(string pipeline)
