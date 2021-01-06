@@ -63,10 +63,14 @@ namespace Profiles.Managers
             )
                 return null;
 
-            var profile = _profilesService.Get(transactionModel.ProfileId);
-            if (profile != null)
+            var profile = _profilesService.GetSingleByParameter(
+                e => 
+                    e.AccountId == transactionModel.AccountId 
+                    && e.ProfileId == transactionModel.ProfileId
+            );
+            if (profile != null || !string.IsNullOrEmpty(profile?.Id))
             {
-                profile.Transactions.ToList().Add(transactionModel.ToTransactionSubEntity());
+                profile.Transactions.Add(transactionModel.ToTransactionSubEntity());
                 var updated = _profilesService.Update(profile.Id, profile);
                 return updated?.ToProfileDto();
             }
@@ -82,15 +86,19 @@ namespace Profiles.Managers
             )
                 return null;
 
-            var profile = _profilesService.Get(transactionModel.ProfileId);
-            if (profile != null)
+            var profile = _profilesService.GetSingleByParameter(
+                e => 
+                    e.AccountId == transactionModel.AccountId 
+                    && e.ProfileId == transactionModel.ProfileId
+            );
+            if (profile != null || !string.IsNullOrEmpty(profile?.Id))
             {
                 profile.Transactions = profile.Transactions
                     .Where(t => t.Id != transactionModel.Id.ToGuid())
                     .ToList();
                 profile.Transactions.Add(transactionModel.ToTransactionSubEntity());
                 var updated = _profilesService.Update(profile.Id, profile);
-                return profile?.ToProfileDto();
+                return updated?.ToProfileDto();
             }
 
             return null;
