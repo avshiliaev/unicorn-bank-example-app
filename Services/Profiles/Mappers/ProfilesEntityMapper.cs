@@ -52,6 +52,7 @@ namespace Profiles.Mappers
                 // Concurrent Host
                 LastSequentialNumber = profileEntity.LastSequentialNumber,
                 
+                Id = profileEntity.Id,
                 Version = profileEntity.Version
             };
         }

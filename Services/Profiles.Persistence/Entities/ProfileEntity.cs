@@ -48,7 +48,7 @@ namespace Profiles.Persistence.Entities
 
         // Common entity
         [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
+        // [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }

@@ -48,6 +48,8 @@ namespace Profiles.Mappers
                 // Concurrent Host
                 LastSequentialNumber = profileModel.LastSequentialNumber,
 
+                // Common
+                Id = profileModel.Id,
                 Created = DateTime.Now,
                 Updated = DateTime.Now,
                 Version = profileModel.Version

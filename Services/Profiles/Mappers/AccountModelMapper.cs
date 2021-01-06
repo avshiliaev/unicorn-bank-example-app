@@ -27,6 +27,8 @@ namespace Profiles.Mappers
                 // Concurrent Host
                 LastSequentialNumber = accountEvent.LastSequentialNumber,
 
+                // Common Entity
+                Id = Guid.NewGuid().ToString(),
                 Created = DateTime.Now,
                 Updated = DateTime.Now,
                 Version = accountEvent.Version
@@ -43,6 +45,7 @@ namespace Profiles.Mappers
 
                 // Foreign Properties
                 ProfileId = accountEvent.ProfileId,
+                AccountId = accountEvent.Id,
 
                 // Approvable
                 Approved = accountEvent.Approved,
@@ -52,6 +55,8 @@ namespace Profiles.Mappers
                 // Concurrent Host
                 LastSequentialNumber = accountEvent.LastSequentialNumber,
 
+                // Common Entity
+                Id = Guid.NewGuid().ToString(),
                 Created = DateTime.Now,
                 Updated = DateTime.Now,
                 Version = accountEvent.Version

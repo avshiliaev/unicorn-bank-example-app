@@ -28,6 +28,11 @@ namespace Profiles.Services
             return _mongoRepository.GetManyByParameter(predicate)!;
         }
 
+        public ProfileEntity? GetSingleByParameter(Expression<Func<ProfileEntity, bool>> predicate)
+        {
+            return _mongoRepository.GetSingleByParameter(predicate)!;
+        }
+
         public ProfileEntity? Get(string id)
         {
             return _mongoRepository.Get(id);

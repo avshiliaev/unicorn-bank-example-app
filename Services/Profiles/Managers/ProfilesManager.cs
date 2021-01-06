@@ -37,8 +37,22 @@ namespace Profiles.Managers
                 string.IsNullOrEmpty(accountModel.Id)
             )
                 return null;
-            var profile = _profilesService.Update(accountModel.Id, accountModel.ToProfileEntity());
-            return profile?.ToProfileDto();
+
+            var profile = _profilesService.GetSingleByParameter(
+                e => e.AccountId == accountModel.Id && e.ProfileId == accountModel.ProfileId
+            );
+            if (profile != null || !string.IsNullOrEmpty(profile?.Id))
+            {
+                // Keep Id and Transactions
+                var newEntity = accountModel.ToProfileEntity();
+                newEntity.Id = profile.Id;
+                newEntity.Transactions = profile.Transactions;
+                
+                var updated = _profilesService.Update(newEntity.Id, newEntity);
+                return updated?.ToProfileDto();
+            }
+
+            return null;
         }
 
         public ProfileDto? AddTransactionToProfile(ITransactionModel transactionModel)
@@ -54,7 +68,7 @@ namespace Profiles.Managers
             {
                 profile.Transactions.ToList().Add(transactionModel.ToTransactionSubEntity());
                 var updated = _profilesService.Update(profile.Id, profile);
-                return profile?.ToProfileDto();
+                return updated?.ToProfileDto();
             }
 
             return null;
