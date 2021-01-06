@@ -12,7 +12,7 @@ namespace Sdk.Persistence.Interfaces
         public TEntity GetSingleByParameter(Expression<Func<TEntity, bool>> predicate);
         TEntity Get(string id);
         TEntity Create(TEntity entity);
-        TEntity Update(string id, TEntity entityIn);
+        TEntity UpdatePassively(string id, TEntity entityIn);
         TEntity Remove(TEntity entityIn);
         bool Remove(string id);
         IEnumerator<ChangeStreamDocument<TEntity>> SubscribeToChangesStreamMany(string pipeline);

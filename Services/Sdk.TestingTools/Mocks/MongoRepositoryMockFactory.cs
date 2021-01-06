@@ -70,7 +70,7 @@ namespace Sdk.Tests.Mocks
                     return _entities.FirstOrDefault(a => a.Id == entity.Id);
                 });
             repository
-                .Setup(a => a.Update(It.IsAny<string>(), It.IsAny<TEntity>()))
+                .Setup(a => a.UpdatePassively(It.IsAny<string>(), It.IsAny<TEntity>()))
                 .Returns((string id, TEntity entity) =>
                 {
                     if (

@@ -45,7 +45,7 @@ namespace Profiles.Services
 
         public ProfileEntity? Update(string id, ProfileEntity entity)
         {
-            return _mongoRepository.Update(id, entity);
+            return _mongoRepository.UpdatePassively(id, entity);
         }
 
         public IEnumerator<ChangeStreamDocument<ProfileEntity>> SubscribeToChangesMany(string pipeline)
