@@ -14,7 +14,7 @@ namespace Profiles.Interfaces
         ProfileEntity? Get(string id);
         ProfileEntity? Create(ProfileEntity entity);
         ProfileEntity? UpdatePassively(string id, ProfileEntity entity);
-        ProfileEntity? UpdateIgnoreConcurrency(string id, ProfileEntity entity);
+        ProfileEntity? UpdateIgnoreConcurrency(string id, UpdateDefinition<ProfileEntity> updateDefinition);
         IEnumerator<ChangeStreamDocument<ProfileEntity>> SubscribeToChangesMany(string pipeline);
     }
 }

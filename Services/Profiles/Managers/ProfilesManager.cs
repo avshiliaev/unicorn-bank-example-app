@@ -1,7 +1,9 @@
 using System.Linq;
 using Microsoft.Extensions.Logging;
+using MongoDB.Driver;
 using Profiles.Interfaces;
 using Profiles.Mappers;
+using Profiles.Persistence.Entities;
 using Sdk.Api.Dto;
 using Sdk.Api.Interfaces;
 using Sdk.Extensions;
@@ -70,15 +72,14 @@ namespace Profiles.Managers
             );
             if (profile != null || !string.IsNullOrEmpty(profile?.Id))
             {
-                // Optimistic Concurrency Control: check last transaction version
-                if (!profile.CheckConcurrentController(transactionModel))
-                    return null;
+                var transactions = profile.Transactions;
+                transactions.Add(transactionModel.ToTransactionSubEntity());
+                var update = Builders<ProfileEntity>.Update.Set("Transactions", transactions);
                 
-                profile.Transactions.Add(transactionModel.ToTransactionSubEntity());
-                var updated = _profilesService.UpdateIgnoreConcurrency(profile.Id, profile);
-                return updated?.ToProfileDto();
+                var updated = _profilesService.UpdateIgnoreConcurrency(profile.Id, update);
+                if (updated != null || !string.IsNullOrEmpty(updated?.Id))
+                    return updated.ToProfileDto();
             }
-
             return null;
         }
 
@@ -99,22 +100,24 @@ namespace Profiles.Managers
             {
                 // If there is no such transaction or the transaction version is wrong
                 if (
-                    !profile.Transactions.Select(
-                        t => t.Id == transactionModel.Id 
-                             && t.Version.Equals(transactionModel.Version - 1)).Any()
+                    !profile.Transactions.Any(
+                        t => t.Id == transactionModel.Id
+                                && t.Version.Equals(transactionModel.Version - 1)
+                    )
                 )
                     return null;
                 
                 // Update the entire transaction
-                profile.Transactions = profile.Transactions
+                var transactions = profile.Transactions
                     .Where(t => t.Id != transactionModel.Id)
                     .ToList();
-                profile.Transactions.Add(transactionModel.ToTransactionSubEntity());
-                
-                var updated = _profilesService.UpdateIgnoreConcurrency(profile.Id, profile);
-                return updated?.ToProfileDto();
-            }
+                transactions.Add(transactionModel.ToTransactionSubEntity());
 
+                var update = Builders<ProfileEntity>.Update.Set("Transactions", transactions);
+                var updated = _profilesService.UpdateIgnoreConcurrency(profile.Id, update);
+                if (updated != null || !string.IsNullOrEmpty(updated?.Id))
+                    return updated.ToProfileDto();
+            }
             return null;
         }
     }

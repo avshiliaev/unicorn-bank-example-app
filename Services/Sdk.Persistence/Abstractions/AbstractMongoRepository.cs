@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Sdk.Persistence.Interfaces;
 
@@ -10,11 +11,12 @@ namespace Sdk.Persistence.Abstractions
         where TEntity : class, IMongoEntity
     {
         private readonly IMongoCollection<TEntity> _mongoCollection;
+        private readonly MongoClient _client;
 
         public AbstractMongoRepository(IMongoSettingsModel settings)
         {
-            var client = new MongoClient(settings.ConnectionString);
-            var database = client.GetDatabase(settings.DatabaseName);
+            _client = new MongoClient(settings.ConnectionString);
+            var database = _client.GetDatabase(settings.DatabaseName);
 
             _mongoCollection = database.GetCollection<TEntity>(settings.CollectionName);
         }
@@ -62,21 +64,11 @@ namespace Sdk.Persistence.Abstractions
             return null;
         }
         
-        public TEntity UpdateIgnoreConcurrency(string id, TEntity entityIn)
+        public TEntity UpdateIgnoreConcurrency(string id, UpdateDefinition<TEntity> updateDefinition)
         {
-            if (
-                entityIn == null ||
-                string.IsNullOrEmpty(id) ||
-                !_mongoCollection
-                    .Find(e => e.Id == id)
-                    .Any()
-            )
-                return null;
-            
-            var result = _mongoCollection.ReplaceOne(e => e.Id == id, entityIn);
-            if (result.IsAcknowledged)
-                return entityIn;
-            return null;
+            var filter = new BsonDocument("_id", id);
+            var result = _mongoCollection.FindOneAndUpdate<TEntity>(filter, updateDefinition);
+            return result;
         }
 
         public TEntity Remove(TEntity entityIn)
