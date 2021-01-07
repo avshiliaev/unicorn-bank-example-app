@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Profiles.Interfaces;
 using Profiles.Persistence.Entities;
@@ -43,14 +45,107 @@ namespace Profiles.Services
             return _mongoRepository.Create(entity);
         }
 
-        public ProfileEntity? UpdatePassively(string id, ProfileEntity entity)
+        public ProfileEntity? UpdatePassively(ProfileEntity profileEntity)
         {
-            return _mongoRepository.UpdatePassively(id, entity);
+            using var session = _mongoRepository.Client.StartSession();
+            session.StartTransaction();
+            try
+            {
+                var filter = Builders<ProfileEntity>.Filter.And(
+                    Builders<ProfileEntity>.Filter.Eq(p => p.AccountId, profileEntity.AccountId),
+                    Builders<ProfileEntity>.Filter.Eq(p => p.Version, profileEntity.Version - 1)
+                );
+                var updateDefinition = Builders<ProfileEntity>.Update
+                    .Set(
+                        "Balance",
+                        profileEntity.Balance
+                    )
+                    .Set(
+                        "Version",
+                        profileEntity.Version
+                    ).Set(
+                        "Approved",
+                        profileEntity.Approved
+                    ).Set(
+                        "Pending",
+                        profileEntity.Pending
+                    ).Set(
+                        "Blocked",
+                        profileEntity.Blocked
+                    );
+                var result = _mongoRepository.Update(filter, updateDefinition);
+                session.CommitTransaction();
+                if (result != null && !string.IsNullOrEmpty(result.Id))
+                    return result;
+                return null;
+            }
+            catch
+            {
+                session.AbortTransaction();
+                return null;
+            }
         }
         
-        public ProfileEntity? UpdateIgnoreConcurrency(string id, UpdateDefinition<ProfileEntity> updateDefinition)
+        public ProfileEntity? AddToSet(string accountId, TransactionSubEntity transactionSubEntity)
         {
-            return _mongoRepository.UpdateIgnoreConcurrency(id, updateDefinition);
+            using var session = _mongoRepository.Client.StartSession();
+            session.StartTransaction();
+            try
+            {
+                var filter = Builders<ProfileEntity>.Filter.And(
+                    Builders<ProfileEntity>.Filter.Eq(p => p.AccountId, accountId)
+                );
+                var updateDefinition = Builders<ProfileEntity>.Update.Push(
+                    "Transactions", 
+                    transactionSubEntity
+                );
+                var result = _mongoRepository.Update(filter, updateDefinition);
+                session.CommitTransaction();
+                if (result != null && !string.IsNullOrEmpty(result.Id))
+                    return result;
+                return null;
+            }
+            catch
+            {
+                session.AbortTransaction();
+                return null;
+            }
+        }
+        
+        public ProfileEntity? UpdateInSet(string accountId, TransactionSubEntity transactionSubEntity)
+        {
+            using var session = _mongoRepository.Client.StartSession();
+            session.StartTransaction();
+            try
+            {
+                var profile = _mongoRepository.GetSingleByParameter(p => p.AccountId == accountId);
+                if (profile.Transactions.All(t => t.Id != transactionSubEntity.Id))
+                    return null;
+                
+                var filter = new BsonDocument(
+                    "AccountId", accountId
+                );
+                var pullTransaction = Builders<ProfileEntity>.Update.PullFilter(
+                    "Transactions",
+                    Builders<TransactionSubEntity>.Filter.Eq("_id", transactionSubEntity.Id)
+                );
+                var _ = _mongoRepository.Update(filter, pullTransaction);
+                var pushTransaction = Builders<ProfileEntity>.Update.Push(
+                    "Transactions", 
+                    transactionSubEntity
+                );
+                var pushed = _mongoRepository.Update(filter, pushTransaction);
+                
+                session.CommitTransaction();
+                if (pushed != null && !string.IsNullOrEmpty(pushed.Id))
+                    return pushed;
+                return null;
+            }
+            catch
+            {
+                session.AbortTransaction();
+                return null;
+            }
         }
 
         public IEnumerator<ChangeStreamDocument<ProfileEntity>> SubscribeToChangesMany(string pipeline)

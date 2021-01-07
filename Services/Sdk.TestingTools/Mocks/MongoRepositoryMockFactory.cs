@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Moq;
 using Sdk.Persistence.Interfaces;
@@ -70,17 +71,17 @@ namespace Sdk.Tests.Mocks
                     return _entities.FirstOrDefault(a => a.Id == entity.Id);
                 });
             repository
-                .Setup(a => a.UpdatePassively(It.IsAny<string>(), It.IsAny<TEntity>()))
-                .Returns((string id, TEntity entity) =>
-                {
-                    if (
-                        entity == null ||
-                        Guid.Empty.ToString() == id
+                .Setup(
+                    a => a.Update(
+                        It.IsAny<FilterDefinition<TEntity>>(), 
+                        It.IsAny<UpdateDefinition<TEntity>>())
                     )
-                        return null;
-                    _entities = _entities.Where(e => e.Id != id).ToList();
-                    _entities.Add(entity);
-                    return _entities.FirstOrDefault(e => e.Id == entity.Id);
+                .Returns((FilterDefinition<TEntity> filter, UpdateDefinition<TEntity> updateDefinition) =>
+                {
+                    // TODO FIX THE TESTING FIXTURE!
+                    // _entities = _entities.Where(e => e.Id != id).ToList();
+                    // _entities.Add(entity);
+                    return _entities.FirstOrDefault(e => e.Id != null);
                 });
             return repository;
         }

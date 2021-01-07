@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Profiles.Persistence.Entities;
 
@@ -13,8 +14,9 @@ namespace Profiles.Interfaces
         ProfileEntity? GetSingleByParameter(Expression<Func<ProfileEntity, bool>> predicate);
         ProfileEntity? Get(string id);
         ProfileEntity? Create(ProfileEntity entity);
-        ProfileEntity? UpdatePassively(string id, ProfileEntity entity);
-        ProfileEntity? UpdateIgnoreConcurrency(string id, UpdateDefinition<ProfileEntity> updateDefinition);
+        ProfileEntity? UpdatePassively(ProfileEntity profileEntity);
+        ProfileEntity? AddToSet(string accountId, TransactionSubEntity transactionSubEntity);
+        ProfileEntity? UpdateInSet(string accountId, TransactionSubEntity transactionSubEntity);
         IEnumerator<ChangeStreamDocument<ProfileEntity>> SubscribeToChangesMany(string pipeline);
     }
 }

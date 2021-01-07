@@ -11,12 +11,12 @@ namespace Sdk.Persistence.Abstractions
         where TEntity : class, IMongoEntity
     {
         private readonly IMongoCollection<TEntity> _mongoCollection;
-        private readonly MongoClient _client;
+        public MongoClient Client { get; }
 
         public AbstractMongoRepository(IMongoSettingsModel settings)
         {
-            _client = new MongoClient(settings.ConnectionString);
-            var database = _client.GetDatabase(settings.DatabaseName);
+            Client = new MongoClient(settings.ConnectionString);
+            var database = Client.GetDatabase(settings.DatabaseName);
 
             _mongoCollection = database.GetCollection<TEntity>(settings.CollectionName);
         }
@@ -47,28 +47,12 @@ namespace Sdk.Persistence.Abstractions
             return entity;
         }
         
-        public TEntity UpdatePassively(string id, TEntity entityIn)
+        public TEntity Update(FilterDefinition<TEntity> filter, UpdateDefinition<TEntity> updateDefinition)
         {
-            if (
-                entityIn == null ||
-                string.IsNullOrEmpty(id) ||
-                !_mongoCollection
-                    .Find(e => e.Id == id && e.Version.Equals(entityIn.Version - 1))
-                    .Any()
-            )
-                return null;
-            
-            var result = _mongoCollection.ReplaceOne(e => e.Id == id, entityIn);
-            if (result.IsAcknowledged)
-                return entityIn;
-            return null;
-        }
-        
-        public TEntity UpdateIgnoreConcurrency(string id, UpdateDefinition<TEntity> updateDefinition)
-        {
-            var filter = new BsonDocument("_id", id);
             var result = _mongoCollection.FindOneAndUpdate<TEntity>(filter, updateDefinition);
-            return result;
+            if (result != null && !string.IsNullOrEmpty(result.Id))
+                return result;
+            return null;
         }
 
         public TEntity Remove(TEntity entityIn)

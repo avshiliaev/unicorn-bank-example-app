@@ -17,6 +17,7 @@ namespace Profiles.Persistence.Entities
         public int SequentialNumber { get; set; }
 
         // Common entity
+        [BsonId]
         public string Id { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
@@ -32,7 +33,7 @@ namespace Profiles.Persistence.Entities
     {
         // Properties
         public float Balance { get; set; }
-        public List<TransactionSubEntity> Transactions { get; set; }
+        public IEnumerable<TransactionSubEntity> Transactions { get; set; }
 
         // Approvable
         public bool Approved { get; set; }

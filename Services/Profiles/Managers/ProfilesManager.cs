@@ -1,5 +1,6 @@
 using System.Linq;
 using Microsoft.Extensions.Logging;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Profiles.Interfaces;
 using Profiles.Mappers;
@@ -40,20 +41,9 @@ namespace Profiles.Managers
             )
                 return null;
 
-            var profile = _profilesService.GetSingleByParameter(
-                e => e.AccountId == accountModel.Id && e.ProfileId == accountModel.ProfileId
-            );
-            if (profile != null || !string.IsNullOrEmpty(profile?.Id))
-            {
-                // Keep Id and Transactions
-                var newEntity = accountModel.ToProfileEntity();
-                newEntity.Id = profile.Id;
-                newEntity.Transactions = profile.Transactions;
-                
-                var updated = _profilesService.UpdatePassively(newEntity.Id, newEntity);
-                return updated?.ToProfileDto();
-            }
-
+            var updated = _profilesService.UpdatePassively(accountModel.ToNewProfileEntity());
+            if (updated != null || !string.IsNullOrEmpty(updated?.Id))
+                return updated.ToProfileDto();
             return null;
         }
 
@@ -64,22 +54,13 @@ namespace Profiles.Managers
                 string.IsNullOrEmpty(transactionModel.AccountId)
             )
                 return null;
-
-            var profile = _profilesService.GetSingleByParameter(
-                e => 
-                    e.AccountId == transactionModel.AccountId 
-                    && e.ProfileId == transactionModel.ProfileId
+            
+            var updated = _profilesService.AddToSet(
+                transactionModel.AccountId, 
+                transactionModel.ToTransactionSubEntity()
             );
-            if (profile != null || !string.IsNullOrEmpty(profile?.Id))
-            {
-                var transactions = profile.Transactions;
-                transactions.Add(transactionModel.ToTransactionSubEntity());
-                var update = Builders<ProfileEntity>.Update.Set("Transactions", transactions);
-                
-                var updated = _profilesService.UpdateIgnoreConcurrency(profile.Id, update);
-                if (updated != null || !string.IsNullOrEmpty(updated?.Id))
-                    return updated.ToProfileDto();
-            }
+            if (updated != null || !string.IsNullOrEmpty(updated?.Id))
+                return updated.ToProfileDto();
             return null;
         }
 
@@ -90,34 +71,13 @@ namespace Profiles.Managers
                 string.IsNullOrEmpty(transactionModel.AccountId)
             )
                 return null;
-
-            var profile = _profilesService.GetSingleByParameter(
-                e => 
-                    e.AccountId == transactionModel.AccountId 
-                    && e.ProfileId == transactionModel.ProfileId
+            
+            var updated = _profilesService.UpdateInSet(
+                transactionModel.AccountId, 
+                transactionModel.ToTransactionSubEntity()
             );
-            if (profile != null || !string.IsNullOrEmpty(profile?.Id))
-            {
-                // If there is no such transaction or the transaction version is wrong
-                if (
-                    !profile.Transactions.Any(
-                        t => t.Id == transactionModel.Id
-                                && t.Version.Equals(transactionModel.Version - 1)
-                    )
-                )
-                    return null;
-                
-                // Update the entire transaction
-                var transactions = profile.Transactions
-                    .Where(t => t.Id != transactionModel.Id)
-                    .ToList();
-                transactions.Add(transactionModel.ToTransactionSubEntity());
-
-                var update = Builders<ProfileEntity>.Update.Set("Transactions", transactions);
-                var updated = _profilesService.UpdateIgnoreConcurrency(profile.Id, update);
-                if (updated != null || !string.IsNullOrEmpty(updated?.Id))
-                    return updated.ToProfileDto();
-            }
+            if (updated != null || !string.IsNullOrEmpty(updated?.Id))
+                return updated.ToProfileDto();
             return null;
         }
     }
