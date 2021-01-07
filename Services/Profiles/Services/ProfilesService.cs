@@ -6,7 +6,6 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using Profiles.Interfaces;
 using Profiles.Persistence.Entities;
-using Sdk.Persistence.Extensions;
 using Sdk.Persistence.Interfaces;
 
 namespace Profiles.Services
@@ -56,23 +55,12 @@ namespace Profiles.Services
                     Builders<ProfileEntity>.Filter.Eq(p => p.Version, profileEntity.Version - 1)
                 );
                 var updateDefinition = Builders<ProfileEntity>.Update
-                    .Set(
-                        "Balance",
-                        profileEntity.Balance
-                    )
-                    .Set(
-                        "Version",
-                        profileEntity.Version
-                    ).Set(
-                        "Approved",
-                        profileEntity.Approved
-                    ).Set(
-                        "Pending",
-                        profileEntity.Pending
-                    ).Set(
-                        "Blocked",
-                        profileEntity.Blocked
-                    );
+                    .Set("Balance", profileEntity.Balance)
+                    .Set("Version", profileEntity.Version)
+                    .Set("Approved", profileEntity.Approved)
+                    .Set("Pending", profileEntity.Pending)
+                    .Set("Blocked", profileEntity.Blocked);
+
                 var result = _mongoRepository.Update(filter, updateDefinition);
                 session.CommitTransaction();
                 if (result != null && !string.IsNullOrEmpty(result.Id))
@@ -85,8 +73,8 @@ namespace Profiles.Services
                 return null;
             }
         }
-        
-        public ProfileEntity? AddToSet(string accountId, TransactionSubEntity transactionSubEntity)
+
+        public ProfileEntity? AddToArray(string accountId, TransactionSubEntity transactionSubEntity)
         {
             using var session = _mongoRepository.Client.StartSession();
             session.StartTransaction();
@@ -96,7 +84,7 @@ namespace Profiles.Services
                     Builders<ProfileEntity>.Filter.Eq(p => p.AccountId, accountId)
                 );
                 var updateDefinition = Builders<ProfileEntity>.Update.Push(
-                    "Transactions", 
+                    "Transactions",
                     transactionSubEntity
                 );
                 var result = _mongoRepository.Update(filter, updateDefinition);
@@ -111,8 +99,8 @@ namespace Profiles.Services
                 return null;
             }
         }
-        
-        public ProfileEntity? UpdateInSet(string accountId, TransactionSubEntity transactionSubEntity)
+
+        public ProfileEntity? UpdateInArray(string accountId, TransactionSubEntity transactionSubEntity)
         {
             using var session = _mongoRepository.Client.StartSession();
             session.StartTransaction();
@@ -121,7 +109,7 @@ namespace Profiles.Services
                 var profile = _mongoRepository.GetSingleByParameter(p => p.AccountId == accountId);
                 if (profile.Transactions.All(t => t.Id != transactionSubEntity.Id))
                     return null;
-                
+
                 var filter = new BsonDocument(
                     "AccountId", accountId
                 );
@@ -131,11 +119,11 @@ namespace Profiles.Services
                 );
                 var _ = _mongoRepository.Update(filter, pullTransaction);
                 var pushTransaction = Builders<ProfileEntity>.Update.Push(
-                    "Transactions", 
+                    "Transactions",
                     transactionSubEntity
                 );
                 var pushed = _mongoRepository.Update(filter, pushTransaction);
-                
+
                 session.CommitTransaction();
                 if (pushed != null && !string.IsNullOrEmpty(pushed.Id))
                     return pushed;

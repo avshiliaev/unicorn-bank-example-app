@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using Sdk.Persistence.Interfaces;
 
@@ -11,7 +10,6 @@ namespace Sdk.Persistence.Abstractions
         where TEntity : class, IMongoEntity
     {
         private readonly IMongoCollection<TEntity> _mongoCollection;
-        public MongoClient Client { get; }
 
         public AbstractMongoRepository(IMongoSettingsModel settings)
         {
@@ -21,16 +19,18 @@ namespace Sdk.Persistence.Abstractions
             _mongoCollection = database.GetCollection<TEntity>(settings.CollectionName);
         }
 
+        public MongoClient Client { get; }
+
         public List<TEntity> GetAll(string profileId)
         {
             return _mongoCollection.Find(e => e.ProfileId == profileId).ToList();
         }
-        
+
         public List<TEntity> GetManyByParameter(Expression<Func<TEntity, bool>> predicate)
         {
             return _mongoCollection.Find(predicate).ToList();
         }
-        
+
         public TEntity GetSingleByParameter(Expression<Func<TEntity, bool>> predicate)
         {
             return _mongoCollection.Find(predicate).Single();
@@ -46,7 +46,7 @@ namespace Sdk.Persistence.Abstractions
             _mongoCollection.InsertOne(entity);
             return entity;
         }
-        
+
         public TEntity Update(FilterDefinition<TEntity> filter, UpdateDefinition<TEntity> updateDefinition)
         {
             var result = _mongoCollection.FindOneAndUpdate<TEntity>(filter, updateDefinition);
@@ -72,7 +72,7 @@ namespace Sdk.Persistence.Abstractions
         public IEnumerator<ChangeStreamDocument<TEntity>> SubscribeToChangesStreamMany(string pipeline)
         {
             if (string.IsNullOrEmpty(pipeline)) return null;
-            
+
             var options = new ChangeStreamOptions
             {
                 FullDocument = ChangeStreamFullDocumentOption.UpdateLookup

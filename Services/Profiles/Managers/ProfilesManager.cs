@@ -1,13 +1,8 @@
-using System.Linq;
 using Microsoft.Extensions.Logging;
-using MongoDB.Bson;
-using MongoDB.Driver;
 using Profiles.Interfaces;
 using Profiles.Mappers;
-using Profiles.Persistence.Entities;
 using Sdk.Api.Dto;
 using Sdk.Api.Interfaces;
-using Sdk.Extensions;
 
 namespace Profiles.Managers
 {
@@ -54,9 +49,9 @@ namespace Profiles.Managers
                 string.IsNullOrEmpty(transactionModel.AccountId)
             )
                 return null;
-            
-            var updated = _profilesService.AddToSet(
-                transactionModel.AccountId, 
+
+            var updated = _profilesService.AddToArray(
+                transactionModel.AccountId,
                 transactionModel.ToTransactionSubEntity()
             );
             if (updated != null || !string.IsNullOrEmpty(updated?.Id))
@@ -71,9 +66,9 @@ namespace Profiles.Managers
                 string.IsNullOrEmpty(transactionModel.AccountId)
             )
                 return null;
-            
-            var updated = _profilesService.UpdateInSet(
-                transactionModel.AccountId, 
+
+            var updated = _profilesService.UpdateInArray(
+                transactionModel.AccountId,
                 transactionModel.ToTransactionSubEntity()
             );
             if (updated != null || !string.IsNullOrEmpty(updated?.Id))

@@ -7,7 +7,7 @@ namespace Sdk.Persistence.Extensions
             var pipeline = $"{{ ProfileId: {profileId} }}";
             return pipeline;
         }
-        
+
         public static string ToMongoPipelineMatchSingle(this string profileId, string accountId)
         {
             var pipeline = $"$and: [{{ ProfileId: {profileId} }}, {{ AccountId: {accountId} }}]";

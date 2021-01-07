@@ -4,7 +4,6 @@ using System.Linq.Expressions;
 using MongoDB.Driver;
 using Notifications.Interfaces;
 using Notifications.Persistence.Entities;
-using Sdk.Persistence.Extensions;
 using Sdk.Persistence.Interfaces;
 
 namespace Notifications.Services
@@ -28,7 +27,7 @@ namespace Notifications.Services
             return _mongoRepository.GetManyByParameter(predicate)!;
         }
 
-        
+
         public NotificationEntity Get(string id)
         {
             return _mongoRepository.Get(id);

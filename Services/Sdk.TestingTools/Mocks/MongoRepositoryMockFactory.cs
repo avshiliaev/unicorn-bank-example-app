@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using Moq;
 using Sdk.Persistence.Interfaces;
@@ -43,7 +42,7 @@ namespace Sdk.Tests.Mocks
     public class MongoRepositoryMockFactory<TEntity> : IMockFactory<IMongoRepository<TEntity>>
         where TEntity : class, IMongoEntity
     {
-        private List<TEntity> _entities;
+        private readonly List<TEntity> _entities;
 
         public MongoRepositoryMockFactory(List<TEntity> entities)
         {
@@ -73,9 +72,9 @@ namespace Sdk.Tests.Mocks
             repository
                 .Setup(
                     a => a.Update(
-                        It.IsAny<FilterDefinition<TEntity>>(), 
+                        It.IsAny<FilterDefinition<TEntity>>(),
                         It.IsAny<UpdateDefinition<TEntity>>())
-                    )
+                )
                 .Returns((FilterDefinition<TEntity> filter, UpdateDefinition<TEntity> updateDefinition) =>
                 {
                     // TODO FIX THE TESTING FIXTURE!

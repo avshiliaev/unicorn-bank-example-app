@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -6,7 +5,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 using Profiles.Interfaces;
 using Profiles.Mappers;
-using Sdk.Api.Dto;
 using Sdk.Auth.Extensions;
 using Sdk.Persistence.Extensions;
 
@@ -49,7 +47,7 @@ namespace Profiles.Hubs
                     );
             return true;
         }
-        
+
         public async Task<bool> RequestOne(string accountId)
         {
             var profileId = _httpContextAccessor.GetUserIdentifier();

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Sdk.Interfaces;
 using Sdk.Persistence.Interfaces;
@@ -17,8 +16,8 @@ namespace Profiles.Persistence.Entities
         public int SequentialNumber { get; set; }
 
         // Common entity
-        [BsonId]
-        public string Id { get; set; }
+        [BsonId] public string Id { get; set; }
+
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
         public int Version { get; set; }
@@ -34,6 +33,7 @@ namespace Profiles.Persistence.Entities
         // Properties
         public float Balance { get; set; }
         public IEnumerable<TransactionSubEntity> Transactions { get; set; }
+        public string AccountId { get; set; }
 
         // Approvable
         public bool Approved { get; set; }
@@ -45,12 +45,12 @@ namespace Profiles.Persistence.Entities
 
         // Foreign Properties
         public string ProfileId { get; set; }
-        public string AccountId { get; set; }
 
         // Common entity
         [BsonId]
         // [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
+
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
         public int Version { get; set; }

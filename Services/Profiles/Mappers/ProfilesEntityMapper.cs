@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using Profiles.Persistence.Entities;
 using Sdk.Api.Dto;
-using Sdk.Api.Interfaces;
-using Sdk.Extensions;
 
 namespace Profiles.Mappers
 {
@@ -12,9 +8,8 @@ namespace Profiles.Mappers
     {
         public static ProfileDto ToProfileDto(this ProfileEntity profileEntity)
         {
-
             var transactions = profileEntity.Transactions
-                .Select(transaction => new TransactionDto()
+                .Select(transaction => new TransactionDto
                 {
                     // Common
                     Id = transaction.Id.ToString(),
@@ -33,7 +28,7 @@ namespace Profiles.Mappers
                     SequentialNumber = transaction.SequentialNumber
                 })
                 .ToList();
-            
+
             return new ProfileDto
             {
                 // Properties
@@ -51,7 +46,7 @@ namespace Profiles.Mappers
 
                 // Concurrent Host
                 LastSequentialNumber = profileEntity.LastSequentialNumber,
-                
+
                 Id = profileEntity.Id,
                 Version = profileEntity.Version
             };
