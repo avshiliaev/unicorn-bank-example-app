@@ -12,7 +12,7 @@ export function* getAccountsSaga(action) {
     const path: string = process.env.REACT_APP_PATHS_PROFILES ?? "/";
 
     try {
-        const socketChannel = yield call(createSocketChannel, path, token, "Request");
+        const socketChannel = yield call(createSocketChannel, path, token, "RequestAll");
 
         while (true) {
             const response: AccountDetailStreamResponse = yield take(socketChannel);

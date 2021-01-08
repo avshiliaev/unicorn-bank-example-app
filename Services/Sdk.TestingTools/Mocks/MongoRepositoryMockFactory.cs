@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Moq;
 using Sdk.Persistence.Interfaces;
@@ -59,8 +60,8 @@ namespace Sdk.Tests.Mocks
                 .Setup(a => a.Get(It.IsAny<string>()))
                 .Returns((string id) => _entities.FirstOrDefault(e => e.Id == id));
             repository
-                .Setup(a => a.SubscribeToChangesStreamMany(It.IsAny<string>()))
-                .Returns((string id) => new MongoChangeStreamMock<TEntity>(_entities));
+                .Setup(a => a.SubscribeToChangesStreamMany(It.IsAny<BsonDocument>()))
+                .Returns((BsonDocument pipeline) => new MongoChangeStreamMock<TEntity>(_entities));
             repository
                 .Setup(a => a.Create(It.IsAny<TEntity>()))
                 .Returns((TEntity entity) =>

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Profiles.Persistence.Entities;
 
@@ -16,6 +17,6 @@ namespace Profiles.Interfaces
         ProfileEntity? UpdatePassively(ProfileEntity profileEntity);
         ProfileEntity? AddToArray(string accountId, TransactionSubEntity transactionSubEntity);
         ProfileEntity? UpdateInArray(string accountId, TransactionSubEntity transactionSubEntity);
-        IEnumerator<ChangeStreamDocument<ProfileEntity>> SubscribeToChangesMany(string pipeline);
+        IEnumerator<ChangeStreamDocument<ProfileEntity>> SubscribeToChangesMany(BsonDocument pipeline);
     }
 }

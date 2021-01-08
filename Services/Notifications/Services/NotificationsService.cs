@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Notifications.Interfaces;
 using Notifications.Persistence.Entities;
@@ -38,7 +39,7 @@ namespace Notifications.Services
             return _mongoRepository.Create(entity);
         }
 
-        public IEnumerator<ChangeStreamDocument<NotificationEntity>> SubscribeToChanges(string pipeline)
+        public IEnumerator<ChangeStreamDocument<NotificationEntity>> SubscribeToChanges(BsonDocument pipeline)
         {
             return _mongoRepository.SubscribeToChangesStreamMany(pipeline)!;
         }

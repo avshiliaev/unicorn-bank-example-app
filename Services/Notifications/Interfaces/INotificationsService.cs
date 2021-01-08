@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Notifications.Persistence.Entities;
 
@@ -12,6 +13,6 @@ namespace Notifications.Interfaces
         List<NotificationEntity> GetManyByParameter(Expression<Func<NotificationEntity, bool>> predicate);
         NotificationEntity Get(string id);
         NotificationEntity Create(NotificationEntity entity);
-        IEnumerator<ChangeStreamDocument<NotificationEntity>> SubscribeToChanges(string pipeline);
+        IEnumerator<ChangeStreamDocument<NotificationEntity>> SubscribeToChanges(BsonDocument pipeline);
     }
 }
