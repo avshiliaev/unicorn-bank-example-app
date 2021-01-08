@@ -1,31 +1,26 @@
 import {eventChannel} from 'redux-saga';
 import {HubConnection} from "@microsoft/signalr";
-import {GenericStreamObject} from "../interfaces/stream.interface";
-import createClient from "../api/web.socket.api.client";
 
+function createSocketChannel(path: string, token: string, socket: HubConnection, buffer) {
 
-const createSocketChannel = async (path: string, token: string, method: string) => {
-
-    const socket: HubConnection = createClient(path, token)
-    await socket.start()
-    await socket.invoke(method)
-
-    return eventChannel(emit => {
-
+    const subscribe = emitter => {
         const messageHandler = (event) => {
-            const action: GenericStreamObject = JSON.parse(event.data);
-            if (action.payload === null || action.payload === undefined) {
-                action.payload = [];
+            let action = event.data;
+            if (action === null || action === undefined) {
+                action = [];
             }
-            emit(action);
+            emitter(action);
         };
 
-        socket.on("Response", messageHandler);
+        socket.on('Response', messageHandler);
 
-        return () => {
+        function unsubscribe() {
             socket.off('Response', messageHandler);
-        };
-    });
+        }
+
+        return unsubscribe;
+    }
+    return eventChannel(subscribe, buffer);
 }
 
 export default createSocketChannel;

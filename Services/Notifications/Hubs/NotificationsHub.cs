@@ -27,7 +27,7 @@ namespace Notifications.Hubs
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<bool> Request()
+        public async Task<bool> RequestAll()
         {
             var profileId = _httpContextAccessor.GetUserIdentifier();
             var notifications = _notificationsService.GetManyByParameter(
