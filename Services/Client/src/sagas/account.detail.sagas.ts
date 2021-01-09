@@ -1,11 +1,10 @@
-import {apply, call, put, take, takeLatest} from 'redux-saga/effects';
+import {call, fork, put, take, takeLatest} from 'redux-saga/effects';
 import {ActionTypes} from '../constants';
 import {AccountAction} from '../interfaces/account.interface';
 import {AccountsStreamResponse} from '../interfaces/stream.interface';
-import createSocketChannel from "./channels";
+import {createSocketChannel, invokeSocket} from "./channels";
 import {getAccountError, getAccountSuccess} from "../reducers/account.reducer";
 import createClient from "../api/web.socket.api.client";
-import {HubConnection} from "@microsoft/signalr";
 import {buffers} from "redux-saga";
 
 export function* getAccountDetailSaga(action) {
@@ -17,8 +16,7 @@ export function* getAccountDetailSaga(action) {
         const socket = yield call(createClient, path, token);
         const socketChannel = yield call(createSocketChannel, path, token, socket, buffers.fixed(100));
 
-        yield apply(socket, HubConnection.prototype.start, []);
-        yield apply(socket, HubConnection.prototype.invoke, ['RequestOne']);
+        yield fork(invokeSocket, socket, "RequestOne");
 
         while (true) {
             const response: AccountsStreamResponse = yield take(socketChannel);

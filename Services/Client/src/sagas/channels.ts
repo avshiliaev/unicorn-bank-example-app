@@ -1,15 +1,18 @@
 import {eventChannel} from 'redux-saga';
 import {HubConnection} from "@microsoft/signalr";
+import {apply} from "redux-saga/effects";
+
+
+function* invokeSocket(socket, method) {
+    yield apply(socket, HubConnection.prototype.start, []);
+    yield apply(socket, HubConnection.prototype.invoke, [method]);
+}
 
 function createSocketChannel(path: string, token: string, socket: HubConnection, buffer) {
 
     const subscribe = emitter => {
-        const messageHandler = (event) => {
-            let action = event.data;
-            if (action === null || action === undefined) {
-                action = [];
-            }
-            emitter(action);
+        const messageHandler = (data) => {
+            emitter(data);
         };
 
         socket.on('Response', messageHandler);
@@ -23,4 +26,4 @@ function createSocketChannel(path: string, token: string, socket: HubConnection,
     return eventChannel(subscribe, buffer);
 }
 
-export default createSocketChannel;
+export {createSocketChannel, invokeSocket};
