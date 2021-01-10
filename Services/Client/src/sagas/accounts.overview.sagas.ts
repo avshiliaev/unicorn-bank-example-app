@@ -17,19 +17,22 @@ export function* getAccountsSaga(action) {
 
     yield fork(invokeSocket, socket, "RequestAll");
 
-    try {
-        while (true) {
+    while (true) {
+        try {
             const response = yield take(socketChannel);
             console.log(response);
 
             const actionSuccess: AccountsOverviewAction = initAccountsSuccess(response);
             yield put(actionSuccess);
-        }
 
-    } catch (error) {
-        const actionError: AccountsOverviewAction = initAccountsError();
-        yield put(actionError);
+
+        } catch (error) {
+            const actionError: AccountsOverviewAction = initAccountsError();
+            yield put(actionError);
+        }
     }
+
+
 
 
 }

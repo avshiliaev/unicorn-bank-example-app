@@ -13,21 +13,24 @@ export function* getNotificationsSaga(action) {
     const {token} = action.params;
     const path: string = process.env.REACT_APP_PATHS_ACCOUNT_NOTIFICATIONS ?? "/";
 
-    try {
-        const socket = yield call(createClient, path, token);
-        const socketChannel = yield call(createSocketChannel, path, token, socket, buffers.fixed(100));
+    const socket = yield call(createClient, path, token);
+    const socketChannel = yield call(createSocketChannel, path, token, socket, buffers.fixed(100));
 
-        yield fork(invokeSocket, socket, "RequestOne");
+    yield fork(invokeSocket, socket, "RequestOne");
 
-        while (true) {
+    while (true) {
+        try {
             const response: NotificationStreamResponse = yield take(socketChannel);
             const actionSuccess: NotificationsAction = initNotificationsSuccess(response);
             yield put(actionSuccess);
+
+
+        } catch (error) {
+            const actionError: NotificationsAction = initNotificationsError();
+            yield put(actionError);
         }
-    } catch (error) {
-        const actionError: NotificationsAction = initNotificationsError();
-        yield put(actionError);
     }
+
 }
 
 export function* getNotificationsWatcher() {

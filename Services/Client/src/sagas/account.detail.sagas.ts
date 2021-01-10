@@ -12,21 +12,23 @@ export function* getAccountDetailSaga(action) {
     const {accountId, token} = action.params;
     const path: string = `${process.env.REACT_APP_PATHS_ACCOUNT_DETAILS ?? "/"}?id=${accountId}`;
 
-    try {
-        const socket = yield call(createClient, path, token);
-        const socketChannel = yield call(createSocketChannel, path, token, socket, buffers.fixed(100));
+    const socket = yield call(createClient, path, token);
+    const socketChannel = yield call(createSocketChannel, path, token, socket, buffers.fixed(100));
 
-        yield fork(invokeSocket, socket, "RequestOne");
+    yield fork(invokeSocket, socket, "RequestOne");
 
-        while (true) {
+    while (true) {
+        try {
             const response: AccountsStreamResponse = yield take(socketChannel);
             const actionSuccess: AccountAction = getAccountSuccess(response);
             yield put(actionSuccess);
+
+        } catch (error) {
+            const actionError: AccountAction = getAccountError();
+            yield put(actionError);
         }
-    } catch (error) {
-        const actionError: AccountAction = getAccountError();
-        yield put(actionError);
     }
+
 }
 
 export function* getAccountDetailWatcher() {
