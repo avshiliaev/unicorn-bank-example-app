@@ -21,8 +21,13 @@ interface DashboardOverviewProps {
 }
 
 const DashboardOverviewRoute = (
-    {windowSize, accountsOverview, notifications, updateViewSettingsAction, ...rest}: DashboardOverviewProps,
-) => {
+    {
+        windowSize,
+        accountsOverview,
+        notifications,
+        updateViewSettingsAction,
+        ...rest
+    }: DashboardOverviewProps) => {
 
     const {user} = useAuth0();
 

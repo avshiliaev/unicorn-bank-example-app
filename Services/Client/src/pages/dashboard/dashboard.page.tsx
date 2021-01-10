@@ -26,16 +26,16 @@ interface DashboardPageProps {
 }
 
 const DashboardPage = ({
-        windowSize,
-        viewSettings,
-        accountsLoaded,
-        notificationsLoaded,
-        initAccounts,
-        initNotifications,
-        children,
-        location,
-        ...rest
-    }: DashboardPageProps) => {
+                           windowSize,
+                           viewSettings,
+                           accountsLoaded,
+                           notificationsLoaded,
+                           initAccounts,
+                           initNotifications,
+                           children,
+                           location,
+                           ...rest
+                       }: DashboardPageProps) => {
 
     const {user, getAccessTokenSilently, getAccessTokenWithPopup} = useAuth0();
 

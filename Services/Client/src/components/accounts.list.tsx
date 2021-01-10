@@ -24,11 +24,11 @@ const AccountAmount = ({value}) => {
     );
 };
 
-const AccountTitle = ({status, link, title}) => {
+const AccountTitle = ({approved, link, title}) => {
     return (
         <Space>
             <Link to={link}>{title}</Link>
-            {status === 'approved' ? <CheckCircleOutlined/> : <SyncOutlined spin/>}
+            {approved ? <CheckCircleOutlined/> : <SyncOutlined spin/>}
         </Space>
     );
 };
@@ -49,16 +49,16 @@ const AccountsList = ({accounts, windowSize, loading}: Props) => {
                 itemLayout={!windowSize.large ? 'vertical' : 'horizontal'}
                 dataSource={accounts}
                 renderItem={account => {
-                    const link = `/account/${account.uuid}/home`;
-                    const description = 'DE34 0932 2356 9305 04';
-                    const status = account.status;
+                    const link = `/account/${account.id}/home`;
+                    const description = account.accountId;
+                    const approved = account.approved;
                     return (
                         <List.Item actions={[
                             <AccountAmount value={account.balance}/>,
                         ]}>
                             <List.Item.Meta
                                 avatar={<AccountAvatar text={'G'} badgeNumber={account.transactions?.length}/>}
-                                title={<AccountTitle status={account.status} link={link} title={'GiroX Konto+'}/>}
+                                title={<AccountTitle approved={approved} link={link} title={'GiroX Konto+'}/>}
                                 description={description}
                             />
                         </List.Item>

@@ -10,7 +10,16 @@ const DashboardNewRoute = ({windowSize, addAccountAsHost, auth, ...rest}) => {
 
     const formOnFinish = async (value) => {
         const {profile} = value;
-        const addAccountInput: AccountInterface = {profile, status: '', balance: 0, transactions: []};
+        const addAccountInput: AccountInterface = {
+            approved: false,
+            balance: 0,
+            blocked: false,
+            id: "",
+            lastSequentialNumber: 0,
+            pending: false,
+            profileId: "",
+            version: 0
+        };
         await addAccountAsHost(addAccountInput);
     };
 

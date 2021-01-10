@@ -86,8 +86,8 @@ const accountsOverviewReducer = (
             // If an update
             action.state.version += state.version;
             const update = action.state.data;
-            const filtered = state.data.filter(function(objFromA) {
-                return !update.find(function(objFromB) {
+            const filtered = state.data.filter(function (objFromA) {
+                return !update.find(function (objFromB) {
                     return objFromA.accountId === objFromB.accountId
                 })
             })

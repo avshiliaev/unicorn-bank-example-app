@@ -2,11 +2,15 @@ import {TransactionInterface} from './transaction.interface';
 
 // General
 export interface AccountInterface {
-    uuid?: string;
-    accountId?: string;
-    profile: string;
-    status: string;
-    balance: number;
+    id: string
+    accountId?: string
+    version: number
+    lastSequentialNumber: number
+    balance: number
+    profileId: string
+    approved: boolean
+    pending: boolean
+    blocked: boolean
     transactions?: TransactionInterface[]
 }
 

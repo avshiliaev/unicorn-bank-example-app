@@ -1,8 +1,13 @@
 export interface TransactionInterface {
-    account: string;
+    id: string
+    version: number
+    accountId: string
+    profileId: string
     amount: number
-    info: string;
-    status: string;
-    time: string;
-    uuid: string;
+    info: string
+    timestamp: string
+    approved: boolean
+    pending: boolean
+    blocked: boolean
+    sequentialNumber: number
 }

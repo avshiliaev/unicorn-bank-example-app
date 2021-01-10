@@ -1,12 +1,12 @@
 // General
 export interface NotificationInterface {
-    description: string;
-    profile: string;
-    status: string;
-    time: string;
+    description: string
+    profileId: string
+    status: string
+    timeStamp: string
     title: string
-    uuid?: string;
-    id?: string;
+    id: string
+    version: number
 }
 
 // Notifications

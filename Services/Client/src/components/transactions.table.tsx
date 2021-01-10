@@ -27,15 +27,15 @@ const TransactionsTable = ({transactions}) => {
                     <List.Item.Meta
                         title={
                             <Space>
-                                {tr.status === 'processed'
+                                {tr.approved
                                     ? <Badge status="success"/>
                                     : <Badge status="processing"/>}
-                                <Link to={'../transactions/' + tr.uuid}>
+                                <Link to={'../transactions/' + tr.id}>
                                     <div>{tr.info}</div>
                                 </Link>
                             </Space>
                         }
-                        description={tr.time}
+                        description={tr.timestamp}
                     />
                 </List.Item>
             )}

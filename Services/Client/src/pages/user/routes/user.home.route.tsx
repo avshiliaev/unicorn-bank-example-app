@@ -5,7 +5,7 @@ import FlexGridUser from '../../../components/layout/flex.grid.user';
 import BreadCrumbBasic from '../../../components/layout/breadcrumb.basic';
 import DemoPlaceHolder from "../../../components/demo.placeholder";
 import {useAuth0} from "@auth0/auth0-react";
-import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import {CheckCircleOutlined, CloseCircleOutlined} from '@ant-design/icons';
 
 
 const UserHomeRoute = ({windowSize, location, ...rest}) => {
@@ -35,7 +35,7 @@ const UserHomeRoute = ({windowSize, location, ...rest}) => {
                             <Descriptions.Item label="Telephone">1810000000</Descriptions.Item>
                             <Descriptions.Item label="Email">{user.email}</Descriptions.Item>
                             <Descriptions.Item label="Verified">
-                                {user.email_verified ? <CheckCircleOutlined /> : <CloseCircleOutlined />}
+                                {user.email_verified ? <CheckCircleOutlined/> : <CloseCircleOutlined/>}
                             </Descriptions.Item>
                             <Descriptions.Item label="Actions">
                                 <LogOutButton logOutAction={logoutWithRedirect}/>
