@@ -26,6 +26,7 @@ export interface AccountAction {
 export interface AccountsOverviewReducerState {
     loading: boolean,
     error: boolean,
+    version: number,
     data?: AccountInterface[]
 }
 

@@ -20,9 +20,8 @@ export function* getAccountsSaga(action) {
     while (true) {
         try {
             const response = yield take(socketChannel);
-            console.log(response);
-
             const actionSuccess: AccountsOverviewAction = initAccountsSuccess(response);
+            console.log(actionSuccess);
             yield put(actionSuccess);
 
 

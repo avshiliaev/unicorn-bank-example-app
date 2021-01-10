@@ -9,21 +9,21 @@ const initAccounts = (token: string): AccountsOverviewAction => {
         state: {
             loading: true,
             error: false,
+            version: 0,
             data: [],
         },
     };
 };
 
-const initAccountsSuccess = (response: AccountDetailStreamResponse): AccountsOverviewAction => {
-    const data = response.payload;
-    const type = response.type === 'init'
-        ? ActionTypes.QUERY_ACCOUNTS_INIT
-        : ActionTypes.QUERY_ACCOUNTS_UPDATE;
+const initAccountsSuccess = (response): AccountsOverviewAction => {
+    const data = response;
+    const type = ActionTypes.QUERY_ACCOUNTS_SUCCESS;
     return {
         type,
         state: {
             loading: false,
             error: false,
+            version: 1,
             data,
         },
     };
@@ -35,6 +35,7 @@ const initAccountsError = (): AccountsOverviewAction => {
         state: {
             loading: false,
             error: true,
+            version: 1,
             data: [],
         },
     };
@@ -47,6 +48,7 @@ const addAccountAsHost = (account: AccountInterface): AccountsOverviewAction => 
         state: {
             loading: true,
             error: false,
+            version: 1,
             data: [account],
         },
     };
@@ -62,6 +64,7 @@ export {
 const accountsOverviewInitialState: AccountsOverviewReducerState = {
     loading: false,
     error: false,
+    version: 1,
     data: [],
 };
 
@@ -72,16 +75,18 @@ const accountsOverviewReducer = (
     switch (action.type) {
 
         case ActionTypes.QUERY_ACCOUNTS:
-            return {...state, ...action.state};
-
-        case ActionTypes.QUERY_ACCOUNTS_INIT:
-            // TODO the array gets overwritten!
-            return {...state, ...action.state};
+            return action.state;
 
         // TODO: clean up!
-        case ActionTypes.QUERY_ACCOUNTS_UPDATE:
-            const update = action.state.data[0];
+        case ActionTypes.QUERY_ACCOUNTS_SUCCESS:
 
+            if (state.version <= 1) {
+                action.state.version += state.version;
+                return action.state;
+            }
+
+            action.state.version += state.version;
+            const update = action.state.data[0];
             // Update or add new one
             if (state.data.filter(a => a.uuid === update.uuid).length > 0) {
                 const data = state.data.map(account => {
