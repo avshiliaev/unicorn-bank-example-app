@@ -16,6 +16,8 @@ const {Content} = Layout;
 interface DashboardPageProps {
     windowSize: any
     viewSettings: ViewSettingsState
+    accountsLoaded: number
+    notificationsLoaded: number
     initAccounts: any
     initNotifications: any
     children: any
@@ -23,16 +25,24 @@ interface DashboardPageProps {
     path: any
 }
 
-const DashboardPage = (
-    {windowSize, viewSettings, initAccounts, initNotifications, children, location, ...rest}: DashboardPageProps
-) => {
+const DashboardPage = ({
+        windowSize,
+        viewSettings,
+        accountsLoaded,
+        notificationsLoaded,
+        initAccounts,
+        initNotifications,
+        children,
+        location,
+        ...rest
+    }: DashboardPageProps) => {
 
     const {user, getAccessTokenSilently, getAccessTokenWithPopup} = useAuth0();
 
     useEffect(() => {
         getAccessTokenSilently().then(token => {
-            initAccounts(token);
-            // initNotifications(token, viewSettings.notificationsCount);
+            !accountsLoaded && initAccounts(token);
+            // !notificationsLoaded &&initNotifications(token, viewSettings.notificationsCount);
         });
     }, []);
 
@@ -61,6 +71,8 @@ const mapStateToProps = (state) => {
         windowSize: state.windowSize.greaterThan,
         viewSettings: state.viewSettings,
         location: state.router.location,
+        accountsLoaded: state.accountsOverview.version,
+        notificationsLoaded: state.notifications.version,
     };
 };
 

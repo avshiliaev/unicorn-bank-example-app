@@ -1,6 +1,5 @@
 import {AccountInterface, AccountsOverviewAction, AccountsOverviewReducerState} from '../interfaces/account.interface';
 import {ActionTypes} from '../constants';
-import {AccountDetailStreamResponse} from "../interfaces/stream.interface";
 
 const initAccounts = (token: string): AccountsOverviewAction => {
     return {
@@ -9,13 +8,13 @@ const initAccounts = (token: string): AccountsOverviewAction => {
         state: {
             loading: true,
             error: false,
-            version: 0,
+            version: 1,
             data: [],
         },
     };
 };
 
-const initAccountsSuccess = (response): AccountsOverviewAction => {
+const initAccountsSuccess = (response: AccountInterface[]): AccountsOverviewAction => {
     const data = response;
     const type = ActionTypes.QUERY_ACCOUNTS_SUCCESS;
     return {
@@ -64,7 +63,7 @@ export {
 const accountsOverviewInitialState: AccountsOverviewReducerState = {
     loading: false,
     error: false,
-    version: 1,
+    version: 0,
     data: [],
 };
 
@@ -77,29 +76,23 @@ const accountsOverviewReducer = (
         case ActionTypes.QUERY_ACCOUNTS:
             return action.state;
 
-        // TODO: clean up!
         case ActionTypes.QUERY_ACCOUNTS_SUCCESS:
 
-            if (state.version <= 1) {
+            // If the initial data
+            if (state.version === 1) {
                 action.state.version += state.version;
                 return action.state;
             }
-
+            // If an update
             action.state.version += state.version;
-            const update = action.state.data[0];
-            // Update or add new one
-            if (state.data.filter(a => a.uuid === update.uuid).length > 0) {
-                const data = state.data.map(account => {
-                    if (account.uuid === update.uuid) {
-                        return {...account, ...update};
-                    }
-                    return account;
-                });
-                return {...state, data};
-            } else {
-                const data = [...state.data, update];
-                return {...state, data};
-            }
+            const update = action.state.data;
+            const filtered = state.data.filter(function(objFromA) {
+                return !update.find(function(objFromB) {
+                    return objFromA.accountId === objFromB.accountId
+                })
+            })
+            return {...action.state, data: [...filtered, ...update]}
+
         case ActionTypes.QUERY_ACCOUNTS_ERROR:
             return {...state, ...action.state};
 

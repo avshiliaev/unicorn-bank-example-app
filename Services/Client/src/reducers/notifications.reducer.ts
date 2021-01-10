@@ -1,6 +1,9 @@
 import {ActionTypes} from '../constants';
-import {NotificationsAction, NotificationsReducerState} from '../interfaces/notification.interface';
-import {NotificationStreamResponse} from "../interfaces/stream.interface";
+import {
+    NotificationInterface,
+    NotificationsAction,
+    NotificationsReducerState
+} from '../interfaces/notification.interface';
 
 const initNotifications = (token: string, count: number): NotificationsAction => {
     return {
@@ -9,22 +12,22 @@ const initNotifications = (token: string, count: number): NotificationsAction =>
         state: {
             loading: true,
             error: false,
+            version: 1,
             data: [],
         },
     };
 };
 
-const initNotificationsSuccess = (response: NotificationStreamResponse): NotificationsAction => {
+const initNotificationsSuccess = (response: NotificationInterface[]): NotificationsAction => {
 
-    const data = response.payload;
-    const type = response.type === 'init'
-        ? ActionTypes.QUERY_NOTIFICATIONS_INIT
-        : ActionTypes.QUERY_NOTIFICATIONS_UPDATE;
+    const data = response;
+    const type = ActionTypes.QUERY_NOTIFICATIONS_SUCCESS;
     return {
         type,
         state: {
             loading: false,
             error: false,
+            version: 1,
             data,
         },
     };
@@ -36,6 +39,7 @@ const initNotificationsError = (): NotificationsAction => {
         state: {
             loading: false,
             error: true,
+            version: 1,
             data: [],
         },
     }
@@ -50,6 +54,7 @@ export {
 const notificationsInitialState: NotificationsReducerState = {
     loading: false,
     error: false,
+    version: 0,
     data: [],
 };
 
@@ -60,34 +65,27 @@ const notificationsReducer = (
     switch (action.type) {
 
         case ActionTypes.QUERY_NOTIFICATIONS:
-            return {...state, ...action.state};
+            return action.state;
 
-        case ActionTypes.QUERY_NOTIFICATIONS_INIT:
-            // TODO the array gets overwritten!
-            return {...state, ...action.state};
+        case ActionTypes.QUERY_NOTIFICATIONS_SUCCESS:
 
-        // TODO: clean up!
-        case ActionTypes.QUERY_NOTIFICATIONS_UPDATE:
-            const update = action.state.data[0];
-
-            // Update or add new one
-            if (state.data.filter(a => a.uuid === update.uuid).length > 0) {
-                const data = state.data.map(account => {
-                    if (account.uuid === update.uuid) {
-                        return {...account, ...update};
-                    }
-                    return account;
-                });
-                return {...state, data};
-            } else {
-                const data = [...state.data, update];
-                return {...state, data};
+            // If the initial data
+            if (state.version === 1) {
+                action.state.version += state.version;
+                return action.state;
             }
+            // If an update
+            action.state.version += state.version;
+            const update = action.state.data;
+            const filtered = state.data.filter(function (objFromA) {
+                return !update.find(function (objFromB) {
+                    return objFromA.id === objFromB.id
+                })
+            })
+            return {...action.state, data: [...filtered, ...update]}
+
         case ActionTypes.QUERY_NOTIFICATIONS_ERROR:
             return {...state, ...action.state};
-
-        case ActionTypes.ADD_ACCOUNT:
-            return {...state, data: [...state.data, ...action.state.data]};
 
         default:
             return state;

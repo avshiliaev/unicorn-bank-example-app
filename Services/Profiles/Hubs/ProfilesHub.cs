@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -5,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 using Profiles.Interfaces;
 using Profiles.Mappers;
+using Sdk.Api.Dto;
 using Sdk.Auth.Extensions;
 using Sdk.Persistence.Extensions;
 
@@ -43,7 +45,7 @@ namespace Profiles.Hubs
                 if (enumerator.Current != null)
                     await Clients.All.SendAsync(
                         "Response",
-                        enumerator.Current.FullDocument.ToProfileDto()
+                        new List<ProfileDto>(){enumerator.Current.FullDocument.ToProfileDto()}
                     );
             return true;
         }

@@ -1,8 +1,7 @@
 import {call, fork, put, take, takeLatest} from 'redux-saga/effects';
 import {ActionTypes} from '../constants';
-import {NotificationsAction} from '../interfaces/notification.interface';
+import {NotificationInterface, NotificationsAction} from '../interfaces/notification.interface';
 import {createSocketChannel, invokeSocket} from './channels';
-import {NotificationStreamResponse} from "../interfaces/stream.interface";
 import {initNotificationsError, initNotificationsSuccess} from "../reducers/notifications.reducer";
 import createClient from "../api/web.socket.api.client";
 import {buffers} from "redux-saga";
@@ -20,17 +19,14 @@ export function* getNotificationsSaga(action) {
 
     while (true) {
         try {
-            const response: NotificationStreamResponse = yield take(socketChannel);
+            const response: NotificationInterface[] = yield take(socketChannel);
             const actionSuccess: NotificationsAction = initNotificationsSuccess(response);
             yield put(actionSuccess);
-
-
         } catch (error) {
             const actionError: NotificationsAction = initNotificationsError();
             yield put(actionError);
         }
     }
-
 }
 
 export function* getNotificationsWatcher() {

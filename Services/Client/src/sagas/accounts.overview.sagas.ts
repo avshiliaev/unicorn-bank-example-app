@@ -1,6 +1,6 @@
 import {call, fork, put, take, takeLatest} from 'redux-saga/effects';
 import {ActionTypes} from '../constants';
-import {AccountsOverviewAction} from '../interfaces/account.interface';
+import {AccountInterface, AccountsOverviewAction} from '../interfaces/account.interface';
 import {createSocketChannel, invokeSocket} from './channels';
 import {initAccountsError, initAccountsSuccess} from "../reducers/accounts.overview.reducer";
 import createClient from "../api/web.socket.api.client";
@@ -19,21 +19,14 @@ export function* getAccountsSaga(action) {
 
     while (true) {
         try {
-            const response = yield take(socketChannel);
+            const response: AccountInterface[] = yield take(socketChannel);
             const actionSuccess: AccountsOverviewAction = initAccountsSuccess(response);
-            console.log(actionSuccess);
             yield put(actionSuccess);
-
-
         } catch (error) {
             const actionError: AccountsOverviewAction = initAccountsError();
             yield put(actionError);
         }
     }
-
-
-
-
 }
 
 export function* getAccountsWatcher() {

@@ -11,7 +11,8 @@ function* invokeSocket(socket, method) {
 function createSocketChannel(path: string, token: string, socket: HubConnection, buffer) {
 
     const subscribe = emitter => {
-        const messageHandler = (data) => {
+        const messageHandler = (msg) => {
+            const data = msg ? msg : []
             emitter(data);
         };
 

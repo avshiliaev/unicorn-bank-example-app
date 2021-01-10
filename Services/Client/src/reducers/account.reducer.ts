@@ -1,6 +1,5 @@
 import {AccountAction, AccountInterface, AccountReducerState} from '../interfaces/account.interface';
 import {ActionTypes} from '../constants';
-import {AccountsStreamResponse} from "../interfaces/stream.interface";
 
 const getAccount = (accountId: string, token: string): AccountAction => {
     return {
@@ -13,17 +12,15 @@ const getAccount = (accountId: string, token: string): AccountAction => {
     };
 };
 
-const getAccountSuccess = (response: AccountsStreamResponse): AccountAction => {
-    const data = response.payload;
-    const type = response.type === 'init'
-        ? ActionTypes.GET_ACCOUNT_DETAIL_SUCCESS
-        : ActionTypes.GET_ACCOUNT_DETAIL_SUCCESS;
-    return  {
+const getAccountSuccess = (response: AccountInterface): AccountAction => {
+    const data = response;
+    const type = ActionTypes.GET_ACCOUNT_DETAIL_SUCCESS;
+    return {
         type,
         state: {
             loading: false,
             error: false,
-            data: data[0],
+            data,
         },
     };
 }

@@ -3,6 +3,7 @@ import {TransactionInterface} from './transaction.interface';
 // General
 export interface AccountInterface {
     uuid?: string;
+    accountId?: string;
     profile: string;
     status: string;
     balance: number;

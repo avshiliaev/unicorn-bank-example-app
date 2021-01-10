@@ -5,13 +5,15 @@ export interface NotificationInterface {
     status: string;
     time: string;
     title: string
-    uuid: string;
+    uuid?: string;
+    id?: string;
 }
 
 // Notifications
 export interface NotificationsReducerState {
     loading: boolean,
     error: boolean,
+    version: number,
     data?: NotificationInterface[]
 }
 
