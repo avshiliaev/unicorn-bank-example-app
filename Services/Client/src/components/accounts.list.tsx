@@ -49,7 +49,7 @@ const AccountsList = ({accounts, windowSize, loading}: Props) => {
                 itemLayout={!windowSize.large ? 'vertical' : 'horizontal'}
                 dataSource={accounts}
                 renderItem={account => {
-                    const link = `/account/${account.id}/home`;
+                    const link = `/account/${account.accountId}/home`;
                     const description = account.accountId;
                     const approved = account.approved;
                     return (

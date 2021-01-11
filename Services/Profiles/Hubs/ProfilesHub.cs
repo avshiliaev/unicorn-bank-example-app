@@ -37,14 +37,14 @@ namespace Profiles.Hubs
             var profilesDto = profiles
                 .Select(n => n?.ToProfileDto())
                 .ToList();
-            await Clients.All.SendAsync("Response", profilesDto);
+            await Clients.All.SendAsync("ResponseAll", profilesDto);
 
             var pipeline = profileId.ToMongoPipelineMatchMany();
             var enumerator = _profilesService.SubscribeToChangesMany(pipeline);
             while (enumerator.MoveNext())
                 if (enumerator.Current != null)
                     await Clients.All.SendAsync(
-                        "Response",
+                        "ResponseAll",
                         new List<ProfileDto>(){enumerator.Current.FullDocument.ToProfileDto()}
                     );
             return true;
@@ -53,20 +53,18 @@ namespace Profiles.Hubs
         public async Task<bool> RequestOne(string accountId)
         {
             var profileId = _httpContextAccessor.GetUserIdentifier();
-            var profiles = _profilesService.GetManyByParameter(
+            var profile = _profilesService.GetSingleByParameter(
                 e => e.ProfileId == profileId && e.AccountId == accountId
             );
-            var profilesDto = profiles
-                .Select(n => n?.ToProfileDto())
-                .ToList();
-            await Clients.All.SendAsync("Response", profilesDto);
+            
+            await Clients.All.SendAsync("ResponseOne", profile?.ToProfileDto());
 
             var pipeline = profileId.ToMongoPipelineMatchSingle(accountId);
             var enumerator = _profilesService.SubscribeToChangesMany(pipeline);
             while (enumerator.MoveNext())
                 if (enumerator.Current != null)
                     await Clients.All.SendAsync(
-                        "Response",
+                        "ResponseOne",
                         enumerator.Current.FullDocument.ToProfileDto()
                     );
             return true;

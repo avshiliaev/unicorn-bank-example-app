@@ -89,7 +89,12 @@ namespace Sdk.Persistence.Abstractions
                             "operationType", 
                             new BsonDocument
                             {
-                                {"$in", new BsonArray{{"insert"}, {"update"}, {"replace"}}}
+                                {"$in", new BsonArray
+                                {
+                                    // {"insert"}, 
+                                    {"update"}, 
+                                    // {"replace"}
+                                }}
                             }
                         } 
                     } 

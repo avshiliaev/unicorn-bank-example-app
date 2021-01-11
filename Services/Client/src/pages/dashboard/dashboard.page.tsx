@@ -25,17 +25,18 @@ interface DashboardPageProps {
     path: any
 }
 
-const DashboardPage = ({
-                           windowSize,
-                           viewSettings,
-                           accountsLoaded,
-                           notificationsLoaded,
-                           initAccounts,
-                           initNotifications,
-                           children,
-                           location,
-                           ...rest
-                       }: DashboardPageProps) => {
+const DashboardPage = (
+    {
+        windowSize,
+        viewSettings,
+        accountsLoaded,
+        notificationsLoaded,
+        initAccounts,
+        initNotifications,
+        children,
+        location,
+        ...rest
+    }: DashboardPageProps) => {
 
     const {user, getAccessTokenSilently, getAccessTokenWithPopup} = useAuth0();
 
@@ -71,8 +72,8 @@ const mapStateToProps = (state) => {
         windowSize: state.windowSize.greaterThan,
         viewSettings: state.viewSettings,
         location: state.router.location,
-        accountsLoaded: state.accountsOverview.version,
-        notificationsLoaded: state.notifications.version,
+        accountsLoaded: state.accountsOverview.data.length,
+        notificationsLoaded: state.notifications.data.length,
     };
 };
 
