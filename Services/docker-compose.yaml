@@ -3,54 +3,15 @@ version: '3.3'
 services:
   
   # --- Services ---
-  accounts:
-    build:
-      context: .
-      dockerfile: Accounts.Dockerfile
-    networks:
-      - external-network
-      - internal-network
-    ports:
-      - "5001:80"
-    depends_on:
-      - rabbitmq
-      - postgres
-
-  approvals:
-    build:
-      context: .
-      dockerfile: Approvals.Dockerfile
-    networks:
-      - external-network
-      - internal-network
-    ports:
-      - "5002:80"
-    depends_on:
-      - rabbitmq
-      - postgres
-
-  transactions:
-    build:
-      context: .
-      dockerfile: Transactions.Dockerfile
-    networks:
-      - external-network
-      - internal-network
-    ports:
-      - "5003:80"
-    depends_on:
-      - rabbitmq
-      - postgres
-
   notifications:
     build:
       context: .
       dockerfile: Notifications.Dockerfile
     networks:
-      - external-network
       - internal-network
-    ports:
-      - "5004:80"
+    expose:
+      - "5004"
+      - "5005"
     depends_on:
       - rabbitmq
       - postgres
@@ -76,8 +37,8 @@ services:
     ports:
       - "5432:5432"
 
-  nginx-proxy:
-    container_name: nginx-proxy
+  proxy:
+    container_name: proxy
     restart: always
     build:
       context: .
@@ -85,7 +46,7 @@ services:
     ports:
       - '80:80'
     links:
-      - accounts
+      - notifications
     networks:
       - external-network
       - internal-network
