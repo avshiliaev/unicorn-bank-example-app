@@ -1,5 +1,7 @@
+using System.Net;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -34,6 +36,10 @@ namespace Profiles
                 .AddBusinessLogicManagers()
                 .AddMessageBus<ProfilesSubscriptionsHandler>(_configuration)
                 .AddSignalR();
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.KnownProxies.Add(IPAddress.Parse("10.0.0.100"));
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -42,10 +48,9 @@ namespace Profiles
             {
                 app.UseCors(builder =>
                 {
-                    builder.WithOrigins("http://localhost:3000")
-                        .AllowAnyHeader()
-                        .WithMethods("GET", "POST")
-                        .AllowCredentials();
+                    builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
                 });
                 app.UseDeveloperExceptionPage();
             }
@@ -56,6 +61,10 @@ namespace Profiles
                 .UseAuthentication()
                 .UseAuthorization()
                 .UseEndpoints(endpoints => { endpoints.MapHub<ProfilesHub>("/profiles"); });
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
         }
     }
 }

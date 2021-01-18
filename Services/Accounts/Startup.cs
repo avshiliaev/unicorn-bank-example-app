@@ -1,10 +1,12 @@
-﻿using Accounts.Extensions;
+﻿using System.Net;
+using Accounts.Extensions;
 using Accounts.Handlers;
 using Accounts.Persistence;
 using Accounts.Persistence.Entities;
 using Accounts.Persistence.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -37,6 +39,10 @@ namespace Accounts
                 .AddDataAccessServices()
                 .AddBusinessLogicManagers()
                 .AddMessageBus<AccountsSubscriptionsHandler>(_configuration);
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.KnownProxies.Add(IPAddress.Parse("10.0.0.100"));
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -45,9 +51,9 @@ namespace Accounts
             {
                 app.UseCors(builder =>
                 {
-                    builder.AllowAnyOrigin();
-                    builder.AllowAnyMethod();
-                    builder.AllowAnyHeader();
+                    builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
                 });
                 app.UseDeveloperExceptionPage();
             }
@@ -62,6 +68,11 @@ namespace Accounts
                     endpoints => { endpoints.MapControllers(); }
                 )
                 .UpdateDatabase<AccountsContext>();
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
         }
     }
 }

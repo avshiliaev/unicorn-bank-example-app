@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Net;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -43,6 +45,11 @@ namespace Transactions
                 .AddBusinessLogicManagers()
                 .AddLicenseManager<LicenseManager, ITransactionModel>()
                 .AddMessageBus<TransactionsSubscriptionsHandler>(_configuration);
+            
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.KnownProxies.Add(IPAddress.Parse("10.0.0.100"));
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -51,9 +58,9 @@ namespace Transactions
             {
                 app.UseCors(builder =>
                 {
-                    builder.AllowAnyOrigin();
-                    builder.AllowAnyMethod();
-                    builder.AllowAnyHeader();
+                    builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
                 });
                 app.UseDeveloperExceptionPage();
             }
@@ -68,6 +75,11 @@ namespace Transactions
                     endpoints => { endpoints.MapControllers(); }
                 )
                 .UpdateDatabase<TransactionsContext>();
+            
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
         }
     }
 }

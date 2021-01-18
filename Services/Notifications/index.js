@@ -6,7 +6,7 @@ const token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ilc1MFBrT09KUHV6dWJUc
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 const connection = new signalR.HubConnectionBuilder()
     .withUrl(
-        `http://localhost:80/notifications?access_token=${token}`,
+        `http://localhost:80/api/profiles?access_token=${token}`,
         {
             // skipNegotiation: true,
             // transport: signalR.HttpTransportType.WebSockets,

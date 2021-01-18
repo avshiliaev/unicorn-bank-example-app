@@ -10,8 +10,8 @@ const createClient = (path: string, token: string) => {
         .withUrl(
             url,
             {
-                skipNegotiation: true,
-                transport: HttpTransportType.WebSockets,
+                // skipNegotiation: true,
+                // transport: HttpTransportType.WebSockets,
             }
         )
         .configureLogging(signalR.LogLevel.Information)

@@ -3,6 +3,91 @@ version: '3.3'
 services:
   
   # --- Services ---
+
+  # -- Command --
+  accounts:
+    build:
+      context: .
+      dockerfile: Accounts.Dockerfile
+    networks:
+      - external-network
+    ports:
+      - 80
+      - 443
+    environment:
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=tomate
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ~/.aspnet/https:/https:ro
+
+  transactions:
+    build:
+      context: .
+      dockerfile: Transactions.Dockerfile
+    networks:
+      - external-network
+    ports:
+      - 80
+      - 443
+    environment:
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=tomate
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ~/.aspnet/https:/https:ro
+
+  # -- Worker --
+  approvals:
+    build:
+      context: .
+      dockerfile: Approvals.Dockerfile
+    networks:
+      - external-network
+    ports:
+      - 80
+      - 443
+    environment:
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=tomate
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ~/.aspnet/https:/https:ro
+  
+  billings:
+    build:
+      context: .
+      dockerfile: Billings.Dockerfile
+    networks:
+      - external-network
+    ports:
+      - 80
+      - 443
+    environment:
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=tomate
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ~/.aspnet/https:/https:ro
+  
+  # -- Query --
+  
+  profiles:
+    build:
+      context: .
+      dockerfile: Profiles.Dockerfile
+    networks:
+      - external-network
+    ports:
+      - 80
+      - 443
+    environment:
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=tomate
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ~/.aspnet/https:/https:ro
+
   notifications:
     build:
       context: .
@@ -46,8 +131,6 @@ services:
     build:
       context: .
       dockerfile: Proxy.Dockerfile
-    links:
-      - notifications
     ports:
       - '80:80'
       - '443:443'
