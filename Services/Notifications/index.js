@@ -6,7 +6,7 @@ const token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ilc1MFBrT09KUHV6dWJUc
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 const connection = new signalR.HubConnectionBuilder()
     .withUrl(
-        `https://localhost:5005/notifications?access_token=${token}`,
+        `https://localhost:80/notifications?access_token=${token}`,
         {
             skipNegotiation: true,
             transport: signalR.HttpTransportType.WebSockets,
@@ -28,6 +28,7 @@ async function start() {
 
 connection.onclose(start);
 connection.on("ResponseAll", msg => console.log(msg))
+connection.on("error", (error) => console.log(error))
 
 // Start the connection.
 start();
