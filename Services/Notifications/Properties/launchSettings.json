@@ -1,18 +1,9 @@
 ﻿{
-  "$schema": "http://json.schemastore.org/launchsettings.json",
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://+:63831",
-      "sslPort": 44359
-    }
-  },
   "profiles": {
     "Notifications": {
       "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "notifications",
+      "launchBrowser": false,
+      "launchUrl": "",
       "applicationUrl": "https://+:5005;http://+:5004",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

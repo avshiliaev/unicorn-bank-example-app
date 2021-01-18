@@ -8,13 +8,16 @@ services:
       context: .
       dockerfile: Notifications.Dockerfile
     networks:
-      - internal-network
+      - external-network
     ports:
-      - "5004:5004"
-      - "5005:5005"
-    depends_on:
-      - rabbitmq
-      - postgres
+      - 80
+      - 443
+    environment:
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=tomate
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ~/.aspnet/https:/https:ro
 
   # --- Infrastructure ---
   rabbitmq:
@@ -43,10 +46,11 @@ services:
     build:
       context: .
       dockerfile: Proxy.Dockerfile
-    ports:
-      - '80:80'
     links:
       - notifications
+    ports:
+      - '80:80'
+      - '443:443'
     networks:
       - external-network
       - internal-network
