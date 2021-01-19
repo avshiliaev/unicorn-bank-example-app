@@ -1,5 +1,5 @@
 import {AccountAction, AccountInterface, AccountReducerState} from '../interfaces/account.interface';
-import {ActionTypes} from '../constants';
+import {ActionTypes} from "../constants/action.types";
 
 const getAccount = (accountId: string, token: string): AccountAction => {
     return {

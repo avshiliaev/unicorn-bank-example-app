@@ -1,9 +1,10 @@
-import {ActionTypes} from '../constants';
+
 import {
     NotificationInterface,
     NotificationsAction,
     NotificationsReducerState
 } from '../interfaces/notification.interface';
+import {ActionTypes} from "../constants/action.types";
 
 const initNotifications = (token: string, count: number): NotificationsAction => {
     return {

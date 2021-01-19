@@ -41,7 +41,7 @@ const FooterMobile = ({auth, location}) => {
                 <Col span={8}>
                     <Row justify="center" align="middle">
                         <Col>
-                            <Link to={`/user/${auth.userId}/messages`}>
+                            <Link to={`/user/${auth.sub}/messages`}>
                                 <MessageOutlined style={
                                     {
                                         ...iconStyles,

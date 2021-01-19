@@ -1,15 +1,16 @@
 import {call, fork, put, take, takeLatest} from 'redux-saga/effects';
-import {ActionTypes} from '../constants';
 import {AccountAction, AccountInterface} from '../interfaces/account.interface';
 import {createSocketChannel, invokeSocket, SocketChannelProps} from "./channels";
 import {getAccountError, getAccountSuccess} from "../reducers/account.reducer";
 import createClient from "../api/web.socket.api.client";
 import {buffers} from "redux-saga";
+import {ActionTypes} from "../constants/action.types";
+import {Environment} from "../constants/environment";
 
 export function* getAccountDetailSaga(action) {
 
     const {accountId, token} = action.params;
-    const path: string = process.env.REACT_APP_PATHS_PROFILES ?? "/";
+    const path: string = Environment.PATHS_PROFILES;
 
     const socket = yield call(createClient, path, token);
 

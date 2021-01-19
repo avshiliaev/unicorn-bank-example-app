@@ -11,15 +11,18 @@ services:
       dockerfile: Accounts.Dockerfile
     networks:
       - external-network
+    depends_on:
+      - rabbitmq
+      - postgres
     ports:
       - 80
       - 443
     environment:
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ASPNETCORE_Kestrel__Certificates__Default__Password=tomate
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/dev_cert.pfx
     volumes:
-      - ~/.aspnet/https:/https:ro
+      - ./Deployment/https/:/https/
 
   transactions:
     build:
@@ -27,15 +30,18 @@ services:
       dockerfile: Transactions.Dockerfile
     networks:
       - external-network
+    depends_on:
+      - rabbitmq
+      - postgres
     ports:
       - 80
       - 443
     environment:
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ASPNETCORE_Kestrel__Certificates__Default__Password=tomate
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/dev_cert.pfx
     volumes:
-      - ~/.aspnet/https:/https:ro
+      - ./Deployment/https/:/https/
 
   # -- Worker --
   approvals:
@@ -44,15 +50,18 @@ services:
       dockerfile: Approvals.Dockerfile
     networks:
       - external-network
+    depends_on:
+      - rabbitmq
+      - postgres
     ports:
       - 80
       - 443
     environment:
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ASPNETCORE_Kestrel__Certificates__Default__Password=tomate
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/dev_cert.pfx
     volumes:
-      - ~/.aspnet/https:/https:ro
+      - ./Deployment/https/:/https/
   
   billings:
     build:
@@ -60,15 +69,18 @@ services:
       dockerfile: Billings.Dockerfile
     networks:
       - external-network
+    depends_on:
+      - rabbitmq
+      - postgres
     ports:
       - 80
       - 443
     environment:
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ASPNETCORE_Kestrel__Certificates__Default__Password=tomate
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/dev_cert.pfx
     volumes:
-      - ~/.aspnet/https:/https:ro
+      - ./Deployment/https/:/https/
   
   # -- Query --
   
@@ -78,15 +90,18 @@ services:
       dockerfile: Profiles.Dockerfile
     networks:
       - external-network
+    depends_on:
+      - rabbitmq
+      - postgres
     ports:
       - 80
       - 443
     environment:
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ASPNETCORE_Kestrel__Certificates__Default__Password=tomate
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/dev_cert.pfx
     volumes:
-      - ~/.aspnet/https:/https:ro
+      - ./Deployment/https/:/https/
 
   notifications:
     build:
@@ -94,15 +109,18 @@ services:
       dockerfile: Notifications.Dockerfile
     networks:
       - external-network
+    depends_on:
+      - rabbitmq
+      - postgres
     ports:
       - 80
       - 443
     environment:
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ASPNETCORE_Kestrel__Certificates__Default__Password=tomate
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/dev_cert.pfx
     volumes:
-      - ~/.aspnet/https:/https:ro
+      - ./Deployment/https/:/https/
 
   # --- Infrastructure ---
   rabbitmq:

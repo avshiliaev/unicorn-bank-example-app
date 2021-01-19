@@ -1,5 +1,5 @@
 import {testSaga} from 'redux-saga-test-plan';
-import {ActionTypes} from "../../constants";
+import {ActionTypes} from "../../constants/constants";
 import createSocketChannel from "../channels";
 import {initNotifications} from "../../reducers/notifications.reducer";
 import {NotificationsAction} from "../../interfaces/notification.interface";

@@ -1,5 +1,6 @@
-import {ActionTypes} from '../constants';
+
 import {ViewSettings, ViewSettingsAction, ViewSettingsState} from '../interfaces/view.settings.interface';
+import {ActionTypes} from "../constants/action.types";
 
 const updateViewSettingsAction = (settings: ViewSettings): ViewSettingsAction => {
     return {

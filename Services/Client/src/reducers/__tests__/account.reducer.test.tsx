@@ -1,6 +1,6 @@
 import accountReducer, {getAccount} from '../account.reducer';
 import {AccountAction, AccountInterface, AccountReducerState} from '../../interfaces/account.interface';
-import {ActionTypes} from "../../constants";
+import {ActionTypes} from "../../constants/constants";
 
 describe('accountReducer', () => {
     it('should return the initial state', () => {

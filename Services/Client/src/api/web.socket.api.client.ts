@@ -1,9 +1,10 @@
 import * as signalR from "@microsoft/signalr";
 import {HttpTransportType} from "@microsoft/signalr";
+import {Environment} from "../constants/environment";
 
 const createClient = (path: string, token: string) => {
 
-    const wsUrl = process.env.REACT_APP_PATHS_CROSS_ORIGIN ?? "";
+    const wsUrl: string = Environment.PATHS_WS;
     const url = `${wsUrl}${path}?access_token=${token}`
 
     return new signalR.HubConnectionBuilder()

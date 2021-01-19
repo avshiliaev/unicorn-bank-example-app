@@ -1,4 +1,4 @@
-import {ActionTypes} from "../../constants";
+import {ActionTypes} from "../../constants/constants";
 import notificationsReducer, {initNotifications} from "../notifications.reducer";
 import {
     NotificationInterface,

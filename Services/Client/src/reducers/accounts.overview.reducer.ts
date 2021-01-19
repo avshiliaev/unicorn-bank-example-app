@@ -1,5 +1,5 @@
 import {AccountInterface, AccountsOverviewAction, AccountsOverviewReducerState} from '../interfaces/account.interface';
-import {ActionTypes} from '../constants';
+import {ActionTypes} from "../constants/action.types";
 
 const initAccounts = (token: string): AccountsOverviewAction => {
     return {

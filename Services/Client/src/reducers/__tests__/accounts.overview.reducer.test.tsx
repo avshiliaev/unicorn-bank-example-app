@@ -3,7 +3,7 @@ import {
     AccountsOverviewAction,
     AccountsOverviewReducerState
 } from '../../interfaces/account.interface';
-import {ActionTypes} from "../../constants";
+import {ActionTypes} from "../../constants/constants";
 import accountsOverviewReducer, {initAccounts} from "../accounts.overview.reducer";
 
 describe('accountsOverviewReducer', () => {
