@@ -23,9 +23,11 @@ namespace Notifications.Services
             return _mongoRepository.GetAll(profileId)!;
         }
 
-        public List<NotificationEntity> GetManyByParameter(Expression<Func<NotificationEntity, bool>> predicate)
+        public List<NotificationEntity> GetManyByParameter(
+            Expression<Func<NotificationEntity, bool>> predicate, int count
+            )
         {
-            return _mongoRepository.GetManyByParameter(predicate)!;
+            return _mongoRepository.GetManyByParameter(predicate, count)!;
         }
 
 
@@ -39,7 +41,7 @@ namespace Notifications.Services
             return _mongoRepository.Create(entity);
         }
 
-        public IEnumerator<ChangeStreamDocument<NotificationEntity>> SubscribeToChanges(BsonDocument pipeline)
+        public IEnumerator<ChangeStreamDocument<NotificationEntity>> SubscribeToChanges(BsonDocument[] pipeline)
         {
             return _mongoRepository.SubscribeToChangesStreamMany(pipeline)!;
         }

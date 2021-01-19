@@ -31,7 +31,8 @@ namespace Notifications.Hubs
         {
             var profileId = _httpContextAccessor.GetUserIdentifier();
             var notifications = _notificationsService.GetManyByParameter(
-                e => e.ProfileId == profileId
+                e => e.ProfileId == profileId, 
+                count
             );
             var notificationsDto = notifications
                 .Select(n => n.ToNotificationsModel<NotificationDto>())

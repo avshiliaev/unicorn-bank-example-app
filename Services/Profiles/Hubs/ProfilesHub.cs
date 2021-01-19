@@ -32,7 +32,8 @@ namespace Profiles.Hubs
         {
             var profileId = _httpContextAccessor.GetUserIdentifier();
             var profiles = _profilesService.GetManyByParameter(
-                e => e.ProfileId == profileId
+                e => e.ProfileId == profileId, 
+                count
             );
             var profilesDto = profiles
                 .Select(n => n?.ToProfileDto())
@@ -56,6 +57,7 @@ namespace Profiles.Hubs
             var profile = _profilesService.GetSingleByParameter(
                 e => e.ProfileId == profileId && e.AccountId == accountId
             );
+            // TODO: filter transactions
             
             await Clients.All.SendAsync("ResponseOne", profile?.ToProfileDto());
 

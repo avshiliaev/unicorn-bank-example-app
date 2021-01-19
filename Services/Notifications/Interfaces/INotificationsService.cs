@@ -10,9 +10,9 @@ namespace Notifications.Interfaces
     public interface INotificationsService
     {
         List<NotificationEntity> GetAll(string profileId);
-        List<NotificationEntity> GetManyByParameter(Expression<Func<NotificationEntity, bool>> predicate);
+        List<NotificationEntity> GetManyByParameter(Expression<Func<NotificationEntity, bool>> predicate, int count);
         NotificationEntity Get(string id);
         NotificationEntity Create(NotificationEntity entity);
-        IEnumerator<ChangeStreamDocument<NotificationEntity>> SubscribeToChanges(BsonDocument pipeline);
+        IEnumerator<ChangeStreamDocument<NotificationEntity>> SubscribeToChanges(BsonDocument[] pipeline);
     }
 }

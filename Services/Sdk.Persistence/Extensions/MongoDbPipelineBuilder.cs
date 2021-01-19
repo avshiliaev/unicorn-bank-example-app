@@ -4,7 +4,7 @@ namespace Sdk.Persistence.Extensions
 {
     public static class MongoDbPipelineBuilder
     {
-        public static BsonDocument ToMongoPipelineMatchMany(this string profileId)
+        public static BsonDocument[] ToMongoPipelineMatchMany(this string profileId)
         {
             var match = new BsonDocument 
             { 
@@ -14,13 +14,13 @@ namespace Sdk.Persistence.Extensions
                     { 
                         {"ProfileId", $"'{profileId}'"} 
                     } 
-                } 
+                }
             };
-            
-            return match;
+
+            return new []{match};
         }
 
-        public static BsonDocument ToMongoPipelineMatchSingle(this string profileId, string accountId)
+        public static BsonDocument[] ToMongoPipelineMatchSingle(this string profileId, string accountId)
         {
             // var pipeline = $"$and: [{{ ProfileId: '{profileId}' }}, {{ AccountId: '{accountId}' }}]";
             var match = new BsonDocument 
@@ -40,8 +40,8 @@ namespace Sdk.Persistence.Extensions
                     } 
                 }
             };
-            
-            return match;
+
+            return new []{match};
         }
     }
 }

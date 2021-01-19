@@ -17,6 +17,6 @@ namespace Profiles.Interfaces
         ProfileEntity? UpdatePassively(ProfileEntity profileEntity);
         ProfileEntity? AddToArray(string accountId, TransactionSubEntity transactionSubEntity);
         ProfileEntity? UpdateInArray(string accountId, TransactionSubEntity transactionSubEntity);
-        IEnumerator<ChangeStreamDocument<ProfileEntity>> SubscribeToChangesMany(BsonDocument pipeline);
+        IEnumerator<ChangeStreamDocument<ProfileEntity>> SubscribeToChangesMany(BsonDocument[] pipeline);
     }
 }

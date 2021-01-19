@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -27,9 +28,9 @@ namespace Sdk.Persistence.Abstractions
             return _mongoCollection.Find(e => e.ProfileId == profileId).ToList();
         }
 
-        public List<TEntity> GetManyByParameter(Expression<Func<TEntity, bool>> predicate)
+        public List<TEntity> GetManyByParameter(Expression<Func<TEntity, bool>> predicate, int count)
         {
-            return _mongoCollection.Find(predicate).ToList();
+            return _mongoCollection.Find(predicate).Limit(count).ToList();
         }
 
         public TEntity GetSingleByParameter(Expression<Func<TEntity, bool>> predicate)
@@ -70,7 +71,7 @@ namespace Sdk.Persistence.Abstractions
             return result.IsAcknowledged;
         }
 
-        public IEnumerator<ChangeStreamDocument<TEntity>> SubscribeToChangesStreamMany(BsonDocument pipeline)
+        public IEnumerator<ChangeStreamDocument<TEntity>> SubscribeToChangesStreamMany(BsonDocument[] pipeline)
         {
             if (pipeline == null) return null;
 
@@ -101,7 +102,7 @@ namespace Sdk.Persistence.Abstractions
                 }
             };
 
-            var fullPipeline = new[] {match};
+            var fullPipeline = new[] {match}.Concat(pipeline).ToArray();
             var cursor = _mongoCollection.Watch<ChangeStreamDocument<TEntity>>(fullPipeline, options);
             var enumerator = cursor.ToEnumerable().GetEnumerator();
             return enumerator;
