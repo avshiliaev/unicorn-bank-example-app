@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import {List} from 'antd';
+import {Button, Input, List, Space} from 'antd';
 import {WindowSizeInterface} from "../interfaces/window.size.interface";
 import FixedScrollContainer from "./layout/scroll.container";
 
@@ -33,6 +33,13 @@ const NotificationsList = (props: Props) => {
                 dataLength={notifications.length}
                 height={windowSize.large ? "calc(100vh - 265px)" : "calc(100vh - 265px)"}
             >
+                <Space direction="vertical">
+                    <Input placeholder="Profile"/>
+                    <Button type="primary" block>
+                        Submit
+                    </Button>
+                </Space>
+
                 <List
                     loading={loading}
                     itemLayout="horizontal"

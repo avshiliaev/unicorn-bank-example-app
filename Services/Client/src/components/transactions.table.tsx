@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import {Badge, List, Space, Statistic} from 'antd';
+import {Badge, Button, Form, Input, List, Space, Statistic} from 'antd';
 import {Link} from '@reach/router';
 import {TransactionInterface} from '../interfaces/transaction.interface';
 import FixedScrollContainer from "./layout/scroll.container";
@@ -26,6 +26,15 @@ const TransactionsTable = ({transactions, windowSize, handleLoadMore}) => {
                 dataLength={transactionsList.length}
                 height={windowSize.large ? "calc(100vh - 315px)" : "calc(100vh - 315px)"}
             >
+
+                <Space direction="vertical">
+                    <Input placeholder="Profile"/>
+                    <Button type="primary" block>
+                        Submit
+                    </Button>
+                </Space>
+
+
                 <List
                     itemLayout="horizontal"
                     dataSource={transactionsList}
