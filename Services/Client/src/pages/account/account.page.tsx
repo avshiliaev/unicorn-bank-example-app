@@ -14,13 +14,13 @@ import {useAuth0} from "@auth0/auth0-react";
 
 const {Content} = Layout;
 
-const AccountPage = ({windowSize, id, children, getAccount, location, ...rest}) => {
+const AccountPage = ({windowSize, viewSettings, id, children, getAccount, location, ...rest}) => {
 
     const {user, getAccessTokenSilently, getAccessTokenWithPopup} = useAuth0();
 
     useEffect(() => {
         getAccessTokenSilently().then(token => {
-            getAccount(id, token);
+            getAccount(id, token, viewSettings.transactionsCount);
         })
     }, []);
 
@@ -49,6 +49,7 @@ const mapStateToProps = (state) => {
     return {
         windowSize: state.windowSize.greaterThan,
         location: state.router.location,
+        viewSettings: state.viewSettings,
     };
 };
 

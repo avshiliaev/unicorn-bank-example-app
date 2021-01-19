@@ -28,7 +28,7 @@ namespace Profiles.Hubs
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<bool> RequestAll()
+        public async Task<bool> RequestAll(int count)
         {
             var profileId = _httpContextAccessor.GetUserIdentifier();
             var profiles = _profilesService.GetManyByParameter(
@@ -50,7 +50,7 @@ namespace Profiles.Hubs
             return true;
         }
 
-        public async Task<bool> RequestOne(string accountId)
+        public async Task<bool> RequestOne(string accountId, int count)
         {
             var profileId = _httpContextAccessor.GetUserIdentifier();
             var profile = _profilesService.GetSingleByParameter(

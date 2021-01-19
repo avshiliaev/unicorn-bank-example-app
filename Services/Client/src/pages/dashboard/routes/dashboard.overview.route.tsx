@@ -38,7 +38,11 @@ const DashboardOverviewRoute = (
         .reduce((a, b) => a + b) : 0;
 
     const updateCount = (count: number) => {
-        const settings: ViewSettings = {notificationsCount: count, currentSender: viewSettings.currentSender};
+        const settings: ViewSettings = {
+            notificationsCount: count,
+            transactionsCount: viewSettings.transactionsCount,
+            currentSender: viewSettings.currentSender
+        };
         updateViewSettingsAction(settings);
     };
 

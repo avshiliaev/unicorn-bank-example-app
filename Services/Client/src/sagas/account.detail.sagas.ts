@@ -9,7 +9,7 @@ import {Environment} from "../constants/environment";
 
 export function* getAccountDetailSaga(action) {
 
-    const {accountId, token} = action.params;
+    const {accountId, token, count} = action.params;
     const path: string = Environment.PATHS_PROFILES;
 
     const socket = yield call(createClient, path, token);
@@ -23,7 +23,7 @@ export function* getAccountDetailSaga(action) {
     }
     const socketChannel = yield call(createSocketChannel, channelProps);
 
-    yield fork(invokeSocket, socket, ["RequestOne", accountId]);
+    yield fork(invokeSocket, socket, ["RequestOne", accountId, count]);
 
     while (true) {
         try {

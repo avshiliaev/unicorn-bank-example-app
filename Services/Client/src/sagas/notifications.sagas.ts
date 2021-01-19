@@ -10,7 +10,7 @@ import {Environment} from "../constants/environment";
 
 export function* getNotificationsSaga(action) {
 
-    const {token} = action.params;
+    const {token, count} = action.params;
     const path: string = Environment.PATHS_NOTIFICATIONS;
 
     const socket = yield call(createClient, path, token);
@@ -24,7 +24,7 @@ export function* getNotificationsSaga(action) {
     }
     const socketChannel = yield call(createSocketChannel, channelProps);
 
-    yield fork(invokeSocket, socket, ["RequestAll"]);
+    yield fork(invokeSocket, socket, ["RequestAll", count]);
 
     while (true) {
         try {

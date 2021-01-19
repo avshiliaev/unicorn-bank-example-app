@@ -19,6 +19,7 @@ const viewSettingsInitState: ViewSettingsState = {
     loading: false,
     error: false,
     notificationsCount: 5,
+    transactionsCount: 10,
     currentSender: "Notifications"
 };
 

@@ -1,10 +1,10 @@
 import {AccountInterface, AccountsOverviewAction, AccountsOverviewReducerState} from '../interfaces/account.interface';
 import {ActionTypes} from "../constants/action.types";
 
-const initAccounts = (token: string): AccountsOverviewAction => {
+const initAccounts = (token: string, count: number): AccountsOverviewAction => {
     return {
         type: ActionTypes.QUERY_ACCOUNTS,
-        params: {token},
+        params: {token, count},
         state: {
             loading: true,
             error: false,
