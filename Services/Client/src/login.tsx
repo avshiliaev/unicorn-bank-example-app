@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {Button, Col, Layout, Row, Spin} from 'antd';
 import FlexContainer from './components/layout/flex.container';
 import {useAuth0} from "@auth0/auth0-react";
+import LoadingFullScreen from "./components/loading.full.screen";
 
 const {Content} = Layout;
 
@@ -22,14 +23,6 @@ const Login = ({windowSize, ...rest}) => {
         )
     }
 
-    const LoadingView = () => {
-        return (
-            <FlexContainer justify={'center'} align={'center'}>
-                <Spin size="large"/>
-            </FlexContainer>
-        )
-    }
-
     return (
         <Layout style={{minHeight: '100vh'}}>
             <Content style={{padding: windowSize.large ? 16 : 0}}>
@@ -41,7 +34,7 @@ const Login = ({windowSize, ...rest}) => {
                 >
                     <Col xs={24} sm={24} md={18} lg={8} xl={6} xxl={6}>
                         {!isAuthenticated && !isLoading && <LogInView/>}
-                        {isLoading && <LoadingView/>}
+                        {isLoading && <LoadingFullScreen/>}
                     </Col>
                 </Row>
             </Content>

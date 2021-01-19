@@ -1,9 +1,12 @@
 import React, {Fragment} from 'react';
-import {Descriptions, List} from 'antd';
-import InfiniteScroll from "react-infinite-scroll-component";
+import {List} from 'antd';
+import {WindowSizeInterface} from "../interfaces/window.size.interface";
+import FixedScrollContainer from "./layout/scroll.container";
 
 interface Props {
     displayMore: any
+    windowSize: WindowSizeInterface
+    loading: boolean
     notifications: {
         title: string;
         description: string;
@@ -12,7 +15,7 @@ interface Props {
 
 const NotificationsList = (props: Props) => {
 
-    const {notifications, displayMore} = props;
+    const {notifications, displayMore, windowSize, loading} = props;
 
     const handleLoadMore = () => {
         console.log("LOAD MORE")
@@ -23,47 +26,27 @@ const NotificationsList = (props: Props) => {
         console.log("REFRESH")
     }
 
-    const Messages = () => {
-        return (
-            <List
-                itemLayout="horizontal"
-                dataSource={notifications}
-                renderItem={item => (
-                    <List.Item>
-                        <List.Item.Meta
-                            title={<a href="https://ant.design">{item.title}</a>}
-                            description={item.description}
-                        />
-                    </List.Item>
-                )}
-            />
-        )
-    }
-
     return (
         <Fragment>
-            <div
-                id="scrollableDiv"
-                style={{
-                    height: "60vh",
-                    overflow: 'auto',
-                    display: 'flex',
-                    flexDirection: 'column-reverse',
-                }}
+            <FixedScrollContainer
+                handleLoadMore={handleLoadMore}
+                dataLength={notifications.length}
+                height={windowSize.large ? "calc(100vh - 265px)" : "calc(100vh - 265px)"}
             >
-                {/*Put the scroll bar always on the bottom*/}
-                <InfiniteScroll
-                    dataLength={notifications.length}
-                    next={handleLoadMore}
-                    style={{ display: 'flex', flexDirection: 'column-reverse' }} //To put endMessage and loader to the top.
-                    inverse={true}
-                    hasMore={true}
-                    loader={<h4>Loading...</h4>}
-                    scrollableTarget="scrollableDiv"
-                >
-                    <Messages/>
-                </InfiniteScroll>
-            </div>
+                <List
+                    loading={loading}
+                    itemLayout="horizontal"
+                    dataSource={notifications}
+                    renderItem={item => (
+                        <List.Item>
+                            <List.Item.Meta
+                                title={<a href="https://ant.design">{item.title}</a>}
+                                description={item.description}
+                            />
+                        </List.Item>
+                    )}
+                />
+            </FixedScrollContainer>
         </Fragment>
     );
 

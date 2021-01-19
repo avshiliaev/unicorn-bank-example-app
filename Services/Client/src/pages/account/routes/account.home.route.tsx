@@ -5,6 +5,7 @@ import BreadCrumbBasic from '../../../components/layout/breadcrumb.basic';
 import TransactionsTable from '../../../components/transactions.table';
 import {AccountReducerState} from '../../../interfaces/account.interface';
 import CommonBalance from '../../../components/common.balance';
+import LoadingFullScreen from "../../../components/loading.full.screen";
 
 interface AccountHomeProps {
     windowSize: any,
@@ -20,12 +21,23 @@ const AccountHomeRoute = ({windowSize, location, account, ...rest}: AccountHomeP
             <FlexGridAccount
                 breadCrumbs={<BreadCrumbBasic location={location}/>}
                 windowSize={windowSize}
-                slotOne={<TransactionsTable transactions={account.data.transactions}/>}
+                slotOne={
+                    <TransactionsTable
+                        transactions={account.data.transactions}
+                        windowSize={windowSize}
+                        handleLoadMore={()=> console.log("load more transactions")}
+                    />
+                }
                 slotTwo={(<CommonBalance value={account.data.balance}/>)}
             />
         )
         : (
-            <div>loading...</div>
+            <FlexGridAccount
+                breadCrumbs={<BreadCrumbBasic location={location}/>}
+                windowSize={windowSize}
+                slotOne={<LoadingFullScreen/>}
+                slotTwo={<LoadingFullScreen/>}
+            />
         );
 };
 

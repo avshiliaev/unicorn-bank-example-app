@@ -50,6 +50,8 @@ const DashboardOverviewRoute = (
                 slotTwo={<AccountsActions/>}
                 slotThree={
                     <NotificationsList
+                        loading={notifications.loading}
+                        windowSize={windowSize}
                         notifications={notifications.data}
                         displayMore={updateCount}
                     />

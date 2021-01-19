@@ -13,7 +13,7 @@ const DashboardDiscoverRoute = ({windowSize, ...rest}) => {
                 slotOne={<DemoPlaceHolder/>}
                 slotTwo={<DemoPlaceHolder/>}
                 slotThree={<DemoPlaceHolder/>}
-                mainContent={<div>AccountsList</div>}
+                mainContent={<DemoPlaceHolder/>}
             />
         </Fragment>
     );

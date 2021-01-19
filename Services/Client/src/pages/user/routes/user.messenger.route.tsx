@@ -37,6 +37,8 @@ const UserMessengerRoute = (
                 slotThree={<DemoPlaceHolder/>}
                 mainContent={
                     <NotificationsList
+                        loading={notifications.loading}
+                        windowSize={windowSize}
                         notifications={notifications.data}
                         displayMore={updateCount}
                     />
