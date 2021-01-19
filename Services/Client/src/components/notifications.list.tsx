@@ -1,5 +1,6 @@
 import React, {Fragment} from 'react';
-import {Button, Descriptions, List} from 'antd';
+import {Descriptions, List} from 'antd';
+import InfiniteScroll from "react-infinite-scroll-component";
 
 interface Props {
     displayMore: any
@@ -13,9 +14,17 @@ const NotificationsList = (props: Props) => {
 
     const {notifications, displayMore} = props;
 
-    return (
-        <Fragment>
-            <Descriptions title="Notifications"/>
+    const handleLoadMore = () => {
+        console.log("LOAD MORE")
+        displayMore(notifications.length + 5)
+    }
+
+    const refresh = () => {
+        console.log("REFRESH")
+    }
+
+    const Messages = () => {
+        return (
             <List
                 itemLayout="horizontal"
                 dataSource={notifications}
@@ -28,7 +37,33 @@ const NotificationsList = (props: Props) => {
                     </List.Item>
                 )}
             />
-            <Button onClick={() => displayMore(notifications.length + 5)}>Display More</Button>
+        )
+    }
+
+    return (
+        <Fragment>
+            <div
+                id="scrollableDiv"
+                style={{
+                    height: "60vh",
+                    overflow: 'auto',
+                    display: 'flex',
+                    flexDirection: 'column-reverse',
+                }}
+            >
+                {/*Put the scroll bar always on the bottom*/}
+                <InfiniteScroll
+                    dataLength={notifications.length}
+                    next={handleLoadMore}
+                    style={{ display: 'flex', flexDirection: 'column-reverse' }} //To put endMessage and loader to the top.
+                    inverse={true}
+                    hasMore={true}
+                    loader={<h4>Loading...</h4>}
+                    scrollableTarget="scrollableDiv"
+                >
+                    <Messages/>
+                </InfiniteScroll>
+            </div>
         </Fragment>
     );
 
