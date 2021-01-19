@@ -1,6 +1,7 @@
 // General
 export interface ViewSettings {
     notificationsCount: number
+    currentSender: string
 }
 
 // View Reducer State

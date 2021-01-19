@@ -18,7 +18,8 @@ export {updateViewSettingsAction};
 const viewSettingsInitState: ViewSettingsState = {
     loading: false,
     error: false,
-    notificationsCount: 5
+    notificationsCount: 5,
+    currentSender: "Notifications"
 };
 
 const viewSettingsReducer = (

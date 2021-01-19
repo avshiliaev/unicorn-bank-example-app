@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {Layout} from 'antd';
 import SiderBasic from '../../components/layout/sider.basic';
@@ -10,18 +10,54 @@ import UserSiderMenu from '../../components/user.sider.menu';
 import BasicDrawer from '../../components/layout/drawer.basic';
 import FooterMobile from '../../components/layout/footer.mobile';
 import {useAuth0} from "@auth0/auth0-react";
+import {ViewSettingsState} from "../../interfaces/view.settings.interface";
+import {initNotifications} from "../../reducers/notifications.reducer";
 
 const {Content} = Layout;
 
-const UserPage = ({windowSize, getUser, children, location, id, ...rest}) => {
 
-    const {user} = useAuth0();
+interface UserPageProps {
+    windowSize: any
+    viewSettings: ViewSettingsState
+    accountsLoaded: number
+    notificationsLoaded: number
+    initNotifications: any
+    children: any
+    location: any
+    path: any
+}
+
+const UserPage = (
+    {
+        windowSize,
+        viewSettings,
+        accountsLoaded,
+        notificationsLoaded,
+        initNotifications,
+        children,
+        location,
+        ...rest
+    }: UserPageProps) => {
+
+    const {user, getAccessTokenSilently, getAccessTokenWithPopup} = useAuth0();
+
+    useEffect(() => {
+        getAccessTokenSilently().then(token => {
+            !notificationsLoaded && initNotifications(token, viewSettings.notificationsCount);
+        });
+    }, []);
 
     return (
         <Layout style={{minHeight: '100vh'}}>
             <HeaderBasic
                 windowSize={windowSize}
-                slotLeft={windowSize.large ? <AppLogo/> : <BasicDrawer><UserSiderMenu/></BasicDrawer>}
+                slotLeft={
+                    windowSize.large ?
+                        <AppLogo/>
+                        : <BasicDrawer>
+                            <UserSiderMenu location={location} windowSize={windowSize}/>
+                        </BasicDrawer>
+                }
                 slotMiddle={
                     <HeaderMenu windowSize={windowSize} location={location}/>
                 }
@@ -30,7 +66,13 @@ const UserPage = ({windowSize, getUser, children, location, id, ...rest}) => {
                 }
             />
             <Layout>
-                {windowSize.large ? <SiderBasic><UserSiderMenu/></SiderBasic> : <div/>}
+                {
+                    windowSize.large ?
+                        <SiderBasic>
+                            <UserSiderMenu location={location} windowSize={windowSize}/>
+                        </SiderBasic>
+                        : <div/>
+                }
                 <Content style={{padding: windowSize.large ? 16 : 0}}>
                     {children}
                 </Content>
@@ -43,10 +85,15 @@ const UserPage = ({windowSize, getUser, children, location, id, ...rest}) => {
 const mapStateToProps = (state) => {
     return {
         windowSize: state.windowSize.greaterThan,
+        viewSettings: state.viewSettings,
         location: state.router.location,
+        accountsLoaded: state.accountsOverview.data.length,
+        notificationsLoaded: state.notifications.data.length,
     };
 };
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+    initNotifications
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserPage);

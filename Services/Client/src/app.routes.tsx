@@ -8,6 +8,7 @@ import UserHomeRoute from './pages/user/routes/user.home.route';
 import DashboardOverviewRoute from './pages/dashboard/routes/dashboard.overview.route';
 import DashboardDiscoverRoute from './pages/dashboard/routes/dashboard.discover.route';
 import DashboardNewRoute from './pages/dashboard/routes/dashboard.new.route';
+import UserMessengerRoute from "./pages/user/routes/user.messenger.route";
 
 const AppRoutes = () => {
 
@@ -24,6 +25,7 @@ const AppRoutes = () => {
             </ProjectPage>
             <UserPage path="user/:id">
                 <UserHomeRoute path="home"/>
+                <UserMessengerRoute path="messages"/>
             </UserPage>
         </Router>
     );

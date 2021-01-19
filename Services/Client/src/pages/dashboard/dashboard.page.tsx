@@ -43,7 +43,7 @@ const DashboardPage = (
     useEffect(() => {
         getAccessTokenSilently().then(token => {
             !accountsLoaded && initAccounts(token);
-            // !notificationsLoaded &&initNotifications(token, viewSettings.notificationsCount);
+            !notificationsLoaded &&initNotifications(token, viewSettings.notificationsCount);
         });
     }, []);
 

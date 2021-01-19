@@ -45,7 +45,7 @@ const FooterMobile = ({auth, location}) => {
                                 <MessageOutlined style={
                                     {
                                         ...iconStyles,
-                                        color: location.pathname === `/user/${auth.userId}/messages` ? '#1890ff' : 'grey'
+                                        color: location.pathname === `/user/${auth.sub}/messages` ? '#1890ff' : 'grey'
                                     }
                                 }/>
                             </Link>
@@ -55,11 +55,11 @@ const FooterMobile = ({auth, location}) => {
                 <Col span={8}>
                     <Row justify="end" align="middle">
                         <Col>
-                            <Link to={`/user/${auth.userId}/home`}>
+                            <Link to={`/user/${auth.sub}/home`}>
                                 <UserOutlined style={
                                     {
                                         ...iconStyles,
-                                        color: location.pathname === `/user/${auth.userId}/home` ? '#1890ff' : 'grey'
+                                        color: location.pathname === `/user/${auth.sub}/home` ? '#1890ff' : 'grey'
                                     }
                                 }/>
                             </Link>

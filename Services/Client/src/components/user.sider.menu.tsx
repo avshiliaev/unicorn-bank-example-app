@@ -5,31 +5,33 @@ import {Link} from '@reach/router';
 
 const {SubMenu} = Menu;
 
-const UserSiderMenu = () => {
+const UserSiderMenu = ({windowSize, location}) => {
+
+    const pathName = location.pathname.split("/");
 
     return (
         <Menu
             mode="inline"
-            defaultSelectedKeys={['1']}
+            selectedKeys={[pathName[pathName.length - 1]]}
             defaultOpenKeys={['sub1']}
             style={{height: '100%', borderRight: 0, marginTop: 16}}
         >
-            <Menu.Item key="1">
+            <Menu.Item key="home">
                 <Link to="home">
                     <UserOutlined/>
                     <span>Profile</span>
                 </Link>
             </Menu.Item>
-            <Menu.Item key="2">
+            <Menu.Item key="statistics">
                 <Link to="statistics">
                     <PieChartOutlined/>
                     <span>Statistics</span>
                 </Link>
             </Menu.Item>
-            <Menu.Item key="3">
-                <Link to="entities">
+            <Menu.Item key="messages">
+                <Link to="messages">
                     <ContainerOutlined/>
-                    <span>Entities</span>
+                    <span>Messages</span>
                 </Link>
             </Menu.Item>
         </Menu>
