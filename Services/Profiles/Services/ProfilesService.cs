@@ -24,9 +24,9 @@ namespace Profiles.Services
             return _mongoRepository.GetAll(profileId)!;
         }
 
-        public List<ProfileEntity?> GetManyByParameter(Expression<Func<ProfileEntity, bool>> predicate)
+        public List<ProfileEntity?> GetManyByParameter(Expression<Func<ProfileEntity, bool>> predicate, int count)
         {
-            return _mongoRepository.GetManyByParameter(predicate)!;
+            return _mongoRepository.GetManyByParameter(predicate, count)!;
         }
 
         public ProfileEntity? GetSingleByParameter(Expression<Func<ProfileEntity, bool>> predicate)

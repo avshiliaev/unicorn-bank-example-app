@@ -10,7 +10,7 @@ namespace Profiles.Interfaces
     public interface IProfilesService
     {
         List<ProfileEntity?> GetAll(string profileId);
-        List<ProfileEntity?> GetManyByParameter(Expression<Func<ProfileEntity, bool>> predicate);
+        List<ProfileEntity?> GetManyByParameter(Expression<Func<ProfileEntity, bool>> predicate, int count);
         ProfileEntity? GetSingleByParameter(Expression<Func<ProfileEntity, bool>> predicate);
         ProfileEntity? Get(string id);
         ProfileEntity? Create(ProfileEntity entity);

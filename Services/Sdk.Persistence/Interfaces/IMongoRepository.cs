@@ -11,7 +11,7 @@ namespace Sdk.Persistence.Interfaces
         public MongoClient Client { get; }
 
         List<TEntity> GetAll(string profileId);
-        List<TEntity> GetManyByParameter(Expression<Func<TEntity, bool>> predicate);
+        List<TEntity> GetManyByParameter(Expression<Func<TEntity, bool>> predicate, int count);
         public TEntity GetSingleByParameter(Expression<Func<TEntity, bool>> predicate);
         TEntity Get(string id);
         TEntity Create(TEntity entity);
