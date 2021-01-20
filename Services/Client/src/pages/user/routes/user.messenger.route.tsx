@@ -1,8 +1,8 @@
 import React, {Fragment} from "react";
 import {connect} from "react-redux";
-import {updateViewSettingsAction} from "../../../reducers/view.settings.reducer";
+import {updateNotificationsCountAction} from "../../../reducers/view.settings.reducer";
 import {NotificationsReducerState} from "../../../interfaces/notification.interface";
-import {ViewSettings, ViewSettingsState} from "../../../interfaces/view.settings.interface";
+import {ViewSettingsState} from "../../../interfaces/view.settings.interface";
 import FlexGridDashboard from "../../../components/layout/flex.grid.dashboard";
 import NotificationsList from "../../../components/notifications.list";
 import {useAuth0} from "@auth0/auth0-react";
@@ -13,23 +13,20 @@ interface UserMessengerProps {
     viewSettings: ViewSettingsState,
     location: any,
     notifications: NotificationsReducerState,
-    updateViewSettingsAction: any,
+    updateNotificationsCountAction: any,
     path: any
 }
 
 
 const UserMessengerRoute = (
-    {windowSize, viewSettings, location, notifications, updateViewSettingsAction, ...rest}: UserMessengerProps
+    {windowSize, viewSettings, location, notifications, updateNotificationsCountAction, ...rest}: UserMessengerProps
 ) => {
 
-    const {user} = useAuth0();
+    const {getAccessTokenSilently} = useAuth0();
     const updateCount = (count: number) => {
-        const settings: ViewSettings = {
-            notificationsCount: count,
-            transactionsCount: viewSettings.transactionsCount,
-            currentSender: viewSettings.currentSender
-        };
-        updateViewSettingsAction(settings);
+        count < 20 && getAccessTokenSilently().then(token => {
+            updateNotificationsCountAction(token, count);
+        });
     };
 
     return (
@@ -62,7 +59,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-    updateViewSettingsAction
+    updateNotificationsCountAction
 };
 
 export default connect(

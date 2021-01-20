@@ -1,24 +1,24 @@
-
-import {ViewSettings, ViewSettingsAction, ViewSettingsState} from '../interfaces/view.settings.interface';
+import {ViewSettingsAction, ViewSettingsState} from '../interfaces/view.settings.interface';
 import {ActionTypes} from "../constants/action.types";
 
-const updateViewSettingsAction = (settings: ViewSettings): ViewSettingsAction => {
+const updateNotificationsCountAction = (token, count): ViewSettingsAction => {
     return {
-        type: ActionTypes.UPDATE_VIEW_SETTINGS,
+        type: ActionTypes.UPDATE_VIEW_SETTINGS_NOTIFICATIONS_COUNT,
+        params: {token, count},
         state: {
             loading: false,
             error: false,
-            ...settings,
+            notificationsCount: count,
         },
     };
 };
 
-export {updateViewSettingsAction};
+export {updateNotificationsCountAction};
 
 const viewSettingsInitState: ViewSettingsState = {
     loading: false,
     error: false,
-    notificationsCount: 5,
+    notificationsCount: 10,
     transactionsCount: 10,
     currentSender: "Notifications"
 };
@@ -28,7 +28,7 @@ const viewSettingsReducer = (
     action: ViewSettingsAction,
 ): ViewSettingsState => {
     switch (action.type) {
-        case ActionTypes.UPDATE_VIEW_SETTINGS:
+        case ActionTypes.UPDATE_VIEW_SETTINGS_NOTIFICATIONS_COUNT:
             return {...state, ...action.state};
         default:
             return {...state};

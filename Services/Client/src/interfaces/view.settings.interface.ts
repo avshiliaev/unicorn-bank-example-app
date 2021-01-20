@@ -1,8 +1,8 @@
 // General
 export interface ViewSettings {
-    notificationsCount: number
-    transactionsCount: number
-    currentSender: string
+    notificationsCount?: number
+    transactionsCount?: number
+    currentSender?: string
 }
 
 // View Reducer State

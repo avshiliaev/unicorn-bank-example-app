@@ -22,12 +22,6 @@ const UserSiderMenu = ({windowSize, location}) => {
                     <span>Profile</span>
                 </Link>
             </Menu.Item>
-            <Menu.Item key="statistics">
-                <Link to="statistics">
-                    <PieChartOutlined/>
-                    <span>Statistics</span>
-                </Link>
-            </Menu.Item>
             <Menu.Item key="messages">
                 <Link to="messages">
                     <ContainerOutlined/>

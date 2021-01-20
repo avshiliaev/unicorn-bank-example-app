@@ -28,14 +28,26 @@ const AccountPage = ({windowSize, viewSettings, id, children, getAccount, locati
         <Layout style={{minHeight: '100vh'}}>
             <HeaderBasic
                 windowSize={windowSize}
-                slotLeft={windowSize.large ? <AppLogo/> : <BasicDrawer><AccountSiderMenu/></BasicDrawer>}
+                slotLeft={
+                    windowSize.large
+                        ? <AppLogo/>
+                        : <BasicDrawer>
+                            <AccountSiderMenu location={location}/>
+                    </BasicDrawer>
+                }
                 slotMiddle={
                     <HeaderMenu windowSize={windowSize} location={location}/>
                 }
                 slotRight={<ProfileIcon id={user.sub} size={30} image={user.picture}/>}
             />
             <Layout>
-                {windowSize.large ? <SiderBasic><AccountSiderMenu/></SiderBasic> : <div/>}
+                {
+                    windowSize.large
+                        ? <SiderBasic>
+                            <AccountSiderMenu location={location}/>
+                    </SiderBasic>
+                        : <div/>
+                }
                 <Content style={{padding: windowSize.large ? 16 : 0}}>
                     {children}
                 </Content>

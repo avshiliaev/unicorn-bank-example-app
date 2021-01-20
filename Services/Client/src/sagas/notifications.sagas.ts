@@ -40,4 +40,5 @@ export function* getNotificationsSaga(action) {
 
 export function* getNotificationsWatcher() {
     yield takeLatest(ActionTypes.QUERY_NOTIFICATIONS, getNotificationsSaga);
+    yield takeLatest(ActionTypes.UPDATE_VIEW_SETTINGS_NOTIFICATIONS_COUNT, getNotificationsSaga);
 }
