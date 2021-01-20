@@ -9,6 +9,7 @@ import DashboardOverviewRoute from './pages/dashboard/routes/dashboard.overview.
 import DashboardDiscoverRoute from './pages/dashboard/routes/dashboard.discover.route';
 import DashboardNewRoute from './pages/dashboard/routes/dashboard.new.route';
 import UserMessengerRoute from "./pages/user/routes/user.messenger.route";
+import AccountTransactionsRoute from "./pages/account/routes/account.transactions.route";
 
 const AppRoutes = () => {
 
@@ -22,6 +23,7 @@ const AppRoutes = () => {
             </DashboardPage>
             <AccountPage path="account/:id">
                 <AccountHomeRoute path="home"/>
+                <AccountTransactionsRoute path="transactions"/>
             </AccountPage>
             <UserPage path="user/:id">
                 <UserHomeRoute path="home"/>
