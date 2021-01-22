@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Notifications.Extensions;
 using Notifications.Handlers;
@@ -36,6 +37,7 @@ namespace Notifications
                 .AddBusinessLogicManagers()
                 .AddMessageBus<NotificationsSubscriptionsHandler>(_configuration)
                 .AddSignalR();
+            services.AddHealthChecks().AddCheck("alive", () => HealthCheckResult.Healthy());
             
             services.Configure<ForwardedHeadersOptions>(options =>
             {
@@ -63,7 +65,12 @@ namespace Notifications
                 .UseAuthentication()
                 .UseAuthorization()
                 .UseHttpsRedirection()
-                .UseEndpoints(endpoints => { endpoints.MapHub<NotificationsHub>("/notifications"); });
+                .UseEndpoints(
+                    endpoints =>
+                    {
+                        endpoints.MapHub<NotificationsHub>("/notifications");
+                        endpoints.MapHealthChecks("/health");
+                    });
             
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {

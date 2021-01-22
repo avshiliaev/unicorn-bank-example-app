@@ -34,7 +34,6 @@ namespace Approvals
         
         public virtual void ConfigureServices(IServiceCollection services)
         {
-            services.AddHealthChecks().AddCheck("alive", () => HealthCheckResult.Healthy());
             services
                 .AddCors()
                 .AddPostgreSql<ApprovalsRepository, ApprovalEntity, ApprovalsContext>(_configuration)
@@ -42,6 +41,7 @@ namespace Approvals
                 .AddBusinessLogicManagers()
                 .AddLicenseManager<LicenseManager, IAccountModel>()
                 .AddMessageBus<ApprovalsSubscriptionsHandler>(_configuration);
+            services.AddHealthChecks().AddCheck("alive", () => HealthCheckResult.Healthy());
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

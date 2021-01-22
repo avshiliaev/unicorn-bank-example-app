@@ -1,17 +1,17 @@
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Billings.Tests.Fixtures;
+using Notifications.Tests.Fixtures;
 using Sdk.Tests.Extensions;
 using Xunit;
 
-namespace Billings.Tests
+namespace Notifications.Tests
 {
-    public class BillingsStartupTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class NotificationsStartupTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         private readonly HttpClient _client;
 
-        public BillingsStartupTests(
+        public NotificationsStartupTests(
             CustomWebApplicationFactory<Startup> factory
         )
         {

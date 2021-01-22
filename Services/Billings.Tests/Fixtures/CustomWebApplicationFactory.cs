@@ -16,7 +16,7 @@ namespace Billings.Tests.Fixtures
                 services
                     .AddTestMessageBus<ITransactionModel>()
                     .AddTestAuthentication()
-                    .AddTestDataBaseContext<BillingsContext>();
+                    .AddTestSqlDataBaseContext<BillingsContext>();
             });
         }
     }

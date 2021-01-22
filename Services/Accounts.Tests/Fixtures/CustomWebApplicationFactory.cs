@@ -16,7 +16,7 @@ namespace Accounts.Tests.Fixtures
                 services
                     .AddTestMessageBus<IAccountModel>()
                     .AddTestAuthentication()
-                    .AddTestDataBaseContext<AccountsContext>();
+                    .AddTestSqlDataBaseContext<AccountsContext>();
             });
         }
     }

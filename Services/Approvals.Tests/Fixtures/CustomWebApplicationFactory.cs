@@ -18,7 +18,7 @@ namespace Approvals.Tests.Fixtures
                 services
                     .AddTestMessageBus<ITransactionModel>()
                     .AddTestAuthentication()
-                    .AddTestDataBaseContext<ApprovalsContext>();
+                    .AddTestSqlDataBaseContext<ApprovalsContext>();
             });
         }
     }

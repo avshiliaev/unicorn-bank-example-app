@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Profiles.Extensions;
 using Profiles.Handlers;
@@ -36,6 +37,7 @@ namespace Profiles
                 .AddBusinessLogicManagers()
                 .AddMessageBus<ProfilesSubscriptionsHandler>(_configuration)
                 .AddSignalR();
+            services.AddHealthChecks().AddCheck("alive", () => HealthCheckResult.Healthy());
             services.Configure<ForwardedHeadersOptions>(options =>
             {
                 options.KnownProxies.Add(IPAddress.Parse("10.0.0.100"));
@@ -60,7 +62,13 @@ namespace Profiles
                 .UseRouting()
                 .UseAuthentication()
                 .UseAuthorization()
-                .UseEndpoints(endpoints => { endpoints.MapHub<ProfilesHub>("/profiles"); });
+                .UseEndpoints(
+                    endpoints =>
+                    {
+                        endpoints.MapHub<ProfilesHub>("/profiles");
+                        endpoints.MapHealthChecks("/health");
+                    }
+                );
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto

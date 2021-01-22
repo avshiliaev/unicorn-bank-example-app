@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Sdk.Api.Extensions;
 using Sdk.Auth.Extensions;
@@ -32,6 +33,7 @@ namespace Accounts
         public virtual void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddHealthChecks().AddCheck("alive", () => HealthCheckResult.Healthy());
             services
                 .AddCors()
                 .AddPostgreSql<AccountsRepository, AccountEntity, AccountsContext>(_configuration)
@@ -65,7 +67,11 @@ namespace Accounts
                 .UseAuthentication()
                 .UseAuthorization()
                 .UseEndpoints(
-                    endpoints => { endpoints.MapControllers(); }
+                    endpoints =>
+                    {
+                        endpoints.MapControllers();
+                        endpoints.MapHealthChecks("/health");
+                    }
                 )
                 .UpdateDatabase<AccountsContext>();
 

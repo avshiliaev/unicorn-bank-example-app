@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Sdk.Api.Dto;
 using Sdk.Api.Interfaces;
 using Sdk.Tests.Extensions;
-using Transactions.Persistence;
 
-namespace Transactions.Tests.Fixtures
+namespace Profiles.Tests.Fixtures
 {
     public class CustomWebApplicationFactory<TStartup>
         : WebApplicationFactory<TStartup> where TStartup : class
@@ -14,9 +14,9 @@ namespace Transactions.Tests.Fixtures
             builder.ConfigureServices(services =>
             {
                 services
-                    .AddTestMessageBus<ITransactionModel>()
+                    .AddTestMessageBus<IProfileModel<TransactionDto>>()
                     .AddTestAuthentication()
-                    .AddTestSqlDataBaseContext<TransactionsContext>();
+                    .AddTestMongoDataBaseContext();
             });
         }
     }

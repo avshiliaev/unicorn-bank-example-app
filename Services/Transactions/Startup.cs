@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Sdk.Api.Extensions;
 using Sdk.Api.Interfaces;
@@ -45,6 +46,7 @@ namespace Transactions
                 .AddBusinessLogicManagers()
                 .AddLicenseManager<LicenseManager, ITransactionModel>()
                 .AddMessageBus<TransactionsSubscriptionsHandler>(_configuration);
+            services.AddHealthChecks().AddCheck("alive", () => HealthCheckResult.Healthy());
             
             services.Configure<ForwardedHeadersOptions>(options =>
             {
@@ -72,7 +74,11 @@ namespace Transactions
                 .UseAuthentication()
                 .UseAuthorization()
                 .UseEndpoints(
-                    endpoints => { endpoints.MapControllers(); }
+                    endpoints =>
+                    {
+                        endpoints.MapControllers();
+                        endpoints.MapHealthChecks("/health");
+                    }
                 )
                 .UpdateDatabase<TransactionsContext>();
             

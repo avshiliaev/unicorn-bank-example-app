@@ -18,6 +18,22 @@ namespace Accounts.Tests.Controllers
         {
             _client = factory.GetTestHttpClientClient();
         }
+        
+        [Fact]
+        public async Task Should_ResponseToHealthCheck()
+        {
+            // Arrange
+            var requestUrl = "/health";
+
+            // Act
+            var response = await _client.GetAsync(requestUrl);
+
+            // Assert
+            Assert.True(
+                response.StatusCode == HttpStatusCode.OK || 
+                response.StatusCode == HttpStatusCode.ServiceUnavailable
+            );
+        }
 
         [Fact]
         public async Task ShouldNot_GetAsync_Invalid()

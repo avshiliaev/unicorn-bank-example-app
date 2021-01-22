@@ -7,7 +7,7 @@ namespace Sdk.Tests.Extensions
 {
     public static class ConfigureTestDataBase
     {
-        public static IServiceCollection AddTestDataBaseContext<TContext>(this IServiceCollection services)
+        public static IServiceCollection AddTestSqlDataBaseContext<TContext>(this IServiceCollection services)
             where TContext : DbContext
         {
             services.Remove(services.SingleOrDefault(
@@ -33,6 +33,11 @@ namespace Sdk.Tests.Extensions
                 db.Database.EnsureCreated();
             }
 
+            return services;
+        }
+
+        public static IServiceCollection AddTestMongoDataBaseContext(this IServiceCollection services)
+        {
             return services;
         }
     }
