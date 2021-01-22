@@ -1,47 +1,33 @@
-using MongoDB.Bson;
+using MongoDB.Driver;
+using Sdk.Persistence.Interfaces;
 
 namespace Sdk.Persistence.Extensions
 {
     public static class MongoDbPipelineBuilder
     {
-        public static BsonDocument[] ToMongoPipelineMatchMany(this string profileId)
+        public static PipelineDefinition<ChangeStreamDocument<TEntity>, ChangeStreamDocument<TEntity>>
+            ToMongoPipelineMatchMany<TEntity>(
+                this string profileId
+            ) where TEntity : class, IMongoEntity
         {
-            var match = new BsonDocument 
-            { 
-                { 
-                    "$match", 
-                    new BsonDocument 
-                    { 
-                        {"ProfileId", $"'{profileId}'"} 
-                    } 
-                }
-            };
-
-            return new []{match};
+            return new EmptyPipelineDefinition<ChangeStreamDocument<TEntity>>()
+                .Match(change =>
+                    change.FullDocument.ProfileId == profileId &&
+                    change.OperationType == ChangeStreamOperationType.Update
+                );
         }
 
-        public static BsonDocument[] ToMongoPipelineMatchSingle(this string profileId, string accountId)
+        public static PipelineDefinition<ChangeStreamDocument<TEntity>, ChangeStreamDocument<TEntity>>
+            ToMongoPipelineMatchSingle<TEntity>(
+                this string profileId, string accountId
+            ) where TEntity : class, IMongoEntity
         {
-            // var pipeline = $"$and: [{{ ProfileId: '{profileId}' }}, {{ AccountId: '{accountId}' }}]";
-            var match = new BsonDocument 
-            { 
-                { 
-                    "$match", 
-                    new BsonDocument 
-                    {
-                        {
-                            "$and", 
-                            new BsonArray
-                            {
-                                new BsonDocument{{ "ProfileId", $"'{profileId}'" }}, 
-                                new BsonDocument{{ "AccountId", $"'{accountId}'" }}
-                            }
-                        } 
-                    } 
-                }
-            };
-
-            return new []{match};
+            return new EmptyPipelineDefinition<ChangeStreamDocument<TEntity>>()
+                .Match(change =>
+                    change.FullDocument.ProfileId == profileId &&
+                    change.FullDocument.AccountId == accountId &&
+                    change.OperationType == ChangeStreamOperationType.Update
+                );
         }
     }
 }

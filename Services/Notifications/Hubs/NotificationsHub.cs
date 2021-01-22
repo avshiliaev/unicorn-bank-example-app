@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 using Notifications.Interfaces;
 using Notifications.Mappers;
+using Notifications.Persistence.Entities;
 using Sdk.Api.Dto;
 using Sdk.Auth.Extensions;
 using Sdk.Persistence.Extensions;
@@ -39,8 +40,8 @@ namespace Notifications.Hubs
                 .ToList();
             await Clients.All.SendAsync("ResponseAll", notificationsDto);
 
-            var pipeline = profileId.ToMongoPipelineMatchMany();
-            var enumerator = _notificationsService.SubscribeToChanges(pipeline);
+            var pipeline = profileId.ToMongoPipelineMatchMany<NotificationEntity>();
+            var enumerator = _notificationsService.SubscribeToChangesMany(pipeline);
             while (enumerator.MoveNext())
                 if (enumerator.Current != null)
                     await Clients.All.SendAsync(

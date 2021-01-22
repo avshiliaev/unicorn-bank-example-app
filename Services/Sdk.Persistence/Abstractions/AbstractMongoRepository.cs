@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -71,7 +70,9 @@ namespace Sdk.Persistence.Abstractions
             return result.IsAcknowledged;
         }
 
-        public IEnumerator<ChangeStreamDocument<TEntity>> SubscribeToChangesStreamMany(BsonDocument[] pipeline)
+        public IEnumerator<ChangeStreamDocument<TEntity>> SubscribeToChangesStreamMany(
+            PipelineDefinition<ChangeStreamDocument<TEntity>, ChangeStreamDocument<TEntity>> pipeline
+            )
         {
             if (pipeline == null) return null;
 
@@ -80,30 +81,7 @@ namespace Sdk.Persistence.Abstractions
                 FullDocument = ChangeStreamFullDocumentOption.UpdateLookup
             };
             
-            var match = new BsonDocument 
-            { 
-                { 
-                    "$match", 
-                    new BsonDocument 
-                    {
-                        {
-                            "operationType", 
-                            new BsonDocument
-                            {
-                                {"$in", new BsonArray
-                                {
-                                    // {"insert"}, 
-                                    {"update"}, 
-                                    // {"replace"}
-                                }}
-                            }
-                        } 
-                    } 
-                }
-            };
-
-            var fullPipeline = new[] {match}.Concat(pipeline).ToArray();
-            var cursor = _mongoCollection.Watch<ChangeStreamDocument<TEntity>>(fullPipeline, options);
+            var cursor = _mongoCollection.Watch(pipeline, options);
             var enumerator = cursor.ToEnumerable().GetEnumerator();
             return enumerator;
         }

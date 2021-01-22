@@ -18,6 +18,8 @@ namespace Sdk.Persistence.Interfaces
         TEntity Update(FilterDefinition<TEntity> filter, UpdateDefinition<TEntity> updateDefinition);
         TEntity Remove(TEntity entityIn);
         bool Remove(string id);
-        IEnumerator<ChangeStreamDocument<TEntity>> SubscribeToChangesStreamMany(BsonDocument[] pipeline);
+        IEnumerator<ChangeStreamDocument<TEntity>> SubscribeToChangesStreamMany(
+            PipelineDefinition<ChangeStreamDocument<TEntity>, ChangeStreamDocument<TEntity>> pipeline
+            );
     }
 }

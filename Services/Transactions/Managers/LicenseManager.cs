@@ -19,6 +19,8 @@ namespace Transactions.Managers
         public override async Task<bool> EvaluateNewEntityAsync(ITransactionModel model)
         {
             var account = await _accountsService.GetAccountByIdAsync(model.AccountId.ToGuid());
+            if (account == null)
+                return false;
             return !account.IsBlocked();
         }
 

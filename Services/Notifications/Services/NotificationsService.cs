@@ -41,7 +41,11 @@ namespace Notifications.Services
             return _mongoRepository.Create(entity);
         }
 
-        public IEnumerator<ChangeStreamDocument<NotificationEntity>> SubscribeToChanges(BsonDocument[] pipeline)
+        public IEnumerator<ChangeStreamDocument<NotificationEntity>> SubscribeToChangesMany(
+            PipelineDefinition<
+                ChangeStreamDocument<NotificationEntity>, ChangeStreamDocument<NotificationEntity>
+            > pipeline
+        )
         {
             return _mongoRepository.SubscribeToChangesStreamMany(pipeline)!;
         }

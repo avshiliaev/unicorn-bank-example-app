@@ -136,7 +136,9 @@ namespace Profiles.Services
             }
         }
 
-        public IEnumerator<ChangeStreamDocument<ProfileEntity>> SubscribeToChangesMany(BsonDocument[] pipeline)
+        public IEnumerator<ChangeStreamDocument<ProfileEntity>> SubscribeToChangesMany(
+            PipelineDefinition<ChangeStreamDocument<ProfileEntity>, ChangeStreamDocument<ProfileEntity>> pipeline
+        )
         {
             return _mongoRepository.SubscribeToChangesStreamMany(pipeline)!;
         }

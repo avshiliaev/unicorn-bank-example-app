@@ -15,6 +15,7 @@ namespace Notifications.Persistence.Entities
 
         // Foreign Properties
         public string ProfileId { get; set; }
+        public string AccountId { get; set; }
 
         // Common entity
         [BsonId]
