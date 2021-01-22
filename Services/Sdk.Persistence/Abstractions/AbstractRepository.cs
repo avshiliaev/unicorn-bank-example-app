@@ -39,7 +39,7 @@ namespace Sdk.Persistence.Abstractions
 
         public async Task<TEntity> GetOneByParameterAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await _context.Set<TEntity>().Where(predicate).SingleAsync();
+            return await _context.Set<TEntity>().Where(predicate).SingleOrDefaultAsync();
         }
 
         public async Task<IEnumerable<TEntity>> GetManyByParameterAsync(Expression<Func<TEntity, bool>> predicate)

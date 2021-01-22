@@ -6,6 +6,9 @@ import {AccountReducerState} from '../../../interfaces/account.interface';
 import CommonBalance from '../../../components/common.balance';
 import LoadingFullScreen from "../../../components/loading.full.screen";
 import TransactionsLinePlot from "../../../components/line.plot";
+import AppLogo from "../../../components/logo.icon";
+import FlexContainer from "../../../components/layout/flex.container";
+import {Empty} from "antd";
 
 
 interface AccountHomeProps {
@@ -23,7 +26,9 @@ const AccountHomeRoute = ({windowSize, location, account, ...rest}: AccountHomeP
                 breadCrumbs={<BreadCrumbBasic location={location}/>}
                 windowSize={windowSize}
                 slotOne={
-                    <TransactionsLinePlot transactions={account.data.transactions}/>
+                    account.data.transactions.length > 0 ?
+                        <TransactionsLinePlot transactions={account.data.transactions}/> :
+                            <Empty/>
                 }
                 slotTwo={
                     <CommonBalance value={account.data.balance}/>

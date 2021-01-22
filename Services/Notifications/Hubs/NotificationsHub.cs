@@ -38,13 +38,13 @@ namespace Notifications.Hubs
             var notificationsDto = notifications
                 .Select(n => n.ToNotificationsModel<NotificationDto>())
                 .ToList();
-            await Clients.All.SendAsync("ResponseAll", notificationsDto);
+            await Clients.Caller.SendAsync("ResponseAll", notificationsDto);
 
             var pipeline = profileId.ToMongoPipelineMatchMany<NotificationEntity>();
             var enumerator = _notificationsService.SubscribeToChangesMany(pipeline);
             while (enumerator.MoveNext())
                 if (enumerator.Current != null)
-                    await Clients.All.SendAsync(
+                    await Clients.Caller.SendAsync(
                         "ResponseAll",
                         enumerator.Current.FullDocument.ToNotificationsModel<NotificationDto>()
                     );

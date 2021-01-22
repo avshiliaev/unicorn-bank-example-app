@@ -39,13 +39,13 @@ namespace Profiles.Hubs
             var profilesDto = profiles
                 .Select(n => n?.ToProfileDto())
                 .ToList();
-            await Clients.All.SendAsync("ResponseAll", profilesDto);
+            await Clients.Caller.SendAsync("ResponseAll", profilesDto);
 
             var pipeline = profileId.ToMongoPipelineMatchMany<ProfileEntity>();
             var enumerator = _profilesService.SubscribeToChangesMany(pipeline);
             while (enumerator.MoveNext())
                 if (enumerator.Current != null)
-                    await Clients.All.SendAsync(
+                    await Clients.Caller.SendAsync(
                         "ResponseAll",
                         new List<ProfileDto>(){enumerator.Current.FullDocument.ToProfileDto()}
                     );
@@ -60,13 +60,13 @@ namespace Profiles.Hubs
             );
             // TODO: filter transactions
             
-            await Clients.All.SendAsync("ResponseOne", profile?.ToProfileDto());
+            await Clients.Caller.SendAsync("ResponseOne", profile?.ToProfileDto());
 
             var pipeline = profileId.ToMongoPipelineMatchSingle<ProfileEntity>(accountId);
             var enumerator = _profilesService.SubscribeToChangesMany(pipeline);
             while (enumerator.MoveNext())
                 if (enumerator.Current != null)
-                    await Clients.All.SendAsync(
+                    await Clients.Caller.SendAsync(
                         "ResponseOne",
                         enumerator.Current.FullDocument.ToProfileDto()
                     );
