@@ -6,8 +6,10 @@ using Billings.Persistence.Entities;
 using Billings.Persistence.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Sdk.Api.Extensions;
 using Sdk.Api.Interfaces;
@@ -31,7 +33,7 @@ namespace Billings
 
         public virtual void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddHealthChecks().AddCheck("alive", () => HealthCheckResult.Healthy());
             services
                 .AddCors()
                 .AddPostgreSql<BillingsRepository, BillingEntity, BillingsContext>(_configuration)
@@ -58,6 +60,7 @@ namespace Billings
                 .ConfigureExceptionHandler()
                 .UseHttpsRedirection()
                 .UseRouting()
+                .UseEndpoints(endpoints => { endpoints.MapHealthChecks("/health"); })
                 .UpdateDatabase<BillingsContext>();
         }
     }
