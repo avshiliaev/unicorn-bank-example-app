@@ -2,7 +2,7 @@ import React from 'react';
 import {Avatar, Badge, Descriptions, List, Space, Statistic} from 'antd';
 import {Link} from '@reach/router';
 import {AccountInterface} from '../interfaces/account.interface';
-import {CheckCircleOutlined, SyncOutlined} from '@ant-design/icons';
+import {CheckCircleOutlined, CloseCircleOutlined, SyncOutlined} from '@ant-design/icons';
 
 const AccountAvatar = ({badgeNumber, text}) => {
 
@@ -24,11 +24,19 @@ const AccountAmount = ({value}) => {
     );
 };
 
-const AccountTitle = ({approved, link, title}) => {
+const AccountTitle = ({approved, pending, blocked, link, title}) => {
     return (
         <Space>
             <Link to={link}>{title}</Link>
-            {approved ? <CheckCircleOutlined/> : <SyncOutlined spin/>}
+            {
+                approved
+                    ? <CheckCircleOutlined/>
+                    : pending
+                    ? <SyncOutlined spin/>
+                    : blocked
+                        ? <CloseCircleOutlined/>
+                        : <CloseCircleOutlined/>
+            }
         </Space>
     );
 };
@@ -51,14 +59,22 @@ const AccountsList = ({accounts, windowSize, loading}: Props) => {
                 renderItem={account => {
                     const link = `/account/${account.accountId}/home`;
                     const description = account.accountId;
-                    const approved = account.approved;
+                    const {approved, pending, blocked} = account;
                     return (
                         <List.Item actions={[
                             <AccountAmount value={account.balance}/>,
                         ]}>
                             <List.Item.Meta
                                 avatar={<AccountAvatar text={'G'} badgeNumber={account.transactions?.length}/>}
-                                title={<AccountTitle approved={approved} link={link} title={'GiroX Konto+'}/>}
+                                title={
+                                    <AccountTitle
+                                        approved={approved}
+                                        pending={pending}
+                                        blocked={blocked}
+                                        link={link}
+                                        title={'GiroX Konto+'}
+                                    />
+                                }
                                 description={description}
                             />
                         </List.Item>

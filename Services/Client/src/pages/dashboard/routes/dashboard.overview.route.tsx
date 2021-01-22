@@ -9,6 +9,7 @@ import {NotificationsReducerState} from '../../../interfaces/notification.interf
 import {ViewSettingsState} from '../../../interfaces/view.settings.interface';
 import {useAuth0} from "@auth0/auth0-react";
 import DemoPlaceHolder from "../../../components/demo.placeholder";
+import {Environment} from "../../../constants/environment";
 
 interface DashboardOverviewProps {
     windowSize: any,
@@ -28,7 +29,22 @@ const DashboardOverviewRoute = (
         ...rest
     }: DashboardOverviewProps) => {
 
-    const {user} = useAuth0();
+    const {user, getAccessTokenSilently} = useAuth0();
+
+    const beUrl: string = Environment.PATHS_WS;
+    const url = `${beUrl}/api/accounts`
+
+    const createAccount = async () => {
+        const token = await getAccessTokenSilently();
+        const response = await fetch(url, {
+            method: 'get',
+            headers: new Headers({
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            })
+        });
+        console.log(response);
+    };
 
     const balance = accountsOverview.data.length ? accountsOverview.data
         .map(acc => acc.balance)
@@ -39,7 +55,7 @@ const DashboardOverviewRoute = (
             <FlexGridDashboard
                 windowSize={windowSize}
                 slotOne={<ProfileStats user={user} balance={balance} windowSize={windowSize}/>}
-                slotTwo={<AccountsActions/>}
+                slotTwo={<AccountsActions handleClick={createAccount}/>}
                 slotThree={<DemoPlaceHolder/>}
                 mainContent={
                     <AccountsList

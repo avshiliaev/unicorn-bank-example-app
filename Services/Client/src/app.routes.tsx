@@ -7,7 +7,6 @@ import AccountHomeRoute from './pages/account/routes/account.home.route';
 import UserHomeRoute from './pages/user/routes/user.home.route';
 import DashboardOverviewRoute from './pages/dashboard/routes/dashboard.overview.route';
 import DashboardDiscoverRoute from './pages/dashboard/routes/dashboard.discover.route';
-import DashboardNewRoute from './pages/dashboard/routes/dashboard.new.route';
 import UserMessengerRoute from "./pages/user/routes/user.messenger.route";
 import AccountTransactionsRoute from "./pages/account/routes/account.transactions.route";
 
@@ -19,7 +18,6 @@ const AppRoutes = () => {
             <DashboardPage path="dashboard">
                 <DashboardOverviewRoute default path="home"/>
                 <DashboardDiscoverRoute path="discover"/>
-                <DashboardNewRoute path="new"/>
             </DashboardPage>
             <AccountPage path="account/:id">
                 <AccountHomeRoute path="home"/>

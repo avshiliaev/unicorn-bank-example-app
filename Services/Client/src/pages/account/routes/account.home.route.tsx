@@ -6,8 +6,6 @@ import {AccountReducerState} from '../../../interfaces/account.interface';
 import CommonBalance from '../../../components/common.balance';
 import LoadingFullScreen from "../../../components/loading.full.screen";
 import TransactionsLinePlot from "../../../components/line.plot";
-import AppLogo from "../../../components/logo.icon";
-import FlexContainer from "../../../components/layout/flex.container";
 import {Empty} from "antd";
 
 
@@ -28,7 +26,7 @@ const AccountHomeRoute = ({windowSize, location, account, ...rest}: AccountHomeP
                 slotOne={
                     account.data.transactions.length > 0 ?
                         <TransactionsLinePlot transactions={account.data.transactions}/> :
-                            <Empty/>
+                        <Empty/>
                 }
                 slotTwo={
                     <CommonBalance value={account.data.balance}/>
