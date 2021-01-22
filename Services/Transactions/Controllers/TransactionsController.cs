@@ -31,13 +31,13 @@ namespace Transactions.Controllers
             _httpContextAccessor = httpContextAccessor;
         }
 
-        [HttpPost("")]
+        [HttpGet("")]
         [Authorize("write:transactions")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<TransactionDto>> CreateNewTransaction(
-            [FromBody] TransactionViewModel transactionViewModel
+            [FromQuery] TransactionViewModel transactionViewModel
         )
         {
             if (!ModelState.IsValid) return BadRequest();
