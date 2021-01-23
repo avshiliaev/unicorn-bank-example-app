@@ -47,13 +47,11 @@ namespace Approvals.Tests.Managers
         {
             var publishEndpoint = new PublishEndpointMockFactory<IAccountModel>().GetInstance();
             var approvalsRepositoryMock = new RepositoryMockFactory<ApprovalEntity>(_approvalEntities).GetInstance();
-            var licenseManagerMock = new LicenseManagerMockFactory<IAccountModel>().GetInstance();
 
             _manager = new ApprovalsManager(
                 new Mock<ILogger<ApprovalsManager>>().Object,
                 new ApprovalsService(approvalsRepositoryMock.Object),
-                publishEndpoint.Object,
-                licenseManagerMock.Object
+                publishEndpoint.Object
             );
         }
 
@@ -72,7 +70,7 @@ namespace Approvals.Tests.Managers
             };
             accountCheckCommand.SetPending();
             var accountIsCheckedEvent = await _manager
-                .EvaluateAccountPendingAsync(accountCheckCommand);
+                .ApproveAccountAsync(accountCheckCommand);
             Assert.NotNull(accountIsCheckedEvent);
             Assert.True(accountIsCheckedEvent.IsApproved());
         }
@@ -83,7 +81,7 @@ namespace Approvals.Tests.Managers
             var accountCheckCommand = new AccountCheckCommand();
             accountCheckCommand.SetPending();
             var accountIsCheckedEvent = await _manager
-                .EvaluateAccountPendingAsync(accountCheckCommand);
+                .ApproveAccountAsync(accountCheckCommand);
             Assert.Null(accountIsCheckedEvent);
         }
 
@@ -103,7 +101,7 @@ namespace Approvals.Tests.Managers
             };
             accountCheckCommand.SetApproval();
             var accountIsCheckedEvent = await _manager
-                .EvaluateAccountRunningAsync(accountCheckCommand);
+                .BlockAccountAsync(accountCheckCommand);
             Assert.NotNull(accountIsCheckedEvent);
         }
 
@@ -113,7 +111,7 @@ namespace Approvals.Tests.Managers
             var accountCheckCommand = new AccountCheckCommand();
             accountCheckCommand.SetApproval();
             var accountIsCheckedEvent = await _manager
-                .EvaluateAccountRunningAsync(accountCheckCommand);
+                .BlockAccountAsync(accountCheckCommand);
             Assert.Null(accountIsCheckedEvent);
         }
 

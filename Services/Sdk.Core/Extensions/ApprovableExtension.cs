@@ -12,6 +12,13 @@ namespace Sdk.Extensions
                 return false;
             return true;
         }
+        
+        public static bool IsPending(this IApprovable approvable)
+        {
+            if (!approvable.Pending)
+                return false;
+            return true;
+        }
 
         public static bool IsBlocked(this IApprovable approvable)
         {
