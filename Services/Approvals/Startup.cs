@@ -38,6 +38,7 @@ namespace Approvals
                 .AddCors()
                 .AddPostgreSql<ApprovalsRepository, ApprovalEntity, ApprovalsContext>(_configuration)
                 .AddDataAccessServices()
+                .AddStateMachine()
                 .AddBusinessLogicManagers()
                 .AddLicenseManager<LicenseManager, IAccountModel>()
                 .AddMessageBus<ApprovalsSubscriptionsHandler>(_configuration);
