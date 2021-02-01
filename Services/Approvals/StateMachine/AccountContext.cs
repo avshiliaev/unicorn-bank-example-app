@@ -53,6 +53,12 @@ namespace Approvals.StateMachine
             TransitionTo(state);
             return this;
         }
+        
+        public void TransitionTo(AbstractState state)
+        {
+            _state = state;
+            _state.SetAccount(this);
+        }
 
         public Type GetCurrentState()
         {
@@ -76,16 +82,13 @@ namespace Approvals.StateMachine
 
         public async Task CheckLicense()
         {
-            await _state.HandleCheckLicense(
-                _approvalsManager,
-                _licenseManager
-            );
+            await _state.HandleCheckLicense(_licenseManager);
         }
-
-        public void TransitionTo(AbstractState state)
+        
+        public async Task PreserveStateAndPublishEvent()
         {
-            _state = state;
-            _state.SetAccount(this);
+            await _state.HandlePreserveStateAndPublishEvent(_approvalsManager);
         }
+        
     }
 }

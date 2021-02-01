@@ -14,5 +14,6 @@ namespace Approvals.Interfaces
         void CheckDenied();
         void CheckApproved();
         Task CheckLicense();
+        Task PreserveStateAndPublishEvent();
     }
 }

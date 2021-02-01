@@ -54,67 +54,24 @@ namespace Approvals.Tests.Managers
                 publishEndpoint.Object
             );
         }
-
-        # region EvaluateAccountPendingAsync
-
+        
         [Fact]
         public async void Should_EvaluateAccountPendingAsync_Valid()
         {
             var accountCheckCommand = new AccountCheckCommand
             {
                 Version = 0,
-                Id = 1.ToGuid().ToString(),
-                Balance = 0f,
-                ProfileId = "awesome",
-                Approved = false
-            };
-            accountCheckCommand.SetPending();
-            var accountIsCheckedEvent = await _manager
-                .ApproveAccountAsync(accountCheckCommand);
-            Assert.NotNull(accountIsCheckedEvent);
-            Assert.True(accountIsCheckedEvent.IsApproved());
-        }
-
-        [Fact]
-        public async void ShouldNot_EvaluateAccountPendingAsync_Invalid()
-        {
-            var accountCheckCommand = new AccountCheckCommand();
-            accountCheckCommand.SetPending();
-            var accountIsCheckedEvent = await _manager
-                .ApproveAccountAsync(accountCheckCommand);
-            Assert.Null(accountIsCheckedEvent);
-        }
-
-        # endregion
-
-        # region EvaluateAccountRunningAsync
-
-        [Fact]
-        public async void Should_EvaluateAccountRunningAsync_Valid()
-        {
-            var accountCheckCommand = new AccountCheckCommand
-            {
-                Version = 0,
-                Id = 1.ToGuid().ToString(),
+                Id = 99.ToGuid().ToString(),
                 Balance = 0f,
                 ProfileId = "awesome"
             };
-            accountCheckCommand.SetApproved();
+            accountCheckCommand.SetPending();
+            
             var accountIsCheckedEvent = await _manager
-                .BlockAccountAsync(accountCheckCommand);
+                .CreateOrUpdateStateAsyncAsync(accountCheckCommand);
             Assert.NotNull(accountIsCheckedEvent);
+            Assert.True(accountIsCheckedEvent.IsPending());
         }
 
-        [Fact]
-        public async void ShouldNot_EvaluateAccountRunningAsync_Invalid()
-        {
-            var accountCheckCommand = new AccountCheckCommand();
-            accountCheckCommand.SetApproved();
-            var accountIsCheckedEvent = await _manager
-                .BlockAccountAsync(accountCheckCommand);
-            Assert.Null(accountIsCheckedEvent);
-        }
-
-        # endregion
     }
 }

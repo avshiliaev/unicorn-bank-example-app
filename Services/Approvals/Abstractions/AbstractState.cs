@@ -44,12 +44,9 @@ namespace Approvals.Abstractions
 
         public abstract void HandleCheckBlocked();
         public abstract void HandleCheckDenied();
-
         public abstract void HandleCheckApproved();
+        public abstract Task HandleCheckLicense(ILicenseManager<IAccountModel> licenseManager);
+        public abstract Task HandlePreserveStateAndPublishEvent(IApprovalsManager approvalsManager);
 
-        public abstract Task HandleCheckLicense(
-            IApprovalsManager approvalsManager,
-            ILicenseManager<IAccountModel> licenseManager
-        );
     }
 }

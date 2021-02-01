@@ -6,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using Sdk.Api.Events.Local;
 using Sdk.Api.Interfaces;
 using Sdk.Api.Validators;
-using Sdk.Extensions;
 
 namespace Approvals.Managers
 {
@@ -25,71 +24,20 @@ namespace Approvals.Managers
             _publishEndpoint = publishEndpoint;
         }
 
-        public async Task<IAccountModel?> ApproveAccountAsync(IAccountModel accountCheckCommand)
+        public async Task<IAccountModel?> CreateOrUpdateStateAsyncAsync(IAccountModel accountModel)
         {
-            if (!accountCheckCommand.IsValid())
-                return null;
-
-            accountCheckCommand.SetApproved();
-
-            var approvedEntity = await _approvalsService.CreateApprovalAsync(
-                accountCheckCommand.ToApprovalEntity()
-            );
-
-            if (approvedEntity == null)
-                return null;
-
-            await _publishEndpoint.Publish(
-                approvedEntity.ToAccountModel<AccountIsCheckedEvent>(accountCheckCommand)
-            );
-
-            return accountCheckCommand;
-        }
-
-        public async Task<IAccountModel?> DenyAccountAsync(IAccountModel accountCheckCommand)
-        {
-            if (!accountCheckCommand.IsValid())
-                return null;
-
-            accountCheckCommand.SetApproved();
-
-            var approvedEntity = await _approvalsService.CreateApprovalAsync(
-                accountCheckCommand.ToApprovalEntity()
-            );
-
-            if (approvedEntity == null)
-                return null;
-
-            await _publishEndpoint.Publish(
-                approvedEntity.ToAccountModel<AccountIsCheckedEvent>(accountCheckCommand)
-            );
-
-            return accountCheckCommand;
-        }
-
-        public async Task<IAccountModel?> BlockAccountAsync(IAccountModel accountCheckCommand)
-        {
-            if (!accountCheckCommand.IsValid())
-                return null;
-
-            var approvalRecord = await _approvalsService.GetOneByParameterAsync(
-                a => a != null && a.AccountId == accountCheckCommand.Id.ToGuid()
-            );
-
-            if (approvalRecord == null)
-                return null;
-
-            approvalRecord.SetBlocked();
+            if (!accountModel.IsValid())
+                return null!;
 
             var approvedEntity = await _approvalsService.UpdateApprovalAsync(
-                approvalRecord
+                accountModel.ToApprovalEntity()
             );
 
             if (approvedEntity == null)
                 return null;
 
             var accountIsCheckedEvent = approvedEntity.ToAccountModel<AccountIsCheckedEvent>(
-                accountCheckCommand
+                approvedEntity.ToAccountModel<AccountIsCheckedEvent>(accountModel)
             );
             await _publishEndpoint.Publish(accountIsCheckedEvent);
             return accountIsCheckedEvent;

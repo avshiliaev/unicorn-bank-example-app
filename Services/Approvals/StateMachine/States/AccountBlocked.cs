@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Approvals.Abstractions;
 using Approvals.Interfaces;
@@ -28,8 +29,7 @@ namespace Approvals.StateMachine.States
             // Remain in the current state.
         }
 
-        public override async Task HandleCheckLicense(IApprovalsManager approvalsManager,
-            ILicenseManager<IAccountModel> licenseManager)
+        public override async Task HandleCheckLicense(ILicenseManager<IAccountModel> licenseManager)
         {
             // Handle as blocked.
 
@@ -38,6 +38,11 @@ namespace Approvals.StateMachine.States
             if (isAllowed)
                 Context.TransitionTo(new AccountApproved());
             // Otherwise stay.
+        }
+
+        public override async Task HandlePreserveStateAndPublishEvent(IApprovalsManager approvalsManager)
+        {
+            await approvalsManager.CreateOrUpdateStateAsyncAsync(this);
         }
     }
 }
