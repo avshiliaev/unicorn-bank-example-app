@@ -41,7 +41,11 @@ namespace Approvals.StateMachine
 
         public AccountContext InitializeState(AbstractState state, IAccountModel accountModel)
         {
+            Id = accountModel.Id;
+            Version = accountModel.Version;
+            LastSequentialNumber = accountModel.LastSequentialNumber;
             Balance = accountModel.Balance;
+            ProfileId = accountModel.ProfileId;
             Approved = accountModel.Approved;
             Pending = accountModel.Pending;
             Blocked = accountModel.Blocked;
@@ -59,15 +63,20 @@ namespace Approvals.StateMachine
         {
             _state.HandleCheckBlocked();
         }
+        
+        public void CheckDenied()
+        {
+            _state.HandleCheckDenied();
+        }
 
         public void CheckPending()
         {
             _state.HandleCheckPending();
         }
 
-        public Task ProcessState()
+        public async Task CheckLicense()
         {
-            return _state.HandleProcessState(
+            await _state.HandleCheckLicense(
                 _approvalsManager,
                 _licenseManager
             );

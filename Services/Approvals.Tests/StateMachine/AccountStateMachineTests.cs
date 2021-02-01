@@ -62,6 +62,7 @@ namespace Approvals.Tests.StateMachine
             );
         }
         
+        # region Simple State Transform
         [Fact]
         public void Should_HandleStateBlocked_Valid()
         {
@@ -97,6 +98,7 @@ namespace Approvals.Tests.StateMachine
             
             _accountContext.InitializeState(new AccountPending(), accountCheckCommand);
             _accountContext.CheckBlocked();
+            _accountContext.CheckDenied();
             _accountContext.CheckPending();
             
             Assert.True(_accountContext.IsApproved());
@@ -113,10 +115,11 @@ namespace Approvals.Tests.StateMachine
                 ProfileId = "awesome",
                 Approved = false
             };
-            accountCheckCommand.SetPending();
+            accountCheckCommand.SetDenial();
             
             _accountContext.InitializeState(new AccountPending(), accountCheckCommand);
             _accountContext.CheckBlocked();
+            _accountContext.CheckDenied();
             _accountContext.CheckPending();
             
             Assert.True(!_accountContext.IsApproved());
@@ -137,10 +140,110 @@ namespace Approvals.Tests.StateMachine
             
             _accountContext.InitializeState(new AccountPending(), accountCheckCommand);
             _accountContext.CheckBlocked();
+            _accountContext.CheckDenied();
             _accountContext.CheckPending();
             
             Assert.True(_accountContext.IsPending());
         }
+        # endregion
+        
+        # region State Transform with license check
+        [Fact]
+        public void Should_HandleStateBlocked_License_Valid()
+        {
+            var accountCheckCommand = new AccountCheckCommand
+            {
+                Version = 0,
+                Id = 1.ToGuid().ToString(),
+                Balance = 0f,
+                ProfileId = "awesome",
+                Approved = false
+            };
+            accountCheckCommand.SetBlocked();
+            
+            _accountContext.InitializeState(new AccountPending(), accountCheckCommand);
+            _accountContext.CheckBlocked();
+            _accountContext.CheckDenied();
+            _accountContext.CheckPending();
+            
+            // The License check always returns true.
+            _accountContext.CheckLicense();
+            
+            Assert.True(_accountContext.IsApproved());
+        }
+        
+        [Fact]
+        public void Should_HandleStateApproved_License_Valid()
+        {
+            var accountCheckCommand = new AccountCheckCommand
+            {
+                Version = 0,
+                Id = 1.ToGuid().ToString(),
+                Balance = 0f,
+                ProfileId = "awesome",
+                Approved = false
+            };
+            accountCheckCommand.SetApproval();
+            
+            _accountContext.InitializeState(new AccountPending(), accountCheckCommand);
+            _accountContext.CheckBlocked();
+            _accountContext.CheckDenied();
+            _accountContext.CheckPending();
+            
+            // The License check always returns true.
+            _accountContext.CheckLicense();
+            
+            Assert.True(_accountContext.IsApproved());
+        }
+        
+        [Fact]
+        public void Should_HandleStateDenied_License_Valid()
+        {
+            var accountCheckCommand = new AccountCheckCommand
+            {
+                Version = 0,
+                Id = 1.ToGuid().ToString(),
+                Balance = 0f,
+                ProfileId = "awesome",
+                Approved = false
+            };
+            accountCheckCommand.SetDenial();
+            
+            _accountContext.InitializeState(new AccountPending(), accountCheckCommand);
+            _accountContext.CheckBlocked();
+            _accountContext.CheckDenied();
+            _accountContext.CheckPending();
+            
+            // The License check always returns true.
+            _accountContext.CheckLicense();
+            
+            Assert.True(_accountContext.IsApproved());
+        }
+        
+        [Fact]
+        public void Should_HandleStatePending_License_Valid()
+        {
+            var accountCheckCommand = new AccountCheckCommand
+            {
+                Version = 0,
+                Id = 1.ToGuid().ToString(),
+                Balance = 0f,
+                ProfileId = "awesome",
+                Approved = false
+            };
+            accountCheckCommand.SetPending();
+            
+            _accountContext.InitializeState(new AccountPending(), accountCheckCommand);
+            _accountContext.CheckBlocked();
+            _accountContext.CheckDenied();
+            _accountContext.CheckPending();
+            
+            // The License check always returns true.
+            _accountContext.CheckLicense();
+            
+            Assert.True(_accountContext.IsApproved());
+        }
+        # endregion
     }
 
 }

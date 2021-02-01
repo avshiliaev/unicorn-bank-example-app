@@ -39,7 +39,7 @@ namespace Transactions.Managers
             if (
                 string.IsNullOrEmpty(transactionModel.ProfileId) ||
                 transactionModel.AccountId == Guid.Empty.ToString() ||
-                !await _licenseManager.EvaluateNewEntityAsync(transactionModel)
+                !await _licenseManager.EvaluatePendingAsync(transactionModel)
             )
                 return null;
 

@@ -28,20 +28,14 @@ namespace Approvals.Abstractions
         public bool Pending { get; set; }
         public bool Blocked { get; set; }
 
-        public void SetAccount(AccountContext context)
-        {
-            Context = context;
-            Balance = context.Balance;
-            Approved = context.Approved;
-            Pending = context.Pending;
-            Blocked = context.Blocked;
-        }
+        public abstract void SetAccount(AccountContext context);
 
         public abstract void HandleCheckBlocked();
+        public abstract void HandleCheckDenied();
 
         public abstract void HandleCheckPending();
 
-        public abstract Task HandleProcessState(
+        public abstract Task HandleCheckLicense(
             IApprovalsManager approvalsManager,
             ILicenseManager<IAccountModel> licenseManager
         );

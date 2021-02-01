@@ -16,7 +16,7 @@ namespace Transactions.Managers
             _accountsService = accountsService;
         }
 
-        public override async Task<bool> EvaluateNewEntityAsync(ITransactionModel model)
+        public override async Task<bool> EvaluatePendingAsync(ITransactionModel model)
         {
             var account = await _accountsService.GetOneByParameterAsync(
                 a =>
@@ -28,7 +28,7 @@ namespace Transactions.Managers
             return !account.IsBlocked();
         }
 
-        public override Task<bool> EvaluateStateEntityAsync(ITransactionModel dataModel)
+        public override Task<bool> EvaluateNotPendingAsync(ITransactionModel dataModel)
         {
             throw new NotImplementedException();
         }

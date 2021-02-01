@@ -5,7 +5,7 @@ namespace Sdk.License.Interfaces
 {
     public interface ILicenseManager<TModel> where TModel : class, IDataModel
     {
-        Task<bool> EvaluateNewEntityAsync(TModel model);
-        Task<bool> EvaluateStateEntityAsync(TModel model);
+        Task<bool> EvaluatePendingAsync(TModel model);
+        Task<bool> EvaluateNotPendingAsync(TModel model);
     }
 }

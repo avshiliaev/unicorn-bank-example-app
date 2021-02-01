@@ -22,7 +22,7 @@ namespace Billings.Managers
             _billingsService = billingsService;
         }
 
-        public override async Task<bool> EvaluateNewEntityAsync(ITransactionModel transactionModel)
+        public override async Task<bool> EvaluatePendingAsync(ITransactionModel transactionModel)
         {
             var allTransactions = await _billingsService.GetManyByParameterAsync(
                 b =>
@@ -35,7 +35,7 @@ namespace Billings.Managers
             return transactionsToday < _maxTransactionsPerDay;
         }
 
-        public override Task<bool> EvaluateStateEntityAsync(ITransactionModel dataModel)
+        public override Task<bool> EvaluateNotPendingAsync(ITransactionModel dataModel)
         {
             throw new NotImplementedException();
         }

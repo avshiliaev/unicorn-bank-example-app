@@ -9,7 +9,8 @@ namespace Approvals.Interfaces
     {
         AccountContext InitializeState(AbstractState state, IAccountModel accountModel);
         void CheckBlocked();
+        void CheckDenied();
         void CheckPending();
-        Task ProcessState();
+        Task CheckLicense();
     }
 }

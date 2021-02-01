@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using Approvals.Interfaces;
-using Approvals.StateMachine;
 using Approvals.StateMachine.States;
 using MassTransit;
 using Microsoft.Extensions.Logging;
@@ -32,8 +31,9 @@ namespace Approvals.Handlers
 
             _accountContext.InitializeState(new AccountPending(), context.Message);
             _accountContext.CheckBlocked();
+            _accountContext.CheckDenied();
             _accountContext.CheckPending();
-            await _accountContext.ProcessState();
+            await _accountContext.CheckLicense();
         }
     }
 }

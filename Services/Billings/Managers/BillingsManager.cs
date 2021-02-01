@@ -36,7 +36,7 @@ namespace Billings.Managers
             )
                 return null;
 
-            var isTransactionAllowed = await _licenseManager.EvaluateNewEntityAsync(transactionCreatedEvent);
+            var isTransactionAllowed = await _licenseManager.EvaluatePendingAsync(transactionCreatedEvent);
 
             if (isTransactionAllowed)
                 transactionCreatedEvent.SetApproval();

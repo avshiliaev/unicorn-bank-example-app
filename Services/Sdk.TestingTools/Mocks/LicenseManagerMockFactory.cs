@@ -14,14 +14,14 @@ namespace Sdk.Tests.Mocks
             var licenseManager = new Mock<ILicenseManager<TModel>>();
             licenseManager
                 .Setup(
-                    p => p.EvaluateNewEntityAsync(
+                    p => p.EvaluatePendingAsync(
                         It.IsAny<TModel>()
                     )
                 )
                 .Returns(Task.FromResult(true));
             licenseManager
                 .Setup(
-                    p => p.EvaluateStateEntityAsync(
+                    p => p.EvaluateNotPendingAsync(
                         It.IsAny<TModel>()
                     )
                 )

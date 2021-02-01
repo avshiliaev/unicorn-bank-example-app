@@ -22,7 +22,7 @@ namespace Approvals.Managers
             _approvalsService = approvalsService;
         }
 
-        public override async Task<bool> EvaluateNewEntityAsync(IAccountModel accountModel)
+        public override async Task<bool> EvaluatePendingAsync(IAccountModel accountModel)
         {
             var allApprovals = await _approvalsService.GetManyByParameterAsync(
                 b =>
@@ -33,12 +33,12 @@ namespace Approvals.Managers
             return allApprovals.Count() <= _maxAccountPerUser;
         }
 
-        public override async Task<bool> EvaluateStateEntityAsync(IAccountModel accountModel)
+        public override Task<bool> EvaluateNotPendingAsync(IAccountModel accountModel)
         {
             if (accountModel.Balance <= _maxAccountUpperRange && accountModel.Balance >= _maxAccountLowerRange)
-                return true;
+                return Task.FromResult(true);
 
-            return false;
+            return Task.FromResult(false);
         }
     }
 }
