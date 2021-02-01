@@ -99,7 +99,7 @@ namespace Approvals.Tests.Managers
                 Balance = 0f,
                 ProfileId = "awesome"
             };
-            accountCheckCommand.SetApproval();
+            accountCheckCommand.SetApproved();
             var accountIsCheckedEvent = await _manager
                 .BlockAccountAsync(accountCheckCommand);
             Assert.NotNull(accountIsCheckedEvent);
@@ -109,7 +109,7 @@ namespace Approvals.Tests.Managers
         public async void ShouldNot_EvaluateAccountRunningAsync_Invalid()
         {
             var accountCheckCommand = new AccountCheckCommand();
-            accountCheckCommand.SetApproval();
+            accountCheckCommand.SetApproved();
             var accountIsCheckedEvent = await _manager
                 .BlockAccountAsync(accountCheckCommand);
             Assert.Null(accountIsCheckedEvent);

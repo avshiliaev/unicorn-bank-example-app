@@ -75,7 +75,7 @@ namespace Transactions.Tests.Managers
                 Id = 1.ToGuid().ToString(),
                 ProfileId = 1.ToGuid().ToString()
             };
-            transactionProcessedEvent.SetApproval();
+            transactionProcessedEvent.SetApproved();
             var updatedTransaction = await _manager.ProcessTransactionCheckedEventAsync(transactionProcessedEvent);
             Assert.NotNull(updatedTransaction);
             Assert.True(updatedTransaction.IsApproved());
@@ -103,7 +103,7 @@ namespace Transactions.Tests.Managers
                 Id = 99.ToGuid().ToString(),
                 ProfileId = 1.ToGuid().ToString()
             };
-            transactionProcessedEvent.SetApproval();
+            transactionProcessedEvent.SetApproved();
             var updatedTransaction = await _manager.ProcessTransactionCheckedEventAsync(transactionProcessedEvent);
             Assert.Null(updatedTransaction);
         }

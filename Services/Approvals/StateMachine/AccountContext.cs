@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Approvals.Abstractions;
 using Approvals.Interfaces;
@@ -52,26 +53,25 @@ namespace Approvals.StateMachine
             TransitionTo(state);
             return this;
         }
-        
-        public void TransitionTo(AbstractState state)
+
+        public Type GetCurrentState()
         {
-            _state = state;
-            _state.SetAccount(this);
+            return _state.GetType();
         }
-        
+
         public void CheckBlocked()
         {
             _state.HandleCheckBlocked();
         }
-        
+
         public void CheckDenied()
         {
             _state.HandleCheckDenied();
         }
 
-        public void CheckPending()
+        public void CheckApproved()
         {
-            _state.HandleCheckPending();
+            _state.HandleCheckApproved();
         }
 
         public async Task CheckLicense()
@@ -80,6 +80,12 @@ namespace Approvals.StateMachine
                 _approvalsManager,
                 _licenseManager
             );
+        }
+
+        public void TransitionTo(AbstractState state)
+        {
+            _state = state;
+            _state.SetAccount(this);
         }
     }
 }

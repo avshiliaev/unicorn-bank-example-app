@@ -30,7 +30,7 @@ namespace Approvals.Managers
             if (!accountCheckCommand.IsValid())
                 return null;
 
-            accountCheckCommand.SetApproval();
+            accountCheckCommand.SetApproved();
 
             var approvedEntity = await _approvalsService.CreateApprovalAsync(
                 accountCheckCommand.ToApprovalEntity()
@@ -51,7 +51,7 @@ namespace Approvals.Managers
             if (!accountCheckCommand.IsValid())
                 return null;
 
-            accountCheckCommand.SetApproval();
+            accountCheckCommand.SetApproved();
 
             var approvedEntity = await _approvalsService.CreateApprovalAsync(
                 accountCheckCommand.ToApprovalEntity()
@@ -80,7 +80,7 @@ namespace Approvals.Managers
                 return null;
 
             approvalRecord.SetBlocked();
-            
+
             var approvedEntity = await _approvalsService.UpdateApprovalAsync(
                 approvalRecord
             );

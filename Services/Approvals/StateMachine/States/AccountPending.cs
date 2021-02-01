@@ -1,46 +1,33 @@
-using System;
 using System.Threading.Tasks;
 using Approvals.Abstractions;
 using Approvals.Interfaces;
 using Sdk.Api.Interfaces;
+using Sdk.Extensions;
 using Sdk.License.Interfaces;
 
 namespace Approvals.StateMachine.States
 {
     public class AccountPending : AbstractState
     {
-        public override void SetAccount(AccountContext context)
-        {
-            Id = context.Id;
-            Version = context.Version;
-            LastSequentialNumber = context.LastSequentialNumber;
-            Balance = context.Balance;
-            ProfileId = context.ProfileId;
-            Approved = false;
-            Pending = true;
-            Blocked = false;
-        }
-
         public override void HandleCheckBlocked()
         {
-            if (Blocked)
+            if (Context.IsBlocked())
                 Context.TransitionTo(new AccountBlocked());
             // Otherwise stay.
         }
 
         public override void HandleCheckDenied()
         {
-            if (!Blocked && !Pending && !Approved)
-                Context.TransitionTo(new AccountDenied());
-        }
-
-        public override void HandleCheckPending()
-        {
-            if (!Pending && Approved)
-                Context.TransitionTo(new AccountApproved());
-            else if (!Blocked && !Pending && !Approved)
+            if (Context.IsDenied())
                 Context.TransitionTo(new AccountDenied());
             // Otherwise stay.
+        }
+
+        public override void HandleCheckApproved()
+        {
+            if (Context.IsApproved())
+                Context.TransitionTo(new AccountApproved());
+            // Remain in the current state.
         }
 
         public override async Task HandleCheckLicense(

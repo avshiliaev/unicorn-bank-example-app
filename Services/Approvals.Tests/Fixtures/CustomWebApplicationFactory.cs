@@ -1,8 +1,6 @@
 using Approvals.Persistence;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Sdk.Api.Interfaces;
 using Sdk.Tests.Extensions;
 

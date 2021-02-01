@@ -28,12 +28,24 @@ namespace Approvals.Abstractions
         public bool Pending { get; set; }
         public bool Blocked { get; set; }
 
-        public abstract void SetAccount(AccountContext context);
+        public void SetAccount(AccountContext context)
+        {
+            Context = context;
+
+            Id = context.Id;
+            Version = context.Version;
+            LastSequentialNumber = context.LastSequentialNumber;
+            Balance = context.Balance;
+            ProfileId = context.ProfileId;
+            Approved = context.Approved;
+            Pending = context.Pending;
+            Blocked = context.Blocked;
+        }
 
         public abstract void HandleCheckBlocked();
         public abstract void HandleCheckDenied();
 
-        public abstract void HandleCheckPending();
+        public abstract void HandleCheckApproved();
 
         public abstract Task HandleCheckLicense(
             IApprovalsManager approvalsManager,

@@ -56,9 +56,9 @@ namespace Accounts.Managers
                 else
                 {
                     if (accountModel.IsApproved())
-                        accountEntity.SetApproval();
+                        accountEntity.SetApproved();
                     else
-                        accountEntity.SetDenial();
+                        accountEntity.SetDenied();
                 }
 
                 // Optimistic Concurrency Control: update incrementing the version

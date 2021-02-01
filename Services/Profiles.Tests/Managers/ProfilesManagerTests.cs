@@ -53,7 +53,7 @@ namespace Profiles.Tests.Managers
         [Fact]
         public void Should_AddNewProfile_Valid()
         {
-            var notificationEvent = new AccountCreatedEvent()
+            var notificationEvent = new AccountCreatedEvent
             {
                 ProfileId = "awesome",
                 Id = Guid.NewGuid().ToString(),

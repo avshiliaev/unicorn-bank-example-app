@@ -1,26 +1,14 @@
-using System;
 using System.Threading.Tasks;
 using Approvals.Abstractions;
 using Approvals.Interfaces;
 using Sdk.Api.Interfaces;
+using Sdk.Extensions;
 using Sdk.License.Interfaces;
 
 namespace Approvals.StateMachine.States
 {
     public class AccountBlocked : AbstractState
     {
-        public override void SetAccount(AccountContext context)
-        {
-            Id = context.Id;
-            Version = context.Version;
-            LastSequentialNumber = context.LastSequentialNumber;
-            Balance = context.Balance;
-            ProfileId = context.ProfileId;
-            Approved = false;
-            Pending = false;
-            Blocked = true;
-        }
-
         public override void HandleCheckBlocked()
         {
             // Remain in the current state.
@@ -28,21 +16,23 @@ namespace Approvals.StateMachine.States
 
         public override void HandleCheckDenied()
         {
-            if (!Blocked && !Pending && !Approved)
+            if (Context.IsDenied())
                 Context.TransitionTo(new AccountDenied());
+            // Otherwise stay.
         }
 
-        public override void HandleCheckPending()
+        public override void HandleCheckApproved()
         {
-            if (Pending)
-                Context.TransitionTo(new AccountPending());
+            if (Context.IsApproved())
+                Context.TransitionTo(new AccountApproved());
+            // Remain in the current state.
         }
 
         public override async Task HandleCheckLicense(IApprovalsManager approvalsManager,
             ILicenseManager<IAccountModel> licenseManager)
         {
             // Handle as blocked.
-            
+
             // Check once more a blocked account.
             var isAllowed = await licenseManager.EvaluateNotPendingAsync(this);
             if (isAllowed)

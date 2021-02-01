@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using Sdk.Persistence.Interfaces;
 
@@ -72,7 +71,7 @@ namespace Sdk.Persistence.Abstractions
 
         public IEnumerator<ChangeStreamDocument<TEntity>> SubscribeToChangesStreamMany(
             PipelineDefinition<ChangeStreamDocument<TEntity>, ChangeStreamDocument<TEntity>> pipeline
-            )
+        )
         {
             if (pipeline == null) return null;
 
@@ -80,7 +79,7 @@ namespace Sdk.Persistence.Abstractions
             {
                 FullDocument = ChangeStreamFullDocumentOption.UpdateLookup
             };
-            
+
             var cursor = _mongoCollection.Watch(pipeline, options);
             var enumerator = cursor.ToEnumerable().GetEnumerator();
             return enumerator;

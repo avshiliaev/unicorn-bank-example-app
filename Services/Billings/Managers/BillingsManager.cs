@@ -39,9 +39,9 @@ namespace Billings.Managers
             var isTransactionAllowed = await _licenseManager.EvaluatePendingAsync(transactionCreatedEvent);
 
             if (isTransactionAllowed)
-                transactionCreatedEvent.SetApproval();
+                transactionCreatedEvent.SetApproved();
             else
-                transactionCreatedEvent.SetDenial();
+                transactionCreatedEvent.SetDenied();
 
             var processedEntity = await _billingsService.CreateBillingAsync(
                 transactionCreatedEvent.ToBillingEntity()

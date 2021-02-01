@@ -32,7 +32,7 @@ namespace Approvals.Handlers
             _accountContext.InitializeState(new AccountPending(), context.Message);
             _accountContext.CheckBlocked();
             _accountContext.CheckDenied();
-            _accountContext.CheckPending();
+            _accountContext.CheckApproved();
             await _accountContext.CheckLicense();
         }
     }

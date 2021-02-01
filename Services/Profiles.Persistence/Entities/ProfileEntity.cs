@@ -33,7 +33,6 @@ namespace Profiles.Persistence.Entities
         // Properties
         public float Balance { get; set; }
         public IEnumerable<TransactionSubEntity> Transactions { get; set; }
-        public string AccountId { get; set; }
 
         // Approvable
         public bool Approved { get; set; }
@@ -42,6 +41,7 @@ namespace Profiles.Persistence.Entities
 
         // Concurrent Host
         public int LastSequentialNumber { get; set; }
+        public string AccountId { get; set; }
 
         // Foreign Properties
         public string ProfileId { get; set; }

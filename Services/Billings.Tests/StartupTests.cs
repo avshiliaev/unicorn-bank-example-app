@@ -29,7 +29,7 @@ namespace Billings.Tests
 
             // Assert
             Assert.True(
-                response.StatusCode == HttpStatusCode.OK || 
+                response.StatusCode == HttpStatusCode.OK ||
                 response.StatusCode == HttpStatusCode.ServiceUnavailable
             );
         }

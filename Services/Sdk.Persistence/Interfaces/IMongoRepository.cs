@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Sdk.Persistence.Interfaces
@@ -18,8 +17,9 @@ namespace Sdk.Persistence.Interfaces
         TEntity Update(FilterDefinition<TEntity> filter, UpdateDefinition<TEntity> updateDefinition);
         TEntity Remove(TEntity entityIn);
         bool Remove(string id);
+
         IEnumerator<ChangeStreamDocument<TEntity>> SubscribeToChangesStreamMany(
             PipelineDefinition<ChangeStreamDocument<TEntity>, ChangeStreamDocument<TEntity>> pipeline
-            );
+        );
     }
 }

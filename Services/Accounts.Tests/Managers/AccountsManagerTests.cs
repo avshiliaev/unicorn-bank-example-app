@@ -68,7 +68,7 @@ namespace Accounts.Tests.Managers
             {
                 Id = 1.ToGuid().ToString()
             };
-            accountApprovedEvent.SetApproval();
+            accountApprovedEvent.SetApproved();
             var newCreatedAccount = await _manager.ProcessAccountIsCheckedEventAsync(accountApprovedEvent);
             Assert.NotNull(newCreatedAccount);
             Assert.True(newCreatedAccount.IsApproved());
@@ -94,7 +94,7 @@ namespace Accounts.Tests.Managers
             {
                 Id = 5.ToGuid().ToString()
             };
-            accountApprovedEvent.SetApproval();
+            accountApprovedEvent.SetApproved();
             var newCreatedAccount = await _manager.ProcessAccountIsCheckedEventAsync(accountApprovedEvent);
             Assert.Null(newCreatedAccount);
         }
@@ -113,7 +113,7 @@ namespace Accounts.Tests.Managers
                 Amount = 1,
                 SequentialNumber = 2
             };
-            newTransaction.SetApproval();
+            newTransaction.SetApproved();
             var newCreatedAccount = await _manager.ProcessTransactionUpdatedEventAsync(newTransaction);
             Assert.NotNull(newCreatedAccount);
             Assert.Equal(2, newCreatedAccount.Balance);
@@ -130,7 +130,7 @@ namespace Accounts.Tests.Managers
                 Amount = 1,
                 SequentialNumber = 3
             };
-            invalidTransaction.SetApproval();
+            invalidTransaction.SetApproved();
             var newCreatedAccount = await _manager.ProcessTransactionUpdatedEventAsync(invalidTransaction);
             Assert.Null(newCreatedAccount);
         }
@@ -145,7 +145,7 @@ namespace Accounts.Tests.Managers
                 Amount = 1,
                 SequentialNumber = 3
             };
-            newTransaction.SetDenial();
+            newTransaction.SetDenied();
             var newCreatedAccount = await _manager.ProcessTransactionUpdatedEventAsync(newTransaction);
             Assert.Null(newCreatedAccount);
         }
@@ -161,7 +161,7 @@ namespace Accounts.Tests.Managers
                 Amount = 1,
                 SequentialNumber = 10
             };
-            invalidTransaction.SetApproval();
+            invalidTransaction.SetApproved();
             var newCreatedAccount = await _manager.ProcessTransactionUpdatedEventAsync(invalidTransaction);
             Assert.Null(newCreatedAccount);
         }

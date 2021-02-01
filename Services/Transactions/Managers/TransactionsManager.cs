@@ -72,9 +72,9 @@ namespace Transactions.Managers
                 else
                 {
                     if (transactionModel.IsApproved())
-                        transactionEntity.SetApproval();
+                        transactionEntity.SetApproved();
                     else
-                        transactionEntity.SetDenial();
+                        transactionEntity.SetDenied();
                 }
 
                 // Optimistic Concurrency Control: increment the version on update
