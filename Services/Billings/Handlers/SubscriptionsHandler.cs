@@ -1,24 +1,20 @@
-using System;
 using System.Threading.Tasks;
-using Billings.Interfaces;
+using Billings.States.Transactions;
 using MassTransit;
-using Microsoft.Extensions.Logging;
 using Sdk.Api.Events.Local;
+using Sdk.Api.Interfaces;
 
 namespace Billings.Handlers
 {
     public class BillingsSubscriptionsHandler : IConsumer<TransactionCheckCommand>
     {
-        private readonly IBillingsManager _billingsManager;
-        private readonly ILogger<BillingsSubscriptionsHandler> _logger;
+        private readonly ITransactionsContext _transactionsContext;
 
         public BillingsSubscriptionsHandler(
-            ILogger<BillingsSubscriptionsHandler> logger,
-            IBillingsManager billingsManager
+            ITransactionsContext transactionsContext
         )
         {
-            _logger = logger;
-            _billingsManager = billingsManager;
+            _transactionsContext = transactionsContext;
         }
 
         public BillingsSubscriptionsHandler()
@@ -27,10 +23,11 @@ namespace Billings.Handlers
 
         public async Task Consume(ConsumeContext<TransactionCheckCommand> context)
         {
-            _logger.LogDebug($"Received new TransactionCreatedEvent for {context.Message.Id}");
-            var result = await _billingsManager.EvaluateTransactionAsync(context.Message);
-
-            if (result == null) throw new Exception($"Could not process an event {context.Message.Id}");
+            _transactionsContext.InitializeState(new TransactionPending(), context.Message);
+            _transactionsContext.CheckBlocked();
+            _transactionsContext.CheckDenied();
+            _transactionsContext.CheckApproved();
+            await _transactionsContext.CheckLicense();
         }
     }
 }

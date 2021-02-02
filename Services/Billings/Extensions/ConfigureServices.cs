@@ -1,6 +1,7 @@
-using Billings.Interfaces;
+using Billings.Persistence.Entities;
 using Billings.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Sdk.Persistence.Interfaces;
 
 namespace Billings.Extensions
 {
@@ -8,7 +9,7 @@ namespace Billings.Extensions
     {
         public static IServiceCollection AddDataAccessServices(this IServiceCollection services)
         {
-            services.AddTransient<IBillingsService, BillingsService>();
+            services.AddTransient<IEventStoreService<BillingEntity>, EventStoreService>();
             return services;
         }
     }

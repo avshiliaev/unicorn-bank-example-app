@@ -1,6 +1,7 @@
-using Billings.Interfaces;
 using Billings.Managers;
 using Microsoft.Extensions.DependencyInjection;
+using Sdk.Api.Abstractions;
+using Sdk.Interfaces;
 
 namespace Billings.Extensions
 {
@@ -9,7 +10,7 @@ namespace Billings.Extensions
         public static IServiceCollection AddBusinessLogicManagers(this IServiceCollection services)
         {
             services
-                .AddTransient<IBillingsManager, BillingsManager>();
+                .AddTransient<IEventStoreManager<ATransactionsState>, EventStoreManager>();
             return services;
         }
     }

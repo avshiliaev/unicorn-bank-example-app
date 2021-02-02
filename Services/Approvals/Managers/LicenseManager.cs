@@ -10,22 +10,22 @@ namespace Approvals.Managers
 {
     public class LicenseManager : ALicenseManager<IAccountModel>
     {
-        private readonly IEventStoreService<ApprovalEntity> _approvalsService;
+        private readonly IEventStoreService<ApprovalEntity> _eventStoreService;
         private readonly int _maxAccountLowerRange = -500;
         private readonly int _maxAccountPerUser = 10;
         private readonly int _maxAccountUpperRange = (int) 1e6;
 
         public LicenseManager(
             ILogger<LicenseManager> logger,
-            IEventStoreService<ApprovalEntity> approvalsService
+            IEventStoreService<ApprovalEntity> eventStoreService
         )
         {
-            _approvalsService = approvalsService;
+            _eventStoreService = eventStoreService;
         }
 
         public override async Task<bool> EvaluatePendingAsync(IAccountModel accountModel)
         {
-            var allApprovals = await _approvalsService.GetManyRecordsLastVersionAsync(
+            var allApprovals = await _eventStoreService.GetManyRecordsLastVersionAsync(
                 b =>
                     b!.Approved
                     && b.ProfileId == accountModel.ProfileId
