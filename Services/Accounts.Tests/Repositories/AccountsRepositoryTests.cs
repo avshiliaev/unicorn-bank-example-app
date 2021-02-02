@@ -94,7 +94,7 @@ namespace Accounts.Tests.Repositories
                 var newEntity = new AccountEntity {Version = 99};
                 var _ = await repository.AddAsync(newEntity);
 
-                var result = await repository.GetOneByParameterAsync(
+                var result = await repository.GetOneAsync(
                     e => e.Version == 99
                 );
                 Assert.NotNull(result);
@@ -111,7 +111,7 @@ namespace Accounts.Tests.Repositories
                 var newEntity = new AccountEntity {Version = 10};
                 var _ = await repository.AddAsync(newEntity);
 
-                var result = await repository.GetManyByParameterAsync(
+                var result = await repository.GetManyAsync(
                     e => e.Version == 10
                 );
                 Assert.Single(result);
@@ -142,7 +142,7 @@ namespace Accounts.Tests.Repositories
                 var newEntity = new AccountEntity();
                 var newEntitySaved = await repository.AddAsync(newEntity);
 
-                var result = await repository.UpdateActivelyAsync(newEntitySaved);
+                var result = await repository.UpdateOptimisticallyAsync(newEntitySaved);
                 Assert.NotNull(result);
             }
 
@@ -158,7 +158,7 @@ namespace Accounts.Tests.Repositories
                 var newEntitySaved = await repository.AddAsync(newEntity);
                 newEntitySaved.Version++;
 
-                var result = await repository.UpdatePassivelyAsync(newEntitySaved);
+                var result = await repository.UpdateAsync(newEntitySaved);
                 Assert.NotNull(result);
             }
         }

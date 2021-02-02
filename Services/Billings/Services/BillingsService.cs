@@ -21,7 +21,7 @@ namespace Billings.Services
             Expression<Func<BillingEntity?, bool>> predicate
         )
         {
-            return _billingsRepository.GetManyByParameterAsync(predicate!)!;
+            return _billingsRepository.GetManyAsync(predicate!)!;
         }
 
         public Task<BillingEntity?> CreateBillingAsync(BillingEntity billingEntity)

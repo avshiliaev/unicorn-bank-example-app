@@ -1,24 +1,24 @@
 using System;
 using System.Threading.Tasks;
-using Approvals.Abstractions;
-using Approvals.Interfaces;
+using Accounts.Abstractions;
+using Accounts.Interfaces;
 using Sdk.Api.Interfaces;
 using Sdk.License.Interfaces;
 
-namespace Approvals.StateMachine
+namespace Accounts.StateMachine
 {
     public class AccountContext : IAccountContext
     {
-        private readonly IEventStoreManager<AbstractAccountState> _approvalsManager;
+        private readonly IAccountsManager _accountsManager;
         private readonly ILicenseManager<IAccountModel> _licenseManager;
-        private AbstractAccountState _state = null!;
+        private AbstractState _state = null!;
 
         public AccountContext(
-            IEventStoreManager<AbstractAccountState> approvalsManager,
+            IAccountsManager accountsManager,
             ILicenseManager<IAccountModel> licenseManager
         )
         {
-            _approvalsManager = approvalsManager;
+            _accountsManager = accountsManager;
             _licenseManager = licenseManager;
         }
 
@@ -40,7 +40,7 @@ namespace Approvals.StateMachine
         public bool Pending { get; set; }
         public bool Blocked { get; set; }
 
-        public IAccountContext InitializeState(AbstractAccountState state, IAccountModel accountModel)
+        public IAccountContext InitializeState(AbstractState state, IAccountModel accountModel)
         {
             Id = accountModel.Id;
             Version = accountModel.Version;
@@ -53,7 +53,13 @@ namespace Approvals.StateMachine
             TransitionTo(state);
             return this;
         }
-
+        
+        public void TransitionTo(AbstractState state)
+        {
+            _state = state;
+            _state.SetAccount(this);
+        }
+        
         public Type GetCurrentState()
         {
             return _state.GetType();
@@ -78,16 +84,11 @@ namespace Approvals.StateMachine
         {
             await _state.HandleCheckLicense(_licenseManager);
         }
-
+        
         public async Task PreserveStateAndPublishEvent()
         {
-            await _state.HandlePreserveStateAndPublishEvent(_approvalsManager);
+            await _state.HandlePreserveStateAndPublishEvent(_accountsManager);
         }
-
-        public void TransitionTo(AbstractAccountState state)
-        {
-            _state = state;
-            _state.SetAccount(this);
-        }
+        
     }
 }

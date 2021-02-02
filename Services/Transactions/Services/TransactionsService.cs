@@ -21,7 +21,7 @@ namespace Transactions.Services
             Expression<Func<TransactionEntity?, bool>> predicate
         )
         {
-            return _transactionRepository.GetManyByParameterAsync(predicate!)!;
+            return _transactionRepository.GetManyAsync(predicate!)!;
         }
 
         public Task<TransactionEntity?> CreateTransactionAsync(TransactionEntity transactionEntity)
@@ -36,7 +36,7 @@ namespace Transactions.Services
 
         public Task<TransactionEntity?> UpdateTransactionAsync(TransactionEntity transactionEntity)
         {
-            return _transactionRepository.UpdateActivelyAsync(transactionEntity)!;
+            return _transactionRepository.UpdateOptimisticallyAsync(transactionEntity)!;
         }
     }
 }

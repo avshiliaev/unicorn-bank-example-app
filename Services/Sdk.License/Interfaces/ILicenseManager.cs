@@ -3,7 +3,7 @@ using Sdk.Interfaces;
 
 namespace Sdk.License.Interfaces
 {
-    public interface ILicenseManager<TModel> where TModel : class, IDataModel
+    public interface ILicenseManager<in TModel> where TModel : class, IDataModel
     {
         Task<bool> EvaluatePendingAsync(TModel model);
         Task<bool> EvaluateNotPendingAsync(TModel model);

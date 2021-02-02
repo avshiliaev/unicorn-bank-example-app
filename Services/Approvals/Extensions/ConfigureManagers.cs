@@ -1,6 +1,8 @@
+using Approvals.Abstractions;
 using Approvals.Interfaces;
 using Approvals.Managers;
 using Microsoft.Extensions.DependencyInjection;
+using Sdk.Api.Interfaces;
 
 namespace Approvals.Extensions
 {
@@ -9,7 +11,7 @@ namespace Approvals.Extensions
         public static IServiceCollection AddBusinessLogicManagers(this IServiceCollection services)
         {
             services
-                .AddTransient<IApprovalsManager, ApprovalsManager>();
+                .AddTransient<IEventStoreManager<AbstractAccountState>, EventStoreManager>();
             return services;
         }
     }

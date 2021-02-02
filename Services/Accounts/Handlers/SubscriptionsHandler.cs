@@ -9,8 +9,9 @@ using Sdk.Extensions;
 
 namespace Accounts.Handlers
 {
-    public class AccountsSubscriptionsHandler
-        : IConsumer<AccountIsCheckedEvent>, IConsumer<TransactionUpdatedEvent>
+    public class AccountsSubscriptionsHandler :
+        IConsumer<AccountIsCheckedEvent>,
+        IConsumer<TransactionUpdatedEvent>
     {
         private readonly IAccountsManager _accountsManager;
         private readonly ILogger<AccountsSubscriptionsHandler> _logger;
@@ -30,7 +31,7 @@ namespace Accounts.Handlers
 
         public async Task Consume(ConsumeContext<AccountIsCheckedEvent> context)
         {
-            _logger.LogDebug($"Received new AccountApprovedEvent for {context.Message.Id}");
+            _logger.LogDebug($"Received new AccountIsCheckedEvent for {context.Message.Id}");
 
             var result = await _accountsManager.ProcessAccountIsCheckedEventAsync(context.Message);
             if (result == null) throw new Exception($"Could not process an event {context.Message.Id}");
@@ -38,7 +39,7 @@ namespace Accounts.Handlers
 
         public async Task Consume(ConsumeContext<TransactionUpdatedEvent> context)
         {
-            _logger.LogDebug($"Received new TransactionCreatedEvent for {context.Message.Version}");
+            _logger.LogDebug($"Received new TransactionUpdatedEvent for {context.Message.Version}");
 
             if (!context.Message.IsApproved()) return;
             var result = await _accountsManager.ProcessTransactionUpdatedEventAsync(context.Message);

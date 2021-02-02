@@ -1,14 +1,13 @@
-using System;
 using System.Threading.Tasks;
-using Approvals.Abstractions;
-using Approvals.Interfaces;
+using Accounts.Abstractions;
+using Accounts.Interfaces;
 using Sdk.Api.Interfaces;
 using Sdk.Extensions;
 using Sdk.License.Interfaces;
 
-namespace Approvals.StateMachine.States
+namespace Accounts.StateMachine.States
 {
-    public class AccountDenied : AbstractAccountState
+    public class AccountDenied : AbstractState
     {
         public override void HandleCheckBlocked()
         {
@@ -40,11 +39,9 @@ namespace Approvals.StateMachine.States
             // Otherwise stay.
         }
 
-        public override async Task HandlePreserveStateAndPublishEvent(
-            IEventStoreManager<AbstractAccountState> eventStoreManager
-        )
+        public override async Task HandlePreserveStateAndPublishEvent(IAccountsManager accountsManager)
         {
-            await eventStoreManager.SaveStateAndNotifyAsync(this);
+            await accountsManager.SaveStateAndNotifyAsync(this);
         }
     }
 }

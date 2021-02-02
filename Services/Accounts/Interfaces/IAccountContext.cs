@@ -1,13 +1,14 @@
 using System;
 using System.Threading.Tasks;
-using Approvals.Abstractions;
+using Accounts.Abstractions;
+using Accounts.StateMachine;
 using Sdk.Api.Interfaces;
 
-namespace Approvals.Interfaces
+namespace Accounts.Interfaces
 {
     public interface IAccountContext : IAccountModel
     {
-        IAccountContext InitializeState(AbstractAccountState state, IAccountModel accountModel);
+        IAccountContext InitializeState(AbstractState state, IAccountModel accountModel);
         Type GetCurrentState();
         void CheckBlocked();
         void CheckDenied();

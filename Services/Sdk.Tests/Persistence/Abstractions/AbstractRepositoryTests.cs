@@ -109,7 +109,7 @@ namespace Sdk.Tests.Persistence.Abstractions
             var newEntity = new TestEntity {Version = 99};
             var _ = await repository.AddAsync(newEntity);
 
-            var result = await repository.GetOneByParameterAsync(
+            var result = await repository.GetOneAsync(
                 e => e.Version == 99
             );
             Assert.NotNull(result);
@@ -126,7 +126,7 @@ namespace Sdk.Tests.Persistence.Abstractions
             var newEntity = new TestEntity {Version = 10};
             var _ = await repository.AddAsync(newEntity);
 
-            var result = await repository.GetManyByParameterAsync(
+            var result = await repository.GetManyAsync(
                 e => e.Version == 10
             );
             Assert.Single(result);
@@ -157,7 +157,7 @@ namespace Sdk.Tests.Persistence.Abstractions
             var newEntity = new TestEntity();
             var newEntitySaved = await repository.AddAsync(newEntity);
 
-            var result = await repository.UpdateActivelyAsync(newEntitySaved);
+            var result = await repository.UpdateOptimisticallyAsync(newEntitySaved);
             Assert.NotNull(result);
         }
 
@@ -173,7 +173,7 @@ namespace Sdk.Tests.Persistence.Abstractions
             var newEntitySaved = await repository.AddAsync(newEntity);
             newEntitySaved.Version++;
 
-            var result = await repository.UpdatePassivelyAsync(newEntitySaved);
+            var result = await repository.UpdateAsync(newEntitySaved);
             Assert.NotNull(result);
         }
     }

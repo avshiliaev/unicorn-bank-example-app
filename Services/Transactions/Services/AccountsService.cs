@@ -23,7 +23,7 @@ namespace Transactions.Services
 
         public Task<AccountEntity?> GetOneByParameterAsync(Expression<Func<AccountEntity, bool>> predicate)
         {
-            return _accountsRepository.GetOneByParameterAsync(predicate)!;
+            return _accountsRepository.GetOneAsync(predicate)!;
         }
 
         public Task<AccountEntity?> GetAccountByIdAsync(Guid accountId)
@@ -33,7 +33,7 @@ namespace Transactions.Services
 
         public Task<AccountEntity?> UpdateAccountAsync(AccountEntity accountModel)
         {
-            return _accountsRepository.UpdateActivelyAsync(accountModel)!;
+            return _accountsRepository.UpdateOptimisticallyAsync(accountModel)!;
         }
     }
 }

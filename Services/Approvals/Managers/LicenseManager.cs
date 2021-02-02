@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Approvals.Interfaces;
+using Approvals.Persistence.Entities;
 using Microsoft.Extensions.Logging;
 using Sdk.Api.Interfaces;
 using Sdk.License.Abstractions;
@@ -9,14 +10,14 @@ namespace Approvals.Managers
 {
     public class LicenseManager : ALicenseManager<IAccountModel>
     {
-        private readonly IApprovalsService _approvalsService;
+        private readonly IEventStoreService<ApprovalEntity> _approvalsService;
         private readonly int _maxAccountLowerRange = -500;
         private readonly int _maxAccountPerUser = 10;
         private readonly int _maxAccountUpperRange = (int) 1e6;
 
         public LicenseManager(
             ILogger<LicenseManager> logger,
-            IApprovalsService approvalsService
+            IEventStoreService<ApprovalEntity> approvalsService
         )
         {
             _approvalsService = approvalsService;
@@ -24,7 +25,7 @@ namespace Approvals.Managers
 
         public override async Task<bool> EvaluatePendingAsync(IAccountModel accountModel)
         {
-            var allApprovals = await _approvalsService.GetManyByParameterAsync(
+            var allApprovals = await _approvalsService.GetManyLastVersionAsync(
                 b =>
                     b!.Approved
                     && b.ProfileId == accountModel.ProfileId

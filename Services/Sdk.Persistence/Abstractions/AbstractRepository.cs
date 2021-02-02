@@ -25,28 +25,6 @@ namespace Sdk.Persistence.Abstractions
             _context = context;
         }
 
-        public async Task<List<TEntity>> ListAllAsync()
-        {
-            return await _context.Set<TEntity>().ToListAsync();
-        }
-
-        public async Task<TEntity> GetByIdAsync(Guid id)
-        {
-            return await _context
-                .Set<TEntity>()
-                .FirstOrDefaultAsync(acc => acc.Id == id);
-        }
-
-        public async Task<TEntity> GetOneByParameterAsync(Expression<Func<TEntity, bool>> predicate)
-        {
-            return await _context.Set<TEntity>().Where(predicate).SingleOrDefaultAsync();
-        }
-
-        public async Task<IEnumerable<TEntity>> GetManyByParameterAsync(Expression<Func<TEntity, bool>> predicate)
-        {
-            return await _context.Set<TEntity>().Where(predicate).ToArrayAsync();
-        }
-
         public async Task<TEntity> AddAsync(TEntity entity)
         {
             entity.Created = DateTime.UtcNow;
@@ -56,7 +34,17 @@ namespace Sdk.Persistence.Abstractions
             return saved.Entity;
         }
 
-        public async Task<TEntity> UpdatePassivelyAsync(TEntity entity)
+        public Task<TEntity> GetOneAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return _context.Set<TEntity>().Where(predicate).SingleOrDefaultAsync();
+        }
+
+        public Task<List<TEntity>> GetManyAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return _context.Set<TEntity>().Where(predicate).ToListAsync();
+        }
+
+        public async Task<TEntity> UpdateAsync(TEntity entity)
         {
             if (
                 entity == null ||
@@ -74,7 +62,7 @@ namespace Sdk.Persistence.Abstractions
             return entity;
         }
 
-        public async Task<TEntity> UpdateActivelyAsync(TEntity entity)
+        public async Task<TEntity> UpdateOptimisticallyAsync(TEntity entity)
         {
             if (
                 entity == null ||
@@ -93,14 +81,13 @@ namespace Sdk.Persistence.Abstractions
             return entity;
         }
 
-        public async Task<TEntity> DeleteAsync(Guid id)
+        public Task<List<TEntity>> GetManyLastVersionAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            var account = await _context.Set<TEntity>().FindAsync(id);
-            if (account == null) return null;
-
-            _context.Set<TEntity>().Remove(account);
-            await _context.SaveChangesAsync();
-            return account;
+            return _context.Set<TEntity>()
+                .Where(
+                    e => e.Version == _context.Set<TEntity>().Max(e2 => (int?) e2.Version)
+                )
+                .ToListAsync();
         }
     }
 }

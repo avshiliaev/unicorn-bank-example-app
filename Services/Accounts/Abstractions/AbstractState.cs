@@ -1,12 +1,12 @@
 using System.Threading.Tasks;
-using Approvals.Interfaces;
-using Approvals.StateMachine;
+using Accounts.Interfaces;
+using Accounts.StateMachine;
 using Sdk.Api.Interfaces;
 using Sdk.License.Interfaces;
 
-namespace Approvals.Abstractions
+namespace Accounts.Abstractions
 {
-    public abstract class AbstractAccountState : IAccountModel
+    public abstract class AbstractState : IAccountModel
     {
         protected AccountContext Context = null!;
 
@@ -45,11 +45,8 @@ namespace Approvals.Abstractions
         public abstract void HandleCheckBlocked();
         public abstract void HandleCheckDenied();
         public abstract void HandleCheckApproved();
-
         public abstract Task HandleCheckLicense(ILicenseManager<IAccountModel> licenseManager);
+        public abstract Task HandlePreserveStateAndPublishEvent(IAccountsManager accountsManager);
 
-        public abstract Task HandlePreserveStateAndPublishEvent(
-            IEventStoreManager<AbstractAccountState> eventStoreManager
-        );
     }
 }

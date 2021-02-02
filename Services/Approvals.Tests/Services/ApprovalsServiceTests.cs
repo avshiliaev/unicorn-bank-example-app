@@ -36,7 +36,7 @@ namespace Approvals.Tests.Services
             }
         };
 
-        private readonly IApprovalsService _service;
+        private readonly IEventStoreService _service;
 
         public ApprovalsServiceTests()
         {

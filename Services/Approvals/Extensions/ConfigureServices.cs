@@ -1,4 +1,5 @@
 using Approvals.Interfaces;
+using Approvals.Persistence.Entities;
 using Approvals.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,7 +9,7 @@ namespace Approvals.Extensions
     {
         public static IServiceCollection AddDataAccessServices(this IServiceCollection services)
         {
-            services.AddTransient<IApprovalsService, ApprovalsService>();
+            services.AddTransient<IEventStoreService<ApprovalEntity>, EventStoreService>();
             return services;
         }
     }

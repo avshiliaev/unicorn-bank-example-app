@@ -39,7 +39,7 @@ namespace Sdk.Tests.Mocks
                     );
                 });
             repository
-                .Setup(a => a.UpdatePassivelyAsync(It.IsAny<TEntity>()))
+                .Setup(a => a.UpdateAsync(It.IsAny<TEntity>()))
                 .Returns((TEntity entity) =>
                 {
                     if (
@@ -60,7 +60,7 @@ namespace Sdk.Tests.Mocks
                     );
                 });
             repository
-                .Setup(a => a.UpdateActivelyAsync(It.IsAny<TEntity>()))
+                .Setup(a => a.UpdateOptimisticallyAsync(It.IsAny<TEntity>()))
                 .Returns((TEntity entity) =>
                 {
                     if (

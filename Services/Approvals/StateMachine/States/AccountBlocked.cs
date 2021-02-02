@@ -8,7 +8,7 @@ using Sdk.License.Interfaces;
 
 namespace Approvals.StateMachine.States
 {
-    public class AccountBlocked : AbstractState
+    public class AccountBlocked : AbstractAccountState
     {
         public override void HandleCheckBlocked()
         {
@@ -40,9 +40,11 @@ namespace Approvals.StateMachine.States
             // Otherwise stay.
         }
 
-        public override async Task HandlePreserveStateAndPublishEvent(IApprovalsManager approvalsManager)
+        public override async Task HandlePreserveStateAndPublishEvent(
+            IEventStoreManager<AbstractAccountState> eventStoreManager
+        )
         {
-            await approvalsManager.CreateOrUpdateStateAsyncAsync(this);
+            await eventStoreManager.SaveStateAndNotifyAsync(this);
         }
     }
 }

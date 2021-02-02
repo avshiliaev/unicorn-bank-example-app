@@ -41,7 +41,7 @@ namespace Approvals.Tests.Managers
             }
         };
 
-        private readonly IApprovalsManager _manager;
+        private readonly IEventStoreManager _manager;
 
         public ApprovalsManagerTests()
         {
@@ -68,7 +68,7 @@ namespace Approvals.Tests.Managers
             accountCheckCommand.SetPending();
             
             var accountIsCheckedEvent = await _manager
-                .CreateOrUpdateStateAsyncAsync(accountCheckCommand);
+                .SaveStateAndNotifyAsync(accountCheckCommand);
             Assert.NotNull(accountIsCheckedEvent);
             Assert.True(accountIsCheckedEvent.IsPending());
         }
