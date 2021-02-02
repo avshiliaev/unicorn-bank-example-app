@@ -39,11 +39,10 @@ namespace Accounts.States.Account
                 Context.TransitionTo(new AccountDenied());
         }
 
-        public override async Task HandlePreserveStateAndPublishEvent(
-            IEventStoreManager<AAccountState> eventStoreManager
-        )
+        public override Task HandlePreserveStateAndPublishEvent(
+            IEventStoreManager<IAccountModel> eventStoreManager)
         {
-            await eventStoreManager.SaveStateAndNotifyAsync(this);
+            return eventStoreManager.SaveStateAndNotifyAsync(this);
         }
     }
 }

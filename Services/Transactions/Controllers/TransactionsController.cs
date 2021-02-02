@@ -4,10 +4,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sdk.Api.Dto;
+using Sdk.Api.Events;
 using Sdk.Api.Interfaces;
 using Sdk.Auth.Extensions;
-using Sdk.Interfaces;
 using Transactions.Mappers;
+using Transactions.States.Transactions;
 using Transactions.ViewModels;
 
 namespace Transactions.Controllers
@@ -16,15 +17,15 @@ namespace Transactions.Controllers
     [Route("api/[controller]")]
     public class TransactionsController : ControllerBase
     {
-        private readonly IEventStoreManager<ITransactionModel> _eventStoreManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ITransactionsContext _transactionsContext;
 
         public TransactionsController(
-            IEventStoreManager<ITransactionModel> eventStoreManager,
+            ITransactionsContext transactionsContext,
             IHttpContextAccessor httpContextAccessor
         )
         {
-            _eventStoreManager = eventStoreManager;
+            _transactionsContext = transactionsContext;
             _httpContextAccessor = httpContextAccessor;
         }
 
@@ -42,17 +43,16 @@ namespace Transactions.Controllers
             var profileId = _httpContextAccessor.GetUserIdentifier();
             if (profileId == null) return NotFound();
 
-            var newTransactionRequested = transactionViewModel.ToTransactionModel<TransactionDto>(profileId);
+            var newTransactionEvent = transactionViewModel.ToTransactionModel<TransactionCreatedEvent>(profileId);
 
-            var newTransactionCreated = await _eventStoreManager.SaveStateAndNotifyAsync(
-                newTransactionRequested
-            );
-            if (newTransactionCreated == null) return NotFound();
+            _transactionsContext.InitializeState(new TransactionPending(), newTransactionEvent);
+            await _transactionsContext.CheckLicense();
+            await _transactionsContext.PreserveStateAndPublishEvent();
 
             return CreatedAtAction(
                 nameof(CreateNewTransaction),
-                new {id = newTransactionCreated.Id},
-                newTransactionCreated
+                new {id = newTransactionEvent.Id},
+                _transactionsContext.ToTransactionModel<TransactionDto>()
             );
         }
     }

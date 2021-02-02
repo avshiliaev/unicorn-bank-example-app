@@ -6,6 +6,25 @@ namespace Accounts.Mappers
 {
     public static class AccountModelMapper
     {
+        public static T ToAccountModel<T>(this IAccountContext accountModel) where T : class, IAccountModel, new()
+        {
+            return new T
+            {
+                Id = accountModel.Id,
+                Version = accountModel.Version,
+
+                Balance = accountModel.Balance,
+
+                ProfileId = accountModel.ProfileId,
+
+                Approved = accountModel.Approved,
+                Pending = accountModel.Pending,
+                Blocked = accountModel.Blocked,
+
+                LastSequentialNumber = accountModel.LastSequentialNumber
+            };
+        }
+
         public static AccountEntity ToAccountEntity(this IAccountModel accountEvent)
         {
             return new AccountEntity

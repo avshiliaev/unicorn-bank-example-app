@@ -2,13 +2,14 @@ using System;
 using System.Threading.Tasks;
 using Accounts.Persistence.Entities;
 using MassTransit;
+using Sdk.Api.Abstractions;
 using Sdk.Api.Interfaces;
 using Sdk.Interfaces;
 using Sdk.Persistence.Interfaces;
 
 namespace Accounts.Managers
 {
-    public class EventStoreManager : IEventStoreManager<IAccountModel>
+    public class EventStoreManager : IEventStoreManager<AAccountState>
     {
         private readonly IPublishEndpoint _publishEndpoint;
         private IEventStoreService<AccountEntity> _eventStoreService;
@@ -100,7 +101,7 @@ namespace Accounts.Managers
         }
          **/
 
-        public Task<IAccountModel> SaveStateAndNotifyAsync(IAccountModel dataModel)
+        public Task<AAccountState> SaveStateAndNotifyAsync(AAccountState dataModel)
         {
             throw new NotImplementedException();
         }

@@ -1,13 +1,15 @@
 using System.Net.Mime;
 using System.Threading.Tasks;
+using Accounts.Mappers;
+using Accounts.States.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sdk.Api.Dto;
+using Sdk.Api.Events;
 using Sdk.Api.Interfaces;
 using Sdk.Auth.Extensions;
-using Sdk.Interfaces;
-using Sdk.Persistence.Interfaces;
+using Sdk.Extensions;
 
 namespace Accounts.Controllers
 {
@@ -15,15 +17,15 @@ namespace Accounts.Controllers
     [Route("api/[controller]")]
     public class AccountsController : ControllerBase
     {
-        private readonly IEventStoreManager<IAccountModel> _eventStoreManager;
+        private readonly IAccountContext _accountContext;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public AccountsController(
-            IEventStoreManager<IAccountModel> eventStoreManager,
+            IAccountContext accountContext,
             IHttpContextAccessor httpContextAccessor
         )
         {
-            _eventStoreManager = eventStoreManager;
+            _accountContext = accountContext;
             _httpContextAccessor = httpContextAccessor;
         }
 
@@ -37,12 +39,17 @@ namespace Accounts.Controllers
             var profileId = _httpContextAccessor.GetUserIdentifier();
             if (profileId == null) return NotFound();
 
-            var newAccountRequested = new AccountDto {ProfileId = profileId};
-            var newAccountCreated = await _eventStoreManager.SaveStateAndNotifyAsync(newAccountRequested);
-            if (newAccountCreated == null) return NotFound();
+            var newAccountEvent = new AccountCreatedEvent {ProfileId = profileId};
+            newAccountEvent.SetPending();
+
+            _accountContext.InitializeState(new AccountPending(), newAccountEvent);
+            await _accountContext.CheckLicense();
+            await _accountContext.PreserveStateAndPublishEvent();
 
             return CreatedAtAction(
-                nameof(CreateNewAccount), new {id = newAccountCreated.Id}, newAccountCreated
+                nameof(CreateNewAccount),
+                new {id = newAccountEvent.Id},
+                _accountContext.ToAccountModel<AccountDto>()
             );
         }
     }

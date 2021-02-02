@@ -40,8 +40,7 @@ namespace Approvals.States
         }
 
         public override async Task HandlePreserveStateAndPublishEvent(
-            IEventStoreManager<AAccountState> eventStoreManager
-        )
+            IEventStoreManager<IAccountModel> eventStoreManager)
         {
             await eventStoreManager.SaveStateAndNotifyAsync(this);
         }

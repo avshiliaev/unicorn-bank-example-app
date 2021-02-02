@@ -6,6 +6,32 @@ namespace Transactions.Mappers
 {
     public static class TransactionModelMapper
     {
+        public static T ToTransactionModel<T>(this ITransactionsContext transactionsContext)
+            where T : class, ITransactionModel, new()
+        {
+            return new T
+            {
+                // Common
+                Id = transactionsContext.Id,
+                Version = transactionsContext.Version,
+
+                // Foreign
+                AccountId = transactionsContext.AccountId,
+                ProfileId = transactionsContext.ProfileId,
+
+                // Properties
+                Amount = transactionsContext.Amount,
+                Info = transactionsContext.Info,
+
+                // Approvable
+                Approved = transactionsContext.Approved,
+                Pending = transactionsContext.Pending,
+                Blocked = transactionsContext.Blocked,
+
+                // Concurrent
+                SequentialNumber = transactionsContext.SequentialNumber
+            };
+        }
         public static TransactionEntity ToTransactionEntity(this ITransactionModel transactionModel)
         {
             return new TransactionEntity
