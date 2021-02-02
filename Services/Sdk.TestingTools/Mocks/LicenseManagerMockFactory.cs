@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using Moq;
 using Sdk.Interfaces;
-using Sdk.License.Interfaces;
 using Sdk.Tests.Interfaces;
 
 namespace Sdk.Tests.Mocks

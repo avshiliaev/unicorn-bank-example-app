@@ -10,7 +10,6 @@ using Sdk.Api.Extensions;
 using Sdk.Api.Interfaces;
 using Sdk.Auth.Extensions;
 using Sdk.Communication.Extensions;
-using Sdk.License.Extensions;
 using Sdk.Persistence.Extensions;
 using Sdk.Persistence.Interfaces;
 using Transactions.Extensions;

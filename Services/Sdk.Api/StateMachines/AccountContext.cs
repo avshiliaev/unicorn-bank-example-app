@@ -1,20 +1,19 @@
 using System;
 using System.Threading.Tasks;
-using Approvals.Abstractions;
-using Approvals.Interfaces;
+using Sdk.Api.Abstractions;
 using Sdk.Api.Interfaces;
-using Sdk.License.Interfaces;
+using Sdk.Interfaces;
 
-namespace Approvals.StateMachine
+namespace Sdk.Api.StateMachines
 {
     public class AccountContext : IAccountContext
     {
-        private readonly IEventStoreManager<AbstractAccountState> _approvalsManager;
+        private readonly IEventStoreManager<AAccountState> _approvalsManager;
         private readonly ILicenseManager<IAccountModel> _licenseManager;
-        private AbstractAccountState _state = null!;
+        private AAccountState _state = null!;
 
         public AccountContext(
-            IEventStoreManager<AbstractAccountState> approvalsManager,
+            IEventStoreManager<AAccountState> approvalsManager,
             ILicenseManager<IAccountModel> licenseManager
         )
         {
@@ -40,7 +39,7 @@ namespace Approvals.StateMachine
         public bool Pending { get; set; }
         public bool Blocked { get; set; }
 
-        public IAccountContext InitializeState(AbstractAccountState state, IAccountModel accountModel)
+        public IAccountContext InitializeState(AAccountState state, IAccountModel accountModel)
         {
             Id = accountModel.Id;
             Version = accountModel.Version;
@@ -84,7 +83,7 @@ namespace Approvals.StateMachine
             await _state.HandlePreserveStateAndPublishEvent(_approvalsManager);
         }
 
-        public void TransitionTo(AbstractAccountState state)
+        public void TransitionTo(AAccountState state)
         {
             _state = state;
             _state.SetAccount(this);

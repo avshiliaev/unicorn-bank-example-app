@@ -1,17 +1,19 @@
 using System.Threading.Tasks;
-using Accounts.Abstractions;
-using Accounts.Interfaces;
+using Sdk.Api.Abstractions;
 using Sdk.Api.Interfaces;
 using Sdk.Extensions;
-using Sdk.License.Interfaces;
+using Sdk.Interfaces;
+using Sdk.Persistence.Interfaces;
 
-namespace Accounts.StateMachine.States
+namespace Approvals.States
 {
-    public class AccountBlocked : AbstractState
+    public class AccountPending : AAccountState
     {
         public override void HandleCheckBlocked()
         {
-            // Remain in the current state.
+            if (Context.IsBlocked())
+                Context.TransitionTo(new AccountBlocked());
+            // Otherwise stay.
         }
 
         public override void HandleCheckDenied()
@@ -30,18 +32,19 @@ namespace Accounts.StateMachine.States
 
         public override async Task HandleCheckLicense(ILicenseManager<IAccountModel> licenseManager)
         {
-            // Handle as blocked.
-
-            // Check once more a blocked account.
-            var isAllowed = await licenseManager.EvaluateNotPendingAsync(this);
+            // Handle as pending.
+            var isAllowed = await licenseManager.EvaluatePendingAsync(this);
             if (isAllowed)
                 Context.TransitionTo(new AccountApproved());
-            // Otherwise stay.
+            else
+                Context.TransitionTo(new AccountDenied());
         }
 
-        public override async Task HandlePreserveStateAndPublishEvent(IAccountsManager accountsManager)
+        public override async Task HandlePreserveStateAndPublishEvent(
+            IEventStoreManager<AAccountState> eventStoreManager
+        )
         {
-            await accountsManager.SaveStateAndNotifyAsync(this);
+            await eventStoreManager.SaveStateAndNotifyAsync(this);
         }
     }
 }

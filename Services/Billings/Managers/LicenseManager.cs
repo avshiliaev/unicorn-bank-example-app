@@ -3,9 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Billings.Interfaces;
 using Microsoft.Extensions.Logging;
+using Sdk.Abstractions;
 using Sdk.Api.Interfaces;
 using Sdk.Extensions;
-using Sdk.License.Abstractions;
 
 namespace Billings.Managers
 {

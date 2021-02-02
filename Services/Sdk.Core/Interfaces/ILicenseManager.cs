@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
-using Sdk.Interfaces;
 
-namespace Sdk.License.Interfaces
+namespace Sdk.Interfaces
 {
     public interface ILicenseManager<in TModel> where TModel : class, IDataModel
     {

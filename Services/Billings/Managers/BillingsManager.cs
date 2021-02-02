@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 using Sdk.Api.Events.Local;
 using Sdk.Api.Interfaces;
 using Sdk.Extensions;
-using Sdk.License.Interfaces;
+using Sdk.Interfaces;
 
 namespace Billings.Managers
 {

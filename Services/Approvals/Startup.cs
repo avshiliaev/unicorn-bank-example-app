@@ -13,7 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Sdk.Api.Extensions;
 using Sdk.Api.Interfaces;
 using Sdk.Communication.Extensions;
-using Sdk.License.Extensions;
+using Sdk.Extensions;
 using Sdk.Persistence.Extensions;
 
 namespace Approvals

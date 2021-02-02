@@ -1,10 +1,9 @@
 using System.Threading.Tasks;
-using Sdk.Interfaces;
 
-namespace Approvals.Interfaces
+namespace Sdk.Interfaces
 {
     public interface IEventStoreManager<TModel> where TModel : class, IDataModel
     {
-        Task<TModel?> SaveStateAndNotifyAsync(TModel dataModel);
+        Task<TModel> SaveStateAndNotifyAsync(TModel dataModel);
     }
 }

@@ -1,6 +1,7 @@
-using Accounts.Interfaces;
+using Accounts.Persistence.Entities;
 using Accounts.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Sdk.Persistence.Interfaces;
 
 namespace Accounts.Extensions
 {
@@ -8,7 +9,7 @@ namespace Accounts.Extensions
     {
         public static IServiceCollection AddDataAccessServices(this IServiceCollection services)
         {
-            services.AddTransient<IAccountsService, AccountsService>();
+            services.AddTransient<IEventStoreService<AccountEntity>, EventStoreService>();
             return services;
         }
     }

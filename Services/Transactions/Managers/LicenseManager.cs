@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
+using Sdk.Abstractions;
 using Sdk.Api.Interfaces;
 using Sdk.Extensions;
-using Sdk.License.Abstractions;
 using Transactions.Interfaces;
 
 namespace Transactions.Managers

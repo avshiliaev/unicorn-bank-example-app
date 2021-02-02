@@ -2,7 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Sdk.Api.Interfaces;
 using Sdk.Api.StateMachines;
 
-namespace Approvals.Extensions
+namespace Accounts.Extensions
 {
     public static class ConfigureStateMachine
     {

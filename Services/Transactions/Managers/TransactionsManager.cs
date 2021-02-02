@@ -7,7 +7,7 @@ using Sdk.Api.Events;
 using Sdk.Api.Events.Local;
 using Sdk.Api.Interfaces;
 using Sdk.Extensions;
-using Sdk.License.Interfaces;
+using Sdk.Interfaces;
 using Transactions.Interfaces;
 using Transactions.Mappers;
 

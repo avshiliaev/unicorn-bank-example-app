@@ -1,13 +1,13 @@
 using System.Threading.Tasks;
-using Accounts.Abstractions;
-using Accounts.Interfaces;
+using Sdk.Api.Abstractions;
 using Sdk.Api.Interfaces;
 using Sdk.Extensions;
-using Sdk.License.Interfaces;
+using Sdk.Interfaces;
+using Sdk.Persistence.Interfaces;
 
-namespace Accounts.StateMachine.States
+namespace Accounts.States
 {
-    public class AccountPending : AbstractState
+    public class AccountPending : AAccountState
     {
         public override void HandleCheckBlocked()
         {
@@ -40,9 +40,11 @@ namespace Accounts.StateMachine.States
                 Context.TransitionTo(new AccountDenied());
         }
 
-        public override async Task HandlePreserveStateAndPublishEvent(IAccountsManager accountsManager)
+        public override async Task HandlePreserveStateAndPublishEvent(
+            IEventStoreManager<AAccountState> eventStoreManager
+        )
         {
-            await accountsManager.SaveStateAndNotifyAsync(this);
+            await eventStoreManager.SaveStateAndNotifyAsync(this);
         }
     }
 }

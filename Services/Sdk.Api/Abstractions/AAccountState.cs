@@ -1,12 +1,11 @@
 using System.Threading.Tasks;
-using Approvals.Interfaces;
-using Approvals.StateMachine;
 using Sdk.Api.Interfaces;
-using Sdk.License.Interfaces;
+using Sdk.Api.StateMachines;
+using Sdk.Interfaces;
 
-namespace Approvals.Abstractions
+namespace Sdk.Api.Abstractions
 {
-    public abstract class AbstractAccountState : IAccountModel
+    public abstract class AAccountState : IAccountModel
     {
         protected AccountContext Context = null!;
 
@@ -49,7 +48,7 @@ namespace Approvals.Abstractions
         public abstract Task HandleCheckLicense(ILicenseManager<IAccountModel> licenseManager);
 
         public abstract Task HandlePreserveStateAndPublishEvent(
-            IEventStoreManager<AbstractAccountState> eventStoreManager
+            IEventStoreManager<AAccountState> eventStoreManager
         );
     }
 }

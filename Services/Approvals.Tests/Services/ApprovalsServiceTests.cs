@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Approvals.Interfaces;
 using Approvals.Persistence.Entities;
 using Approvals.Services;
 using Sdk.Tests.Extensions;

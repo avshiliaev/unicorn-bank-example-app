@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Approvals.Interfaces;
 using Approvals.Persistence.Entities;
 using Sdk.Persistence.Interfaces;
 
@@ -17,21 +16,21 @@ namespace Approvals.Services
             _approvalsRepository = approvalsRepository;
         }
 
-        public async Task<ApprovalEntity?> CreateApprovalAsync(ApprovalEntity approvalEntity)
+        public Task<ApprovalEntity> CreateRecordAsync(ApprovalEntity approvalEntity)
         {
-            return await _approvalsRepository.AddAsync(approvalEntity)!;
+            return _approvalsRepository.AddAsync(approvalEntity);
         }
 
-        public Task<List<ApprovalEntity?>> GetManyLastVersionAsync(
-            Expression<Func<ApprovalEntity?, bool>> predicate
+        public Task<List<ApprovalEntity>> GetManyRecordsLastVersionAsync(
+            Expression<Func<ApprovalEntity, bool>> predicate
         )
         {
-            return _approvalsRepository.GetManyLastVersionAsync(predicate!)!;
+            return _approvalsRepository.GetManyLastVersionAsync(predicate);
         }
 
-        public Task<ApprovalEntity?> GetOneAsync(Expression<Func<ApprovalEntity?, bool>> predicate)
+        public Task<ApprovalEntity> GetOneRecordAsync(Expression<Func<ApprovalEntity, bool>> predicate)
         {
-            return _approvalsRepository.GetOneAsync(predicate!)!;
+            return _approvalsRepository.GetOneAsync(predicate);
         }
     }
 }

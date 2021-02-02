@@ -1,10 +1,10 @@
 using System.Linq;
 using System.Threading.Tasks;
-using Approvals.Interfaces;
 using Approvals.Persistence.Entities;
 using Microsoft.Extensions.Logging;
+using Sdk.Abstractions;
 using Sdk.Api.Interfaces;
-using Sdk.License.Abstractions;
+using Sdk.Persistence.Interfaces;
 
 namespace Approvals.Managers
 {
@@ -25,7 +25,7 @@ namespace Approvals.Managers
 
         public override async Task<bool> EvaluatePendingAsync(IAccountModel accountModel)
         {
-            var allApprovals = await _approvalsService.GetManyLastVersionAsync(
+            var allApprovals = await _approvalsService.GetManyRecordsLastVersionAsync(
                 b =>
                     b!.Approved
                     && b.ProfileId == accountModel.ProfileId

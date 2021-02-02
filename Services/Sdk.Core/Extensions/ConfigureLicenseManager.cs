@@ -1,8 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Sdk.Interfaces;
-using Sdk.License.Interfaces;
 
-namespace Sdk.License.Extensions
+namespace Sdk.Extensions
 {
     public static class ConfigureLicenseManager
     {

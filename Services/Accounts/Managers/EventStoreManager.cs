@@ -1,31 +1,28 @@
+using System;
 using System.Threading.Tasks;
-using Accounts.Interfaces;
-using Accounts.Mappers;
+using Accounts.Persistence.Entities;
 using MassTransit;
-using Microsoft.Extensions.Logging;
-using Sdk.Api.Dto;
-using Sdk.Api.Events;
-using Sdk.Api.Events.Local;
 using Sdk.Api.Interfaces;
-using Sdk.Extensions;
+using Sdk.Interfaces;
+using Sdk.Persistence.Interfaces;
 
 namespace Accounts.Managers
 {
-    public class AccountsManager : IAccountsManager
+    public class EventStoreManager : IEventStoreManager<IAccountModel>
     {
-        private readonly IAccountsService _accountsService;
         private readonly IPublishEndpoint _publishEndpoint;
+        private IEventStoreService<AccountEntity> _eventStoreService;
 
-        public AccountsManager(
-            ILogger<AccountsManager> logger,
-            IAccountsService accountsService,
+        public EventStoreManager(
+            IEventStoreService<AccountEntity> eventStoreService,
             IPublishEndpoint publishEndpoint
         )
         {
-            _accountsService = accountsService;
+            _eventStoreService = eventStoreService;
             _publishEndpoint = publishEndpoint;
         }
 
+        /**
         public async Task<AccountDto?> CreateNewAccountAsync(string profileId)
         {
             if (!string.IsNullOrEmpty(profileId))
@@ -100,6 +97,12 @@ namespace Accounts.Managers
             }
 
             return null;
+        }
+         **/
+
+        public Task<IAccountModel> SaveStateAndNotifyAsync(IAccountModel dataModel)
+        {
+            throw new NotImplementedException();
         }
     }
 }

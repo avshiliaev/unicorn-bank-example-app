@@ -1,14 +1,13 @@
 using System.Collections.Generic;
-using Approvals.Interfaces;
 using Approvals.Managers;
 using Approvals.Persistence.Entities;
 using Approvals.Services;
-using Approvals.StateMachine;
-using Approvals.StateMachine.States;
+using Approvals.States;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Sdk.Api.Events.Local;
 using Sdk.Api.Interfaces;
+using Sdk.Api.StateMachines;
 using Sdk.Extensions;
 using Sdk.Tests.Extensions;
 using Sdk.Tests.Mocks;

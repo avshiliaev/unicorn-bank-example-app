@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Approvals.Interfaces;
 using Approvals.Managers;
 using Approvals.Persistence.Entities;
 using Approvals.Services;

@@ -1,11 +1,9 @@
-using System;
 using System.Threading.Tasks;
-using Accounts.Interfaces;
+using Accounts.States;
 using MassTransit;
-using Microsoft.Extensions.Logging;
 using Sdk.Api.Events;
 using Sdk.Api.Events.Local;
-using Sdk.Extensions;
+using Sdk.Api.Interfaces;
 
 namespace Accounts.Handlers
 {
@@ -13,16 +11,13 @@ namespace Accounts.Handlers
         IConsumer<AccountIsCheckedEvent>,
         IConsumer<TransactionUpdatedEvent>
     {
-        private readonly IAccountsManager _accountsManager;
-        private readonly ILogger<AccountsSubscriptionsHandler> _logger;
+        private readonly IAccountContext _accountContext;
 
         public AccountsSubscriptionsHandler(
-            ILogger<AccountsSubscriptionsHandler> logger,
-            IAccountsManager accountsManager
+            IAccountContext accountContext
         )
         {
-            _logger = logger;
-            _accountsManager = accountsManager;
+            _accountContext = accountContext;
         }
 
         public AccountsSubscriptionsHandler()
@@ -31,19 +26,18 @@ namespace Accounts.Handlers
 
         public async Task Consume(ConsumeContext<AccountIsCheckedEvent> context)
         {
-            _logger.LogDebug($"Received new AccountIsCheckedEvent for {context.Message.Id}");
-
-            var result = await _accountsManager.ProcessAccountIsCheckedEventAsync(context.Message);
-            if (result == null) throw new Exception($"Could not process an event {context.Message.Id}");
+            _accountContext.InitializeState(new AccountPending(), context.Message);
+            _accountContext.CheckBlocked();
+            _accountContext.CheckDenied();
+            _accountContext.CheckApproved();
+            await _accountContext.CheckLicense();
         }
 
         public async Task Consume(ConsumeContext<TransactionUpdatedEvent> context)
         {
-            _logger.LogDebug($"Received new TransactionUpdatedEvent for {context.Message.Version}");
-
-            if (!context.Message.IsApproved()) return;
-            var result = await _accountsManager.ProcessTransactionUpdatedEventAsync(context.Message);
-            if (result == null) throw new Exception($"Could not process an event {context.Message.Id}");
+            // if (!context.Message.IsApproved()) return;
+            // var result = await _eventStoreManager.ProcessTransactionUpdatedEventAsync(context.Message);
+            // if (result == null) throw new Exception($"Could not process an event {context.Message.Id}");
         }
     }
 }

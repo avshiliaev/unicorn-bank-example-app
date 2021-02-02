@@ -1,12 +1,13 @@
 using System.Net.Mime;
 using System.Threading.Tasks;
-using Accounts.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Sdk.Api.Dto;
+using Sdk.Api.Interfaces;
 using Sdk.Auth.Extensions;
+using Sdk.Interfaces;
+using Sdk.Persistence.Interfaces;
 
 namespace Accounts.Controllers
 {
@@ -14,18 +15,15 @@ namespace Accounts.Controllers
     [Route("api/[controller]")]
     public class AccountsController : ControllerBase
     {
-        private readonly IAccountsManager _accountsManager;
+        private readonly IEventStoreManager<IAccountModel> _eventStoreManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly ILogger<AccountsController> _logger;
 
         public AccountsController(
-            ILogger<AccountsController> logger,
-            IAccountsManager accountsManager,
+            IEventStoreManager<IAccountModel> eventStoreManager,
             IHttpContextAccessor httpContextAccessor
         )
         {
-            _logger = logger;
-            _accountsManager = accountsManager;
+            _eventStoreManager = eventStoreManager;
             _httpContextAccessor = httpContextAccessor;
         }
 
@@ -39,10 +37,13 @@ namespace Accounts.Controllers
             var profileId = _httpContextAccessor.GetUserIdentifier();
             if (profileId == null) return NotFound();
 
-            var newAccount = await _accountsManager.CreateNewAccountAsync(profileId);
-            if (newAccount == null) return NotFound();
+            var newAccountRequested = new AccountDto {ProfileId = profileId};
+            var newAccountCreated = await _eventStoreManager.SaveStateAndNotifyAsync(newAccountRequested);
+            if (newAccountCreated == null) return NotFound();
 
-            return CreatedAtAction(nameof(CreateNewAccount), new {id = newAccount.Id}, newAccount);
+            return CreatedAtAction(
+                nameof(CreateNewAccount), new {id = newAccountCreated.Id}, newAccountCreated
+            );
         }
     }
 }
