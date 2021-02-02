@@ -3,45 +3,44 @@ using Sdk.Api.Abstractions;
 using Sdk.Api.Interfaces;
 using Sdk.Extensions;
 using Sdk.Interfaces;
-using Sdk.Persistence.Interfaces;
 
-namespace Accounts.States
+namespace Accounts.States.Transactions
 {
-    public class AccountPending : AAccountState
+    public class TransactionPending : ATransactionsState
     {
         public override void HandleCheckBlocked()
         {
             if (Context.IsBlocked())
-                Context.TransitionTo(new AccountBlocked());
+                Context.TransitionTo(new TransactionBlocked());
             // Otherwise stay.
         }
 
         public override void HandleCheckDenied()
         {
             if (Context.IsDenied())
-                Context.TransitionTo(new AccountDenied());
+                Context.TransitionTo(new TransactionDenied());
             // Otherwise stay.
         }
 
         public override void HandleCheckApproved()
         {
             if (Context.IsApproved())
-                Context.TransitionTo(new AccountApproved());
+                Context.TransitionTo(new TransactionApproved());
             // Remain in the current state.
         }
 
-        public override async Task HandleCheckLicense(ILicenseManager<IAccountModel> licenseManager)
+        public override async Task HandleCheckLicense(ILicenseManager<ITransactionModel> licenseManager)
         {
             // Handle as pending.
             var isAllowed = await licenseManager.EvaluatePendingAsync(this);
             if (isAllowed)
-                Context.TransitionTo(new AccountApproved());
+                Context.TransitionTo(new TransactionApproved());
             else
-                Context.TransitionTo(new AccountDenied());
+                Context.TransitionTo(new TransactionDenied());
         }
 
         public override async Task HandlePreserveStateAndPublishEvent(
-            IEventStoreManager<AAccountState> eventStoreManager
+            IEventStoreManager<ATransactionsState> eventStoreManager
         )
         {
             await eventStoreManager.SaveStateAndNotifyAsync(this);

@@ -3,17 +3,14 @@ using Sdk.Api.Abstractions;
 using Sdk.Api.Interfaces;
 using Sdk.Extensions;
 using Sdk.Interfaces;
-using Sdk.Persistence.Interfaces;
 
-namespace Accounts.States
+namespace Accounts.States.Account
 {
-    public class AccountApproved : AAccountState
+    public class AccountBlocked : AAccountState
     {
         public override void HandleCheckBlocked()
         {
-            if (Context.IsBlocked())
-                Context.TransitionTo(new AccountBlocked());
-            // Otherwise stay.
+            // Remain in the current state.
         }
 
         public override void HandleCheckDenied()
@@ -25,15 +22,19 @@ namespace Accounts.States
 
         public override void HandleCheckApproved()
         {
+            if (Context.IsApproved())
+                Context.TransitionTo(new AccountApproved());
             // Remain in the current state.
         }
 
         public override async Task HandleCheckLicense(ILicenseManager<IAccountModel> licenseManager)
         {
-            // Handle as approved.
+            // Handle as blocked.
+
+            // Check once more a blocked account.
             var isAllowed = await licenseManager.EvaluateNotPendingAsync(this);
-            if (!isAllowed)
-                Context.TransitionTo(new AccountBlocked());
+            if (isAllowed)
+                Context.TransitionTo(new AccountApproved());
             // Otherwise stay.
         }
 

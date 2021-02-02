@@ -3,9 +3,8 @@ using Sdk.Api.Abstractions;
 using Sdk.Api.Interfaces;
 using Sdk.Extensions;
 using Sdk.Interfaces;
-using Sdk.Persistence.Interfaces;
 
-namespace Accounts.States
+namespace Accounts.States.Account
 {
     public class AccountDenied : AAccountState
     {

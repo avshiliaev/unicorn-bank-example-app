@@ -39,6 +39,7 @@ namespace Accounts
                 .AddPostgreSql<AccountsRepository, AccountEntity, AccountsContext>(_configuration)
                 .AddAuth0(_configuration)
                 .AddDataAccessServices()
+                .AddStateMachine()
                 .AddBusinessLogicManagers()
                 .AddMessageBus<AccountsSubscriptionsHandler>(_configuration);
             services.Configure<ForwardedHeadersOptions>(options =>

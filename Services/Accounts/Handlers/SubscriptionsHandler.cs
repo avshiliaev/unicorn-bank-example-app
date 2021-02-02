@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
-using Accounts.States;
+using Accounts.States.Account;
+using Accounts.States.Transactions;
 using MassTransit;
 using Sdk.Api.Events;
 using Sdk.Api.Events.Local;
@@ -12,12 +13,15 @@ namespace Accounts.Handlers
         IConsumer<TransactionUpdatedEvent>
     {
         private readonly IAccountContext _accountContext;
+        private readonly ITransactionsContext _transactionsContext;
 
         public AccountsSubscriptionsHandler(
-            IAccountContext accountContext
+            IAccountContext accountContext,
+            ITransactionsContext transactionsContext
         )
         {
             _accountContext = accountContext;
+            _transactionsContext = transactionsContext;
         }
 
         public AccountsSubscriptionsHandler()
@@ -38,6 +42,11 @@ namespace Accounts.Handlers
             // if (!context.Message.IsApproved()) return;
             // var result = await _eventStoreManager.ProcessTransactionUpdatedEventAsync(context.Message);
             // if (result == null) throw new Exception($"Could not process an event {context.Message.Id}");
+            _transactionsContext.InitializeState(new TransactionPending(), context.Message);
+            _transactionsContext.CheckBlocked();
+            _transactionsContext.CheckDenied();
+            _transactionsContext.CheckApproved();
+            await _transactionsContext.CheckLicense();
         }
     }
 }
