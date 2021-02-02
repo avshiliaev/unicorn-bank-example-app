@@ -10,6 +10,7 @@ using Sdk.Api.Extensions;
 using Sdk.Api.Interfaces;
 using Sdk.Auth.Extensions;
 using Sdk.Communication.Extensions;
+using Sdk.Extensions;
 using Sdk.Persistence.Extensions;
 using Sdk.Persistence.Interfaces;
 using Transactions.Extensions;
@@ -39,10 +40,10 @@ namespace Transactions
             services
                 .AddCors()
                 .AddPostgreSql<TransactionsRepository, TransactionEntity, TransactionsContext>(_configuration)
-                .AddTransient<IRepository<AccountEntity>, AccountsRepository>() // TODO: Refactor!
                 .AddAuth0(_configuration)
                 .AddDataAccessServices()
                 .AddBusinessLogicManagers()
+                .AddStateMachine()
                 .AddLicenseManager<LicenseManager, ITransactionModel>()
                 .AddMessageBus<TransactionsSubscriptionsHandler>(_configuration);
             services.AddHealthChecks().AddCheck("alive", () => HealthCheckResult.Healthy());

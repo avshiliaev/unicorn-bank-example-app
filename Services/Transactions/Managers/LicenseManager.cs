@@ -3,22 +3,23 @@ using System.Threading.Tasks;
 using Sdk.Abstractions;
 using Sdk.Api.Interfaces;
 using Sdk.Extensions;
-using Transactions.Interfaces;
+using Sdk.Persistence.Interfaces;
+using Transactions.Persistence.Entities;
 
 namespace Transactions.Managers
 {
     public class LicenseManager : ALicenseManager<ITransactionModel>
     {
-        private readonly IAccountsService _accountsService;
+        private readonly IEventStoreService<TransactionEntity> _eventStoreService;
 
-        public LicenseManager(IAccountsService accountsService)
+        public LicenseManager(IEventStoreService<TransactionEntity> eventStoreService)
         {
-            _accountsService = accountsService;
+            _eventStoreService = eventStoreService;
         }
 
         public override async Task<bool> EvaluatePendingAsync(ITransactionModel model)
         {
-            var account = await _accountsService.GetOneByParameterAsync(
+            var account = await _eventStoreService.GetOneRecordAsync(
                 a =>
                     a.Id == model.AccountId.ToGuid() &&
                     a.ProfileId == model.ProfileId

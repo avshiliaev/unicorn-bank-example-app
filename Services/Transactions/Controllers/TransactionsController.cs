@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Sdk.Api.Dto;
+using Sdk.Api.Interfaces;
 using Sdk.Auth.Extensions;
-using Transactions.Interfaces;
+using Sdk.Interfaces;
 using Transactions.Mappers;
 using Transactions.ViewModels;
 
@@ -16,18 +16,15 @@ namespace Transactions.Controllers
     [Route("api/[controller]")]
     public class TransactionsController : ControllerBase
     {
+        private readonly IEventStoreManager<ITransactionModel> _eventStoreManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly ILogger<TransactionsController> _logger;
-        private readonly ITransactionsManager _transactionsManager;
 
         public TransactionsController(
-            ILogger<TransactionsController> logger,
-            ITransactionsManager transactionsManager,
+            IEventStoreManager<ITransactionModel> eventStoreManager,
             IHttpContextAccessor httpContextAccessor
         )
         {
-            _logger = logger;
-            _transactionsManager = transactionsManager;
+            _eventStoreManager = eventStoreManager;
             _httpContextAccessor = httpContextAccessor;
         }
 
@@ -45,15 +42,17 @@ namespace Transactions.Controllers
             var profileId = _httpContextAccessor.GetUserIdentifier();
             if (profileId == null) return NotFound();
 
-            var newTransaction = await _transactionsManager.CreateNewTransactionAsync(
-                transactionViewModel.ToTransactionModel<TransactionDto>(profileId)
+            var newTransactionRequested = transactionViewModel.ToTransactionModel<TransactionDto>(profileId);
+
+            var newTransactionCreated = await _eventStoreManager.SaveStateAndNotifyAsync(
+                newTransactionRequested
             );
-            if (newTransaction == null) return NotFound();
+            if (newTransactionCreated == null) return NotFound();
 
             return CreatedAtAction(
                 nameof(CreateNewTransaction),
-                new {id = newTransaction.Id},
-                newTransaction
+                new {id = newTransactionCreated.Id},
+                newTransactionCreated
             );
         }
     }

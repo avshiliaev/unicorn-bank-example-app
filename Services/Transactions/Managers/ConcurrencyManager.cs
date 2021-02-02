@@ -2,22 +2,24 @@ using System.Linq;
 using System.Threading.Tasks;
 using Sdk.Api.Interfaces;
 using Sdk.Extensions;
+using Sdk.Persistence.Interfaces;
 using Transactions.Interfaces;
+using Transactions.Persistence.Entities;
 
 namespace Transactions.Managers
 {
     public class ConcurrencyManager : IConcurrencyManager
     {
-        private readonly ITransactionsService _transactionsService;
+        private readonly IEventStoreService<TransactionEntity> _eventStoreService;
 
-        public ConcurrencyManager(ITransactionsService transactionsService)
+        public ConcurrencyManager(IEventStoreService<TransactionEntity> eventStoreService)
         {
-            _transactionsService = transactionsService;
+            _eventStoreService = eventStoreService;
         }
 
         public async Task<ITransactionModel> SetNextSequentialNumber(ITransactionModel transactionModel)
         {
-            var allTransactions = await _transactionsService.GetManyByParameterAsync(
+            var allTransactions = await _eventStoreService.GetManyRecordsLastVersionAsync(
                 entity => entity!.ProfileId == transactionModel.ProfileId
                           && entity!.AccountId == transactionModel.AccountId.ToGuid()
             );

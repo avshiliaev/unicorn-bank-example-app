@@ -1,5 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
+using Sdk.Persistence.Interfaces;
 using Transactions.Interfaces;
+using Transactions.Persistence.Entities;
 using Transactions.Services;
 
 namespace Transactions.Extensions
@@ -8,9 +10,7 @@ namespace Transactions.Extensions
     {
         public static IServiceCollection AddDataAccessServices(this IServiceCollection services)
         {
-            services
-                .AddTransient<ITransactionsService, TransactionsService>()
-                .AddTransient<IAccountsService, AccountsService>();
+            services.AddTransient<IEventStoreService<TransactionEntity>, EventStoreService>();
             return services;
         }
     }

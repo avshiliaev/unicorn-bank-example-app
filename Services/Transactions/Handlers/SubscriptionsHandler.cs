@@ -1,10 +1,10 @@
-using System;
 using System.Threading.Tasks;
 using MassTransit;
-using Microsoft.Extensions.Logging;
 using Sdk.Api.Events;
 using Sdk.Api.Events.Local;
-using Transactions.Interfaces;
+using Sdk.Api.Interfaces;
+using Transactions.States.Account;
+using Transactions.States.Transactions;
 
 namespace Transactions.Handlers
 {
@@ -12,19 +12,16 @@ namespace Transactions.Handlers
         IConsumer<TransactionIsCheckedEvent>,
         IConsumer<AccountUpdatedEvent>
     {
-        private readonly IAccountsManager _accountsManager;
-        private readonly ILogger<TransactionsSubscriptionsHandler> _logger;
-        private readonly ITransactionsManager _transactionsManager;
+        private readonly IAccountContext _accountContext;
+        private readonly ITransactionsContext _transactionsContext;
 
         public TransactionsSubscriptionsHandler(
-            ILogger<TransactionsSubscriptionsHandler> logger,
-            ITransactionsManager transactionsManager,
-            IAccountsManager accountsManager
+            IAccountContext accountContext,
+            ITransactionsContext transactionsContext
         )
         {
-            _logger = logger;
-            _transactionsManager = transactionsManager;
-            _accountsManager = accountsManager;
+            _accountContext = accountContext;
+            _transactionsContext = transactionsContext;
         }
 
         public TransactionsSubscriptionsHandler()
@@ -33,17 +30,20 @@ namespace Transactions.Handlers
 
         public async Task Consume(ConsumeContext<AccountUpdatedEvent> context)
         {
-            _logger.LogDebug($"Received new AccountUpdatedEvent for {context.Message.Version}");
-            var result = await _accountsManager.ProcessTransactionCheckedEventAsync(context.Message);
-            if (result == null) throw new Exception($"Could not process an event {context.Message.Id}");
+            _accountContext.InitializeState(new AccountPending(), context.Message);
+            _accountContext.CheckBlocked();
+            _accountContext.CheckDenied();
+            _accountContext.CheckApproved();
+            await _accountContext.CheckLicense();
         }
 
         public async Task Consume(ConsumeContext<TransactionIsCheckedEvent> context)
         {
-            _logger.LogDebug($"Received new TransactionProcessedEvent for {context.Message.Id}");
-            var result = await _transactionsManager.ProcessTransactionCheckedEventAsync(context.Message);
-
-            if (result == null) throw new Exception($"Could not process an event {context.Message.Id}");
+            _transactionsContext.InitializeState(new TransactionPending(), context.Message);
+            _transactionsContext.CheckBlocked();
+            _transactionsContext.CheckDenied();
+            _transactionsContext.CheckApproved();
+            await _transactionsContext.CheckLicense();
         }
     }
 }

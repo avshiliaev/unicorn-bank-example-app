@@ -1,4 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
+using Sdk.Api.Abstractions;
+using Sdk.Api.Interfaces;
+using Sdk.Interfaces;
 using Transactions.Interfaces;
 using Transactions.Managers;
 
@@ -9,8 +12,7 @@ namespace Transactions.Extensions
         public static IServiceCollection AddBusinessLogicManagers(this IServiceCollection services)
         {
             services
-                .AddTransient<ITransactionsManager, TransactionsManager>()
-                .AddTransient<IAccountsManager, AccountsManager>()
+                .AddTransient<IEventStoreManager<ITransactionModel>, EventStoreManager>()
                 .AddTransient<IConcurrencyManager, ConcurrencyManager>();
             return services;
         }
