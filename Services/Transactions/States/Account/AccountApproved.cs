@@ -37,7 +37,7 @@ namespace Transactions.States.Account
         }
 
         public override async Task HandlePreserveStateAndPublishEvent(
-            IEventStoreManager<IAccountModel> eventStoreManager)
+            IEventStoreManager<AAccountState> eventStoreManager)
         {
             await eventStoreManager.SaveStateAndNotifyAsync(this);
         }

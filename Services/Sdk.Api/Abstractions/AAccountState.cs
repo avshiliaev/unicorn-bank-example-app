@@ -48,7 +48,7 @@ namespace Sdk.Api.Abstractions
         public abstract Task HandleCheckLicense(ILicenseManager<IAccountModel> licenseManager);
 
         public abstract Task HandlePreserveStateAndPublishEvent(
-            IEventStoreManager<IAccountModel> eventStoreManager
+            IEventStoreManager<AAccountState> eventStoreManager
         );
     }
 }
