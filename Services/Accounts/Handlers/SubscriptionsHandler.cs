@@ -41,9 +41,6 @@ namespace Accounts.Handlers
 
         public async Task Consume(ConsumeContext<TransactionUpdatedEvent> context)
         {
-            // if (!context.Message.IsApproved()) return;
-            // var result = await _eventStoreManager.ProcessTransactionUpdatedEventAsync(context.Message);
-            // if (result == null) throw new Exception($"Could not process an event {context.Message.Id}");
             _transactionsContext.InitializeState(new TransactionPending(), context.Message);
             _transactionsContext.CheckBlocked();
             _transactionsContext.CheckDenied();

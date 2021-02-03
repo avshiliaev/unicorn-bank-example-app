@@ -22,42 +22,6 @@ namespace Accounts.Managers
             _publishEndpoint = publishEndpoint;
         }
 
-        /**
-         * public async Task
-         * <AccountDto
-         * ?>
-         * ProcessTransactionUpdatedEventAsync(ITransactionModel transactionModel)
-         * {
-         * if (!transactionModel.IsApproved())
-         * return null;
-         * var transactionEntity = transactionModel.ToTransactionEntity();
-         * var mappedAccount = await _accountsService.GetAccountByIdAsync(transactionEntity.AccountId);
-         * if (mappedAccount != null)
-         * {
-         * // Optimistic Concurrency Control: check version
-         * if (!mappedAccount.CheckConcurrentController(transactionEntity))
-         * return null;
-         * 
-         * mappedAccount.SetBalance(transactionEntity);
-         * mappedAccount.IncrementConcurrentController();
-         * 
-         * // Optimistic Concurrency Control: update incrementing the version
-         * var updatedAccount = await _accountsService.UpdateAccountAsync(mappedAccount);
-         * 
-         * await _publishEndpoint.Publish(updatedAccount?.ToAccountEvent
-         * <AccountUpdatedEvent>
-         *     ());
-         *     await _publishEndpoint.Publish(updatedAccount?.ToAccountEvent
-         *     <AccountCheckCommand>
-         *         ());
-         *         return updatedAccount?.ToAccountModel
-         *         <AccountDto>
-         *             ();
-         *             }
-         *             return null;
-         *             }
-         *             *
-         */
         public Task<AAccountState> SaveStateAsync(AAccountState dataModel)
         {
             throw new NotImplementedException();
