@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Accounts.Mappers;
 using Accounts.Persistence.Entities;
 using MassTransit;
 using Sdk.Api.Abstractions;
@@ -10,21 +11,21 @@ namespace Accounts.Managers
 {
     public class EventStoreManager : IEventStoreManager<AAccountState>
     {
-        private readonly IPublishEndpoint _publishEndpoint;
-        private IEventStoreService<AccountEntity> _eventStoreService;
+        private readonly IEventStoreService<AccountEntity> _eventStoreService;
 
         public EventStoreManager(
-            IEventStoreService<AccountEntity> eventStoreService,
-            IPublishEndpoint publishEndpoint
+            IEventStoreService<AccountEntity> eventStoreService
         )
         {
             _eventStoreService = eventStoreService;
-            _publishEndpoint = publishEndpoint;
         }
 
-        public Task<AAccountState> SaveStateAsync(AAccountState dataModel)
+        public async Task<AAccountState> SaveStateAsync(AAccountState dataModel)
         {
-            throw new NotImplementedException();
+            var accountEntity = dataModel.ToAccountEntity();
+            var accountEntitySaved = await _eventStoreService.CreateRecordAsync(accountEntity);
+
+            return dataModel;
         }
     }
 }

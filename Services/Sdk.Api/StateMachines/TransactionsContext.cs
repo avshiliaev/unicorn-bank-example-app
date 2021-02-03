@@ -32,6 +32,7 @@ namespace Sdk.Api.StateMachines
         // Foreign
         public string AccountId { get; set; } = null!;
         public string ProfileId { get; set; } = null!;
+        public string TransactionId { get; set; }
 
         // Properties
         public float Amount { get; set; }
@@ -51,6 +52,9 @@ namespace Sdk.Api.StateMachines
             // Common
             Id = transactionModel.Id;
             Version = transactionModel.Version;
+            // Foreign
+            TransactionId = transactionModel.TransactionId;
+            AccountId = transactionModel.AccountId;
             ProfileId = transactionModel.ProfileId;
             // Properties
             Amount = transactionModel.Amount;

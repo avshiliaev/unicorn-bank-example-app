@@ -16,6 +16,7 @@ namespace Accounts.Mappers
                 Balance = accountModel.Balance,
 
                 ProfileId = accountModel.ProfileId,
+                AccountId = accountModel.AccountId,
 
                 Approved = accountModel.Approved,
                 Pending = accountModel.Pending,
@@ -35,6 +36,7 @@ namespace Accounts.Mappers
                 Balance = accountEvent.Balance,
 
                 ProfileId = accountEvent.ProfileId,
+                AccountId = accountEvent.AccountId,
 
                 Approved = accountEvent.Approved,
                 Pending = accountEvent.Pending,

@@ -10,12 +10,25 @@ namespace Accounts.Mappers
         {
             return new TransactionEntity
             {
+                // Common
                 Id = transactionModel.Id.ToGuid(),
-                Amount = transactionModel.Amount,
+                Version = transactionModel.Version,
+
+                // Foreign
                 AccountId = transactionModel.AccountId.ToGuid(),
+                ProfileId = transactionModel.ProfileId,
+                TransactionId = transactionModel.TransactionId,
+
+                // Properties
+                Amount = transactionModel.Amount,
+                Info = transactionModel.Info,
+
+                // Approvable
                 Approved = transactionModel.Approved,
                 Pending = transactionModel.Pending,
-                Version = transactionModel.Version,
+                Blocked = transactionModel.Blocked,
+
+                // Concurrent
                 SequentialNumber = transactionModel.SequentialNumber
             };
         }

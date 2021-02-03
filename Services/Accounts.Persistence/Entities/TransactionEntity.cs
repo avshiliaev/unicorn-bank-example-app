@@ -8,16 +8,19 @@ namespace Accounts.Persistence.Entities
     {
         // Foreign Properties
         public Guid AccountId { get; set; }
+        public string ProfileId { get; set; }
+        public string TransactionId { get; set; }
 
         // Properties
         public float Amount { get; set; }
+        public string Info { get; set; }
 
         // Approvable
         public bool Approved { get; set; }
         public bool Pending { get; set; }
         public bool Blocked { get; set; }
 
-        // Concurrent
+        // Concurrency
         public int SequentialNumber { get; set; }
 
         // Common Entity

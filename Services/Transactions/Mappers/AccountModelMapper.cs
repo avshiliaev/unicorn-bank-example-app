@@ -16,6 +16,7 @@ namespace Transactions.Mappers
                 Balance = accountEvent.Balance,
 
                 ProfileId = accountEvent.ProfileId,
+                AccountId = accountEvent.AccountId,
 
                 Approved = accountEvent.Approved,
                 Pending = accountEvent.Pending,

@@ -15,7 +15,7 @@ namespace Billings.Mappers
 
                 ProfileId = transactionModel.ProfileId,
                 AccountId = transactionModel.AccountId.ToGuid(),
-                TransactionId = transactionModel.Id.ToGuid(),
+                TransactionId = transactionModel.TransactionId.ToGuid(),
 
                 Amount = transactionModel.Amount,
                 Approved = transactionModel.Approved,

@@ -11,6 +11,7 @@ namespace Transactions.Persistence.Entities
 
         // Foreign Properties
         public string ProfileId { get; set; }
+        public string AccountId { get; set; }
 
         // Approvable
         public bool Approved { get; set; }

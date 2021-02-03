@@ -16,7 +16,7 @@ namespace Approvals.Mappers
                 Updated = DateTime.Now,
                 Version = 0,
 
-                AccountId = accountModel.Id.ToGuid(),
+                AccountId = accountModel.AccountId.ToGuid(),
                 ProfileId = accountModel.ProfileId,
 
                 Approved = accountModel.Approved,

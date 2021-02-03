@@ -9,6 +9,7 @@ namespace Transactions.Persistence.Entities
         // Foreign Properties
         public Guid AccountId { get; set; }
         public string ProfileId { get; set; }
+        public string TransactionId { get; set; }
 
         // Properties
         public float Amount { get; set; }

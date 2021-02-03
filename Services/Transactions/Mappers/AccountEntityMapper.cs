@@ -17,6 +17,7 @@ namespace Transactions.Mappers
                 Balance = accountEntity.Balance,
 
                 ProfileId = accountEntity.ProfileId,
+                AccountId = accountEntity.AccountId,
 
                 Approved = accountEntity.Approved,
                 Pending = accountEntity.Pending,
@@ -37,6 +38,7 @@ namespace Transactions.Mappers
                 Balance = accountEntity.Balance,
 
                 ProfileId = accountEntity.ProfileId,
+                AccountId = accountEntity.AccountId,
 
                 Approved = accountEntity.Approved,
                 Pending = accountEntity.Pending,

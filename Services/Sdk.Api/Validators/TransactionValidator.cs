@@ -9,7 +9,7 @@ namespace Sdk.Api.Validators
             if (
                 string.IsNullOrEmpty(transactionModel.ProfileId) ||
                 string.IsNullOrEmpty(transactionModel.AccountId) ||
-                string.IsNullOrEmpty(transactionModel.Id)
+                string.IsNullOrEmpty(transactionModel.TransactionId)
             )
                 return false;
             return true;

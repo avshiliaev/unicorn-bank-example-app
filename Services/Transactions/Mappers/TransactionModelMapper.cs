@@ -18,6 +18,7 @@ namespace Transactions.Mappers
                 // Foreign
                 AccountId = transactionsContext.AccountId,
                 ProfileId = transactionsContext.ProfileId,
+                TransactionId = transactionsContext.TransactionId,
 
                 // Properties
                 Amount = transactionsContext.Amount,
@@ -44,6 +45,7 @@ namespace Transactions.Mappers
                 // Foreign
                 AccountId = transactionModel.AccountId.ToGuid(),
                 ProfileId = transactionModel.ProfileId,
+                TransactionId = transactionModel.TransactionId,
 
                 // Properties
                 Amount = transactionModel.Amount,

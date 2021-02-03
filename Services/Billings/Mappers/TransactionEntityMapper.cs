@@ -19,6 +19,7 @@ namespace Billings.Mappers
 
                 AccountId = transactionModel.AccountId,
                 ProfileId = transactionModel.ProfileId,
+                TransactionId = transactionModel.TransactionId,
 
                 Amount = transactionModel.Amount,
                 Info = transactionModel.Info,

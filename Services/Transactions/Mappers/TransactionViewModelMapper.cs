@@ -18,6 +18,7 @@ namespace Transactions.Mappers
                 // Foreign
                 AccountId = transactionViewModel.AccountId,
                 ProfileId = profileId,
+                TransactionId = Guid.NewGuid().ToString(),
 
                 // Properties
                 Amount = transactionViewModel.Amount,

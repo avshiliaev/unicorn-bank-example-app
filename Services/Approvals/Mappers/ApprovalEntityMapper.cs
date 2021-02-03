@@ -16,6 +16,7 @@ namespace Approvals.Mappers
                 Balance = accountModel.Balance,
 
                 ProfileId = accountModel.ProfileId,
+                AccountId = accountModel.AccountId,
 
                 Approved = approvalEntity.Approved,
                 Pending = approvalEntity.Pending,

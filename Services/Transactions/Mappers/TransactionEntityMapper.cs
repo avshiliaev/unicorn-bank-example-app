@@ -21,6 +21,7 @@ namespace Transactions.Mappers
                 // Foreign
                 AccountId = transactionEntity.AccountId.ToString(),
                 ProfileId = transactionEntity.ProfileId,
+                TransactionId = transactionEntity.TransactionId,
 
                 // Properties
                 Amount = transactionEntity.Amount,
