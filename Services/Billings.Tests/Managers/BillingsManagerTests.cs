@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using Billings.Interfaces;
-using Billings.Managers;
 using Billings.Persistence.Entities;
-using Billings.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Sdk.Api.Events;

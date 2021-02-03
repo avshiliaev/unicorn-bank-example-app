@@ -49,7 +49,7 @@ namespace Sdk.Api.Abstractions
             // Concurrent
             SequentialNumber = context.SequentialNumber;
         }
-        
+
         public abstract void HandleCheckBlocked();
         public abstract void HandleCheckDenied();
         public abstract void HandleCheckApproved();

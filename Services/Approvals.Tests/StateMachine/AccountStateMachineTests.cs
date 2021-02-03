@@ -1,8 +1,5 @@
 using System.Collections.Generic;
-using Approvals.Managers;
 using Approvals.Persistence.Entities;
-using Approvals.Services;
-using Approvals.States;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Sdk.Api.Events.Local;

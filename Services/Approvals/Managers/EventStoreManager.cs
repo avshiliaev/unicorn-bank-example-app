@@ -24,7 +24,7 @@ namespace Approvals.Managers
             _publishEndpoint = publishEndpoint;
         }
 
-        public async Task<AAccountState> SaveStateAndNotifyAsync(AAccountState stateModel)
+        public async Task<AAccountState> SaveStateAsync(AAccountState stateModel)
         {
             if (!stateModel.IsValid())
                 return null!;

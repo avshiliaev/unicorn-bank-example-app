@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Billings.Interfaces;
 using Billings.Persistence.Entities;
-using Billings.Services;
 using Sdk.Tests.Extensions;
 using Sdk.Tests.Mocks;
 using Xunit;

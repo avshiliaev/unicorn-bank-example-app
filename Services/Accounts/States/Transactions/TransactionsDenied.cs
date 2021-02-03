@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using MassTransit;
 using Sdk.Api.Abstractions;
@@ -42,12 +43,12 @@ namespace Accounts.States.Transactions
         public override async Task HandlePreserveState(
             IEventStoreManager<ATransactionsState> eventStoreManager)
         {
-            await eventStoreManager.SaveStateAndNotifyAsync(this);
+            await eventStoreManager.SaveStateAsync(this);
         }
 
         public override Task HandlePublishEvent(IPublishEndpoint publishEndpoint)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

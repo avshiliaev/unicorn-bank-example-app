@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using Sdk.Tests.Extensions;
 using Sdk.Tests.Mocks;
-using Transactions.Interfaces;
 using Transactions.Persistence.Entities;
-using Transactions.Services;
 using Xunit;
 
 namespace Transactions.Tests.Services

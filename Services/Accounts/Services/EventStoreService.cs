@@ -15,7 +15,7 @@ namespace Accounts.Services
         {
             _accountsRepository = accountsRepository;
         }
-        
+
         public Task<AccountEntity> CreateRecordAsync(AccountEntity accountEntity)
         {
             return _accountsRepository.AddAsync(accountEntity);

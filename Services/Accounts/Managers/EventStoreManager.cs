@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Accounts.Persistence.Entities;
 using MassTransit;
 using Sdk.Api.Abstractions;
-using Sdk.Api.Interfaces;
 using Sdk.Interfaces;
 using Sdk.Persistence.Interfaces;
 
@@ -24,39 +23,43 @@ namespace Accounts.Managers
         }
 
         /**
-
-        public async Task<AccountDto?> ProcessTransactionUpdatedEventAsync(ITransactionModel transactionModel)
+         * public async Task
+         * <AccountDto
+         * ?>
+         * ProcessTransactionUpdatedEventAsync(ITransactionModel transactionModel)
+         * {
+         * if (!transactionModel.IsApproved())
+         * return null;
+         * var transactionEntity = transactionModel.ToTransactionEntity();
+         * var mappedAccount = await _accountsService.GetAccountByIdAsync(transactionEntity.AccountId);
+         * if (mappedAccount != null)
+         * {
+         * // Optimistic Concurrency Control: check version
+         * if (!mappedAccount.CheckConcurrentController(transactionEntity))
+         * return null;
+         * 
+         * mappedAccount.SetBalance(transactionEntity);
+         * mappedAccount.IncrementConcurrentController();
+         * 
+         * // Optimistic Concurrency Control: update incrementing the version
+         * var updatedAccount = await _accountsService.UpdateAccountAsync(mappedAccount);
+         * 
+         * await _publishEndpoint.Publish(updatedAccount?.ToAccountEvent
+         * <AccountUpdatedEvent>
+         *     ());
+         *     await _publishEndpoint.Publish(updatedAccount?.ToAccountEvent
+         *     <AccountCheckCommand>
+         *         ());
+         *         return updatedAccount?.ToAccountModel
+         *         <AccountDto>
+         *             ();
+         *             }
+         *             return null;
+         *             }
+         *             *
+         */
+        public Task<AAccountState> SaveStateAsync(AAccountState dataModel)
         {
-            if (!transactionModel.IsApproved())
-                return null;
-            var transactionEntity = transactionModel.ToTransactionEntity();
-            var mappedAccount = await _accountsService.GetAccountByIdAsync(transactionEntity.AccountId);
-            if (mappedAccount != null)
-            {
-                // Optimistic Concurrency Control: check version
-                if (!mappedAccount.CheckConcurrentController(transactionEntity))
-                    return null;
-
-                mappedAccount.SetBalance(transactionEntity);
-                mappedAccount.IncrementConcurrentController();
-
-                // Optimistic Concurrency Control: update incrementing the version
-                var updatedAccount = await _accountsService.UpdateAccountAsync(mappedAccount);
-
-                await _publishEndpoint.Publish(updatedAccount?.ToAccountEvent<AccountUpdatedEvent>());
-                await _publishEndpoint.Publish(updatedAccount?.ToAccountEvent<AccountCheckCommand>());
-
-                return updatedAccount?.ToAccountModel<AccountDto>();
-            }
-
-            return null;
-        }
-         **/
-
-        public Task<AAccountState> SaveStateAndNotifyAsync(AAccountState dataModel)
-        {
-            // await _publishEndpoint.Publish(newAccount?.ToAccountEvent<AccountCreatedEvent>());
-            // await _publishEndpoint.Publish(newAccount?.ToAccountEvent<AccountCheckCommand>());
             throw new NotImplementedException();
         }
     }

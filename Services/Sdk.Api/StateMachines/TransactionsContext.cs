@@ -11,8 +11,8 @@ namespace Sdk.Api.StateMachines
     {
         private readonly IEventStoreManager<ATransactionsState> _eventStoreManager;
         private readonly ILicenseManager<ITransactionModel> _licenseManager;
-        private ATransactionsState _state = null!;
         private readonly IPublishEndpoint _publishEndpoint;
+        private ATransactionsState _state = null!;
 
         public TransactionsContext(
             IEventStoreManager<ATransactionsState> eventStoreManager,
@@ -69,12 +69,12 @@ namespace Sdk.Api.StateMachines
         {
             return _state.GetType();
         }
-        
+
         public void CheckBlocked()
         {
             _state.HandleCheckBlocked();
         }
-        
+
         public void CheckDenied()
         {
             _state.HandleCheckDenied();
@@ -94,7 +94,7 @@ namespace Sdk.Api.StateMachines
         {
             await _state.HandlePreserveState(_eventStoreManager);
         }
-        
+
         public async Task PublishEvent()
         {
             await _state.HandlePublishEvent(_publishEndpoint);

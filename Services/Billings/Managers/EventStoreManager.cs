@@ -24,7 +24,7 @@ namespace Billings.Managers
             _publishEndpoint = publishEndpoint;
         }
 
-        public async Task<ATransactionsState> SaveStateAndNotifyAsync(ATransactionsState stateModel)
+        public async Task<ATransactionsState> SaveStateAsync(ATransactionsState stateModel)
         {
             if (!stateModel.IsValid())
                 return null!;

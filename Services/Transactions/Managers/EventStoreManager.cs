@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using MassTransit;
-using Sdk.Api.Abstractions;
 using Sdk.Api.Interfaces;
 using Sdk.Interfaces;
 using Sdk.Persistence.Interfaces;
@@ -92,7 +91,7 @@ namespace Transactions.Managers
             _publishEndpoint = publishEndpoint;
         }
 
-        public Task<ITransactionModel> SaveStateAndNotifyAsync(ITransactionModel dataModel)
+        public Task<ITransactionModel> SaveStateAsync(ITransactionModel dataModel)
         {
             throw new NotImplementedException();
         }

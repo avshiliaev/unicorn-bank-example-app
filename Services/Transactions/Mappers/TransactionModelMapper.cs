@@ -32,6 +32,7 @@ namespace Transactions.Mappers
                 SequentialNumber = transactionsContext.SequentialNumber
             };
         }
+
         public static TransactionEntity ToTransactionEntity(this ITransactionModel transactionModel)
         {
             return new TransactionEntity

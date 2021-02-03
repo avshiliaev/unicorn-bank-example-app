@@ -12,7 +12,6 @@ using Sdk.Auth.Extensions;
 using Sdk.Communication.Extensions;
 using Sdk.Extensions;
 using Sdk.Persistence.Extensions;
-using Sdk.Persistence.Interfaces;
 using Transactions.Extensions;
 using Transactions.Handlers;
 using Transactions.Managers;

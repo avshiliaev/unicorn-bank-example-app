@@ -4,6 +4,6 @@ namespace Sdk.Interfaces
 {
     public interface IEventStoreManager<TModel> where TModel : class, IDataModel
     {
-        Task<TModel> SaveStateAndNotifyAsync(TModel dataModel);
+        Task<TModel> SaveStateAsync(TModel dataModel);
     }
 }

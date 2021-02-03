@@ -11,8 +11,8 @@ namespace Sdk.Api.StateMachines
     {
         private readonly IEventStoreManager<AAccountState> _approvalsManager;
         private readonly ILicenseManager<IAccountModel> _licenseManager;
-        private AAccountState _state = null!;
         private readonly IPublishEndpoint _publishEndpoint;
+        private AAccountState _state = null!;
 
         public AccountContext(
             IEventStoreManager<AAccountState> approvalsManager,

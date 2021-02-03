@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using Approvals.Managers;
 using Approvals.Persistence.Entities;
-using Approvals.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Sdk.Api.Events.Local;
@@ -53,7 +51,7 @@ namespace Approvals.Tests.Managers
                 publishEndpoint.Object
             );
         }
-        
+
         [Fact]
         public async void Should_EvaluateAccountPendingAsync_Valid()
         {
@@ -65,12 +63,11 @@ namespace Approvals.Tests.Managers
                 ProfileId = "awesome"
             };
             accountCheckCommand.SetPending();
-            
+
             var accountIsCheckedEvent = await _manager
                 .SaveStateAndNotifyAsync(accountCheckCommand);
             Assert.NotNull(accountIsCheckedEvent);
             Assert.True(accountIsCheckedEvent.IsPending());
         }
-
     }
 }
