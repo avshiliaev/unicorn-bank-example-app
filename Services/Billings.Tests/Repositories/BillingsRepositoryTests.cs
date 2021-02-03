@@ -46,7 +46,7 @@ namespace Billings.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new BillingsRepository(
-                    new Mock<ILogger<AbstractRepository<BillingsContext, BillingEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<BillingsContext, BillingEntity>>>().Object,
                     context
                 );
                 var newEntity = new BillingEntity();
@@ -59,7 +59,7 @@ namespace Billings.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new BillingsRepository(
-                    new Mock<ILogger<AbstractRepository<BillingsContext, BillingEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<BillingsContext, BillingEntity>>>().Object,
                     context
                 );
                 var newEntity = new BillingEntity();
@@ -74,7 +74,7 @@ namespace Billings.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new BillingsRepository(
-                    new Mock<ILogger<AbstractRepository<BillingsContext, BillingEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<BillingsContext, BillingEntity>>>().Object,
                     context
                 );
                 var newEntity = new BillingEntity();
@@ -88,7 +88,7 @@ namespace Billings.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new BillingsRepository(
-                    new Mock<ILogger<AbstractRepository<BillingsContext, BillingEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<BillingsContext, BillingEntity>>>().Object,
                     context
                 );
                 var newEntity = new BillingEntity {Version = 99};
@@ -105,7 +105,7 @@ namespace Billings.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new BillingsRepository(
-                    new Mock<ILogger<AbstractRepository<BillingsContext, BillingEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<BillingsContext, BillingEntity>>>().Object,
                     context
                 );
                 var newEntity = new BillingEntity {Version = 10};
@@ -122,7 +122,7 @@ namespace Billings.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new BillingsRepository(
-                    new Mock<ILogger<AbstractRepository<BillingsContext, BillingEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<BillingsContext, BillingEntity>>>().Object,
                     context
                 );
                 var newEntity = new BillingEntity();
@@ -136,7 +136,7 @@ namespace Billings.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new BillingsRepository(
-                    new Mock<ILogger<AbstractRepository<BillingsContext, BillingEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<BillingsContext, BillingEntity>>>().Object,
                     context
                 );
                 var newEntity = new BillingEntity();
@@ -151,7 +151,7 @@ namespace Billings.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new BillingsRepository(
-                    new Mock<ILogger<AbstractRepository<BillingsContext, BillingEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<BillingsContext, BillingEntity>>>().Object,
                     context
                 );
                 var newEntity = new BillingEntity();

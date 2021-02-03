@@ -1,3 +1,4 @@
+using System;
 using Accounts.Persistence.Entities;
 using Sdk.Api.Interfaces;
 using Sdk.Extensions;
@@ -30,7 +31,7 @@ namespace Accounts.Mappers
         {
             return new AccountEntity
             {
-                Id = accountEvent.Id.ToGuid(),
+                Id = Guid.NewGuid(),
                 Version = accountEvent.Version,
 
                 Balance = accountEvent.Balance,

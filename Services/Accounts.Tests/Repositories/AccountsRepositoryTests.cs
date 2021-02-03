@@ -46,7 +46,7 @@ namespace Accounts.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new AccountsRepository(
-                    new Mock<ILogger<AbstractRepository<AccountsContext, AccountEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<AccountsContext, AccountEntity>>>().Object,
                     context
                 );
                 var newEntity = new AccountEntity();
@@ -59,7 +59,7 @@ namespace Accounts.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new AccountsRepository(
-                    new Mock<ILogger<AbstractRepository<AccountsContext, AccountEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<AccountsContext, AccountEntity>>>().Object,
                     context
                 );
                 var newEntity = new AccountEntity();
@@ -74,7 +74,7 @@ namespace Accounts.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new AccountsRepository(
-                    new Mock<ILogger<AbstractRepository<AccountsContext, AccountEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<AccountsContext, AccountEntity>>>().Object,
                     context
                 );
                 var newEntity = new AccountEntity();
@@ -88,7 +88,7 @@ namespace Accounts.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new AccountsRepository(
-                    new Mock<ILogger<AbstractRepository<AccountsContext, AccountEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<AccountsContext, AccountEntity>>>().Object,
                     context
                 );
                 var newEntity = new AccountEntity {Version = 99};
@@ -105,7 +105,7 @@ namespace Accounts.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new AccountsRepository(
-                    new Mock<ILogger<AbstractRepository<AccountsContext, AccountEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<AccountsContext, AccountEntity>>>().Object,
                     context
                 );
                 var newEntity = new AccountEntity {Version = 10};
@@ -122,7 +122,7 @@ namespace Accounts.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new AccountsRepository(
-                    new Mock<ILogger<AbstractRepository<AccountsContext, AccountEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<AccountsContext, AccountEntity>>>().Object,
                     context
                 );
                 var newEntity = new AccountEntity();
@@ -136,7 +136,7 @@ namespace Accounts.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new AccountsRepository(
-                    new Mock<ILogger<AbstractRepository<AccountsContext, AccountEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<AccountsContext, AccountEntity>>>().Object,
                     context
                 );
                 var newEntity = new AccountEntity();
@@ -151,7 +151,7 @@ namespace Accounts.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new AccountsRepository(
-                    new Mock<ILogger<AbstractRepository<AccountsContext, AccountEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<AccountsContext, AccountEntity>>>().Object,
                     context
                 );
                 var newEntity = new AccountEntity();

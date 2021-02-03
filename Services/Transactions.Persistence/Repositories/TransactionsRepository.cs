@@ -4,10 +4,10 @@ using Transactions.Persistence.Entities;
 
 namespace Transactions.Persistence.Repositories
 {
-    public class TransactionsRepository : AbstractRepository<TransactionsContext, TransactionEntity>
+    public class TransactionsRepository : AbstractEventRepository<TransactionsContext, TransactionEntity>
     {
         public TransactionsRepository(
-            ILogger<AbstractRepository<TransactionsContext, TransactionEntity>> logger,
+            ILogger<AbstractEventRepository<TransactionsContext, TransactionEntity>> logger,
             TransactionsContext context
         ) : base(logger, context)
         {

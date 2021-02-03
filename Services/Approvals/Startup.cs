@@ -34,7 +34,7 @@ namespace Approvals
         {
             services
                 .AddCors()
-                .AddPostgreSql<ApprovalsRepository, ApprovalEntity, ApprovalsContext>(_configuration)
+                .AddEventStore<ApprovalsRepository, ApprovalEntity, ApprovalsContext>(_configuration)
                 .AddDataAccessServices()
                 .AddStateMachine()
                 .AddBusinessLogicManagers()

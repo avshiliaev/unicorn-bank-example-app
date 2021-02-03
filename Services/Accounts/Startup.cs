@@ -36,7 +36,7 @@ namespace Accounts
             services.AddHealthChecks().AddCheck("alive", () => HealthCheckResult.Healthy());
             services
                 .AddCors()
-                .AddPostgreSql<AccountsRepository, AccountEntity, AccountsContext>(_configuration)
+                .AddEventStore<AccountsRepository, AccountEntity, AccountsContext>(_configuration)
                 .AddAuth0(_configuration)
                 .AddDataAccessServices()
                 .AddStateMachine()

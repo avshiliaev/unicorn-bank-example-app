@@ -35,7 +35,7 @@ namespace Billings
             services.AddHealthChecks().AddCheck("alive", () => HealthCheckResult.Healthy());
             services
                 .AddCors()
-                .AddPostgreSql<BillingsRepository, BillingEntity, BillingsContext>(_configuration)
+                .AddEventStore<BillingsRepository, BillingEntity, BillingsContext>(_configuration)
                 .AddDataAccessServices()
                 .AddBusinessLogicManagers()
                 .AddLicenseManager<LicenseManager, ITransactionModel>()

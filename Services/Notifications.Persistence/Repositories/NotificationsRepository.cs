@@ -4,7 +4,7 @@ using Sdk.Persistence.Interfaces;
 
 namespace Notifications.Persistence.Repositories
 {
-    public class NotificationsRepository : AbstractMongoRepository<NotificationEntity>
+    public class NotificationsRepository : AbstractMaterializedViewRepository<NotificationEntity>
     {
         public NotificationsRepository(IMongoSettingsModel settings) : base(settings)
         {

@@ -46,7 +46,7 @@ namespace Transactions.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new TransactionsRepository(
-                    new Mock<ILogger<AbstractRepository<TransactionsContext, TransactionEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<TransactionsContext, TransactionEntity>>>().Object,
                     context
                 );
                 var newEntity = new TransactionEntity();
@@ -59,7 +59,7 @@ namespace Transactions.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new TransactionsRepository(
-                    new Mock<ILogger<AbstractRepository<TransactionsContext, TransactionEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<TransactionsContext, TransactionEntity>>>().Object,
                     context
                 );
                 var newEntity = new TransactionEntity();
@@ -74,7 +74,7 @@ namespace Transactions.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new TransactionsRepository(
-                    new Mock<ILogger<AbstractRepository<TransactionsContext, TransactionEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<TransactionsContext, TransactionEntity>>>().Object,
                     context
                 );
                 var newEntity = new TransactionEntity();
@@ -88,7 +88,7 @@ namespace Transactions.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new TransactionsRepository(
-                    new Mock<ILogger<AbstractRepository<TransactionsContext, TransactionEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<TransactionsContext, TransactionEntity>>>().Object,
                     context
                 );
                 var newEntity = new TransactionEntity {Version = 99};
@@ -105,7 +105,7 @@ namespace Transactions.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new TransactionsRepository(
-                    new Mock<ILogger<AbstractRepository<TransactionsContext, TransactionEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<TransactionsContext, TransactionEntity>>>().Object,
                     context
                 );
                 var newEntity = new TransactionEntity {Version = 10};
@@ -122,7 +122,7 @@ namespace Transactions.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new TransactionsRepository(
-                    new Mock<ILogger<AbstractRepository<TransactionsContext, TransactionEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<TransactionsContext, TransactionEntity>>>().Object,
                     context
                 );
                 var newEntity = new TransactionEntity();
@@ -136,7 +136,7 @@ namespace Transactions.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new TransactionsRepository(
-                    new Mock<ILogger<AbstractRepository<TransactionsContext, TransactionEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<TransactionsContext, TransactionEntity>>>().Object,
                     context
                 );
                 var newEntity = new TransactionEntity();
@@ -151,7 +151,7 @@ namespace Transactions.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new TransactionsRepository(
-                    new Mock<ILogger<AbstractRepository<TransactionsContext, TransactionEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<TransactionsContext, TransactionEntity>>>().Object,
                     context
                 );
                 var newEntity = new TransactionEntity();

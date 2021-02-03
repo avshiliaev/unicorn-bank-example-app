@@ -38,7 +38,7 @@ namespace Transactions
             services.AddControllers();
             services
                 .AddCors()
-                .AddPostgreSql<TransactionsRepository, TransactionEntity, TransactionsContext>(_configuration)
+                .AddEventStore<TransactionsRepository, TransactionEntity, TransactionsContext>(_configuration)
                 .AddAuth0(_configuration)
                 .AddDataAccessServices()
                 .AddBusinessLogicManagers()

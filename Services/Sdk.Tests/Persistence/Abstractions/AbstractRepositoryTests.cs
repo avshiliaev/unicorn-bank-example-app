@@ -35,10 +35,10 @@ namespace Sdk.Tests.Persistence.Abstractions
         }
     }
 
-    public class TestRepository : AbstractRepository<TestContext, TestEntity>
+    public class TestRepository : AbstractEventRepository<TestContext, TestEntity>
     {
         public TestRepository(
-            ILogger<AbstractRepository<TestContext, TestEntity>> logger,
+            ILogger<AbstractEventRepository<TestContext, TestEntity>> logger,
             TestContext context
         ) : base(logger, context)
         {
@@ -61,7 +61,7 @@ namespace Sdk.Tests.Persistence.Abstractions
         {
             await using var context = new TestContext(ContextOptions);
             var repository = new TestRepository(
-                new Mock<ILogger<AbstractRepository<TestContext, TestEntity>>>().Object,
+                new Mock<ILogger<AbstractEventRepository<TestContext, TestEntity>>>().Object,
                 context
             );
             var newEntity = new TestEntity();
@@ -74,7 +74,7 @@ namespace Sdk.Tests.Persistence.Abstractions
         {
             await using var context = new TestContext(ContextOptions);
             var repository = new TestRepository(
-                new Mock<ILogger<AbstractRepository<TestContext, TestEntity>>>().Object,
+                new Mock<ILogger<AbstractEventRepository<TestContext, TestEntity>>>().Object,
                 context
             );
             var newEntity = new TestEntity();
@@ -89,7 +89,7 @@ namespace Sdk.Tests.Persistence.Abstractions
         {
             await using var context = new TestContext(ContextOptions);
             var repository = new TestRepository(
-                new Mock<ILogger<AbstractRepository<TestContext, TestEntity>>>().Object,
+                new Mock<ILogger<AbstractEventRepository<TestContext, TestEntity>>>().Object,
                 context
             );
             var newEntity = new TestEntity();
@@ -103,7 +103,7 @@ namespace Sdk.Tests.Persistence.Abstractions
         {
             await using var context = new TestContext(ContextOptions);
             var repository = new TestRepository(
-                new Mock<ILogger<AbstractRepository<TestContext, TestEntity>>>().Object,
+                new Mock<ILogger<AbstractEventRepository<TestContext, TestEntity>>>().Object,
                 context
             );
             var newEntity = new TestEntity {Version = 99};
@@ -120,7 +120,7 @@ namespace Sdk.Tests.Persistence.Abstractions
         {
             await using var context = new TestContext(ContextOptions);
             var repository = new TestRepository(
-                new Mock<ILogger<AbstractRepository<TestContext, TestEntity>>>().Object,
+                new Mock<ILogger<AbstractEventRepository<TestContext, TestEntity>>>().Object,
                 context
             );
             var newEntity = new TestEntity {Version = 10};
@@ -137,7 +137,7 @@ namespace Sdk.Tests.Persistence.Abstractions
         {
             await using var context = new TestContext(ContextOptions);
             var repository = new TestRepository(
-                new Mock<ILogger<AbstractRepository<TestContext, TestEntity>>>().Object,
+                new Mock<ILogger<AbstractEventRepository<TestContext, TestEntity>>>().Object,
                 context
             );
             var newEntity = new TestEntity();
@@ -151,7 +151,7 @@ namespace Sdk.Tests.Persistence.Abstractions
         {
             await using var context = new TestContext(ContextOptions);
             var repository = new TestRepository(
-                new Mock<ILogger<AbstractRepository<TestContext, TestEntity>>>().Object,
+                new Mock<ILogger<AbstractEventRepository<TestContext, TestEntity>>>().Object,
                 context
             );
             var newEntity = new TestEntity();
@@ -166,7 +166,7 @@ namespace Sdk.Tests.Persistence.Abstractions
         {
             await using var context = new TestContext(ContextOptions);
             var repository = new TestRepository(
-                new Mock<ILogger<AbstractRepository<TestContext, TestEntity>>>().Object,
+                new Mock<ILogger<AbstractEventRepository<TestContext, TestEntity>>>().Object,
                 context
             );
             var newEntity = new TestEntity();

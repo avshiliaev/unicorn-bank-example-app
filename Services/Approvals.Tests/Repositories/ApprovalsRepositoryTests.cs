@@ -46,7 +46,7 @@ namespace Approvals.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new ApprovalsRepository(
-                    new Mock<ILogger<AbstractRepository<ApprovalsContext, ApprovalEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<ApprovalsContext, ApprovalEntity>>>().Object,
                     context
                 );
                 var newEntity = new ApprovalEntity();
@@ -59,7 +59,7 @@ namespace Approvals.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new ApprovalsRepository(
-                    new Mock<ILogger<AbstractRepository<ApprovalsContext, ApprovalEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<ApprovalsContext, ApprovalEntity>>>().Object,
                     context
                 );
                 var newEntity = new ApprovalEntity();
@@ -74,7 +74,7 @@ namespace Approvals.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new ApprovalsRepository(
-                    new Mock<ILogger<AbstractRepository<ApprovalsContext, ApprovalEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<ApprovalsContext, ApprovalEntity>>>().Object,
                     context
                 );
                 var newEntity = new ApprovalEntity();
@@ -88,7 +88,7 @@ namespace Approvals.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new ApprovalsRepository(
-                    new Mock<ILogger<AbstractRepository<ApprovalsContext, ApprovalEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<ApprovalsContext, ApprovalEntity>>>().Object,
                     context
                 );
                 var newEntity = new ApprovalEntity {Version = 99};
@@ -105,7 +105,7 @@ namespace Approvals.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new ApprovalsRepository(
-                    new Mock<ILogger<AbstractRepository<ApprovalsContext, ApprovalEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<ApprovalsContext, ApprovalEntity>>>().Object,
                     context
                 );
                 var newEntity = new ApprovalEntity {Version = 10};
@@ -122,7 +122,7 @@ namespace Approvals.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new ApprovalsRepository(
-                    new Mock<ILogger<AbstractRepository<ApprovalsContext, ApprovalEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<ApprovalsContext, ApprovalEntity>>>().Object,
                     context
                 );
                 var newEntity = new ApprovalEntity();
@@ -136,7 +136,7 @@ namespace Approvals.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new ApprovalsRepository(
-                    new Mock<ILogger<AbstractRepository<ApprovalsContext, ApprovalEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<ApprovalsContext, ApprovalEntity>>>().Object,
                     context
                 );
                 var newEntity = new ApprovalEntity();
@@ -151,7 +151,7 @@ namespace Approvals.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new ApprovalsRepository(
-                    new Mock<ILogger<AbstractRepository<ApprovalsContext, ApprovalEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<ApprovalsContext, ApprovalEntity>>>().Object,
                     context
                 );
                 var newEntity = new ApprovalEntity();

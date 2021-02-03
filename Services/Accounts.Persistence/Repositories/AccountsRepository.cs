@@ -4,10 +4,10 @@ using Sdk.Persistence.Abstractions;
 
 namespace Accounts.Persistence.Repositories
 {
-    public class AccountsRepository : AbstractRepository<AccountsContext, AccountEntity>
+    public class AccountsRepository : AbstractEventRepository<AccountsContext, AccountEntity>
     {
         public AccountsRepository(
-            ILogger<AbstractRepository<AccountsContext, AccountEntity>> logger,
+            ILogger<AbstractEventRepository<AccountsContext, AccountEntity>> logger,
             AccountsContext context
         ) : base(logger, context)
         {

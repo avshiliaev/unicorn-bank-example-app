@@ -7,7 +7,7 @@ namespace Sdk.Persistence.Extensions
 {
     public static class PersistenceConfigure
     {
-        public static IServiceCollection AddPostgreSql<TRepository, TEntity, TContext>(
+        public static IServiceCollection AddEventStore<TRepository, TEntity, TContext>(
             this IServiceCollection services,
             IConfiguration configuration
         )

@@ -4,10 +4,10 @@ using Sdk.Persistence.Abstractions;
 
 namespace Billings.Persistence.Repositories
 {
-    public class BillingsRepository : AbstractRepository<BillingsContext, BillingEntity>
+    public class BillingsRepository : AbstractEventRepository<BillingsContext, BillingEntity>
     {
         public BillingsRepository(
-            ILogger<AbstractRepository<BillingsContext, BillingEntity>> logger,
+            ILogger<AbstractEventRepository<BillingsContext, BillingEntity>> logger,
             BillingsContext context
         ) : base(logger, context)
         {

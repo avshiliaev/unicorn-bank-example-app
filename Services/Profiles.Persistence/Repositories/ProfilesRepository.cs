@@ -4,7 +4,7 @@ using Sdk.Persistence.Interfaces;
 
 namespace Profiles.Persistence.Repositories
 {
-    public class ProfilesRepository : AbstractMongoRepository<ProfileEntity>
+    public class ProfilesRepository : AbstractMaterializedViewRepository<ProfileEntity>
     {
         public ProfilesRepository(IMongoSettingsModel settings) : base(settings)
         {

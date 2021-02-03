@@ -6,12 +6,12 @@ using Sdk.Persistence.Interfaces;
 
 namespace Sdk.Persistence.Abstractions
 {
-    public abstract class AbstractMongoRepository<TEntity> : IMongoRepository<TEntity>
+    public abstract class AbstractMaterializedViewRepository<TEntity> : IMongoRepository<TEntity>
         where TEntity : class, IMongoEntity
     {
         private readonly IMongoCollection<TEntity> _mongoCollection;
 
-        public AbstractMongoRepository(IMongoSettingsModel settings)
+        public AbstractMaterializedViewRepository(IMongoSettingsModel settings)
         {
             Client = new MongoClient(settings.ConnectionString);
             var database = Client.GetDatabase(settings.DatabaseName);
