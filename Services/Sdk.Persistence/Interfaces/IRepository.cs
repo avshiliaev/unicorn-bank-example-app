@@ -8,12 +8,9 @@ namespace Sdk.Persistence.Interfaces
 {
     public interface IRepository<T> where T : class, IEntity
     {
-        void TransactionDecorator();
-        Task<T> GetOneAsync(Expression<Func<T, bool>> predicate);
-        Task<List<T>> GetManyAsync(Expression<Func<T, bool>> predicate);
-        Task<List<T>> GetManyLastVersionAsync(Expression<Func<T, bool>> predicate);
-        Task<T> AddAsync(T entity);
-        Task<T> UpdateAsync(T entity);
-        Task<T> UpdateOptimisticallyAsync(T entity);
+        Task<T> TransactionDecorator(Func<T, Task<T>> func, T entity);
+        Task<T> AppendState(T entity);
+        Task<T> GetOneLastStateAsync(Expression<Func<T, bool>> predicate);
+        Task<List<T>> GetManyLastStatesAsync(Expression<Func<T, bool>> predicate);
     }
 }

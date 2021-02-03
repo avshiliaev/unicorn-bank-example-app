@@ -14,22 +14,28 @@ namespace Accounts.Services
         public EventStoreService(IRepository<AccountEntity> accountsRepository)
         {
             _accountsRepository = accountsRepository;
-            // accountsRepository.TransactionDecorator();
         }
 
-        public Task<AccountEntity> CreateRecordAsync(AccountEntity accountEntity)
+        public Task<AccountEntity> TransactionDecorator(
+            Func<AccountEntity, Task<AccountEntity>> func, AccountEntity entity
+        )
         {
-            return _accountsRepository.AddAsync(accountEntity);
+            return _accountsRepository.TransactionDecorator(func, entity);
         }
 
-        public Task<List<AccountEntity>> GetManyRecordsLastVersionAsync(Expression<Func<AccountEntity, bool>> predicate)
+        public Task<AccountEntity> AppendState(AccountEntity accountEntity)
         {
-            return _accountsRepository.GetManyLastVersionAsync(predicate);
+            return _accountsRepository.AppendState(accountEntity);
         }
 
-        public Task<AccountEntity> GetOneRecordAsync(Expression<Func<AccountEntity, bool>> predicate)
+        public Task<List<AccountEntity>> GetManyLastStatesAsync(Expression<Func<AccountEntity, bool>> predicate)
         {
-            return _accountsRepository.GetOneAsync(predicate);
+            return _accountsRepository.GetManyLastStatesAsync(predicate);
+        }
+
+        public Task<AccountEntity> GetOneLastStateAsync(Expression<Func<AccountEntity, bool>> predicate)
+        {
+            return _accountsRepository.GetOneLastStateAsync(predicate);
         }
     }
 }

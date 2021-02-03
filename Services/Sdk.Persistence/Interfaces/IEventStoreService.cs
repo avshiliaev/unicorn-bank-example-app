@@ -7,10 +7,11 @@ namespace Sdk.Persistence.Interfaces
 {
     public interface IEventStoreService<TEntity> where TEntity : class, IEntity
     {
-        Task<TEntity> CreateRecordAsync(TEntity approvalEntity);
+        Task<TEntity> TransactionDecorator(Func<TEntity, Task<TEntity>> func, TEntity entity);
+        Task<TEntity> AppendState(TEntity approvalEntity);
 
-        Task<List<TEntity>> GetManyRecordsLastVersionAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<List<TEntity>> GetManyLastStatesAsync(Expression<Func<TEntity, bool>> predicate);
 
-        Task<TEntity> GetOneRecordAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<TEntity> GetOneLastStateAsync(Expression<Func<TEntity, bool>> predicate);
     }
 }

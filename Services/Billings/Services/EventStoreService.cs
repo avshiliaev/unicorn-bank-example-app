@@ -9,28 +9,35 @@ namespace Billings.Services
 {
     public class EventStoreService : IEventStoreService<BillingEntity>
     {
-        private readonly IRepository<BillingEntity> _approvalsRepository;
+        private readonly IRepository<BillingEntity> _billingsRepository;
 
         public EventStoreService(IRepository<BillingEntity> approvalsRepository)
         {
-            _approvalsRepository = approvalsRepository;
+            _billingsRepository = approvalsRepository;
         }
-
-        public Task<BillingEntity> CreateRecordAsync(BillingEntity approvalEntity)
+        
+        public Task<BillingEntity> TransactionDecorator(
+            Func<BillingEntity, Task<BillingEntity>> func, BillingEntity entity
+        )
         {
-            return _approvalsRepository.AddAsync(approvalEntity);
+            return _billingsRepository.TransactionDecorator(func, entity);
         }
 
-        public Task<List<BillingEntity>> GetManyRecordsLastVersionAsync(
+        public Task<BillingEntity> AppendState(BillingEntity approvalEntity)
+        {
+            return _billingsRepository.AppendState(approvalEntity);
+        }
+
+        public Task<List<BillingEntity>> GetManyLastStatesAsync(
             Expression<Func<BillingEntity, bool>> predicate
         )
         {
-            return _approvalsRepository.GetManyLastVersionAsync(predicate);
+            return _billingsRepository.GetManyLastStatesAsync(predicate);
         }
 
-        public Task<BillingEntity> GetOneRecordAsync(Expression<Func<BillingEntity, bool>> predicate)
+        public Task<BillingEntity> GetOneLastStateAsync(Expression<Func<BillingEntity, bool>> predicate)
         {
-            return _approvalsRepository.GetOneAsync(predicate);
+            return _billingsRepository.GetOneLastStateAsync(predicate);
         }
     }
 }

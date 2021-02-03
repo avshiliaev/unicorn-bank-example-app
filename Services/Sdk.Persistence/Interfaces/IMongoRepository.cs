@@ -16,7 +16,7 @@ namespace Sdk.Persistence.Interfaces
         TEntity Create(TEntity entity);
         TEntity Update(FilterDefinition<TEntity> filter, UpdateDefinition<TEntity> updateDefinition);
         TEntity Remove(TEntity entityIn);
-        bool Remove(string id);
+        bool RemoveById(string id);
 
         IEnumerator<ChangeStreamDocument<TEntity>> SubscribeToChangesStreamMany(
             PipelineDefinition<ChangeStreamDocument<TEntity>, ChangeStreamDocument<TEntity>> pipeline

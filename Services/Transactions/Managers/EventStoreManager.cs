@@ -91,6 +91,11 @@ namespace Transactions.Managers
             _publishEndpoint = publishEndpoint;
         }
 
+        public Task<ITransactionModel> SaveStateOptimisticallyAsync(ITransactionModel dataModel)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<ITransactionModel> SaveStateAsync(ITransactionModel dataModel)
         {
             throw new NotImplementedException();

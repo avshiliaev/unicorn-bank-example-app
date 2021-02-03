@@ -29,7 +29,7 @@ namespace Sdk.Tests.Mocks
                     )
                 );
             repository
-                .Setup(a => a.AddAsync(It.IsAny<TEntity>()))
+                .Setup(a => a.AppendState(It.IsAny<TEntity>()))
                 .Returns((TEntity entity) =>
                 {
                     entity.Id = Guid.NewGuid();

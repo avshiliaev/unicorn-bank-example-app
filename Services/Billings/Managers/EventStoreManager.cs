@@ -24,12 +24,12 @@ namespace Billings.Managers
             _publishEndpoint = publishEndpoint;
         }
 
-        public async Task<ATransactionsState> SaveStateAsync(ATransactionsState stateModel)
+        public async Task<ATransactionsState> SaveStateOptimisticallyAsync(ATransactionsState stateModel)
         {
             if (!stateModel.IsValid())
                 return null!;
 
-            var stateEntity = await _eventStoreService.CreateRecordAsync(
+            var stateEntity = await _eventStoreService.AppendState(
                 stateModel.ToBillingEntity()
             );
 
@@ -40,6 +40,11 @@ namespace Billings.Managers
             await _publishEndpoint.Publish(accountIsCheckedEvent);
 
             return stateModel;
+        }
+
+        public Task<ATransactionsState> SaveStateAsync(ATransactionsState dataModel)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

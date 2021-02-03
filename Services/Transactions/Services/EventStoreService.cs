@@ -15,21 +15,28 @@ namespace Transactions.Services
         {
             _transactionsRepository = transactionsRepository;
         }
-
-        public Task<TransactionEntity> CreateRecordAsync(TransactionEntity accountEntity)
+        
+        public Task<TransactionEntity> TransactionDecorator(
+            Func<TransactionEntity, Task<TransactionEntity>> func, TransactionEntity entity
+        )
         {
-            return _transactionsRepository.AddAsync(accountEntity);
+            return _transactionsRepository.TransactionDecorator(func, entity);
         }
 
-        public Task<List<TransactionEntity>> GetManyRecordsLastVersionAsync(
+        public Task<TransactionEntity> AppendState(TransactionEntity accountEntity)
+        {
+            return _transactionsRepository.AppendState(accountEntity);
+        }
+
+        public Task<List<TransactionEntity>> GetManyLastStatesAsync(
             Expression<Func<TransactionEntity, bool>> predicate)
         {
-            return _transactionsRepository.GetManyLastVersionAsync(predicate);
+            return _transactionsRepository.GetManyLastStatesAsync(predicate);
         }
 
-        public Task<TransactionEntity> GetOneRecordAsync(Expression<Func<TransactionEntity, bool>> predicate)
+        public Task<TransactionEntity> GetOneLastStateAsync(Expression<Func<TransactionEntity, bool>> predicate)
         {
-            return _transactionsRepository.GetOneAsync(predicate);
+            return _transactionsRepository.GetOneLastStateAsync(predicate);
         }
     }
 }

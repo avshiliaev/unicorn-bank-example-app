@@ -20,12 +20,24 @@ namespace Accounts.Managers
             _eventStoreService = eventStoreService;
         }
 
-        public async Task<AAccountState> SaveStateAsync(AAccountState dataModel)
+        public async Task<AAccountState> SaveStateOptimisticallyAsync(AAccountState dataModel)
         {
             var accountEntity = dataModel.ToAccountEntity();
-            var accountEntitySaved = await _eventStoreService.CreateRecordAsync(accountEntity);
 
+            var lastState = await _eventStoreService.GetOneLastStateAsync(
+                a => a.AccountId == dataModel.AccountId &&
+                     a.ProfileId == dataModel.ProfileId
+                );
+            if (lastState.Version.Equals(dataModel.Version))
+            {
+                var accountEntitySaved = await _eventStoreService.AppendState(accountEntity);
+            }
             return dataModel;
+        }
+
+        public Task<AAccountState> SaveStateAsync(AAccountState dataModel)
+        {
+            throw new NotImplementedException();
         }
     }
 }

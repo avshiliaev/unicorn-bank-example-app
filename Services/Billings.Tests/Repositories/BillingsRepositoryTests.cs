@@ -50,7 +50,7 @@ namespace Billings.Tests.Repositories
                     context
                 );
                 var newEntity = new BillingEntity();
-                var result = await repository.AddAsync(newEntity);
+                var result = await repository.AppendState(newEntity);
                 Assert.NotNull(result);
             }
 
@@ -63,7 +63,7 @@ namespace Billings.Tests.Repositories
                     context
                 );
                 var newEntity = new BillingEntity();
-                var _ = await repository.AddAsync(newEntity);
+                var _ = await repository.AppendState(newEntity);
                 var result = await repository.ListAllAsync();
                 Assert.NotNull(result);
                 Assert.NotEmpty(result);
@@ -78,7 +78,7 @@ namespace Billings.Tests.Repositories
                     context
                 );
                 var newEntity = new BillingEntity();
-                var newEntitySaved = await repository.AddAsync(newEntity);
+                var newEntitySaved = await repository.AppendState(newEntity);
                 var result = await repository.GetByIdAsync(newEntitySaved.Id);
                 Assert.NotNull(result);
             }
@@ -92,9 +92,9 @@ namespace Billings.Tests.Repositories
                     context
                 );
                 var newEntity = new BillingEntity {Version = 99};
-                var _ = await repository.AddAsync(newEntity);
+                var _ = await repository.AppendState(newEntity);
 
-                var result = await repository.GetOneAsync(
+                var result = await repository.GetOneLastStateAsync(
                     e => e.Version == 99
                 );
                 Assert.NotNull(result);
@@ -109,7 +109,7 @@ namespace Billings.Tests.Repositories
                     context
                 );
                 var newEntity = new BillingEntity {Version = 10};
-                var _ = await repository.AddAsync(newEntity);
+                var _ = await repository.AppendState(newEntity);
 
                 var result = await repository.GetManyAsync(
                     e => e.Version == 10
@@ -126,7 +126,7 @@ namespace Billings.Tests.Repositories
                     context
                 );
                 var newEntity = new BillingEntity();
-                var newEntitySaved = await repository.AddAsync(newEntity);
+                var newEntitySaved = await repository.AppendState(newEntity);
                 var result = await repository.DeleteAsync(newEntitySaved.Id);
                 Assert.NotNull(result);
             }
@@ -140,7 +140,7 @@ namespace Billings.Tests.Repositories
                     context
                 );
                 var newEntity = new BillingEntity();
-                var newEntitySaved = await repository.AddAsync(newEntity);
+                var newEntitySaved = await repository.AppendState(newEntity);
 
                 var result = await repository.UpdateOptimisticallyAsync(newEntitySaved);
                 Assert.NotNull(result);
@@ -155,7 +155,7 @@ namespace Billings.Tests.Repositories
                     context
                 );
                 var newEntity = new BillingEntity();
-                var newEntitySaved = await repository.AddAsync(newEntity);
+                var newEntitySaved = await repository.AppendState(newEntity);
                 newEntitySaved.Version++;
 
                 var result = await repository.UpdateAsync(newEntitySaved);

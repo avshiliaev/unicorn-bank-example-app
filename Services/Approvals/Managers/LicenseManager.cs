@@ -25,7 +25,7 @@ namespace Approvals.Managers
 
         public override async Task<bool> EvaluatePendingAsync(IAccountModel accountModel)
         {
-            var allApprovals = await _eventStoreService.GetManyRecordsLastVersionAsync(
+            var allApprovals = await _eventStoreService.GetManyLastStatesAsync(
                 b =>
                     b!.Approved
                     && b.ProfileId == accountModel.ProfileId

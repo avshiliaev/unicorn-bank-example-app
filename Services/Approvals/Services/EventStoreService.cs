@@ -15,22 +15,29 @@ namespace Approvals.Services
         {
             _approvalsRepository = approvalsRepository;
         }
-
-        public Task<ApprovalEntity> CreateRecordAsync(ApprovalEntity approvalEntity)
+        
+        public Task<ApprovalEntity> TransactionDecorator(
+            Func<ApprovalEntity, Task<ApprovalEntity>> func, ApprovalEntity entity
+        )
         {
-            return _approvalsRepository.AddAsync(approvalEntity);
+            return _approvalsRepository.TransactionDecorator(func, entity);
         }
 
-        public Task<List<ApprovalEntity>> GetManyRecordsLastVersionAsync(
+        public Task<ApprovalEntity> AppendState(ApprovalEntity approvalEntity)
+        {
+            return _approvalsRepository.AppendState(approvalEntity);
+        }
+
+        public Task<List<ApprovalEntity>> GetManyLastStatesAsync(
             Expression<Func<ApprovalEntity, bool>> predicate
         )
         {
-            return _approvalsRepository.GetManyLastVersionAsync(predicate);
+            return _approvalsRepository.GetManyLastStatesAsync(predicate);
         }
 
-        public Task<ApprovalEntity> GetOneRecordAsync(Expression<Func<ApprovalEntity, bool>> predicate)
+        public Task<ApprovalEntity> GetOneLastStateAsync(Expression<Func<ApprovalEntity, bool>> predicate)
         {
-            return _approvalsRepository.GetOneAsync(predicate);
+            return _approvalsRepository.GetOneLastStateAsync(predicate);
         }
     }
 }

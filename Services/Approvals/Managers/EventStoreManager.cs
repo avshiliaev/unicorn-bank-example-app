@@ -24,12 +24,12 @@ namespace Approvals.Managers
             _publishEndpoint = publishEndpoint;
         }
 
-        public async Task<AAccountState> SaveStateAsync(AAccountState stateModel)
+        public async Task<AAccountState> SaveStateOptimisticallyAsync(AAccountState stateModel)
         {
             if (!stateModel.IsValid())
                 return null!;
 
-            var stateEntity = await _eventStoreService.CreateRecordAsync(
+            var stateEntity = await _eventStoreService.AppendState(
                 stateModel.ToApprovalEntity()
             );
 
@@ -40,6 +40,11 @@ namespace Approvals.Managers
             await _publishEndpoint.Publish(accountIsCheckedEvent);
 
             return stateModel;
+        }
+
+        public Task<AAccountState> SaveStateAsync(AAccountState dataModel)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

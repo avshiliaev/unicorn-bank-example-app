@@ -63,7 +63,7 @@ namespace Sdk.Persistence.Abstractions
             return null;
         }
 
-        public bool Remove(string id)
+        public bool RemoveById(string id)
         {
             var result = _mongoCollection.DeleteOne(e => e.Id == id);
             return result.IsAcknowledged;

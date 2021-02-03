@@ -43,7 +43,7 @@ namespace Accounts.States.Account
         public override async Task HandlePreserveState(
             IEventStoreManager<AAccountState> eventStoreManager)
         {
-            await eventStoreManager.SaveStateAsync(this);
+            await eventStoreManager.SaveStateOptimisticallyAsync(this);
         }
 
         public override Task HandlePublishEvent(IPublishEndpoint publishEndpoint)

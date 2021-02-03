@@ -22,6 +22,7 @@ namespace Sdk.Api.Abstractions
 
         // Foreign
         public string ProfileId { get; set; } = null!;
+        public string AccountId { get; set; } = null!;
 
         // Approvable 
         public bool Approved { get; set; }
@@ -37,6 +38,7 @@ namespace Sdk.Api.Abstractions
             LastSequentialNumber = context.LastSequentialNumber;
             Balance = context.Balance;
             ProfileId = context.ProfileId;
+            AccountId = context.AccountId;
             Approved = context.Approved;
             Pending = context.Pending;
             Blocked = context.Blocked;

@@ -26,12 +26,15 @@ namespace Sdk.Persistence.Abstractions
             _context = context;
         }
 
-        public void TransactionDecorator()
+        public async Task<TEntity> TransactionDecorator(Func<TEntity, Task<TEntity>> func, TEntity entity)
         {
-            using var transaction = _context.Database.BeginTransaction();
+            await using var transaction = await _context.Database.BeginTransactionAsync();
+            var result = await func(entity);
+            await transaction.CommitAsync();
+            return result;
         }
 
-        public async Task<TEntity> AddAsync(TEntity entity)
+        public async Task<TEntity> AppendState(TEntity entity)
         {
             entity.Created = DateTime.UtcNow;
             entity.Updated = entity.Created;
@@ -39,61 +42,22 @@ namespace Sdk.Persistence.Abstractions
             await _context.SaveChangesAsync();
             return saved.Entity;
         }
-
-        public Task<TEntity> GetOneAsync(Expression<Func<TEntity, bool>> predicate)
-        {
-            return _context.Set<TEntity>().Where(predicate).SingleOrDefaultAsync();
-        }
-
-        public Task<List<TEntity>> GetManyAsync(Expression<Func<TEntity, bool>> predicate)
-        {
-            return _context.Set<TEntity>().Where(predicate).ToListAsync();
-        }
-
-        public async Task<TEntity> UpdateAsync(TEntity entity)
-        {
-            if (
-                entity == null ||
-                Guid.Empty.Equals(entity.Id) ||
-                !await _context.Set<TEntity>()
-                    .Where(acc => acc.Id.Equals(entity.Id))
-                    .Where(acc => acc.Version.Equals(entity.Version - 1))
-                    .AnyAsync()
-            )
-                return null;
-
-            entity.Updated = DateTime.UtcNow;
-            _context.Entry(entity).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-            return entity;
-        }
-
-        public async Task<TEntity> UpdateOptimisticallyAsync(TEntity entity)
-        {
-            if (
-                entity == null ||
-                Guid.Empty.Equals(entity.Id) ||
-                !await _context.Set<TEntity>()
-                    .Where(acc => acc.Id.Equals(entity.Id))
-                    .Where(acc => acc.Version.Equals(entity.Version))
-                    .AnyAsync()
-            )
-                return null;
-
-            entity.Updated = DateTime.UtcNow;
-            entity.Version = entity.Version + 1;
-            _context.Entry(entity).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-            return entity;
-        }
-
-        public Task<List<TEntity>> GetManyLastVersionAsync(Expression<Func<TEntity, bool>> predicate)
+        
+        public Task<TEntity> GetOneLastStateAsync(Expression<Func<TEntity, bool>> whereClause)
         {
             return _context.Set<TEntity>()
-                .Where(
-                    e => e.Version == _context.Set<TEntity>().Max(e2 => (int?) e2.Version)
-                )
+                .Where(whereClause)
+                .OrderByDescending(x => x.Version)
+                .FirstOrDefaultAsync();
+        }
+        
+        public Task<List<TEntity>> GetManyLastStatesAsync(Expression<Func<TEntity, bool>> whereClause)
+        {
+            return _context.Set<TEntity>()
+                .Where(whereClause)
+                .Where(e => e.Version == _context.Set<TEntity>().Max(e2 => (int?) e2.Version))
                 .ToListAsync();
         }
+        
     }
 }

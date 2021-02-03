@@ -43,7 +43,7 @@ namespace Accounts.States.Transactions
         public override async Task HandlePreserveState(
             IEventStoreManager<ATransactionsState> eventStoreManager)
         {
-            await eventStoreManager.SaveStateAsync(this);
+            await eventStoreManager.SaveStateOptimisticallyAsync(this);
         }
 
         public override Task HandlePublishEvent(IPublishEndpoint publishEndpoint)

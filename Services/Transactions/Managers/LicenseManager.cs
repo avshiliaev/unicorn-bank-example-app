@@ -19,7 +19,7 @@ namespace Transactions.Managers
 
         public override async Task<bool> EvaluatePendingAsync(ITransactionModel model)
         {
-            var account = await _eventStoreService.GetOneRecordAsync(
+            var account = await _eventStoreService.GetOneLastStateAsync(
                 a =>
                     a.Id == model.AccountId.ToGuid() &&
                     a.ProfileId == model.ProfileId
