@@ -14,6 +14,7 @@ namespace Accounts.Services
         public EventStoreService(IRepository<AccountEntity> accountsRepository)
         {
             _accountsRepository = accountsRepository;
+            // accountsRepository.TransactionDecorator();
         }
 
         public Task<AccountEntity> CreateRecordAsync(AccountEntity accountEntity)
