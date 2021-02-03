@@ -1,11 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Sdk.Persistence.Abstractions;
 using Sdk.Persistence.Interfaces;
 
 namespace Sdk.Persistence.Extensions
 {
-    public static class PersistenceConfigure
+    public static class ConfigureEventStore
     {
         public static IServiceCollection AddEventStore<TRepository, TEntity, TContext>(
             this IServiceCollection services,

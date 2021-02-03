@@ -6,9 +6,9 @@ using Sdk.Persistence.Models;
 
 namespace Sdk.Persistence.Extensions
 {
-    public static class ConfigureMongoDb
+    public static class ConfigureMaterializedViewStore
     {
-        public static IServiceCollection AddMongoDb<TRepository, TEntity>(
+        public static IServiceCollection AddMaterializedViewStore<TRepository, TEntity>(
             this IServiceCollection services, IConfiguration configuration
         )
             where TRepository : class, IMongoRepository<TEntity>

@@ -31,7 +31,7 @@ namespace Notifications
         {
             services
                 .AddCors()
-                .AddMongoDb<NotificationsRepository, NotificationEntity>(_configuration)
+                .AddMaterializedViewStore<NotificationsRepository, NotificationEntity>(_configuration)
                 .AddAuth0(_configuration)
                 .AddDataAccessServices()
                 .AddBusinessLogicManagers()

@@ -31,7 +31,7 @@ namespace Profiles
         {
             services
                 .AddCors()
-                .AddMongoDb<ProfilesRepository, ProfileEntity>(_configuration)
+                .AddMaterializedViewStore<ProfilesRepository, ProfileEntity>(_configuration)
                 .AddAuth0(_configuration)
                 .AddDataAccessServices()
                 .AddBusinessLogicManagers()
