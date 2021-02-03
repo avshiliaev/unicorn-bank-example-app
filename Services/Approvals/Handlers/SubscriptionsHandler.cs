@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
-using Approvals.States;
+using Approvals.States.Account;
 using MassTransit;
-using Microsoft.Extensions.Logging;
 using Sdk.Api.Events.Local;
 using Sdk.Api.Interfaces;
 

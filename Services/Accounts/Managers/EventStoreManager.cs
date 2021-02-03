@@ -24,54 +24,6 @@ namespace Accounts.Managers
         }
 
         /**
-        public async Task<AccountDto?> CreateNewAccountAsync(string profileId)
-        {
-            if (!string.IsNullOrEmpty(profileId))
-            {
-                var accountRequest = new AccountDto {ProfileId = profileId};
-                accountRequest.SetPending();
-
-                var newAccount = await _accountsService.CreateAccountAsync(accountRequest.ToAccountEntity());
-
-                await _publishEndpoint.Publish(newAccount?.ToAccountEvent<AccountCreatedEvent>());
-                await _publishEndpoint.Publish(newAccount?.ToAccountEvent<AccountCheckCommand>());
-
-                return newAccount?.ToAccountModel<AccountDto>();
-            }
-
-            return null;
-        }
-
-        public async Task<AccountDto?> ProcessAccountIsCheckedEventAsync(IAccountModel accountModel)
-        {
-            var accountEntity = await _accountsService.GetAccountByIdAsync(accountModel.Id.ToGuid());
-            if (accountEntity != null)
-            {
-                if (accountModel.IsBlocked())
-                {
-                    accountEntity.SetBlocked();
-                }
-                else
-                {
-                    if (accountModel.IsApproved())
-                        accountEntity.SetApproved();
-                    else
-                        accountEntity.SetDenied();
-                }
-
-                // Optimistic Concurrency Control: update incrementing the version
-                var updatedAccount = await _accountsService.UpdateAccountAsync(accountEntity);
-                if (updatedAccount != null)
-                {
-                    await _publishEndpoint.Publish(updatedAccount.ToAccountEvent<AccountUpdatedEvent>());
-                    await _publishEndpoint.Publish(updatedAccount.ToNotificationEvent());
-
-                    return updatedAccount.ToAccountModel<AccountDto>();
-                }
-            }
-
-            return null;
-        }
 
         public async Task<AccountDto?> ProcessTransactionUpdatedEventAsync(ITransactionModel transactionModel)
         {
@@ -103,6 +55,8 @@ namespace Accounts.Managers
 
         public Task<AAccountState> SaveStateAndNotifyAsync(AAccountState dataModel)
         {
+            // await _publishEndpoint.Publish(newAccount?.ToAccountEvent<AccountCreatedEvent>());
+            // await _publishEndpoint.Publish(newAccount?.ToAccountEvent<AccountCheckCommand>());
             throw new NotImplementedException();
         }
     }

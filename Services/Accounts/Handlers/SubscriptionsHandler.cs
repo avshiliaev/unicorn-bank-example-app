@@ -35,7 +35,7 @@ namespace Accounts.Handlers
             _accountContext.CheckDenied();
             _accountContext.CheckApproved();
             await _accountContext.CheckLicense();
-            await _accountContext.PreserveStateAndPublishEvent();
+            await _accountContext.PreserveState();
         }
 
         public async Task Consume(ConsumeContext<TransactionUpdatedEvent> context)
@@ -48,7 +48,7 @@ namespace Accounts.Handlers
             _transactionsContext.CheckDenied();
             _transactionsContext.CheckApproved();
             await _transactionsContext.CheckLicense();
-            await _transactionsContext.PreserveStateAndPublishEvent();
+            await _transactionsContext.PreserveState();
         }
     }
 }

@@ -12,6 +12,7 @@ namespace Sdk.Api.Interfaces
         void CheckDenied();
         void CheckApproved();
         Task CheckLicense();
-        Task PreserveStateAndPublishEvent();
+        Task PreserveState();
+        Task PublishEvent();
     }
 }

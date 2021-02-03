@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using MassTransit;
 using Sdk.Api.Abstractions;
 using Sdk.Api.Interfaces;
 using Sdk.Interfaces;
@@ -11,14 +12,17 @@ namespace Sdk.Api.StateMachines
         private readonly IEventStoreManager<AAccountState> _approvalsManager;
         private readonly ILicenseManager<IAccountModel> _licenseManager;
         private AAccountState _state = null!;
+        private readonly IPublishEndpoint _publishEndpoint;
 
         public AccountContext(
             IEventStoreManager<AAccountState> approvalsManager,
-            ILicenseManager<IAccountModel> licenseManager
+            ILicenseManager<IAccountModel> licenseManager,
+            IPublishEndpoint publishEndpoint
         )
         {
             _approvalsManager = approvalsManager;
             _licenseManager = licenseManager;
+            _publishEndpoint = publishEndpoint;
         }
 
         // Common
@@ -78,9 +82,14 @@ namespace Sdk.Api.StateMachines
             await _state.HandleCheckLicense(_licenseManager);
         }
 
-        public async Task PreserveStateAndPublishEvent()
+        public Task PreserveState()
         {
-            await _state.HandlePreserveStateAndPublishEvent(_approvalsManager);
+            return _state.HandlePreserveState(_approvalsManager);
+        }
+
+        public Task PublishEvent()
+        {
+            return _state.HandlePublishEvent(_publishEndpoint);
         }
 
         public void TransitionTo(AAccountState state)

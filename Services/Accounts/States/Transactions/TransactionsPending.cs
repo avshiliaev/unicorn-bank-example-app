@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using MassTransit;
 using Sdk.Api.Abstractions;
 using Sdk.Api.Interfaces;
 using Sdk.Extensions;
@@ -39,11 +40,15 @@ namespace Accounts.States.Transactions
                 Context.TransitionTo(new TransactionDenied());
         }
 
-        public override async Task HandlePreserveStateAndPublishEvent(
-            IEventStoreManager<ATransactionsState> eventStoreManager
-        )
+        public override async Task HandlePreserveState(
+            IEventStoreManager<ATransactionsState> eventStoreManager)
         {
             await eventStoreManager.SaveStateAndNotifyAsync(this);
+        }
+
+        public override Task HandlePublishEvent(IPublishEndpoint publishEndpoint)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

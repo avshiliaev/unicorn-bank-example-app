@@ -47,7 +47,7 @@ namespace Transactions.Controllers
 
             _transactionsContext.InitializeState(new TransactionPending(), newTransactionEvent);
             await _transactionsContext.CheckLicense();
-            await _transactionsContext.PreserveStateAndPublishEvent();
+            await _transactionsContext.PreserveState();
 
             return CreatedAtAction(
                 nameof(CreateNewTransaction),

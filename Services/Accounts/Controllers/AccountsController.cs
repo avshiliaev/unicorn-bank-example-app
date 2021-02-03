@@ -43,8 +43,12 @@ namespace Accounts.Controllers
             newAccountEvent.SetPending();
 
             _accountContext.InitializeState(new AccountPending(), newAccountEvent);
+            _accountContext.CheckBlocked();
+            _accountContext.CheckDenied();
+            _accountContext.CheckApproved();
             await _accountContext.CheckLicense();
-            await _accountContext.PreserveStateAndPublishEvent();
+            await _accountContext.PreserveState();
+            await _accountContext.PublishEvent();
 
             return CreatedAtAction(
                 nameof(CreateNewAccount),

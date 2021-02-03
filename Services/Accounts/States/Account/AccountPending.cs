@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using MassTransit;
 using Sdk.Api.Abstractions;
 using Sdk.Api.Interfaces;
 using Sdk.Extensions;
@@ -39,9 +40,15 @@ namespace Accounts.States.Account
                 Context.TransitionTo(new AccountDenied());
         }
 
-        public override Task HandlePreserveStateAndPublishEvent(IEventStoreManager<AAccountState> eventStoreManager)
+        public override async Task HandlePreserveState(
+            IEventStoreManager<AAccountState> eventStoreManager)
         {
-            return eventStoreManager.SaveStateAndNotifyAsync(this);
+            await eventStoreManager.SaveStateAndNotifyAsync(this);
+        }
+
+        public override Task HandlePublishEvent(IPublishEndpoint publishEndpoint)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
