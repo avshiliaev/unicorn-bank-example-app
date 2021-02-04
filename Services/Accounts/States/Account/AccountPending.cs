@@ -41,8 +41,7 @@ namespace Accounts.States.Account
                 Context.TransitionTo(new AccountDenied());
         }
 
-        public override async Task HandlePreserveState(
-            IEventStoreManager<AAccountState> eventStoreManager)
+        public override async Task HandlePreserveState(IEventStoreManager<AAccountState> eventStoreManager)
         {
             await eventStoreManager.SaveStateOptimisticallyAsync(this);
         }

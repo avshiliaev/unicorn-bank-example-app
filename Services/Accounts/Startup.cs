@@ -22,7 +22,6 @@ namespace Accounts
     public class Startup
     {
         private readonly IConfiguration _configuration;
-
         private IWebHostEnvironment _webHostEnvironment;
 
         public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
@@ -33,8 +32,6 @@ namespace Accounts
 
         public virtual void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-            services.AddHealthChecks().AddCheck("alive", () => HealthCheckResult.Healthy());
             services
                 .AddCors()
                 .AddEventStore<AccountsRepository, AccountEntity, AccountsContext>(_configuration)
@@ -44,6 +41,9 @@ namespace Accounts
                 .AddBusinessLogicManagers()
                 .AddCustomAutoMapper<MappingProfile>()
                 .AddMessageBus<AccountsSubscriptionsHandler>(_configuration);
+
+            services.AddControllers();
+            services.AddHealthChecks().AddCheck("alive", () => HealthCheckResult.Healthy());
             services.Configure<ForwardedHeadersOptions>(options =>
             {
                 options.KnownProxies.Add(IPAddress.Parse("10.0.0.100"));

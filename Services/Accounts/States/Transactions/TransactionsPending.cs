@@ -41,11 +41,11 @@ namespace Accounts.States.Transactions
                 Context.TransitionTo(new TransactionDenied());
         }
 
-        public override async Task HandlePreserveState(
-            IEventStoreManager<ATransactionsState> eventStoreManager)
+        public override async Task HandlePreserveState(IEventStoreManager<ATransactionsState> eventStoreManager)
         {
             await eventStoreManager.SaveStateOptimisticallyAsync(this);
         }
+
 
         public override Task HandlePublishEvent(IPublishEndpoint publishEndpoint)
         {

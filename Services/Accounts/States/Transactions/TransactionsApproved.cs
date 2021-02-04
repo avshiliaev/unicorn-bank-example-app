@@ -38,8 +38,7 @@ namespace Accounts.States.Transactions
             // Otherwise stay.
         }
 
-        public override async Task HandlePreserveState(
-            IEventStoreManager<ATransactionsState> eventStoreManager)
+        public override async Task HandlePreserveState(IEventStoreManager<ATransactionsState> eventStoreManager)
         {
             await eventStoreManager.SaveStateOptimisticallyAsync(this);
         }

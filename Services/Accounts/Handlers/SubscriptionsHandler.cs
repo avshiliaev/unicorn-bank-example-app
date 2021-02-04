@@ -12,8 +12,8 @@ namespace Accounts.Handlers
         IConsumer<AccountIsCheckedEvent>,
         IConsumer<TransactionUpdatedEvent>
     {
-        private readonly IAccountContext _accountContext;
-        private readonly ITransactionsContext _transactionsContext;
+        private readonly IAccountContext _accountContext = null!;
+        private readonly ITransactionsContext _transactionsContext = null!;
 
         public AccountsSubscriptionsHandler(
             IAccountContext accountContext,
