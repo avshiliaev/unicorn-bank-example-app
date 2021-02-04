@@ -23,21 +23,21 @@ namespace Billings.Services
             return _billingsRepository.TransactionDecorator(func, entity);
         }
 
-        public Task<BillingEntity> AppendState(BillingEntity approvalEntity)
+        public Task<BillingEntity> AppendStateOfEntity(BillingEntity approvalEntity)
         {
-            return _billingsRepository.AppendState(approvalEntity);
+            return _billingsRepository.AppendStateOfEntity(approvalEntity);
         }
 
-        public Task<List<BillingEntity>> GetManyLastStatesAsync(
+        public Task<List<BillingEntity>> GetAllEntitiesLastStatesAsync(
             Expression<Func<BillingEntity, bool>> predicate
         )
         {
-            return _billingsRepository.GetManyLastStatesAsync(predicate);
+            return _billingsRepository.GetAllEntitiesLastStatesAsync(predicate);
         }
 
-        public Task<BillingEntity> GetOneLastStateAsync(Expression<Func<BillingEntity, bool>> predicate)
+        public Task<BillingEntity> GetOneEntityLastStateAsync(Expression<Func<BillingEntity, bool>> predicate)
         {
-            return _billingsRepository.GetOneLastStateAsync(predicate);
+            return _billingsRepository.GetOneEntityLastStateAsync(predicate);
         }
     }
 }

@@ -7,6 +7,7 @@ namespace Sdk.Api.Events.Local
     {
         // Common
         public string Id { get; set; }
+        public string EntityId { get; set; }
         public int Version { get; set; }
 
         // Foreign

@@ -10,14 +10,14 @@ namespace Approvals.Managers
 {
     public class LicenseManager : ALicenseManager<IAccountModel>
     {
-        private readonly IEventStoreService<ApprovalEntity> _eventStoreService;
+        private readonly IEventStoreService<AccountEntity> _eventStoreService;
         private readonly int _maxAccountLowerRange = -500;
         private readonly int _maxAccountPerUser = 10;
         private readonly int _maxAccountUpperRange = (int) 1e6;
 
         public LicenseManager(
             ILogger<LicenseManager> logger,
-            IEventStoreService<ApprovalEntity> eventStoreService
+            IEventStoreService<AccountEntity> eventStoreService
         )
         {
             _eventStoreService = eventStoreService;
@@ -25,10 +25,10 @@ namespace Approvals.Managers
 
         public override async Task<bool> EvaluatePendingAsync(IAccountModel accountModel)
         {
-            var allApprovals = await _eventStoreService.GetManyLastStatesAsync(
+            var allApprovals = await _eventStoreService.GetAllEntitiesLastStatesAsync(
                 b =>
                     b!.Approved
-                    && b.ProfileId == accountModel.ProfileId
+                    && b.ProfileId.ToString() == accountModel.ProfileId
             );
 
             return allApprovals.Count() <= _maxAccountPerUser;

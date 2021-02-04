@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using Accounts.Extensions;
 using Accounts.Handlers;
+using Accounts.Mappers;
 using Accounts.Persistence;
 using Accounts.Persistence.Entities;
 using Accounts.Persistence.Repositories;
@@ -41,6 +42,7 @@ namespace Accounts
                 .AddDataAccessServices()
                 .AddStateMachine()
                 .AddBusinessLogicManagers()
+                .AddCustomAutoMapper<MappingProfile>()
                 .AddMessageBus<AccountsSubscriptionsHandler>(_configuration);
             services.Configure<ForwardedHeadersOptions>(options =>
             {

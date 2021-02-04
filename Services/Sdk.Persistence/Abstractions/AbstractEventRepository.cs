@@ -12,7 +12,7 @@ namespace Sdk.Persistence.Abstractions
 {
     public abstract class AbstractEventRepository<TContext, TEntity> : IRepository<TEntity>
         where TContext : DbContext
-        where TEntity : class, IEntity
+        where TEntity : class, IEventRecord
     {
         private readonly TContext _context;
         private readonly ILogger<AbstractEventRepository<TContext, TEntity>> _logger;
@@ -34,16 +34,33 @@ namespace Sdk.Persistence.Abstractions
             return result;
         }
 
-        public async Task<TEntity> AppendState(TEntity entity)
+        // Check if the current version is the same as the last saved one, increment it and append.
+        public async Task<TEntity> AppendStateOfEntity(TEntity entity)
         {
-            entity.Created = DateTime.UtcNow;
-            entity.Updated = entity.Created;
-            var saved = await _context.Set<TEntity>().AddAsync(entity);
-            await _context.SaveChangesAsync();
-            return saved.Entity;
+            await using var transaction = await _context.Database.BeginTransactionAsync();
+            
+            var lastState = await GetOneEntityLastStateAsync(
+                e => e.EntityId == entity.EntityId &&
+                     e.ProfileId == entity.ProfileId
+            );
+            
+            if (lastState.Version.Equals(entity.Version))
+            {
+                entity.Version++;
+                entity.Created = DateTime.UtcNow;
+                entity.Updated = entity.Created;
+                var saved = await _context.Set<TEntity>().AddAsync(entity);
+                await _context.SaveChangesAsync();
+            
+                await transaction.CommitAsync();
+            
+                return saved.Entity;
+            }
+
+            return null;
         }
         
-        public Task<TEntity> GetOneLastStateAsync(Expression<Func<TEntity, bool>> whereClause)
+        public Task<TEntity> GetOneEntityLastStateAsync(Expression<Func<TEntity, bool>> whereClause)
         {
             return _context.Set<TEntity>()
                 .Where(whereClause)
@@ -51,7 +68,7 @@ namespace Sdk.Persistence.Abstractions
                 .FirstOrDefaultAsync();
         }
         
-        public Task<List<TEntity>> GetManyLastStatesAsync(Expression<Func<TEntity, bool>> whereClause)
+        public Task<List<TEntity>> GetAllEntitiesLastStatesAsync(Expression<Func<TEntity, bool>> whereClause)
         {
             return _context.Set<TEntity>()
                 .Where(whereClause)

@@ -9,7 +9,7 @@ using Sdk.Tests.Interfaces;
 namespace Sdk.Tests.Mocks
 {
     public class RepositoryMockFactory<TEntity> : IMockFactory<IRepository<TEntity>>
-        where TEntity : class, IEntity
+        where TEntity : class, IEventRecord
     {
         private List<TEntity> _entities;
 
@@ -29,7 +29,7 @@ namespace Sdk.Tests.Mocks
                     )
                 );
             repository
-                .Setup(a => a.AppendState(It.IsAny<TEntity>()))
+                .Setup(a => a.AppendStateOfEntity(It.IsAny<TEntity>()))
                 .Returns((TEntity entity) =>
                 {
                     entity.Id = Guid.NewGuid();

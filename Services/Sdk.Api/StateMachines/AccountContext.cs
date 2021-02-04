@@ -37,7 +37,7 @@ namespace Sdk.Api.StateMachines
 
         // Foreign
         public string ProfileId { get; set; } = null!;
-        public string AccountId { get; set; }
+        public string EntityId { get; set; }
 
         // Approvable 
         public bool Approved { get; set; }
@@ -51,7 +51,7 @@ namespace Sdk.Api.StateMachines
             LastSequentialNumber = accountModel.LastSequentialNumber;
             Balance = accountModel.Balance;
             ProfileId = accountModel.ProfileId;
-            AccountId = accountModel.AccountId;
+            EntityId = accountModel.EntityId;
             Approved = accountModel.Approved;
             Pending = accountModel.Pending;
             Blocked = accountModel.Blocked;

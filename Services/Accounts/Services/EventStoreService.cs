@@ -23,19 +23,19 @@ namespace Accounts.Services
             return _accountsRepository.TransactionDecorator(func, entity);
         }
 
-        public Task<AccountEntity> AppendState(AccountEntity accountEntity)
+        public Task<AccountEntity> AppendStateOfEntity(AccountEntity accountEntity)
         {
-            return _accountsRepository.AppendState(accountEntity);
+            return _accountsRepository.AppendStateOfEntity(accountEntity);
         }
 
-        public Task<List<AccountEntity>> GetManyLastStatesAsync(Expression<Func<AccountEntity, bool>> predicate)
+        public Task<List<AccountEntity>> GetAllEntitiesLastStatesAsync(Expression<Func<AccountEntity, bool>> predicate)
         {
-            return _accountsRepository.GetManyLastStatesAsync(predicate);
+            return _accountsRepository.GetAllEntitiesLastStatesAsync(predicate);
         }
 
-        public Task<AccountEntity> GetOneLastStateAsync(Expression<Func<AccountEntity, bool>> predicate)
+        public Task<AccountEntity> GetOneEntityLastStateAsync(Expression<Func<AccountEntity, bool>> predicate)
         {
-            return _accountsRepository.GetOneLastStateAsync(predicate);
+            return _accountsRepository.GetOneEntityLastStateAsync(predicate);
         }
     }
 }

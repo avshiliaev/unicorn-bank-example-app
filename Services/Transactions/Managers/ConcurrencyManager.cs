@@ -19,7 +19,7 @@ namespace Transactions.Managers
 
         public async Task<ITransactionModel> SetNextSequentialNumber(ITransactionModel transactionModel)
         {
-            var allTransactions = await _eventStoreService.GetManyLastStatesAsync(
+            var allTransactions = await _eventStoreService.GetAllEntitiesLastStatesAsync(
                 entity => entity!.ProfileId == transactionModel.ProfileId
                           && entity!.AccountId == transactionModel.AccountId.ToGuid()
             );

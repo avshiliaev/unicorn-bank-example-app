@@ -4,7 +4,7 @@ using Sdk.Persistence.Interfaces;
 
 namespace Transactions.Persistence.Entities
 {
-    public class TransactionEntity : IEntity, IConcurrent, IApprovable
+    public class TransactionEntity : IEventRecord, IConcurrent, IApprovable
     {
         // Foreign Properties
         public Guid AccountId { get; set; }
@@ -24,7 +24,7 @@ namespace Transactions.Persistence.Entities
         public int SequentialNumber { get; set; }
 
         // Common Entity
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
         public int Version { get; set; }

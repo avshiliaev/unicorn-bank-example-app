@@ -4,7 +4,7 @@ using Sdk.Persistence.Interfaces;
 
 namespace Billings.Persistence.Entities
 {
-    public class BillingEntity : IEntity, IConcurrent, IApprovable
+    public class BillingEntity : IEventRecord, IConcurrent, IApprovable
     {
         // Foreign Properties
         public string ProfileId { get; set; }
@@ -23,7 +23,7 @@ namespace Billings.Persistence.Entities
         public int SequentialNumber { get; set; }
 
         // Common Entity
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
         public int Version { get; set; }

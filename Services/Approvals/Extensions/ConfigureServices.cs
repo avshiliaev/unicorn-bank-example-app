@@ -9,7 +9,7 @@ namespace Approvals.Extensions
     {
         public static IServiceCollection AddDataAccessServices(this IServiceCollection services)
         {
-            services.AddTransient<IEventStoreService<ApprovalEntity>, EventStoreService>();
+            services.AddTransient<IEventStoreService<AccountEntity>, EventStoreService>();
             return services;
         }
     }

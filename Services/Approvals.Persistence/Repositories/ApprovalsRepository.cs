@@ -4,10 +4,10 @@ using Sdk.Persistence.Abstractions;
 
 namespace Approvals.Persistence.Repositories
 {
-    public class ApprovalsRepository : AbstractEventRepository<ApprovalsContext, ApprovalEntity>
+    public class ApprovalsRepository : AbstractEventRepository<ApprovalsContext, AccountEntity>
     {
         public ApprovalsRepository(
-            ILogger<AbstractEventRepository<ApprovalsContext, ApprovalEntity>> logger,
+            ILogger<AbstractEventRepository<ApprovalsContext, AccountEntity>> logger,
             ApprovalsContext context
         ) : base(logger, context)
         {

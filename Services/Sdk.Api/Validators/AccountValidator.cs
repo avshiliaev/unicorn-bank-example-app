@@ -8,7 +8,7 @@ namespace Sdk.Api.Validators
         {
             if (
                 string.IsNullOrEmpty(accountModel.ProfileId) ||
-                string.IsNullOrEmpty(accountModel.AccountId)
+                string.IsNullOrEmpty(accountModel.EntityId)
             )
                 return false;
             return true;

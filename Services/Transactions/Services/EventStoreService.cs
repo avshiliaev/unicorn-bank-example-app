@@ -23,20 +23,20 @@ namespace Transactions.Services
             return _transactionsRepository.TransactionDecorator(func, entity);
         }
 
-        public Task<TransactionEntity> AppendState(TransactionEntity accountEntity)
+        public Task<TransactionEntity> AppendStateOfEntity(TransactionEntity accountEntity)
         {
-            return _transactionsRepository.AppendState(accountEntity);
+            return _transactionsRepository.AppendStateOfEntity(accountEntity);
         }
 
-        public Task<List<TransactionEntity>> GetManyLastStatesAsync(
+        public Task<List<TransactionEntity>> GetAllEntitiesLastStatesAsync(
             Expression<Func<TransactionEntity, bool>> predicate)
         {
-            return _transactionsRepository.GetManyLastStatesAsync(predicate);
+            return _transactionsRepository.GetAllEntitiesLastStatesAsync(predicate);
         }
 
-        public Task<TransactionEntity> GetOneLastStateAsync(Expression<Func<TransactionEntity, bool>> predicate)
+        public Task<TransactionEntity> GetOneEntityLastStateAsync(Expression<Func<TransactionEntity, bool>> predicate)
         {
-            return _transactionsRepository.GetOneLastStateAsync(predicate);
+            return _transactionsRepository.GetOneEntityLastStateAsync(predicate);
         }
     }
 }

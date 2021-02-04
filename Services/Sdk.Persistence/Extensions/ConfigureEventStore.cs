@@ -13,7 +13,7 @@ namespace Sdk.Persistence.Extensions
             IConfiguration configuration
         )
             where TContext : DbContext
-            where TEntity : class, IEntity
+            where TEntity : class, IEventRecord
             where TRepository : class, IRepository<TEntity>
         {
             services.AddDbContext<TContext>(

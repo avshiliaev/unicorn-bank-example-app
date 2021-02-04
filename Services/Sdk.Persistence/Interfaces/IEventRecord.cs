@@ -2,9 +2,11 @@ using System;
 
 namespace Sdk.Persistence.Interfaces
 {
-    public interface IEntity
+    public interface IEventRecord
     {
-        public Guid Id { set; get; }
+        public string Id { set; get; }
+        public string EntityId { set; get; }
+        public string ProfileId { set; get; }
         DateTime Created { set; get; }
         DateTime Updated { set; get; }
         public int Version { get; set; }

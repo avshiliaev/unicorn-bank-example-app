@@ -13,6 +13,7 @@ namespace Sdk.Api.Abstractions
         // Common
         public string Id { get; set; } = null!;
         public int Version { get; set; }
+        public string EntityId { get; set; } = null!;
 
         // Concurrent Host
         public int LastSequentialNumber { get; set; }
@@ -22,7 +23,6 @@ namespace Sdk.Api.Abstractions
 
         // Foreign
         public string ProfileId { get; set; } = null!;
-        public string AccountId { get; set; } = null!;
 
         // Approvable 
         public bool Approved { get; set; }
@@ -38,7 +38,7 @@ namespace Sdk.Api.Abstractions
             LastSequentialNumber = context.LastSequentialNumber;
             Balance = context.Balance;
             ProfileId = context.ProfileId;
-            AccountId = context.AccountId;
+            EntityId = context.EntityId;
             Approved = context.Approved;
             Pending = context.Pending;
             Blocked = context.Blocked;

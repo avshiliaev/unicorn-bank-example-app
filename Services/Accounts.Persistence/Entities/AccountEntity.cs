@@ -4,14 +4,10 @@ using Sdk.Persistence.Interfaces;
 
 namespace Accounts.Persistence.Entities
 {
-    public class AccountEntity : IEntity, IApprovable, IConcurrentHost
+    public class AccountEntity : IEventRecord, IApprovable, IConcurrentHost
     {
         // Properties
         public float Balance { get; set; }
-
-        // Foreign Properties
-        public string ProfileId { get; set; }
-        public string AccountId { get; set; }
 
         // Approvable
         public bool Approved { get; set; }
@@ -22,7 +18,9 @@ namespace Accounts.Persistence.Entities
         public int LastSequentialNumber { get; set; }
 
         // Common Entity
-        public Guid Id { get; set; }
+        public string Id { get; set; }
+        public string EntityId { get; set; }
+        public string ProfileId { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
         public int Version { get; set; }

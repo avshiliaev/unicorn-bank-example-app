@@ -12,6 +12,7 @@ namespace Sdk.Api.Abstractions
 
         // Common
         public string Id { get; set; } = null!;
+        public string EntityId { get; set; }
         public int Version { get; set; }
 
         // Foreign
@@ -38,6 +39,7 @@ namespace Sdk.Api.Abstractions
             // Common
             Id = context.Id;
             Version = context.Version;
+            EntityId = context.EntityId;
             ProfileId = context.ProfileId;
             // Properties
             Amount = context.Amount;

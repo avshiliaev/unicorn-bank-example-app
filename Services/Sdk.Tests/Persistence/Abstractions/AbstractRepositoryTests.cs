@@ -8,9 +8,9 @@ using Xunit;
 
 namespace Sdk.Tests.Persistence.Abstractions
 {
-    public class TestEntity : IEntity
+    public class TestEntity : IEventRecord
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
         public int Version { get; set; }
@@ -65,7 +65,7 @@ namespace Sdk.Tests.Persistence.Abstractions
                 context
             );
             var newEntity = new TestEntity();
-            var result = await repository.AppendState(newEntity);
+            var result = await repository.AppendStateOfEntity(newEntity);
             Assert.NotNull(result);
         }
 
@@ -78,7 +78,7 @@ namespace Sdk.Tests.Persistence.Abstractions
                 context
             );
             var newEntity = new TestEntity();
-            var _ = await repository.AppendState(newEntity);
+            var _ = await repository.AppendStateOfEntity(newEntity);
             var result = await repository.ListAllAsync();
             Assert.NotNull(result);
             Assert.NotEmpty(result);
@@ -93,7 +93,7 @@ namespace Sdk.Tests.Persistence.Abstractions
                 context
             );
             var newEntity = new TestEntity();
-            var newEntitySaved = await repository.AppendState(newEntity);
+            var newEntitySaved = await repository.AppendStateOfEntity(newEntity);
             var result = await repository.GetByIdAsync(newEntitySaved.Id);
             Assert.NotNull(result);
         }
@@ -107,9 +107,9 @@ namespace Sdk.Tests.Persistence.Abstractions
                 context
             );
             var newEntity = new TestEntity {Version = 99};
-            var _ = await repository.AppendState(newEntity);
+            var _ = await repository.AppendStateOfEntity(newEntity);
 
-            var result = await repository.GetOneLastStateAsync(
+            var result = await repository.GetOneEntityLastStateAsync(
                 e => e.Version == 99
             );
             Assert.NotNull(result);
@@ -124,7 +124,7 @@ namespace Sdk.Tests.Persistence.Abstractions
                 context
             );
             var newEntity = new TestEntity {Version = 10};
-            var _ = await repository.AppendState(newEntity);
+            var _ = await repository.AppendStateOfEntity(newEntity);
 
             var result = await repository.GetManyAsync(
                 e => e.Version == 10
@@ -141,7 +141,7 @@ namespace Sdk.Tests.Persistence.Abstractions
                 context
             );
             var newEntity = new TestEntity();
-            var newEntitySaved = await repository.AppendState(newEntity);
+            var newEntitySaved = await repository.AppendStateOfEntity(newEntity);
             var result = await repository.DeleteAsync(newEntitySaved.Id);
             Assert.NotNull(result);
         }
@@ -155,7 +155,7 @@ namespace Sdk.Tests.Persistence.Abstractions
                 context
             );
             var newEntity = new TestEntity();
-            var newEntitySaved = await repository.AppendState(newEntity);
+            var newEntitySaved = await repository.AppendStateOfEntity(newEntity);
 
             var result = await repository.UpdateOptimisticallyAsync(newEntitySaved);
             Assert.NotNull(result);
@@ -170,7 +170,7 @@ namespace Sdk.Tests.Persistence.Abstractions
                 context
             );
             var newEntity = new TestEntity();
-            var newEntitySaved = await repository.AppendState(newEntity);
+            var newEntitySaved = await repository.AppendStateOfEntity(newEntity);
             newEntitySaved.Version++;
 
             var result = await repository.UpdateAsync(newEntitySaved);

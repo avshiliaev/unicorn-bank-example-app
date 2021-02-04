@@ -22,7 +22,7 @@ namespace Billings.Managers
 
         public override async Task<bool> EvaluatePendingAsync(ITransactionModel transactionModel)
         {
-            var allTransactions = await _eventStoreService.GetManyLastStatesAsync(
+            var allTransactions = await _eventStoreService.GetAllEntitiesLastStatesAsync(
                 b =>
                     b!.Approved
                     && b.AccountId == transactionModel.AccountId.ToGuid()

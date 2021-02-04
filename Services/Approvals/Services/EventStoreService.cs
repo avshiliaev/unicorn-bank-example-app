@@ -7,37 +7,37 @@ using Sdk.Persistence.Interfaces;
 
 namespace Approvals.Services
 {
-    public class EventStoreService : IEventStoreService<ApprovalEntity>
+    public class EventStoreService : IEventStoreService<AccountEntity>
     {
-        private readonly IRepository<ApprovalEntity> _approvalsRepository;
+        private readonly IRepository<AccountEntity> _approvalsRepository;
 
-        public EventStoreService(IRepository<ApprovalEntity> approvalsRepository)
+        public EventStoreService(IRepository<AccountEntity> approvalsRepository)
         {
             _approvalsRepository = approvalsRepository;
         }
         
-        public Task<ApprovalEntity> TransactionDecorator(
-            Func<ApprovalEntity, Task<ApprovalEntity>> func, ApprovalEntity entity
+        public Task<AccountEntity> TransactionDecorator(
+            Func<AccountEntity, Task<AccountEntity>> func, AccountEntity entity
         )
         {
             return _approvalsRepository.TransactionDecorator(func, entity);
         }
 
-        public Task<ApprovalEntity> AppendState(ApprovalEntity approvalEntity)
+        public Task<AccountEntity> AppendStateOfEntity(AccountEntity approvalEntity)
         {
-            return _approvalsRepository.AppendState(approvalEntity);
+            return _approvalsRepository.AppendStateOfEntity(approvalEntity);
         }
 
-        public Task<List<ApprovalEntity>> GetManyLastStatesAsync(
-            Expression<Func<ApprovalEntity, bool>> predicate
+        public Task<List<AccountEntity>> GetAllEntitiesLastStatesAsync(
+            Expression<Func<AccountEntity, bool>> predicate
         )
         {
-            return _approvalsRepository.GetManyLastStatesAsync(predicate);
+            return _approvalsRepository.GetAllEntitiesLastStatesAsync(predicate);
         }
 
-        public Task<ApprovalEntity> GetOneLastStateAsync(Expression<Func<ApprovalEntity, bool>> predicate)
+        public Task<AccountEntity> GetOneEntityLastStateAsync(Expression<Func<AccountEntity, bool>> predicate)
         {
-            return _approvalsRepository.GetOneLastStateAsync(predicate);
+            return _approvalsRepository.GetOneEntityLastStateAsync(predicate);
         }
     }
 }

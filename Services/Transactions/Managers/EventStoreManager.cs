@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using MassTransit;
+using Sdk.Api.Dto;
 using Sdk.Api.Interfaces;
 using Sdk.Interfaces;
 using Sdk.Persistence.Interfaces;
@@ -91,7 +92,7 @@ namespace Transactions.Managers
             _publishEndpoint = publishEndpoint;
         }
 
-        public Task<ITransactionModel> SaveStateOptimisticallyAsync(ITransactionModel dataModel)
+        public Task<AccountDto> SaveStateOptimisticallyAsync(ITransactionModel dataModel)
         {
             throw new NotImplementedException();
         }

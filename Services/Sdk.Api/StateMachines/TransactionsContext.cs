@@ -27,6 +27,7 @@ namespace Sdk.Api.StateMachines
 
         // Common
         public string Id { get; set; } = null!;
+        public string EntityId { get; set; }
         public int Version { get; set; }
 
         // Foreign
@@ -52,8 +53,8 @@ namespace Sdk.Api.StateMachines
             // Common
             Id = transactionModel.Id;
             Version = transactionModel.Version;
+            EntityId = transactionModel.EntityId;
             // Foreign
-            TransactionId = transactionModel.TransactionId;
             AccountId = transactionModel.AccountId;
             ProfileId = transactionModel.ProfileId;
             // Properties

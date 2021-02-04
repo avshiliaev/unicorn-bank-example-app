@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 
 namespace Sdk.Persistence.Interfaces
 {
-    public interface IEventStoreService<TEntity> where TEntity : class, IEntity
+    public interface IEventStoreService<TEntity> where TEntity : class, IEventRecord
     {
         Task<TEntity> TransactionDecorator(Func<TEntity, Task<TEntity>> func, TEntity entity);
-        Task<TEntity> AppendState(TEntity approvalEntity);
+        Task<TEntity> AppendStateOfEntity(TEntity approvalEntity);
 
-        Task<List<TEntity>> GetManyLastStatesAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<List<TEntity>> GetAllEntitiesLastStatesAsync(Expression<Func<TEntity, bool>> predicate);
 
-        Task<TEntity> GetOneLastStateAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<TEntity> GetOneEntityLastStateAsync(Expression<Func<TEntity, bool>> predicate);
     }
 }

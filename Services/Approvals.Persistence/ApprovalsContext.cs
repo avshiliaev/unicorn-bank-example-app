@@ -10,11 +10,11 @@ namespace Approvals.Persistence
         {
         }
 
-        public DbSet<ApprovalEntity> Approvals { get; set; }
+        public DbSet<AccountEntity> Approvals { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ApprovalEntity>().ToTable("Approvals");
+            modelBuilder.Entity<AccountEntity>().ToTable("Approvals");
             base.OnModelCreating(modelBuilder);
         }
     }

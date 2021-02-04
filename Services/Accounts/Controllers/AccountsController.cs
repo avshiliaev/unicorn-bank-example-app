@@ -2,6 +2,7 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using Accounts.Mappers;
 using Accounts.States.Account;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,14 +20,17 @@ namespace Accounts.Controllers
     {
         private readonly IAccountContext _accountContext;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IMapper _mapper;
 
         public AccountsController(
             IAccountContext accountContext,
-            IHttpContextAccessor httpContextAccessor
+            IHttpContextAccessor httpContextAccessor,
+            IMapper mapper
         )
         {
             _accountContext = accountContext;
             _httpContextAccessor = httpContextAccessor;
+            _mapper = mapper;
         }
 
         [HttpGet("")]
@@ -53,7 +57,7 @@ namespace Accounts.Controllers
             return CreatedAtAction(
                 nameof(CreateNewAccount),
                 new {id = newAccountEvent.Id},
-                _accountContext.ToAccountModel<AccountDto>()
+                _mapper.Map<AccountDto>(_accountContext)
             );
         }
     }

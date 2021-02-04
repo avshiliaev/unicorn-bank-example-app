@@ -50,7 +50,7 @@ namespace Approvals.Tests.Repositories
                     context
                 );
                 var newEntity = new ApprovalEntity();
-                var result = await repository.AppendState(newEntity);
+                var result = await repository.AppendStateOfEntity(newEntity);
                 Assert.NotNull(result);
             }
 
@@ -63,7 +63,7 @@ namespace Approvals.Tests.Repositories
                     context
                 );
                 var newEntity = new ApprovalEntity();
-                var _ = await repository.AppendState(newEntity);
+                var _ = await repository.AppendStateOfEntity(newEntity);
                 var result = await repository.ListAllAsync();
                 Assert.NotNull(result);
                 Assert.NotEmpty(result);
@@ -78,7 +78,7 @@ namespace Approvals.Tests.Repositories
                     context
                 );
                 var newEntity = new ApprovalEntity();
-                var newEntitySaved = await repository.AppendState(newEntity);
+                var newEntitySaved = await repository.AppendStateOfEntity(newEntity);
                 var result = await repository.GetByIdAsync(newEntitySaved.Id);
                 Assert.NotNull(result);
             }
@@ -92,9 +92,9 @@ namespace Approvals.Tests.Repositories
                     context
                 );
                 var newEntity = new ApprovalEntity {Version = 99};
-                var _ = await repository.AppendState(newEntity);
+                var _ = await repository.AppendStateOfEntity(newEntity);
 
-                var result = await repository.GetOneLastStateAsync(
+                var result = await repository.GetOneEntityLastStateAsync(
                     e => e.Version == 99
                 );
                 Assert.NotNull(result);
@@ -109,7 +109,7 @@ namespace Approvals.Tests.Repositories
                     context
                 );
                 var newEntity = new ApprovalEntity {Version = 10};
-                var _ = await repository.AppendState(newEntity);
+                var _ = await repository.AppendStateOfEntity(newEntity);
 
                 var result = await repository.GetManyAsync(
                     e => e.Version == 10
@@ -126,7 +126,7 @@ namespace Approvals.Tests.Repositories
                     context
                 );
                 var newEntity = new ApprovalEntity();
-                var newEntitySaved = await repository.AppendState(newEntity);
+                var newEntitySaved = await repository.AppendStateOfEntity(newEntity);
                 var result = await repository.DeleteAsync(newEntitySaved.Id);
                 Assert.NotNull(result);
             }
@@ -140,7 +140,7 @@ namespace Approvals.Tests.Repositories
                     context
                 );
                 var newEntity = new ApprovalEntity();
-                var newEntitySaved = await repository.AppendState(newEntity);
+                var newEntitySaved = await repository.AppendStateOfEntity(newEntity);
 
                 var result = await repository.UpdateOptimisticallyAsync(newEntitySaved);
                 Assert.NotNull(result);
@@ -155,7 +155,7 @@ namespace Approvals.Tests.Repositories
                     context
                 );
                 var newEntity = new ApprovalEntity();
-                var newEntitySaved = await repository.AppendState(newEntity);
+                var newEntitySaved = await repository.AppendStateOfEntity(newEntity);
                 newEntitySaved.Version++;
 
                 var result = await repository.UpdateAsync(newEntitySaved);

@@ -6,6 +6,7 @@ namespace Sdk.Api.Dto
     {
         // Common
         public string Id { get; set; }
+        public string EntityId { get; set; }
         public int Version { get; set; }
 
         // Concurrent Host

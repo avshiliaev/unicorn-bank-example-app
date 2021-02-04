@@ -5,6 +5,7 @@ namespace Sdk.Api.Dto
     public class TransactionDto : ITransactionModel
     {
         public string Id { get; set; }
+        public string EntityId { get; set; }
         public int Version { get; set; }
 
         // Foreign

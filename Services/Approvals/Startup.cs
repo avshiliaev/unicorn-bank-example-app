@@ -1,6 +1,7 @@
 using Approvals.Extensions;
 using Approvals.Handlers;
 using Approvals.Managers;
+using Approvals.Mappers;
 using Approvals.Persistence;
 using Approvals.Persistence.Entities;
 using Approvals.Persistence.Repositories;
@@ -34,11 +35,12 @@ namespace Approvals
         {
             services
                 .AddCors()
-                .AddEventStore<ApprovalsRepository, ApprovalEntity, ApprovalsContext>(_configuration)
+                .AddEventStore<ApprovalsRepository, AccountEntity, ApprovalsContext>(_configuration)
                 .AddDataAccessServices()
                 .AddStateMachine()
                 .AddBusinessLogicManagers()
                 .AddLicenseManager<LicenseManager, IAccountModel>()
+                .AddCustomAutoMapper<MappingProfile>()
                 .AddMessageBus<ApprovalsSubscriptionsHandler>(_configuration);
             services.AddHealthChecks().AddCheck("alive", () => HealthCheckResult.Healthy());
         }

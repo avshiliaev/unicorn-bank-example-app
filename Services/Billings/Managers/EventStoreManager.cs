@@ -3,6 +3,7 @@ using Billings.Mappers;
 using Billings.Persistence.Entities;
 using MassTransit;
 using Sdk.Api.Abstractions;
+using Sdk.Api.Dto;
 using Sdk.Api.Events.Local;
 using Sdk.Api.Validators;
 using Sdk.Interfaces;
@@ -24,12 +25,12 @@ namespace Billings.Managers
             _publishEndpoint = publishEndpoint;
         }
 
-        public async Task<ATransactionsState> SaveStateOptimisticallyAsync(ATransactionsState stateModel)
+        public async Task<AccountDto> SaveStateOptimisticallyAsync(ATransactionsState stateModel)
         {
             if (!stateModel.IsValid())
                 return null!;
 
-            var stateEntity = await _eventStoreService.AppendState(
+            var stateEntity = await _eventStoreService.AppendStateOfEntity(
                 stateModel.ToBillingEntity()
             );
 
