@@ -21,7 +21,7 @@ namespace Transactions.Managers
         {
             var allTransactions = await _eventStoreService.GetAllEntitiesLastStatesAsync(
                 entity => entity!.ProfileId == transactionModel.ProfileId
-                          && entity!.AccountId == transactionModel.AccountId.ToGuid()
+                          && entity!.AccountId == transactionModel.AccountId
             );
             var lastTransactionNumber = allTransactions.Max(t => t?.SequentialNumber);
             transactionModel.SequentialNumber = lastTransactionNumber.GetValueOrDefault(0) + 1;

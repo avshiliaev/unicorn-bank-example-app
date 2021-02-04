@@ -4,15 +4,14 @@ using Sdk.Persistence.Interfaces;
 
 namespace Billings.Persistence.Entities
 {
-    public class BillingEntity : IEventRecord, IConcurrent, IApprovable
+    public class TransactionEntity : IEventRecord, IConcurrent, IApprovable
     {
         // Foreign Properties
-        public string ProfileId { get; set; }
-        public Guid AccountId { get; set; }
-        public Guid TransactionId { get; set; }
+        public string AccountId { get; set; }
 
         // Properties
         public float Amount { get; set; }
+        public string Info { get; set; }
 
         // Approvable
         public bool Approved { get; set; }
@@ -24,6 +23,8 @@ namespace Billings.Persistence.Entities
 
         // Common Entity
         public string Id { get; set; }
+        public string EntityId { get; set; }
+        public string ProfileId { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
         public int Version { get; set; }

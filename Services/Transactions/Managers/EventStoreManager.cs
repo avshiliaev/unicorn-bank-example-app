@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using MassTransit;
+using Sdk.Api.Abstractions;
 using Sdk.Api.Dto;
 using Sdk.Api.Interfaces;
 using Sdk.Interfaces;
@@ -78,7 +79,7 @@ namespace Transactions.Managers
      *                     }
      *                     *
      */
-    public class EventStoreManager : IEventStoreManager<ITransactionModel>
+    public class EventStoreManager : IEventStoreManager<ATransactionsState>
     {
         private readonly IPublishEndpoint _publishEndpoint;
         private IEventStoreService<TransactionEntity> _eventStoreService;
@@ -92,12 +93,12 @@ namespace Transactions.Managers
             _publishEndpoint = publishEndpoint;
         }
 
-        public Task<AccountDto> SaveStateOptimisticallyAsync(ITransactionModel dataModel)
+        public Task SaveStateOptimisticallyAsync(ATransactionsState dataModel)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ITransactionModel> SaveStateAsync(ITransactionModel dataModel)
+        public Task<ATransactionsState> SaveStateAsync(ATransactionsState dataModel)
         {
             throw new NotImplementedException();
         }

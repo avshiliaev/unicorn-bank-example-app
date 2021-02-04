@@ -10,11 +10,11 @@ namespace Billings.Managers
 {
     public class LicenseManager : ALicenseManager<ITransactionModel>
     {
-        private readonly IEventStoreService<BillingEntity> _eventStoreService;
+        private readonly IEventStoreService<TransactionEntity> _eventStoreService;
         private readonly int _maxTransactionsPerDay = 100;
 
         public LicenseManager(
-            IEventStoreService<BillingEntity> eventStoreService
+            IEventStoreService<TransactionEntity> eventStoreService
         )
         {
             _eventStoreService = eventStoreService;
@@ -25,7 +25,7 @@ namespace Billings.Managers
             var allTransactions = await _eventStoreService.GetAllEntitiesLastStatesAsync(
                 b =>
                     b!.Approved
-                    && b.AccountId == transactionModel.AccountId.ToGuid()
+                    && b.AccountId == transactionModel.AccountId
                     && b.Created.Date == DateTime.Today
             );
             var transactionsToday = allTransactions.Count;

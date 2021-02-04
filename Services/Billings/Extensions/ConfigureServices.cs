@@ -9,7 +9,7 @@ namespace Billings.Extensions
     {
         public static IServiceCollection AddDataAccessServices(this IServiceCollection services)
         {
-            services.AddTransient<IEventStoreService<BillingEntity>, EventStoreService>();
+            services.AddTransient<IEventStoreService<TransactionEntity>, EventStoreService>();
             return services;
         }
     }

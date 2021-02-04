@@ -28,17 +28,15 @@ namespace Sdk.Api.StateMachines
         // Common
         public string Id { get; set; } = null!;
         public int Version { get; set; }
+        public string ProfileId { get; set; } = null!;
+        public string EntityId { get; set; } = null!;
 
         // Concurrent Host
         public int LastSequentialNumber { get; set; }
 
         // Properties
         public float Balance { get; set; }
-
-        // Foreign
-        public string ProfileId { get; set; } = null!;
-        public string EntityId { get; set; }
-
+        
         // Approvable 
         public bool Approved { get; set; }
         public bool Pending { get; set; }

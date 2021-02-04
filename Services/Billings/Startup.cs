@@ -1,6 +1,7 @@
 using Billings.Extensions;
 using Billings.Handlers;
 using Billings.Managers;
+using Billings.Mappers;
 using Billings.Persistence;
 using Billings.Persistence.Entities;
 using Billings.Persistence.Repositories;
@@ -35,10 +36,11 @@ namespace Billings
             services.AddHealthChecks().AddCheck("alive", () => HealthCheckResult.Healthy());
             services
                 .AddCors()
-                .AddEventStore<BillingsRepository, BillingEntity, BillingsContext>(_configuration)
+                .AddEventStore<BillingsRepository, TransactionEntity, BillingsContext>(_configuration)
                 .AddDataAccessServices()
                 .AddBusinessLogicManagers()
                 .AddLicenseManager<LicenseManager, ITransactionModel>()
+                .AddCustomAutoMapper<MappingProfile>()
                 .AddMessageBus<BillingsSubscriptionsHandler>(_configuration);
         }
 

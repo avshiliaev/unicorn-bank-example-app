@@ -7,35 +7,35 @@ using Sdk.Persistence.Interfaces;
 
 namespace Billings.Services
 {
-    public class EventStoreService : IEventStoreService<BillingEntity>
+    public class EventStoreService : IEventStoreService<TransactionEntity>
     {
-        private readonly IRepository<BillingEntity> _billingsRepository;
+        private readonly IRepository<TransactionEntity> _billingsRepository;
 
-        public EventStoreService(IRepository<BillingEntity> approvalsRepository)
+        public EventStoreService(IRepository<TransactionEntity> approvalsRepository)
         {
             _billingsRepository = approvalsRepository;
         }
         
-        public Task<BillingEntity> TransactionDecorator(
-            Func<BillingEntity, Task<BillingEntity>> func, BillingEntity entity
+        public Task<TransactionEntity> TransactionDecorator(
+            Func<TransactionEntity, Task<TransactionEntity>> func, TransactionEntity entity
         )
         {
             return _billingsRepository.TransactionDecorator(func, entity);
         }
 
-        public Task<BillingEntity> AppendStateOfEntity(BillingEntity approvalEntity)
+        public Task<TransactionEntity> AppendStateOfEntity(TransactionEntity approvalEntity)
         {
             return _billingsRepository.AppendStateOfEntity(approvalEntity);
         }
 
-        public Task<List<BillingEntity>> GetAllEntitiesLastStatesAsync(
-            Expression<Func<BillingEntity, bool>> predicate
+        public Task<List<TransactionEntity>> GetAllEntitiesLastStatesAsync(
+            Expression<Func<TransactionEntity, bool>> predicate
         )
         {
             return _billingsRepository.GetAllEntitiesLastStatesAsync(predicate);
         }
 
-        public Task<BillingEntity> GetOneEntityLastStateAsync(Expression<Func<BillingEntity, bool>> predicate)
+        public Task<TransactionEntity> GetOneEntityLastStateAsync(Expression<Func<TransactionEntity, bool>> predicate)
         {
             return _billingsRepository.GetOneEntityLastStateAsync(predicate);
         }

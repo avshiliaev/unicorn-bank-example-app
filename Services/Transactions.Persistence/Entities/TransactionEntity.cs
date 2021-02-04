@@ -7,9 +7,7 @@ namespace Transactions.Persistence.Entities
     public class TransactionEntity : IEventRecord, IConcurrent, IApprovable
     {
         // Foreign Properties
-        public Guid AccountId { get; set; }
-        public string ProfileId { get; set; }
-        public string TransactionId { get; set; }
+        public string AccountId { get; set; }
 
         // Properties
         public float Amount { get; set; }
@@ -25,6 +23,8 @@ namespace Transactions.Persistence.Entities
 
         // Common Entity
         public string Id { get; set; }
+        public string EntityId { get; set; }
+        public string ProfileId { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
         public int Version { get; set; }

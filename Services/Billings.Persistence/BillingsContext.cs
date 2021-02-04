@@ -10,11 +10,11 @@ namespace Billings.Persistence
         {
         }
 
-        public DbSet<BillingEntity> Billings { get; set; }
+        public DbSet<TransactionEntity> Billings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<BillingEntity>().ToTable("Billings");
+            modelBuilder.Entity<TransactionEntity>().ToTable("Billings");
             base.OnModelCreating(modelBuilder);
         }
     }

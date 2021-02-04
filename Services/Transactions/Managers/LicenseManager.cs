@@ -21,7 +21,7 @@ namespace Transactions.Managers
         {
             var account = await _eventStoreService.GetOneEntityLastStateAsync(
                 a =>
-                    a.Id == model.AccountId.ToGuid() &&
+                    a.Id == model.AccountId &&
                     a.ProfileId == model.ProfileId
             );
             if (account == null)

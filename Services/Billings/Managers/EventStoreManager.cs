@@ -1,4 +1,6 @@
+using System;
 using System.Threading.Tasks;
+using AutoMapper;
 using Billings.Mappers;
 using Billings.Persistence.Entities;
 using MassTransit;
@@ -13,39 +15,27 @@ namespace Billings.Managers
 {
     public class EventStoreManager : IEventStoreManager<ATransactionsState>
     {
-        private readonly IEventStoreService<BillingEntity> _eventStoreService;
-        private readonly IPublishEndpoint _publishEndpoint;
+        private readonly IEventStoreService<TransactionEntity> _eventStoreService;
+        private readonly IMapper _mapper;
 
         public EventStoreManager(
-            IEventStoreService<BillingEntity> eventStoreService,
-            IPublishEndpoint publishEndpoint
+            IEventStoreService<TransactionEntity> eventStoreService,
+            IMapper mapper
         )
         {
             _eventStoreService = eventStoreService;
-            _publishEndpoint = publishEndpoint;
+            _mapper = mapper;
         }
 
-        public async Task<AccountDto> SaveStateOptimisticallyAsync(ATransactionsState stateModel)
+        public async Task SaveStateOptimisticallyAsync(ATransactionsState dataModel)
         {
-            if (!stateModel.IsValid())
-                return null!;
-
-            var stateEntity = await _eventStoreService.AppendStateOfEntity(
-                stateModel.ToBillingEntity()
-            );
-
-            if (stateEntity == null)
-                return null!;
-
-            var accountIsCheckedEvent = stateEntity.ToTransactionModel<TransactionIsCheckedEvent>(stateModel);
-            await _publishEndpoint.Publish(accountIsCheckedEvent);
-
-            return stateModel;
+            var entity = _mapper.Map<TransactionEntity>(dataModel);
+            var lastState = await _eventStoreService.AppendStateOfEntity(entity);
         }
 
         public Task<ATransactionsState> SaveStateAsync(ATransactionsState dataModel)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

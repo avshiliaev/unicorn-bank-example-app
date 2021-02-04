@@ -13,7 +13,7 @@ namespace Notifications.Mappers
         {
             return new TModel
             {
-                Id = notificationEntity.Id.ToGuid(),
+                Id = notificationEntity.Id,
                 Description = notificationEntity.Description,
                 ProfileId = notificationEntity.ProfileId,
                 Status = notificationEntity.Status,
