@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Accounts.Persistence.Entities;
+using Accounts.Persistence.Models;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Sdk.Api.Events;
@@ -14,9 +14,9 @@ namespace Accounts.Tests.Managers
 {
     public class AccountsManagerTests
     {
-        private readonly List<AccountEntity> _accountEntities = new List<AccountEntity>
+        private readonly List<AccountRecord> _accountEntities = new List<AccountRecord>
         {
-            new AccountEntity
+            new AccountRecord
             {
                 Id = 1.ToGuid(),
                 Balance = 1,
@@ -24,7 +24,7 @@ namespace Accounts.Tests.Managers
                 Version = 0,
                 LastSequentialNumber = 1
             },
-            new AccountEntity
+            new AccountRecord
             {
                 Id = 2.ToGuid(),
                 Balance = 1,
@@ -32,7 +32,7 @@ namespace Accounts.Tests.Managers
                 Version = 0,
                 LastSequentialNumber = 2
             },
-            new AccountEntity
+            new AccountRecord
             {
                 Id = 3.ToGuid(),
                 Balance = 1,
@@ -47,7 +47,7 @@ namespace Accounts.Tests.Managers
         public AccountsManagerTests()
         {
             var publishEndpoint = new PublishEndpointMockFactory<IAccountModel>().GetInstance();
-            var accountsRepositoryMock = new RepositoryMockFactory<AccountEntity>(_accountEntities).GetInstance();
+            var accountsRepositoryMock = new RepositoryMockFactory<AccountRecord>(_accountEntities).GetInstance();
 
             _manager = new AccountsManager(
                 new Mock<ILogger<AccountsManager>>().Object,

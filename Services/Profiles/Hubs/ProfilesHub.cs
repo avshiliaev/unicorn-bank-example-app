@@ -10,6 +10,7 @@ using Profiles.Persistence.Entities;
 using Sdk.Api.Dto;
 using Sdk.Auth.Extensions;
 using Sdk.Persistence.Extensions;
+using Sdk.Persistence.Tools;
 
 // https://docs.microsoft.com/en-us/aspnet/core/signalr/introduction?view=aspnetcore-5.0
 namespace Profiles.Hubs
@@ -41,7 +42,7 @@ namespace Profiles.Hubs
                 .ToList();
             await Clients.Caller.SendAsync("ResponseAll", profilesDto);
 
-            var pipeline = profileId.ToMongoPipelineMatchMany<ProfileEntity>();
+            var pipeline = MongoDbPipelineBuilder.MongoPipelineMatchMany<ProfileEntity>(profileId);
             var enumerator = _profilesService.SubscribeToChangesMany(pipeline);
             while (enumerator.MoveNext())
                 if (enumerator.Current != null)
@@ -62,7 +63,7 @@ namespace Profiles.Hubs
 
             await Clients.Caller.SendAsync("ResponseOne", profile?.ToProfileDto());
 
-            var pipeline = profileId.ToMongoPipelineMatchSingle<ProfileEntity>(accountId);
+            var pipeline = MongoDbPipelineBuilder.MongoPipelineMatchSingle<ProfileEntity>(profileId, accountId);
             var enumerator = _profilesService.SubscribeToChangesMany(pipeline);
             while (enumerator.MoveNext())
                 if (enumerator.Current != null)

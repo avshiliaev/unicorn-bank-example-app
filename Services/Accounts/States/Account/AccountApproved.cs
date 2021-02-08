@@ -29,7 +29,7 @@ namespace Accounts.States.Account
             // Remain in the current state.
         }
 
-        public override async Task HandleCheckLicense(ILicenseManager<IAccountModel> licenseManager)
+        public override async Task HandleCheckLicense(ILicenseService<AAccountState> licenseManager)
         {
             // Handle as approved.
             var isAllowed = await licenseManager.EvaluateNotPendingAsync(this);
@@ -38,9 +38,9 @@ namespace Accounts.States.Account
             // Otherwise stay.
         }
 
-        public override async Task HandlePreserveState(IEventStoreManager<AAccountState> eventStoreManager)
+        public override async Task HandlePreserveState(IEventStoreService<AAccountState> eventStoreService)
         {
-            await eventStoreManager.SaveStateOptimisticallyAsync(this);
+            await eventStoreService.AppendStateOfEntity(this);
         }
 
         public override Task HandlePublishEvent(IPublishEndpoint publishEndpoint)

@@ -1,5 +1,5 @@
 using Accounts.Persistence;
-using Accounts.Persistence.Entities;
+using Accounts.Persistence.Models;
 using Accounts.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -21,11 +21,11 @@ namespace Accounts.Tests.Repositories
 
             protected DbContextOptions<AccountsContext> ContextOptions { get; }
 
-            public DbSet<AccountEntity> Entities { get; set; }
+            public DbSet<AccountRecord> Entities { get; set; }
 
             protected override void OnModelCreating(ModelBuilder modelBuilder)
             {
-                modelBuilder.Entity<AccountEntity>().ToTable("Entities");
+                modelBuilder.Entity<AccountRecord>().ToTable("Entities");
                 base.OnModelCreating(modelBuilder);
             }
         }
@@ -46,10 +46,10 @@ namespace Accounts.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new AccountsRepository(
-                    new Mock<ILogger<AbstractEventRepository<AccountsContext, AccountEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<AccountsContext, AccountRecord>>>().Object,
                     context
                 );
-                var newEntity = new AccountEntity();
+                var newEntity = new AccountRecord();
                 var result = await repository.AppendStateOfEntity(newEntity);
                 Assert.NotNull(result);
             }
@@ -59,10 +59,10 @@ namespace Accounts.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new AccountsRepository(
-                    new Mock<ILogger<AbstractEventRepository<AccountsContext, AccountEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<AccountsContext, AccountRecord>>>().Object,
                     context
                 );
-                var newEntity = new AccountEntity();
+                var newEntity = new AccountRecord();
                 var _ = await repository.AppendStateOfEntity(newEntity);
                 var result = await repository.ListAllAsync();
                 Assert.NotNull(result);
@@ -74,10 +74,10 @@ namespace Accounts.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new AccountsRepository(
-                    new Mock<ILogger<AbstractEventRepository<AccountsContext, AccountEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<AccountsContext, AccountRecord>>>().Object,
                     context
                 );
-                var newEntity = new AccountEntity();
+                var newEntity = new AccountRecord();
                 var newEntitySaved = await repository.AppendStateOfEntity(newEntity);
                 var result = await repository.GetByIdAsync(newEntitySaved.Id);
                 Assert.NotNull(result);
@@ -88,10 +88,10 @@ namespace Accounts.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new AccountsRepository(
-                    new Mock<ILogger<AbstractEventRepository<AccountsContext, AccountEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<AccountsContext, AccountRecord>>>().Object,
                     context
                 );
-                var newEntity = new AccountEntity {Version = 99};
+                var newEntity = new AccountRecord {Version = 99};
                 var _ = await repository.AppendStateOfEntity(newEntity);
 
                 var result = await repository.GetOneEntityLastStateAsync(
@@ -105,10 +105,10 @@ namespace Accounts.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new AccountsRepository(
-                    new Mock<ILogger<AbstractEventRepository<AccountsContext, AccountEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<AccountsContext, AccountRecord>>>().Object,
                     context
                 );
-                var newEntity = new AccountEntity {Version = 10};
+                var newEntity = new AccountRecord {Version = 10};
                 var _ = await repository.AppendStateOfEntity(newEntity);
 
                 var result = await repository.GetManyAsync(
@@ -122,10 +122,10 @@ namespace Accounts.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new AccountsRepository(
-                    new Mock<ILogger<AbstractEventRepository<AccountsContext, AccountEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<AccountsContext, AccountRecord>>>().Object,
                     context
                 );
-                var newEntity = new AccountEntity();
+                var newEntity = new AccountRecord();
                 var newEntitySaved = await repository.AppendStateOfEntity(newEntity);
                 var result = await repository.DeleteAsync(newEntitySaved.Id);
                 Assert.NotNull(result);
@@ -136,10 +136,10 @@ namespace Accounts.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new AccountsRepository(
-                    new Mock<ILogger<AbstractEventRepository<AccountsContext, AccountEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<AccountsContext, AccountRecord>>>().Object,
                     context
                 );
-                var newEntity = new AccountEntity();
+                var newEntity = new AccountRecord();
                 var newEntitySaved = await repository.AppendStateOfEntity(newEntity);
 
                 var result = await repository.UpdateOptimisticallyAsync(newEntitySaved);
@@ -151,10 +151,10 @@ namespace Accounts.Tests.Repositories
             {
                 await using var context = new TestContext(ContextOptions);
                 var repository = new AccountsRepository(
-                    new Mock<ILogger<AbstractEventRepository<AccountsContext, AccountEntity>>>().Object,
+                    new Mock<ILogger<AbstractEventRepository<AccountsContext, AccountRecord>>>().Object,
                     context
                 );
-                var newEntity = new AccountEntity();
+                var newEntity = new AccountRecord();
                 var newEntitySaved = await repository.AppendStateOfEntity(newEntity);
                 newEntitySaved.Version++;
 

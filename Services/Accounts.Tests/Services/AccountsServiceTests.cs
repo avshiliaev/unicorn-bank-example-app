@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Accounts.Persistence.Entities;
+using Accounts.Persistence.Models;
 using Sdk.Tests.Extensions;
 using Sdk.Tests.Mocks;
 using Xunit;
@@ -8,23 +8,23 @@ namespace Accounts.Tests.Services
 {
     public class AccountsServiceTests
     {
-        private readonly List<AccountEntity> _accountEntities = new List<AccountEntity>
+        private readonly List<AccountRecord> _accountEntities = new List<AccountRecord>
         {
-            new AccountEntity
+            new AccountRecord
             {
                 Id = 1.ToGuid(),
                 Balance = 1,
                 ProfileId = 1.ToString(),
                 Version = 0
             },
-            new AccountEntity
+            new AccountRecord
             {
                 Id = 2.ToGuid(),
                 Balance = 1,
                 ProfileId = 1.ToString(),
                 Version = 0
             },
-            new AccountEntity
+            new AccountRecord
             {
                 Id = 3.ToGuid(),
                 Balance = 1,
@@ -37,14 +37,14 @@ namespace Accounts.Tests.Services
 
         public AccountsServiceTests()
         {
-            var accountsRepositoryMock = new RepositoryMockFactory<AccountEntity>(_accountEntities).GetInstance();
+            var accountsRepositoryMock = new RepositoryMockFactory<AccountRecord>(_accountEntities).GetInstance();
             _service = new AccountsService(accountsRepositoryMock.Object);
         }
 
         [Fact]
         public async void Should_CreateAccountAsync_Valid()
         {
-            var newAccountEntity = new AccountEntity
+            var newAccountEntity = new AccountRecord
             {
                 ProfileId = "999"
             };
@@ -55,7 +55,7 @@ namespace Accounts.Tests.Services
         [Fact]
         public async void Should_UpdateAccountAsync_Valid()
         {
-            var accountEntity = new AccountEntity
+            var accountEntity = new AccountRecord
             {
                 Id = 1.ToGuid(),
                 ProfileId = 1.ToString(),
@@ -70,7 +70,7 @@ namespace Accounts.Tests.Services
         [Fact]
         public async void ShouldNot_UpdateAccountAsync_Invalid()
         {
-            var invalidAccountEntity = new AccountEntity
+            var invalidAccountEntity = new AccountRecord
             {
                 Id = 5.ToGuid(),
                 ProfileId = 1.ToString(),
@@ -84,7 +84,7 @@ namespace Accounts.Tests.Services
         [Fact]
         public async void ShouldNot_UpdateAccountAsync_OutOfOrder()
         {
-            var invalidAccountEntity = new AccountEntity
+            var invalidAccountEntity = new AccountRecord
             {
                 Id = 1.ToGuid(),
                 ProfileId = 1.ToString(),

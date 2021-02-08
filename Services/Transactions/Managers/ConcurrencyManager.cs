@@ -2,6 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Sdk.Api.Interfaces;
 using Sdk.Extensions;
+using Sdk.Interfaces;
 using Sdk.Persistence.Interfaces;
 using Transactions.Interfaces;
 using Transactions.Persistence.Entities;

@@ -9,7 +9,7 @@ namespace Accounts.Extensions
     {
         public static IServiceCollection AddBusinessLogicManagers(this IServiceCollection services)
         {
-            services.AddTransient<IEventStoreManager<AAccountState>, EventStoreManager>();
+            services.AddTransient<IStatesManager, StatesManager>();
             return services;
         }
     }

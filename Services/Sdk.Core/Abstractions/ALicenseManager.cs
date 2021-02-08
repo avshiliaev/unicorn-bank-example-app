@@ -3,7 +3,7 @@ using Sdk.Interfaces;
 
 namespace Sdk.Abstractions
 {
-    public abstract class ALicenseManager<TModel> : ILicenseManager<TModel> where TModel : class, IDataModel
+    public abstract class ALicenseManager<TModel> : ILicenseService<TModel> where TModel : class, IDataModel
     {
         public abstract Task<bool> EvaluatePendingAsync(TModel model);
 

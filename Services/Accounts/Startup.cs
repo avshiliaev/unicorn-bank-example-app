@@ -3,7 +3,7 @@ using Accounts.Extensions;
 using Accounts.Handlers;
 using Accounts.Mappers;
 using Accounts.Persistence;
-using Accounts.Persistence.Entities;
+using Accounts.Persistence.Models;
 using Accounts.Persistence.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,7 +34,7 @@ namespace Accounts
         {
             services
                 .AddCors()
-                .AddEventStore<AccountsRepository, AccountEntity, AccountsContext>(_configuration)
+                .AddEventStore<AccountsRepository, AccountRecord, AccountsContext>(_configuration)
                 .AddAuth0(_configuration)
                 .AddDataAccessServices()
                 .AddStateMachine()

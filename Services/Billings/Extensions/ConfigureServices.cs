@@ -1,6 +1,7 @@
 using Billings.Persistence.Entities;
 using Billings.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Sdk.Interfaces;
 using Sdk.Persistence.Interfaces;
 
 namespace Billings.Extensions

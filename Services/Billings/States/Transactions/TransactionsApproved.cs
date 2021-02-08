@@ -29,7 +29,7 @@ namespace Billings.States.Transactions
             // Remain in the current state.
         }
 
-        public override async Task HandleCheckLicense(ILicenseManager<ITransactionModel> licenseManager)
+        public override async Task HandleCheckLicense(ILicenseService<ITransactionModel> licenseManager)
         {
             // Handle as approved.
             var isAllowed = await licenseManager.EvaluateNotPendingAsync(this);

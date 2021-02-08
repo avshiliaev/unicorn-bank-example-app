@@ -29,20 +29,20 @@ namespace Accounts.States.Account
             // Remain in the current state.
         }
 
-        public override async Task HandleCheckLicense(ILicenseManager<IAccountModel> licenseManager)
+        public override async Task HandleCheckLicense(ILicenseService<AAccountState> licenseService)
         {
             // Handle as denied.
 
             // Check once more a denied account.
-            var isAllowed = await licenseManager.EvaluateNotPendingAsync(this);
+            var isAllowed = await licenseService.EvaluateNotPendingAsync(this);
             if (isAllowed)
                 Context.TransitionTo(new AccountApproved());
             // Otherwise stay.
         }
 
-        public override async Task HandlePreserveState(IEventStoreManager<AAccountState> eventStoreManager)
+        public override async Task HandlePreserveState(IEventStoreService<AAccountState> eventStoreService)
         {
-            await eventStoreManager.SaveStateOptimisticallyAsync(this);
+            await eventStoreService.AppendStateOfEntity(this);
         }
 
         public override Task HandlePublishEvent(IPublishEndpoint publishEndpoint)

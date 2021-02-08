@@ -85,7 +85,7 @@ namespace Approvals.Tests.StateMachine
             Assert.True(_accountContext.GetCurrentState() == typeof(AccountBlocked));
 
             // The License check always returns true.
-            _accountContext.CheckLicense();
+            _accountContext.CheckLicense(TODO);
             Assert.True(_accountContext.GetCurrentState() == typeof(AccountApproved));
         }
 
@@ -114,7 +114,7 @@ namespace Approvals.Tests.StateMachine
             Assert.True(_accountContext.GetCurrentState() == typeof(AccountApproved));
 
             // The License check always returns true.
-            _accountContext.CheckLicense();
+            _accountContext.CheckLicense(TODO);
             Assert.True(_accountContext.GetCurrentState() == typeof(AccountApproved));
         }
 
@@ -143,7 +143,7 @@ namespace Approvals.Tests.StateMachine
             Assert.True(_accountContext.GetCurrentState() == typeof(AccountDenied));
 
             // The License check always returns true.
-            _accountContext.CheckLicense();
+            _accountContext.CheckLicense(TODO);
             Assert.True(_accountContext.GetCurrentState() == typeof(AccountApproved));
         }
 
@@ -172,7 +172,7 @@ namespace Approvals.Tests.StateMachine
             Assert.True(_accountContext.GetCurrentState() == typeof(AccountPending));
 
             // The License check always returns true.
-            _accountContext.CheckLicense();
+            _accountContext.CheckLicense(TODO);
             Assert.True(_accountContext.GetCurrentState() == typeof(AccountApproved));
         }
 

@@ -1,6 +1,7 @@
 using Approvals.Persistence.Entities;
 using Approvals.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Sdk.Interfaces;
 using Sdk.Persistence.Interfaces;
 
 namespace Approvals.Extensions

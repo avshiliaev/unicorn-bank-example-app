@@ -1,10 +1,8 @@
 using System.Threading.Tasks;
-using Accounts.States.Account;
-using Accounts.States.Transactions;
+using Accounts.Managers;
 using MassTransit;
 using Sdk.Api.Events;
 using Sdk.Api.Events.Local;
-using Sdk.Api.Interfaces;
 
 namespace Accounts.Handlers
 {
@@ -12,16 +10,13 @@ namespace Accounts.Handlers
         IConsumer<AccountIsCheckedEvent>,
         IConsumer<TransactionUpdatedEvent>
     {
-        private readonly IAccountContext _accountContext = null!;
-        private readonly ITransactionsContext _transactionsContext = null!;
+        private readonly IStatesManager _statesManager;
 
         public AccountsSubscriptionsHandler(
-            IAccountContext accountContext,
-            ITransactionsContext transactionsContext
+            IStatesManager statesManager
         )
         {
-            _accountContext = accountContext;
-            _transactionsContext = transactionsContext;
+            _statesManager = statesManager;
         }
 
         public AccountsSubscriptionsHandler()
@@ -30,24 +25,12 @@ namespace Accounts.Handlers
 
         public async Task Consume(ConsumeContext<AccountIsCheckedEvent> context)
         {
-            _accountContext.InitializeState(new AccountPending(), context.Message);
-            _accountContext.CheckBlocked();
-            _accountContext.CheckDenied();
-            _accountContext.CheckApproved();
-            await _accountContext.CheckLicense();
-            await _accountContext.PreserveState();
-            await _accountContext.PublishEvent();
+            var accountDto = await _statesManager.ProcessAccountState(context.Message);
         }
 
         public async Task Consume(ConsumeContext<TransactionUpdatedEvent> context)
         {
-            _transactionsContext.InitializeState(new TransactionPending(), context.Message);
-            _transactionsContext.CheckBlocked();
-            _transactionsContext.CheckDenied();
-            _transactionsContext.CheckApproved();
-            await _transactionsContext.CheckLicense();
-            await _transactionsContext.PreserveState();
-            await _transactionsContext.PublishEvent();
+            var transactionDto = await _statesManager.ProcessTransactionState(context.Message);
         }
     }
 }

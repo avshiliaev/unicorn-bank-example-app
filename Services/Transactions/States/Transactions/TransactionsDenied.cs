@@ -29,7 +29,7 @@ namespace Transactions.States.Transactions
             // Remain in the current state.
         }
 
-        public override async Task HandleCheckLicense(ILicenseManager<ITransactionModel> licenseManager)
+        public override async Task HandleCheckLicense(ILicenseService<ITransactionModel> licenseManager)
         {
             // Handle as denied.
 

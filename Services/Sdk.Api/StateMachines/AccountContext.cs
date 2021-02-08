@@ -9,21 +9,8 @@ namespace Sdk.Api.StateMachines
 {
     public class AccountContext : IAccountContext
     {
-        private readonly IEventStoreManager<AAccountState> _approvalsManager;
-        private readonly ILicenseManager<IAccountModel> _licenseManager;
-        private readonly IPublishEndpoint _publishEndpoint;
+        
         private AAccountState _state = null!;
-
-        public AccountContext(
-            IEventStoreManager<AAccountState> approvalsManager,
-            ILicenseManager<IAccountModel> licenseManager,
-            IPublishEndpoint publishEndpoint
-        )
-        {
-            _approvalsManager = approvalsManager;
-            _licenseManager = licenseManager;
-            _publishEndpoint = publishEndpoint;
-        }
 
         // Common
         public string Id { get; set; } = null!;
@@ -42,7 +29,7 @@ namespace Sdk.Api.StateMachines
         public bool Pending { get; set; }
         public bool Blocked { get; set; }
 
-        public IAccountContext InitializeState(AAccountState state, IAccountModel accountModel)
+        public IAccountContext InitializeState(IEntityState state, IAccountModel accountModel)
         {
             Id = accountModel.Id;
             Version = accountModel.Version;
@@ -62,34 +49,37 @@ namespace Sdk.Api.StateMachines
             return _state.GetType();
         }
 
-        public void CheckBlocked()
+        public IAccountContext CheckBlocked()
         {
             _state.HandleCheckBlocked();
+            return this;
         }
 
-        public void CheckDenied()
+        public IAccountContext CheckDenied()
         {
             _state.HandleCheckDenied();
+            return this;
         }
 
-        public void CheckApproved()
+        public IAccountContext CheckApproved()
         {
             _state.HandleCheckApproved();
+            return this;
         }
 
-        public async Task CheckLicense()
+        public async Task CheckLicense(ILicenseService<IAccountModel> licenseManager)
         {
-            await _state.HandleCheckLicense(_licenseManager);
+            await _state.HandleCheckLicense(licenseManager);
         }
 
-        public Task PreserveState()
+        public Task PreserveState(IEventStoreManager<AAccountState> eventStoreManager)
         {
-            return _state.HandlePreserveState(_approvalsManager);
+            return _state.HandlePreserveState(eventStoreManager);
         }
 
-        public Task PublishEvent()
+        public Task PublishEvent(IPublishEndpoint publishEndpoint)
         {
-            return _state.HandlePublishEvent(_publishEndpoint);
+            return _state.HandlePublishEvent(publishEndpoint);
         }
 
         public void TransitionTo(AAccountState state)

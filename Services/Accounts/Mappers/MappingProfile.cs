@@ -1,5 +1,5 @@
 using System;
-using Accounts.Persistence.Entities;
+using Accounts.Persistence.Models;
 using Sdk.Api.Dto;
 using Sdk.Api.Events;
 using Sdk.Api.Interfaces;
@@ -7,18 +7,18 @@ using Sdk.Api.Mappers;
 
 namespace Accounts.Mappers
 {
-    public class MappingProfile : BaseMapper<AccountEntity, IAccountModel>
+    public class MappingProfile : BaseMapper<AccountRecord, IAccountModel>
     {
         public MappingProfile()
         {
-            CreateMap<AccountEntity, IAccountModel>();
-            CreateMap<IAccountModel, AccountEntity>();
+            CreateMap<AccountRecord, IAccountModel>();
+            CreateMap<IAccountModel, AccountRecord>();
         }
     }
 
     public static class NotificationMapper
     {
-        public static NotificationEvent ToNotificationEvent(this AccountEntity accountEntity)
+        public static NotificationEvent ToNotificationEvent(this AccountRecord accountEntity)
         {
             return new NotificationEvent
             {

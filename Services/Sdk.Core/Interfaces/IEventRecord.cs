@@ -1,6 +1,6 @@
 using System;
 
-namespace Sdk.Persistence.Interfaces
+namespace Sdk.Interfaces
 {
     public interface IEventRecord
     {

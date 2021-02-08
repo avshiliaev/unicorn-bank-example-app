@@ -39,7 +39,7 @@ namespace Billings
                 .AddEventStore<BillingsRepository, TransactionEntity, BillingsContext>(_configuration)
                 .AddDataAccessServices()
                 .AddBusinessLogicManagers()
-                .AddLicenseManager<LicenseManager, ITransactionModel>()
+                .AddLicenseService<LicenseManager, ITransactionModel>()
                 .AddCustomAutoMapper<MappingProfile>()
                 .AddMessageBus<BillingsSubscriptionsHandler>(_configuration);
         }

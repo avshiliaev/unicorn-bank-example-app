@@ -1,14 +1,12 @@
 using MongoDB.Driver;
 using Sdk.Persistence.Interfaces;
 
-namespace Sdk.Persistence.Extensions
+namespace Sdk.Persistence.Tools
 {
     public static class MongoDbPipelineBuilder
     {
         public static PipelineDefinition<ChangeStreamDocument<TEntity>, ChangeStreamDocument<TEntity>>
-            ToMongoPipelineMatchMany<TEntity>(
-                this string profileId
-            ) where TEntity : class, IMongoEntity
+            MongoPipelineMatchMany<TEntity>(string profileId) where TEntity : class, IMongoEntity
         {
             return new EmptyPipelineDefinition<ChangeStreamDocument<TEntity>>()
                 .Match(change =>
@@ -18,9 +16,7 @@ namespace Sdk.Persistence.Extensions
         }
 
         public static PipelineDefinition<ChangeStreamDocument<TEntity>, ChangeStreamDocument<TEntity>>
-            ToMongoPipelineMatchSingle<TEntity>(
-                this string profileId, string accountId
-            ) where TEntity : class, IMongoEntity
+            MongoPipelineMatchSingle<TEntity>(string profileId, string accountId) where TEntity : class, IMongoEntity
         {
             return new EmptyPipelineDefinition<ChangeStreamDocument<TEntity>>()
                 .Match(change =>

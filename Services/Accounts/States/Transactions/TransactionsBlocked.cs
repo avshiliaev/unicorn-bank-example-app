@@ -29,22 +29,19 @@ namespace Accounts.States.Transactions
             // Remain in the current state.
         }
 
-        public override async Task HandleCheckLicense(ILicenseManager<ITransactionModel> licenseManager)
+        public override async Task HandleCheckLicense(ILicenseService<ATransactionsState> licenseService)
         {
             // Handle as blocked.
-
-            // Check once more a blocked account.
-            var isAllowed = await licenseManager.EvaluateNotPendingAsync(this);
-            if (isAllowed)
-                Context.TransitionTo(new TransactionApproved());
+            var isAllowed = await licenseService.EvaluateNotPendingAsync(this);
+            if (!isAllowed)
+                Context.TransitionTo(new TransactionBlocked());
             // Otherwise stay.
         }
 
-        public override async Task HandlePreserveState(IEventStoreManager<ATransactionsState> eventStoreManager)
+        public override async Task HandlePreserveState(IEventStoreService<ATransactionsState> eventStoreService)
         {
-            await eventStoreManager.SaveStateOptimisticallyAsync(this);
+            await eventStoreService.AppendStateOfEntity(this);
         }
-
 
         public override Task HandlePublishEvent(IPublishEndpoint publishEndpoint)
         {

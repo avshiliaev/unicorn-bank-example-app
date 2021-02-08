@@ -9,31 +9,17 @@ namespace Sdk.Api.StateMachines
 {
     public class TransactionsContext : ITransactionsContext
     {
-        private readonly IEventStoreManager<ATransactionsState> _eventStoreManager;
-        private readonly ILicenseManager<ITransactionModel> _licenseManager;
-        private readonly IPublishEndpoint _publishEndpoint;
-        private ATransactionsState _state = null!;
 
-        public TransactionsContext(
-            IEventStoreManager<ATransactionsState> eventStoreManager,
-            ILicenseManager<ITransactionModel> licenseManager,
-            IPublishEndpoint publishEndpoint
-        )
-        {
-            _eventStoreManager = eventStoreManager;
-            _licenseManager = licenseManager;
-            _publishEndpoint = publishEndpoint;
-        }
+        private ATransactionsState _state = null!;
 
         // Common
         public string Id { get; set; } = null!;
-        public string EntityId { get; set; }
+        public string EntityId { get; set; } = null!;
         public int Version { get; set; }
 
         // Foreign
         public string AccountId { get; set; } = null!;
         public string ProfileId { get; set; } = null!;
-        public string TransactionId { get; set; }
 
         // Properties
         public float Amount { get; set; }
@@ -75,34 +61,37 @@ namespace Sdk.Api.StateMachines
             return _state.GetType();
         }
 
-        public void CheckBlocked()
+        public ITransactionsContext CheckBlocked()
         {
             _state.HandleCheckBlocked();
+            return this;
         }
 
-        public void CheckDenied()
+        public ITransactionsContext CheckDenied()
         {
             _state.HandleCheckDenied();
+            return this;
         }
 
-        public void CheckApproved()
+        public ITransactionsContext CheckApproved()
         {
             _state.HandleCheckApproved();
+            return this;
         }
 
-        public async Task CheckLicense()
+        public async Task CheckLicense(ILicenseService<ITransactionModel> licenseManager)
         {
-            await _state.HandleCheckLicense(_licenseManager);
+            await _state.HandleCheckLicense(licenseManager);
         }
 
-        public async Task PreserveState()
+        public async Task PreserveState(IEventStoreManager<ATransactionsState> eventStoreManager)
         {
-            await _state.HandlePreserveState(_eventStoreManager);
+            await _state.HandlePreserveState(eventStoreManager);
         }
 
-        public async Task PublishEvent()
+        public async Task PublishEvent(IPublishEndpoint publishEndpoint)
         {
-            await _state.HandlePublishEvent(_publishEndpoint);
+            await _state.HandlePublishEvent(publishEndpoint);
         }
 
         public void TransitionTo(ATransactionsState state)

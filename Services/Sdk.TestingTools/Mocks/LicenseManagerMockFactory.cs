@@ -5,12 +5,12 @@ using Sdk.Tests.Interfaces;
 
 namespace Sdk.Tests.Mocks
 {
-    public class LicenseManagerMockFactory<TModel> : IMockFactory<ILicenseManager<TModel>>
+    public class LicenseManagerMockFactory<TModel> : IMockFactory<ILicenseService<TModel>>
         where TModel : class, IDataModel
     {
-        public Mock<ILicenseManager<TModel>> GetInstance()
+        public Mock<ILicenseService<TModel>> GetInstance()
         {
-            var licenseManager = new Mock<ILicenseManager<TModel>>();
+            var licenseManager = new Mock<ILicenseService<TModel>>();
             licenseManager
                 .Setup(
                     p => p.EvaluatePendingAsync(

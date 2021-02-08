@@ -2,6 +2,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Sdk.Interfaces;
 using Sdk.Persistence.Abstractions;
 using Sdk.Persistence.Interfaces;
 using Xunit;

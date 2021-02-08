@@ -39,7 +39,7 @@ namespace Approvals
                 .AddDataAccessServices()
                 .AddStateMachine()
                 .AddBusinessLogicManagers()
-                .AddLicenseManager<LicenseManager, IAccountModel>()
+                .AddLicenseService<LicenseManager, IAccountModel>()
                 .AddCustomAutoMapper<MappingProfile>()
                 .AddMessageBus<ApprovalsSubscriptionsHandler>(_configuration);
             services.AddHealthChecks().AddCheck("alive", () => HealthCheckResult.Healthy());

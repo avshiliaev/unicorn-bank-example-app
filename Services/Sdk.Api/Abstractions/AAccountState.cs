@@ -6,7 +6,7 @@ using Sdk.Interfaces;
 
 namespace Sdk.Api.Abstractions
 {
-    public abstract class AAccountState : IAccountModel
+    public abstract class AAccountState : IAccountModel, IEntityState
     {
         protected AccountContext Context = null!;
 
@@ -48,9 +48,10 @@ namespace Sdk.Api.Abstractions
         public abstract void HandleCheckDenied();
         public abstract void HandleCheckApproved();
 
-        public abstract Task HandleCheckLicense(ILicenseManager<IAccountModel> licenseManager);
+        public abstract Task HandleCheckLicense(ILicenseService<AAccountState> licenseManager);
 
-        public abstract Task HandlePreserveState(IEventStoreManager<AAccountState> eventStoreManager);
+        public abstract Task HandlePreserveState(IEventStoreService<AAccountState> eventStoreService);
+
         public abstract Task HandlePublishEvent(IPublishEndpoint publishEndpoint);
     }
 }

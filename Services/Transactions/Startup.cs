@@ -43,7 +43,7 @@ namespace Transactions
                 .AddDataAccessServices()
                 .AddBusinessLogicManagers()
                 .AddStateMachine()
-                .AddLicenseManager<LicenseManager, ITransactionModel>()
+                .AddLicenseService<LicenseManager, ITransactionModel>()
                 .AddMessageBus<TransactionsSubscriptionsHandler>(_configuration);
             services.AddHealthChecks().AddCheck("alive", () => HealthCheckResult.Healthy());
 

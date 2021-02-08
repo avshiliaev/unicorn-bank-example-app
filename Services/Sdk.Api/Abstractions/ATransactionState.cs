@@ -6,13 +6,13 @@ using Sdk.Interfaces;
 
 namespace Sdk.Api.Abstractions
 {
-    public abstract class ATransactionsState : ITransactionModel
+    public abstract class ATransactionsState : ITransactionModel, IEntityState
     {
         protected TransactionsContext Context = null!;
 
         // Common
         public string Id { get; set; } = null!;
-        public string EntityId { get; set; }
+        public string EntityId { get; set; } = null!;
         public int Version { get; set; }
 
         // Foreign
@@ -56,9 +56,9 @@ namespace Sdk.Api.Abstractions
         public abstract void HandleCheckDenied();
         public abstract void HandleCheckApproved();
 
-        public abstract Task HandleCheckLicense(ILicenseManager<ITransactionModel> licenseManager);
+        public abstract Task HandleCheckLicense(ILicenseService<ATransactionsState> licenseService);
 
-        public abstract Task HandlePreserveState(IEventStoreManager<ATransactionsState> eventStoreManager);
+        public abstract Task HandlePreserveState(IEventStoreService<ATransactionsState> eventStoreService);
         public abstract Task HandlePublishEvent(IPublishEndpoint publishEndpoint);
     }
 }

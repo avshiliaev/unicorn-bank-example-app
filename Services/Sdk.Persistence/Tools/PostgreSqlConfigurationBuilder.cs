@@ -3,15 +3,15 @@ using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace Sdk.Persistence.Extensions
+namespace Sdk.Persistence.Tools
 {
     public static class PostgreSqlConfigurationBuilder
     {
-        public static DbContextOptionsBuilder BuildPostgreSqlConfiguration(
-            this DbContextOptionsBuilder optionsBuilder,
+        public static DbContextOptions<TContext> BuildPostgreSqlConfiguration<TContext>(
+            DbContextOptionsBuilder<TContext> optionsBuilder,
             string nameSpace,
             string connectionStringKey
-        )
+        ) where TContext : DbContext
         {
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(
@@ -28,7 +28,7 @@ namespace Sdk.Persistence.Extensions
             optionsBuilder.UseNpgsql(
                 configuration.GetConnectionString(connectionStringKey)
             );
-            return optionsBuilder;
+            return optionsBuilder.Options;
         }
     }
 }

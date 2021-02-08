@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Approvals.Persistence.Entities;
+using Sdk.Interfaces;
 using Sdk.Persistence.Interfaces;
 
 namespace Approvals.Services

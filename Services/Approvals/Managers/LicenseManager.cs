@@ -4,6 +4,7 @@ using Approvals.Persistence.Entities;
 using Microsoft.Extensions.Logging;
 using Sdk.Abstractions;
 using Sdk.Api.Interfaces;
+using Sdk.Interfaces;
 using Sdk.Persistence.Interfaces;
 
 namespace Approvals.Managers

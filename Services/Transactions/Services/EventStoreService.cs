@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Sdk.Interfaces;
 using Sdk.Persistence.Interfaces;
 using Transactions.Persistence.Entities;
 
