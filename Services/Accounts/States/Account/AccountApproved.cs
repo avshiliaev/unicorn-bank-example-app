@@ -1,10 +1,9 @@
 using System;
 using System.Threading.Tasks;
 using MassTransit;
-using Sdk.Api.Abstractions;
-using Sdk.Api.Interfaces;
 using Sdk.Extensions;
 using Sdk.Interfaces;
+using Sdk.StateMachine.Abstractions;
 
 namespace Accounts.States.Account
 {
@@ -43,7 +42,7 @@ namespace Accounts.States.Account
             await eventStoreService.AppendStateOfEntity(this);
         }
 
-        public override Task HandlePublishEvent(IPublishEndpoint publishEndpoint)
+        public override Task HandlePublishEvent(IPublishService<AAccountState> publishEndpoint)
         {
             // await _publishEndpoint.Publish(newAccount?.ToAccountEvent<AccountCreatedEvent>());
             // await _publishEndpoint.Publish(newAccount?.ToAccountEvent<AccountCheckCommand>());

@@ -5,8 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sdk.Api.Dto;
-using Sdk.Api.Interfaces;
-using Sdk.Auth.Extensions;
 using Sdk.Extensions;
 using Transactions.States.Transactions;
 using Transactions.ViewModels;
@@ -17,9 +15,9 @@ namespace Transactions.Controllers
     [Route("api/[controller]")]
     public class TransactionsController : ControllerBase
     {
-        private readonly ITransactionsContext _transactionsContext;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
+        private readonly ITransactionsContext _transactionsContext;
 
         public TransactionsController(
             ITransactionsContext transactionsContext,
@@ -41,7 +39,6 @@ namespace Transactions.Controllers
             [FromQuery] TransactionViewModel transactionViewModel
         )
         {
-            
             if (!ModelState.IsValid) return BadRequest();
 
             var profileId = _httpContextAccessor.GetUserIdentifier();

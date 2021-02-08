@@ -1,8 +1,7 @@
 using System;
 using System.Globalization;
 using Notifications.Persistence.Entities;
-using Sdk.Api.Interfaces;
-using Sdk.Extensions;
+using Sdk.Interfaces;
 
 namespace Notifications.Mappers
 {

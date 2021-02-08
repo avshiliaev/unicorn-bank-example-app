@@ -1,11 +1,9 @@
 using System.Collections.Generic;
-using Approvals.Persistence.Entities;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Sdk.Api.Events.Local;
-using Sdk.Api.Interfaces;
-using Sdk.Api.StateMachines;
 using Sdk.Extensions;
+using Sdk.Interfaces;
 using Sdk.Tests.Extensions;
 using Sdk.Tests.Mocks;
 using Xunit;

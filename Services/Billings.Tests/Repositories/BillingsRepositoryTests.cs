@@ -1,5 +1,4 @@
 using Billings.Persistence;
-using Billings.Persistence.Entities;
 using Billings.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

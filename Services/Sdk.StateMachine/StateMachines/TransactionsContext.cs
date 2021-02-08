@@ -1,15 +1,13 @@
 using System;
 using System.Threading.Tasks;
-using MassTransit;
-using Sdk.Api.Abstractions;
-using Sdk.Api.Interfaces;
 using Sdk.Interfaces;
+using Sdk.StateMachine.Abstractions;
+using Sdk.StateMachine.Interfaces;
 
-namespace Sdk.Api.StateMachines
+namespace Sdk.StateMachine.StateMachines
 {
     public class TransactionsContext : ITransactionsContext
     {
-
         private ATransactionsState _state = null!;
 
         // Common
@@ -79,17 +77,17 @@ namespace Sdk.Api.StateMachines
             return this;
         }
 
-        public async Task CheckLicense(ILicenseService<ITransactionModel> licenseManager)
+        public async Task CheckLicense(ILicenseService<ATransactionsState> licenseManager)
         {
             await _state.HandleCheckLicense(licenseManager);
         }
 
-        public async Task PreserveState(IEventStoreManager<ATransactionsState> eventStoreManager)
+        public async Task PreserveState(IEventStoreService<ATransactionsState> eventStoreManager)
         {
             await _state.HandlePreserveState(eventStoreManager);
         }
 
-        public async Task PublishEvent(IPublishEndpoint publishEndpoint)
+        public async Task PublishEvent(IPublishService<ATransactionsState> publishEndpoint)
         {
             await _state.HandlePublishEvent(publishEndpoint);
         }

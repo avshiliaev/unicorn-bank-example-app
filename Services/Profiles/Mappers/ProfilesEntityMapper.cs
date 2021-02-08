@@ -37,7 +37,7 @@ namespace Profiles.Mappers
 
                 // Foreign Properties
                 ProfileId = profileEntity.ProfileId,
-                AccountId = profileEntity.AccountId,
+                AccountId = profileEntity.EntityId,
 
                 // Approvable
                 Approved = profileEntity.Approved,

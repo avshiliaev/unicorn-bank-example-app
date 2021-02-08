@@ -1,9 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using MassTransit;
-using Sdk.Api.Abstractions;
-using Sdk.Api.Interfaces;
-using Sdk.Extensions;
 using Sdk.Interfaces;
 
 namespace Transactions.States.Account

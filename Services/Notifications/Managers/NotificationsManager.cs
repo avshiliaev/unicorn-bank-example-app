@@ -2,7 +2,7 @@ using Microsoft.Extensions.Logging;
 using Notifications.Interfaces;
 using Notifications.Mappers;
 using Sdk.Api.Dto;
-using Sdk.Api.Interfaces;
+using Sdk.Interfaces;
 
 namespace Notifications.Managers
 {

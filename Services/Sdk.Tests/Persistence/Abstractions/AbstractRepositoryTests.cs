@@ -4,12 +4,11 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Sdk.Interfaces;
 using Sdk.Persistence.Abstractions;
-using Sdk.Persistence.Interfaces;
 using Xunit;
 
 namespace Sdk.Tests.Persistence.Abstractions
 {
-    public class TestEntity : IEventRecord
+    public class TestEntity : IRecord
     {
         public string Id { get; set; }
         public DateTime Created { get; set; }

@@ -16,17 +16,17 @@ namespace Approvals.Services
         {
             _approvalsRepository = approvalsRepository;
         }
-        
+
+        public Task<AccountEntity> AppendStateOfEntity(AccountEntity approvalEntity)
+        {
+            return _approvalsRepository.AppendStateOfEntity(approvalEntity);
+        }
+
         public Task<AccountEntity> TransactionDecorator(
             Func<AccountEntity, Task<AccountEntity>> func, AccountEntity entity
         )
         {
             return _approvalsRepository.TransactionDecorator(func, entity);
-        }
-
-        public Task<AccountEntity> AppendStateOfEntity(AccountEntity approvalEntity)
-        {
-            return _approvalsRepository.AppendStateOfEntity(approvalEntity);
         }
 
         public Task<List<AccountEntity>> GetAllEntitiesLastStatesAsync(

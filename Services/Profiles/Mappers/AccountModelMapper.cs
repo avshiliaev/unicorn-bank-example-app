@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Profiles.Persistence.Entities;
-using Sdk.Api.Interfaces;
+using Sdk.Interfaces;
 
 namespace Profiles.Mappers
 {
@@ -17,7 +17,7 @@ namespace Profiles.Mappers
 
                 // Foreign Properties
                 ProfileId = accountEvent.ProfileId,
-                AccountId = accountEvent.Id,
+                EntityId = accountEvent.Id,
 
                 // Approvable
                 Approved = accountEvent.Approved,
@@ -45,7 +45,7 @@ namespace Profiles.Mappers
 
                 // Foreign Properties
                 ProfileId = accountEvent.ProfileId,
-                AccountId = accountEvent.Id,
+                EntityId = accountEvent.Id,
 
                 // Approvable
                 Approved = accountEvent.Approved,

@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using Approvals.States.Account;
 using MassTransit;
 using Sdk.Api.Events.Local;
-using Sdk.Api.Interfaces;
 
 namespace Approvals.Handlers
 {

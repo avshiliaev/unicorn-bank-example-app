@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Sdk.Persistence.Extensions;
 using Sdk.Persistence.Tools;
 
 namespace Accounts.Persistence
@@ -10,7 +9,7 @@ namespace Accounts.Persistence
         public AccountsContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<AccountsContext>();
-            var options = PostgreSqlConfigurationBuilder.BuildPostgreSqlConfiguration<AccountsContext>(
+            var options = PostgreSqlConfigurationBuilder.BuildPostgreSqlConfiguration(
                 optionsBuilder,
                 "Accounts",
                 "PostgreSql"

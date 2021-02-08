@@ -1,10 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Sdk.Abstractions;
-using Sdk.Api.Interfaces;
-using Sdk.Extensions;
 using Sdk.Interfaces;
-using Sdk.Persistence.Interfaces;
 using Transactions.Persistence.Entities;
 
 namespace Transactions.Managers

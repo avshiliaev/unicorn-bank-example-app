@@ -3,7 +3,7 @@ using Sdk.Interfaces;
 
 namespace Accounts.Persistence.Models
 {
-    public class AccountRecord : IEventRecord, IApprovable, IConcurrentHost
+    public class AccountRecord : IRecord, IApprovable, IConcurrentHost
     {
         // Properties
         public float Balance { get; set; }

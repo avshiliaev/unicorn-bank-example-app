@@ -12,7 +12,7 @@ namespace Sdk.Persistence.Abstractions
 {
     public abstract class AbstractEventRepository<TContext, TEntity> : IRepository<TEntity>
         where TContext : DbContext
-        where TEntity : class, IEventRecord
+        where TEntity : class, IRecord
     {
         private readonly TContext _context;
         private readonly ILogger<AbstractEventRepository<TContext, TEntity>> _logger;

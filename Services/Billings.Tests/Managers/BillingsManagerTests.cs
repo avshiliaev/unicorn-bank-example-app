@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using Billings.Persistence.Entities;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Sdk.Api.Events;
 using Sdk.Api.Events.Local;
-using Sdk.Api.Interfaces;
 using Sdk.Extensions;
+using Sdk.Interfaces;
 using Sdk.Tests.Extensions;
 using Sdk.Tests.Mocks;
 using Xunit;

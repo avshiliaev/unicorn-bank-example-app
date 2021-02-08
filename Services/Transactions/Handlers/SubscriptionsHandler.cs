@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using MassTransit;
 using Sdk.Api.Events;
 using Sdk.Api.Events.Local;
-using Sdk.Api.Interfaces;
 using Transactions.States.Account;
 using Transactions.States.Transactions;
 

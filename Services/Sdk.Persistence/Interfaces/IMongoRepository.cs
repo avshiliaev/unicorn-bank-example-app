@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using MongoDB.Driver;
+using Sdk.Interfaces;
 
 namespace Sdk.Persistence.Interfaces
 {
-    public interface IMongoRepository<TEntity> where TEntity : class, IMongoEntity
+    public interface IMongoRepository<TEntity> where TEntity : class, IRecord
     {
         public MongoClient Client { get; }
 

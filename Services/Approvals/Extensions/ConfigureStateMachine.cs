@@ -1,6 +1,4 @@
 using Microsoft.Extensions.DependencyInjection;
-using Sdk.Api.Interfaces;
-using Sdk.Api.StateMachines;
 
 namespace Approvals.Extensions
 {

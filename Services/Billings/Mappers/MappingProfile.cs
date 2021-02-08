@@ -1,8 +1,6 @@
-using System;
 using Billings.Persistence.Entities;
-using Sdk.Api.Events;
-using Sdk.Api.Interfaces;
 using Sdk.Api.Mappers;
+using Sdk.Interfaces;
 
 namespace Billings.Mappers
 {

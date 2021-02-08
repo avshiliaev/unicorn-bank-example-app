@@ -1,7 +1,7 @@
 using Approvals.Persistence;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Sdk.Api.Interfaces;
+using Sdk.Interfaces;
 using Sdk.Tests.Extensions;
 
 namespace Approvals.Tests.Fixtures

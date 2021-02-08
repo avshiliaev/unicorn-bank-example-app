@@ -2,9 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Approvals.Persistence.Entities;
 using AutoMapper;
-using Sdk.Api.Abstractions;
 using Sdk.Interfaces;
-using Sdk.Persistence.Interfaces;
 
 namespace Approvals.Managers
 {

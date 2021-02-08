@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
 using Accounts.Persistence.Models;
 using AutoMapper;
-using Sdk.Api.Abstractions;
 using Sdk.Interfaces;
 using Sdk.Persistence.Interfaces;
+using Sdk.StateMachine.Abstractions;
 
 namespace Accounts.Services
 {

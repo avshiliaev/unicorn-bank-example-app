@@ -10,7 +10,7 @@ using Sdk.Tests.Interfaces;
 namespace Sdk.Tests.Mocks
 {
     public class RepositoryMockFactory<TEntity> : IMockFactory<IRepository<TEntity>>
-        where TEntity : class, IEventRecord
+        where TEntity : class, IRecord
     {
         private List<TEntity> _entities;
 

@@ -1,15 +1,8 @@
 using System;
 using System.Threading.Tasks;
 using AutoMapper;
-using Billings.Mappers;
 using Billings.Persistence.Entities;
-using MassTransit;
-using Sdk.Api.Abstractions;
-using Sdk.Api.Dto;
-using Sdk.Api.Events.Local;
-using Sdk.Api.Validators;
 using Sdk.Interfaces;
-using Sdk.Persistence.Interfaces;
 
 namespace Billings.Managers
 {

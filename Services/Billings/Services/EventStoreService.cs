@@ -16,17 +16,17 @@ namespace Billings.Services
         {
             _billingsRepository = approvalsRepository;
         }
-        
+
+        public Task<TransactionEntity> AppendStateOfEntity(TransactionEntity approvalEntity)
+        {
+            return _billingsRepository.AppendStateOfEntity(approvalEntity);
+        }
+
         public Task<TransactionEntity> TransactionDecorator(
             Func<TransactionEntity, Task<TransactionEntity>> func, TransactionEntity entity
         )
         {
             return _billingsRepository.TransactionDecorator(func, entity);
-        }
-
-        public Task<TransactionEntity> AppendStateOfEntity(TransactionEntity approvalEntity)
-        {
-            return _billingsRepository.AppendStateOfEntity(approvalEntity);
         }
 
         public Task<List<TransactionEntity>> GetAllEntitiesLastStatesAsync(

@@ -2,7 +2,7 @@ using System;
 
 namespace Sdk.Interfaces
 {
-    public interface IEventRecord
+    public interface IRecord
     {
         public string Id { set; get; }
         public string EntityId { set; get; }

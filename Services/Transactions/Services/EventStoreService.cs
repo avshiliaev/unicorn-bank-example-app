@@ -16,17 +16,17 @@ namespace Transactions.Services
         {
             _transactionsRepository = transactionsRepository;
         }
-        
+
+        public Task<TransactionEntity> AppendStateOfEntity(TransactionEntity accountEntity)
+        {
+            return _transactionsRepository.AppendStateOfEntity(accountEntity);
+        }
+
         public Task<TransactionEntity> TransactionDecorator(
             Func<TransactionEntity, Task<TransactionEntity>> func, TransactionEntity entity
         )
         {
             return _transactionsRepository.TransactionDecorator(func, entity);
-        }
-
-        public Task<TransactionEntity> AppendStateOfEntity(TransactionEntity accountEntity)
-        {
-            return _transactionsRepository.AppendStateOfEntity(accountEntity);
         }
 
         public Task<List<TransactionEntity>> GetAllEntitiesLastStatesAsync(

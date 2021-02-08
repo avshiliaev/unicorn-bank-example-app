@@ -1,5 +1,5 @@
 using Profiles.Persistence.Entities;
-using Sdk.Api.Interfaces;
+using Sdk.Interfaces;
 
 namespace Profiles.Mappers
 {

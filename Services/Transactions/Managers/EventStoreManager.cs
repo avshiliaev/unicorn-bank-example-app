@@ -1,11 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using MassTransit;
-using Sdk.Api.Abstractions;
-using Sdk.Api.Dto;
-using Sdk.Api.Interfaces;
 using Sdk.Interfaces;
-using Sdk.Persistence.Interfaces;
 using Transactions.Persistence.Entities;
 
 namespace Transactions.Managers

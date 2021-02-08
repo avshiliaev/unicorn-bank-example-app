@@ -1,10 +1,9 @@
 using System;
 using Sdk.Interfaces;
-using Sdk.Persistence.Interfaces;
 
 namespace Transactions.Persistence.Entities
 {
-    public class TransactionEntity : IEventRecord, IConcurrent, IApprovable
+    public class TransactionEntity : IRecord, IConcurrent, IApprovable
     {
         // Foreign Properties
         public string AccountId { get; set; }

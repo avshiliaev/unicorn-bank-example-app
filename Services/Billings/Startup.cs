@@ -12,9 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Sdk.Api.Extensions;
-using Sdk.Api.Interfaces;
-using Sdk.Communication.Extensions;
-using Sdk.Extensions;
+using Sdk.Interfaces;
 using Sdk.Persistence.Extensions;
 
 namespace Billings

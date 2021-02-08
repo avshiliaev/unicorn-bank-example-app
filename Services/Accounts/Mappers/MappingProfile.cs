@@ -1,9 +1,8 @@
 using System;
 using Accounts.Persistence.Models;
-using Sdk.Api.Dto;
 using Sdk.Api.Events;
-using Sdk.Api.Interfaces;
 using Sdk.Api.Mappers;
+using Sdk.Interfaces;
 
 namespace Accounts.Mappers
 {
@@ -23,7 +22,7 @@ namespace Accounts.Mappers
             return new NotificationEvent
             {
                 Description = $"Your account has been {(accountEntity.Approved ? "approved" : "declined")}.",
-                ProfileId = accountEntity.ProfileId.ToString(),
+                ProfileId = accountEntity.ProfileId,
                 Status = accountEntity.Approved ? "approved" : "declined",
                 TimeStamp = DateTime.Now,
                 Title = $"{(accountEntity.Approved ? "Approval" : "Denial")}",

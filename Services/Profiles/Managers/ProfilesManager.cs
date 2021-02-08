@@ -2,7 +2,7 @@ using Microsoft.Extensions.Logging;
 using Profiles.Interfaces;
 using Profiles.Mappers;
 using Sdk.Api.Dto;
-using Sdk.Api.Interfaces;
+using Sdk.Interfaces;
 
 namespace Profiles.Managers
 {

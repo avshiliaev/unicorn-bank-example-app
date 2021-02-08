@@ -1,10 +1,9 @@
 using System;
 using System.Threading.Tasks;
 using MassTransit;
-using Sdk.Api.Abstractions;
-using Sdk.Api.Interfaces;
 using Sdk.Extensions;
 using Sdk.Interfaces;
+using Sdk.StateMachine.Abstractions;
 
 namespace Accounts.States.Transactions
 {
@@ -45,7 +44,7 @@ namespace Accounts.States.Transactions
             await eventStoreService.AppendStateOfEntity(this);
         }
 
-        public override Task HandlePublishEvent(IPublishEndpoint publishEndpoint)
+        public override Task HandlePublishEvent(IPublishService<ATransactionsState> publishEndpoint)
         {
             throw new NotImplementedException();
         }

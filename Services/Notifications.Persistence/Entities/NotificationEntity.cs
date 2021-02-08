@@ -1,11 +1,11 @@
 using System;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using Sdk.Persistence.Interfaces;
+using Sdk.Interfaces;
 
 namespace Notifications.Persistence.Entities
 {
-    public class NotificationEntity : IMongoEntity
+    public class NotificationEntity : IRecord
     {
         // Properties
         public string Description { get; set; }
@@ -15,7 +15,7 @@ namespace Notifications.Persistence.Entities
 
         // Foreign Properties
         public string ProfileId { get; set; }
-        public string AccountId { get; set; }
+        public string EntityId { get; set; }
 
         // Common entity
         [BsonId]

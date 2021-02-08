@@ -1,8 +1,7 @@
 using Accounts.Services;
 using Microsoft.Extensions.DependencyInjection;
-using Sdk.Api.Abstractions;
 using Sdk.Interfaces;
-using Sdk.Persistence.Interfaces;
+using Sdk.StateMachine.Abstractions;
 
 namespace Accounts.Extensions
 {

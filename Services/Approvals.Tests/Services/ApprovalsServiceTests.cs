@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Approvals.Persistence.Entities;
 using Sdk.Tests.Extensions;
 using Sdk.Tests.Mocks;
 using Xunit;

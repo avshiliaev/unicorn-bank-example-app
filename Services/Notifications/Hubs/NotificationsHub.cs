@@ -7,8 +7,6 @@ using Notifications.Interfaces;
 using Notifications.Mappers;
 using Notifications.Persistence.Entities;
 using Sdk.Api.Dto;
-using Sdk.Auth.Extensions;
-using Sdk.Persistence.Extensions;
 using Sdk.Persistence.Tools;
 
 // https://docs.microsoft.com/en-us/aspnet/core/signalr/introduction?view=aspnetcore-5.0

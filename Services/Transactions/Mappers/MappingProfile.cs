@@ -1,10 +1,10 @@
 using System;
 using Sdk.Api.Events;
-using Sdk.Api.Interfaces;
 using Sdk.Api.Mappers;
+using Sdk.Interfaces;
 using Transactions.Persistence.Entities;
 
-namespace Accounts.Mappers
+namespace Transactions.Mappers
 {
     public class MappingProfile : BaseMapper<TransactionEntity, ITransactionModel>
     {

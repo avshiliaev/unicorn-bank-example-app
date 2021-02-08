@@ -1,4 +1,4 @@
-using Sdk.Api.Interfaces;
+using Sdk.Interfaces;
 
 namespace Sdk.Api.Dto
 {

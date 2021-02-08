@@ -1,5 +1,5 @@
 using Sdk.Api.Dto;
-using Sdk.Api.Interfaces;
+using Sdk.Interfaces;
 
 namespace Notifications.Interfaces
 {

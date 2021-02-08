@@ -2,10 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Billings.Persistence.Entities;
 using Sdk.Abstractions;
-using Sdk.Api.Interfaces;
-using Sdk.Extensions;
 using Sdk.Interfaces;
-using Sdk.Persistence.Interfaces;
 
 namespace Billings.Managers
 {

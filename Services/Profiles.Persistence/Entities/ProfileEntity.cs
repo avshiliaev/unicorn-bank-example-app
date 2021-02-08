@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
 using Sdk.Interfaces;
-using Sdk.Persistence.Interfaces;
 
 namespace Profiles.Persistence.Entities
 {
@@ -28,7 +27,7 @@ namespace Profiles.Persistence.Entities
         public bool Blocked { get; set; }
     }
 
-    public class ProfileEntity : IMongoEntity, IApprovable, IConcurrentHost
+    public class ProfileEntity : IRecord, IApprovable, IConcurrentHost
     {
         // Properties
         public float Balance { get; set; }
@@ -41,7 +40,7 @@ namespace Profiles.Persistence.Entities
 
         // Concurrent Host
         public int LastSequentialNumber { get; set; }
-        public string AccountId { get; set; }
+        public string EntityId { get; set; }
 
         // Foreign Properties
         public string ProfileId { get; set; }

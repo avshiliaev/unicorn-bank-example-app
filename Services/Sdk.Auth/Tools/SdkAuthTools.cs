@@ -2,11 +2,11 @@ using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 
-namespace Sdk.Auth.Extensions
+namespace Sdk.Auth.Tools
 {
-    public static class HttpContextAccessorExtension
+    public static class SdkAuthTools
     {
-        public static string GetUserIdentifier(this IHttpContextAccessor httpContextAccessor)
+        public static string GetUserIdentifier(IHttpContextAccessor httpContextAccessor)
         {
             return httpContextAccessor
                 .HttpContext

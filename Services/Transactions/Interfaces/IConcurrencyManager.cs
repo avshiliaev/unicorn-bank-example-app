@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using Sdk.Api.Interfaces;
+using Sdk.Interfaces;
 
 namespace Transactions.Interfaces
 {

@@ -1,7 +1,6 @@
 using System;
-using Sdk.Interfaces;
 
-namespace Sdk.Api.Interfaces
+namespace Sdk.Interfaces
 {
     public interface INotificationModel : IDataModel
     {

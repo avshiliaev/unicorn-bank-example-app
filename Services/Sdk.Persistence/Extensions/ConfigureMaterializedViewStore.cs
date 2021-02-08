@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Sdk.Interfaces;
 using Sdk.Persistence.Interfaces;
 using Sdk.Persistence.Models;
 
@@ -12,7 +13,7 @@ namespace Sdk.Persistence.Extensions
             this IServiceCollection services, IConfiguration configuration
         )
             where TRepository : class, IMongoRepository<TEntity>
-            where TEntity : class, IMongoEntity
+            where TEntity : class, IRecord
         {
             services.Configure<MongoSettingsModel>(
                 configuration.GetSection("MongoSettings")

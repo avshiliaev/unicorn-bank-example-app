@@ -1,13 +1,13 @@
 using System.Threading.Tasks;
-using MassTransit;
-using Sdk.Api.Interfaces;
-using Sdk.Api.StateMachines;
 using Sdk.Interfaces;
+using Sdk.StateMachine.StateMachines;
 
-namespace Sdk.Api.Abstractions
+namespace Sdk.StateMachine.Abstractions
 {
     public abstract class AAccountState : IAccountModel, IEntityState
     {
+        
+        // TODO: Leave interface, move abstraction to a project?
         protected AccountContext Context = null!;
 
         // Common
@@ -48,10 +48,10 @@ namespace Sdk.Api.Abstractions
         public abstract void HandleCheckDenied();
         public abstract void HandleCheckApproved();
 
-        public abstract Task HandleCheckLicense(ILicenseService<AAccountState> licenseManager);
+        public abstract Task HandleCheckLicense(ILicenseService<AAccountState> licenseService);
 
         public abstract Task HandlePreserveState(IEventStoreService<AAccountState> eventStoreService);
 
-        public abstract Task HandlePublishEvent(IPublishEndpoint publishEndpoint);
+        public abstract Task HandlePublishEvent(IPublishService<AAccountState> publishEndpoint);
     }
 }

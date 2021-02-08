@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sdk.Api.Dto;
 using Sdk.Api.Events;
-using Sdk.Auth.Extensions;
+using Sdk.Auth.Tools;
 using Sdk.Extensions;
 
 namespace Accounts.Controllers
@@ -38,7 +38,7 @@ namespace Accounts.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<AccountDto>> CreateNewAccount()
         {
-            var profileId = _httpContextAccessor.GetUserIdentifier();
+            var profileId = SdkAuthTools.GetUserIdentifier(_httpContextAccessor);
             if (profileId == null) return NotFound();
 
             var newAccountEvent = new AccountCreatedEvent {ProfileId = profileId};

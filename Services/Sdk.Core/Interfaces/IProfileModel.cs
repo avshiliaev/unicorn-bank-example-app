@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using Sdk.Interfaces;
 
-namespace Sdk.Api.Interfaces
+namespace Sdk.Interfaces
 {
     public interface IProfileModel<TTransaction> :
         IDataModel, IApprovable, IConcurrentHost

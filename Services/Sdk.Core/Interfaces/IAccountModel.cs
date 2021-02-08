@@ -1,6 +1,4 @@
-﻿using Sdk.Interfaces;
-
-namespace Sdk.Api.Interfaces
+﻿namespace Sdk.Interfaces
 {
     public interface IAccountModel : IDataModel, IApprovable, IConcurrentHost
     {

@@ -1,15 +1,13 @@
 using System;
 using System.Threading.Tasks;
-using MassTransit;
-using Sdk.Api.Abstractions;
-using Sdk.Api.Interfaces;
 using Sdk.Interfaces;
+using Sdk.StateMachine.Abstractions;
+using Sdk.StateMachine.Interfaces;
 
-namespace Sdk.Api.StateMachines
+namespace Sdk.StateMachine.StateMachines
 {
     public class AccountContext : IAccountContext
     {
-        
         private AAccountState _state = null!;
 
         // Common
@@ -23,13 +21,13 @@ namespace Sdk.Api.StateMachines
 
         // Properties
         public float Balance { get; set; }
-        
+
         // Approvable 
         public bool Approved { get; set; }
         public bool Pending { get; set; }
         public bool Blocked { get; set; }
 
-        public IAccountContext InitializeState(IEntityState state, IAccountModel accountModel)
+        public IAccountContext InitializeState(AAccountState state, IAccountModel accountModel)
         {
             Id = accountModel.Id;
             Version = accountModel.Version;
@@ -67,17 +65,17 @@ namespace Sdk.Api.StateMachines
             return this;
         }
 
-        public async Task CheckLicense(ILicenseService<IAccountModel> licenseManager)
+        public async Task CheckLicense(ILicenseService<AAccountState> licenseService)
         {
-            await _state.HandleCheckLicense(licenseManager);
+            await _state.HandleCheckLicense(licenseService);
         }
 
-        public Task PreserveState(IEventStoreManager<AAccountState> eventStoreManager)
+        public Task PreserveState(IEventStoreService<AAccountState> eventStoreManager)
         {
             return _state.HandlePreserveState(eventStoreManager);
         }
 
-        public Task PublishEvent(IPublishEndpoint publishEndpoint)
+        public Task PublishEvent(IPublishService<AAccountState> publishEndpoint)
         {
             return _state.HandlePublishEvent(publishEndpoint);
         }

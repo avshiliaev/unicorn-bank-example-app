@@ -1,5 +1,5 @@
 using System;
-using Sdk.Api.Interfaces;
+using Sdk.Interfaces;
 
 namespace Sdk.Api.Events
 {

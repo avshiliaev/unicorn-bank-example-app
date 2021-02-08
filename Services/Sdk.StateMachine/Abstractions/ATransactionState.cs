@@ -1,10 +1,8 @@
 using System.Threading.Tasks;
-using MassTransit;
-using Sdk.Api.Interfaces;
-using Sdk.Api.StateMachines;
 using Sdk.Interfaces;
+using Sdk.StateMachine.StateMachines;
 
-namespace Sdk.Api.Abstractions
+namespace Sdk.StateMachine.Abstractions
 {
     public abstract class ATransactionsState : ITransactionModel, IEntityState
     {
@@ -59,6 +57,6 @@ namespace Sdk.Api.Abstractions
         public abstract Task HandleCheckLicense(ILicenseService<ATransactionsState> licenseService);
 
         public abstract Task HandlePreserveState(IEventStoreService<ATransactionsState> eventStoreService);
-        public abstract Task HandlePublishEvent(IPublishEndpoint publishEndpoint);
+        public abstract Task HandlePublishEvent(IPublishService<ATransactionsState> publishEndpoint);
     }
 }

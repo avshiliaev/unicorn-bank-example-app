@@ -1,7 +1,6 @@
-using Accounts.Managers;
 using Microsoft.Extensions.DependencyInjection;
-using Sdk.Api.Interfaces;
-using Sdk.Api.StateMachines;
+using Sdk.StateMachine.Interfaces;
+using Sdk.StateMachine.StateMachines;
 
 namespace Accounts.Extensions
 {

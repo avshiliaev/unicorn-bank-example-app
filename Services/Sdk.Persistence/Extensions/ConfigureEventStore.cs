@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Sdk.Interfaces;
-using Sdk.Persistence.Abstractions;
 using Sdk.Persistence.Interfaces;
 
 namespace Sdk.Persistence.Extensions
@@ -14,7 +13,7 @@ namespace Sdk.Persistence.Extensions
             IConfiguration configuration
         )
             where TContext : DbContext
-            where TEntity : class, IEventRecord
+            where TEntity : class, IRecord
             where TRepository : class, IRepository<TEntity>
         {
             services.AddDbContext<TContext>(

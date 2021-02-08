@@ -11,6 +11,7 @@
         <ProjectReference Include="..\Sdk.Communication\Sdk.Communication.csproj" />
         <ProjectReference Include="..\Accounts.Persistence\Accounts.Persistence.csproj" />
         <ProjectReference Include="..\Sdk.License\Sdk.License.csproj" />
+        <ProjectReference Include="..\Sdk.StateMachine\Sdk.StateMachine.csproj" />
     </ItemGroup>
 
 </Project>

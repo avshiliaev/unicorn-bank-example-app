@@ -1,7 +1,5 @@
 using Billings.Managers;
 using Microsoft.Extensions.DependencyInjection;
-using Sdk.Api.Abstractions;
-using Sdk.Interfaces;
 
 namespace Billings.Extensions
 {

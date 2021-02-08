@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using Sdk.Interfaces;
-using Sdk.Persistence.Interfaces;
 using Transactions.Persistence.Entities;
 using Transactions.Services;
 

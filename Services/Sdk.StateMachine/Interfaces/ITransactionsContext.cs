@@ -1,10 +1,9 @@
 using System;
 using System.Threading.Tasks;
-using MassTransit;
-using Sdk.Api.Abstractions;
 using Sdk.Interfaces;
+using Sdk.StateMachine.Abstractions;
 
-namespace Sdk.Api.Interfaces
+namespace Sdk.StateMachine.Interfaces
 {
     public interface ITransactionsContext : ITransactionModel
     {
@@ -13,8 +12,8 @@ namespace Sdk.Api.Interfaces
         ITransactionsContext CheckBlocked();
         ITransactionsContext CheckDenied();
         ITransactionsContext CheckApproved();
-        Task CheckLicense(ILicenseService<ITransactionModel> licenseManager);
-        Task PreserveState(IEventStoreManager<ATransactionsState> eventStoreManager);
-        Task PublishEvent(IPublishEndpoint publishEndpoint);
+        Task CheckLicense(ILicenseService<ATransactionsState> licenseManager);
+        Task PreserveState(IEventStoreService<ATransactionsState> eventStoreService);
+        Task PublishEvent(IPublishService<ATransactionsState> publishEndpoint);
     }
 }

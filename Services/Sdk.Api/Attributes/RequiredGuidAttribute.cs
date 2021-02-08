@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Sdk.Api.Validators
+namespace Sdk.Api.Attributes
 {
     public class IsValidGuidAttribute : ValidationAttribute
     {
@@ -12,16 +12,11 @@ namespace Sdk.Api.Validators
 
         public override bool IsValid(object value)
         {
-            if (value != null)
-            {
-                var isGuidParsed = Guid.TryParse((string) value, out _);
-                if (isGuidParsed)
-                    return true;
+            var isGuidParsed = Guid.TryParse((string) value, out _);
+            if (isGuidParsed)
+                return true;
 
-                return false;
-            }
-
-            return true;
+            return false;
         }
     }
 }

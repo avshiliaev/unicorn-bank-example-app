@@ -1,10 +1,9 @@
 using System;
 using Sdk.Interfaces;
-using Sdk.Persistence.Interfaces;
 
 namespace Approvals.Persistence.Entities
 {
-    public class AccountEntity : IEventRecord, IApprovable, IConcurrentHost
+    public class AccountEntity : IRecord, IApprovable, IConcurrentHost
     {
         // Properties
         public float Balance { get; set; }

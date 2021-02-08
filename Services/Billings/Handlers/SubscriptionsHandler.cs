@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using Billings.States.Transactions;
 using MassTransit;
 using Sdk.Api.Events.Local;
-using Sdk.Api.Interfaces;
 
 namespace Billings.Handlers
 {

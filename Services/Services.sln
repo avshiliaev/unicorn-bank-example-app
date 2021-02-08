@@ -50,6 +50,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Profiles.Persistence", "Pro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Profiles.Tests", "Profiles.Tests\Profiles.Tests.csproj", "{A120BAE3-67E8-45AE-A4E4-938B7127388E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sdk.StateMachine", "Sdk.StateMachine\Sdk.StateMachine.csproj", "{93387033-D868-4C35-A2DF-9A2877C9A1D9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -156,5 +158,9 @@ Global
 		{A120BAE3-67E8-45AE-A4E4-938B7127388E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A120BAE3-67E8-45AE-A4E4-938B7127388E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A120BAE3-67E8-45AE-A4E4-938B7127388E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93387033-D868-4C35-A2DF-9A2877C9A1D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93387033-D868-4C35-A2DF-9A2877C9A1D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93387033-D868-4C35-A2DF-9A2877C9A1D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93387033-D868-4C35-A2DF-9A2877C9A1D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -51,7 +51,7 @@ namespace Profiles.Services
             try
             {
                 var filter = Builders<ProfileEntity>.Filter.And(
-                    Builders<ProfileEntity>.Filter.Eq(p => p.AccountId, profileEntity.AccountId),
+                    Builders<ProfileEntity>.Filter.Eq(p => p.EntityId, profileEntity.EntityId),
                     Builders<ProfileEntity>.Filter.Eq(p => p.Version, profileEntity.Version - 1)
                 );
                 var updateDefinition = Builders<ProfileEntity>.Update
@@ -81,7 +81,7 @@ namespace Profiles.Services
             try
             {
                 var filter = Builders<ProfileEntity>.Filter.And(
-                    Builders<ProfileEntity>.Filter.Eq(p => p.AccountId, accountId)
+                    Builders<ProfileEntity>.Filter.Eq(p => p.EntityId, accountId)
                 );
                 var updateDefinition = Builders<ProfileEntity>.Update.Push(
                     "Transactions",
@@ -106,7 +106,7 @@ namespace Profiles.Services
             session.StartTransaction();
             try
             {
-                var profile = _mongoRepository.GetSingleByParameter(p => p.AccountId == accountId);
+                var profile = _mongoRepository.GetSingleByParameter(p => p.EntityId == accountId);
                 if (profile.Transactions.All(t => t.Id != transactionSubEntity.Id))
                     return null;
 

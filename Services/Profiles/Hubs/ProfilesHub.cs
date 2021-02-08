@@ -8,8 +8,6 @@ using Profiles.Interfaces;
 using Profiles.Mappers;
 using Profiles.Persistence.Entities;
 using Sdk.Api.Dto;
-using Sdk.Auth.Extensions;
-using Sdk.Persistence.Extensions;
 using Sdk.Persistence.Tools;
 
 // https://docs.microsoft.com/en-us/aspnet/core/signalr/introduction?view=aspnetcore-5.0
@@ -57,7 +55,7 @@ namespace Profiles.Hubs
         {
             var profileId = _httpContextAccessor.GetUserIdentifier();
             var profile = _profilesService.GetSingleByParameter(
-                e => e.ProfileId == profileId && e.AccountId == accountId
+                e => e.ProfileId == profileId && e.EntityId == accountId
             );
             // TODO: filter transactions
 

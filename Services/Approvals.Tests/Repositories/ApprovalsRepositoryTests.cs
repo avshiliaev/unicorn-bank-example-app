@@ -1,5 +1,4 @@
 using Approvals.Persistence;
-using Approvals.Persistence.Entities;
 using Approvals.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

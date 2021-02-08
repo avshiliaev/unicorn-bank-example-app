@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using MongoDB.Driver;
+using Sdk.Interfaces;
 using Sdk.Persistence.Interfaces;
 
 namespace Sdk.Persistence.Abstractions
 {
     public abstract class AbstractMaterializedViewRepository<TEntity> : IMongoRepository<TEntity>
-        where TEntity : class, IMongoEntity
+        where TEntity : class, IRecord
     {
         private readonly IMongoCollection<TEntity> _mongoCollection;
 

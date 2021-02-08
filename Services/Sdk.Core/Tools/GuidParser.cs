@@ -1,13 +1,13 @@
 using System;
 
-namespace Sdk.Extensions
+namespace Sdk.Tools
 {
     public static class GuidParser
     {
-        public static Guid ToGuid(this string guidString)
+        public static Guid ToGuid(string guidString)
         {
             var isId = Guid.TryParse(guidString, out var id);
-            return isId ? id : Guid.NewGuid();
+            return isId ? id : Guid.Empty;
         }
     }
 }
