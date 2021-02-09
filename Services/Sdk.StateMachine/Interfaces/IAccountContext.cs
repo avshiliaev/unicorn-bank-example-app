@@ -8,7 +8,7 @@ namespace Sdk.StateMachine.Interfaces
     public interface IAccountContext : IAccountModel
     {
         IAccountContext InitializeState(AAccountState state, IAccountModel accountModel);
-        Type GetCurrentState();
+        AAccountState GetCurrentState();
         IAccountContext CheckBlocked();
         IAccountContext CheckDenied();
         IAccountContext CheckApproved();

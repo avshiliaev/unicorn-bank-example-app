@@ -26,9 +26,12 @@ namespace Accounts.Services
             var savedEntity = await _accountsRepository.AppendStateOfEntity(
                 _mapper.Map<AccountRecord>(accountState)
             );
-
-            var destType = accountState.GetType();
-            var mapped = _mapper.Map(savedEntity, savedEntity.GetType(), typeof(AAccountState));
+            
+            var mapped = _mapper.Map(
+                savedEntity, 
+                savedEntity.GetType(), 
+                accountState.GetType()
+            );
             return (AAccountState) mapped;
         }
     }

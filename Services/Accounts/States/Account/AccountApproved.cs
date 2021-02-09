@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using MassTransit;
+using Sdk.Api.Events;
 using Sdk.Extensions;
 using Sdk.Interfaces;
 using Sdk.StateMachine.Abstractions;
@@ -42,16 +43,14 @@ namespace Accounts.States.Account
             var savedState = await eventStoreService.AppendStateOfEntity(this);
             if (savedState != null)
             {
-                Context.Id = savedState.Id;
-                Context.Version = savedState.Version;
+                Id = savedState.Id;
+                Version = savedState.Version;
             }
         }
 
         public override Task HandlePublishEvent(IPublishService<AAccountState> publishEndpoint)
         {
-            // await _publishEndpoint.Publish(newAccount?.ToAccountEvent<AccountCreatedEvent>());
-            // await _publishEndpoint.Publish(newAccount?.ToAccountEvent<AccountCheckCommand>());
-            throw new NotImplementedException();
+            return publishEndpoint.Publish<AccountCreatedEvent>(this);
         }
     }
 }

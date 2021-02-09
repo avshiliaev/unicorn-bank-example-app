@@ -51,7 +51,7 @@ namespace Accounts.Managers
             await _accountContext.PreserveState(_eventStoreService);
             await _accountContext.PublishEvent(_publishService);
 
-            return _mapper.Map<AccountDto>(_accountContext);
+            return _mapper.Map<AccountDto>(_accountContext.GetCurrentState());
         }
 
         public async Task<ITransactionModel> ProcessTransactionState(ITransactionModel transactionModel)

@@ -1,6 +1,4 @@
-using System;
 using System.Threading.Tasks;
-using MassTransit;
 using Sdk.Api.Events;
 using Sdk.Extensions;
 using Sdk.Interfaces;
@@ -46,8 +44,8 @@ namespace Accounts.States.Account
             var savedState = await eventStoreService.AppendStateOfEntity(this);
             if (savedState != null)
             {
-                Context.Id = savedState.Id;
-                Context.Version = savedState.Version;
+                Id = savedState.Id;
+                Version = savedState.Version;
             }
         }
 

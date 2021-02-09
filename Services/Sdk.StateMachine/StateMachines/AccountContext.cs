@@ -42,9 +42,9 @@ namespace Sdk.StateMachine.StateMachines
             return this;
         }
 
-        public Type GetCurrentState()
+        public AAccountState GetCurrentState()
         {
-            return _state.GetType();
+            return _state;
         }
 
         public IAccountContext CheckBlocked()
