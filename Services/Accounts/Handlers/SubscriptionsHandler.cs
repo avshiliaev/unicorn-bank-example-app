@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Accounts.Interfaces;
 using Accounts.Managers;
 using MassTransit;
 using Sdk.Api.Events;
@@ -10,7 +11,7 @@ namespace Accounts.Handlers
         IConsumer<AccountIsCheckedEvent>,
         IConsumer<TransactionUpdatedEvent>
     {
-        private readonly IStatesManager _statesManager;
+        private readonly IStatesManager _statesManager = null!;
 
         public AccountsSubscriptionsHandler(
             IStatesManager statesManager

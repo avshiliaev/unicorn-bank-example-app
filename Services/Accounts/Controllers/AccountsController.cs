@@ -1,5 +1,7 @@
+using System;
 using System.Net.Mime;
 using System.Threading.Tasks;
+using Accounts.Interfaces;
 using Accounts.Managers;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -41,7 +43,11 @@ namespace Accounts.Controllers
             var profileId = SdkAuthTools.GetUserIdentifier(_httpContextAccessor);
             if (profileId == null) return NotFound();
 
-            var newAccountEvent = new AccountCreatedEvent {ProfileId = profileId};
+            var newAccountEvent = new AccountCreatedEvent
+            {
+                EntityId = Guid.NewGuid().ToString(),
+                ProfileId = profileId
+            };
             newAccountEvent.SetPending();
 
             var accountDto = await _statesManager.ProcessAccountState(newAccountEvent);

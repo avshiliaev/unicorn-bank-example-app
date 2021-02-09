@@ -41,7 +41,12 @@ namespace Accounts.States.Account
 
         public override async Task HandlePreserveState(IEventStoreService<AAccountState> eventStoreService)
         {
-            await eventStoreService.AppendStateOfEntity(this);
+            var savedState = await eventStoreService.AppendStateOfEntity(this);
+            if (savedState != null)
+            {
+                Context.Id = savedState.Id;
+                Context.Version = savedState.Version;
+            }
         }
 
         public override Task HandlePublishEvent(IPublishService<AAccountState> publishEndpoint)

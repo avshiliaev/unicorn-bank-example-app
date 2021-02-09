@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Accounts.Interfaces;
 using Accounts.States.Account;
 using Accounts.States.Transactions;
 using AutoMapper;
@@ -46,7 +47,7 @@ namespace Accounts.Managers
                 .CheckDenied()
                 .CheckApproved();
 
-            await _accountContext.CheckLicense(_licenseService);
+            // await _accountContext.CheckLicense(_licenseService);
             await _accountContext.PreserveState(_eventStoreService);
             await _accountContext.PublishEvent(_publishService);
 
@@ -67,11 +68,5 @@ namespace Accounts.Managers
 
             return _mapper.Map<TransactionDto>(_transactionsContext);
         }
-    }
-
-    public interface IStatesManager
-    {
-        public Task<IAccountModel> ProcessAccountState(IAccountModel accountModel);
-        public Task<ITransactionModel> ProcessTransactionState(ITransactionModel transactionModel);
     }
 }

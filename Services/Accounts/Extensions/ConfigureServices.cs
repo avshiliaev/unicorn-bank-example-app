@@ -10,6 +10,8 @@ namespace Accounts.Extensions
         public static IServiceCollection AddDataAccessServices(this IServiceCollection services)
         {
             services.AddTransient<IEventStoreService<AAccountState>, EventStoreService>();
+            services.AddTransient<ILicenseService<AAccountState>, LicenseService>();
+            services.AddTransient<IPublishService<AAccountState>, PublishService>();
             return services;
         }
     }

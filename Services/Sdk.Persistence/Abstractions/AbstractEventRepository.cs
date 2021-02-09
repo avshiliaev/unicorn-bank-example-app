@@ -34,30 +34,34 @@ namespace Sdk.Persistence.Abstractions
             return result;
         }
 
-        // Check if the current version is the same as the last saved one, increment it and append.
         public async Task<TEntity> AppendStateOfEntity(TEntity entity)
         {
+            TEntity savedEntity = null;
             await using var transaction = await _context.Database.BeginTransactionAsync();
 
-            var lastState = await GetOneEntityLastStateAsync(
+            var lastSavedState = await GetOneEntityLastStateAsync(
                 e => e.EntityId == entity.EntityId &&
                      e.ProfileId == entity.ProfileId
             );
 
-            if (lastState.Version.Equals(entity.Version))
+            if (lastSavedState == null)
             {
-                entity.Version++;
-                entity.Created = DateTime.UtcNow;
-                entity.Updated = entity.Created;
-                var saved = await _context.Set<TEntity>().AddAsync(entity);
-                await _context.SaveChangesAsync();
-
+                entity.Id = Guid.NewGuid().ToString();
+                entity.Version = 1;
+                savedEntity = await SaveState(entity);
                 await transaction.CommitAsync();
-
-                return saved.Entity;
             }
 
-            return null;
+            // Check if the current version is the same as the last saved one, increment it and append.
+            if (lastSavedState != null && lastSavedState.Version.Equals(entity.Version))
+            {
+                entity.Id = Guid.NewGuid().ToString();
+                entity.Version++;
+                savedEntity = await SaveState(entity);
+                await transaction.CommitAsync();
+            }
+
+            return savedEntity;
         }
 
         public Task<TEntity> GetOneEntityLastStateAsync(Expression<Func<TEntity, bool>> whereClause)
@@ -74,6 +78,15 @@ namespace Sdk.Persistence.Abstractions
                 .Where(whereClause)
                 .Where(e => e.Version == _context.Set<TEntity>().Max(e2 => (int?) e2.Version))
                 .ToListAsync();
+        }
+
+        private async Task<TEntity> SaveState(TEntity entity)
+        {
+            entity.Created = DateTime.UtcNow;
+            entity.Updated = entity.Created;
+            var saved = await _context.Set<TEntity>().AddAsync(entity);
+            await _context.SaveChangesAsync();
+            return saved.Entity;
         }
     }
 }

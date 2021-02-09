@@ -23,9 +23,13 @@ namespace Accounts.Services
 
         public async Task<AAccountState> AppendStateOfEntity(AAccountState accountState)
         {
-            var accountEntity = _mapper.Map<AccountRecord>(accountState);
-            await _accountsRepository.AppendStateOfEntity(accountEntity);
-            return accountState;
+            var savedEntity = await _accountsRepository.AppendStateOfEntity(
+                _mapper.Map<AccountRecord>(accountState)
+            );
+
+            var destType = accountState.GetType();
+            var mapped = _mapper.Map(savedEntity, savedEntity.GetType(), typeof(AAccountState));
+            return (AAccountState) mapped;
         }
     }
 }

@@ -8,12 +8,12 @@ namespace Accounts.Services
     {
         public Task<bool> EvaluatePendingAsync(AAccountState model)
         {
-            throw new System.NotImplementedException();
+            return Task.FromResult(true);
         }
 
         public Task<bool> EvaluateNotPendingAsync(AAccountState model)
         {
-            throw new System.NotImplementedException();
+            return Task.FromResult(true);
         }
     }
 }
