@@ -8,9 +8,11 @@ using Xunit;
 
 namespace Sdk.Tests.Persistence.Abstractions
 {
-    public class TestEntity : IRecord
+    public class TestRecord : IRecord
     {
         public string Id { get; set; }
+        public string EntityId { get; set; }
+        public string ProfileId { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
         public int Version { get; set; }
@@ -26,19 +28,19 @@ namespace Sdk.Tests.Persistence.Abstractions
 
         protected DbContextOptions<TestContext> ContextOptions { get; }
 
-        public DbSet<TestEntity> Entities { get; set; }
+        public DbSet<TestRecord> Entities { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<TestEntity>().ToTable("Entities");
+            modelBuilder.Entity<TestRecord>().ToTable("Entities");
             base.OnModelCreating(modelBuilder);
         }
     }
 
-    public class TestRepository : AbstractEventRepository<TestContext, TestEntity>
+    public class TestRepository : AbstractEventRepository<TestContext, TestRecord>
     {
         public TestRepository(
-            ILogger<AbstractEventRepository<TestContext, TestEntity>> logger,
+            ILogger<AbstractEventRepository<TestContext, TestRecord>> logger,
             TestContext context
         ) : base(logger, context)
         {
@@ -61,119 +63,11 @@ namespace Sdk.Tests.Persistence.Abstractions
         {
             await using var context = new TestContext(ContextOptions);
             var repository = new TestRepository(
-                new Mock<ILogger<AbstractEventRepository<TestContext, TestEntity>>>().Object,
+                new Mock<ILogger<AbstractEventRepository<TestContext, TestRecord>>>().Object,
                 context
             );
-            var newEntity = new TestEntity();
+            var newEntity = new TestRecord();
             var result = await repository.AppendStateOfEntity(newEntity);
-            Assert.NotNull(result);
-        }
-
-        [Fact]
-        public async void Should_ListAllAsync_Valid()
-        {
-            await using var context = new TestContext(ContextOptions);
-            var repository = new TestRepository(
-                new Mock<ILogger<AbstractEventRepository<TestContext, TestEntity>>>().Object,
-                context
-            );
-            var newEntity = new TestEntity();
-            var _ = await repository.AppendStateOfEntity(newEntity);
-            var result = await repository.ListAllAsync();
-            Assert.NotNull(result);
-            Assert.NotEmpty(result);
-        }
-
-        [Fact]
-        public async void Should_GetByIdAsync_Valid()
-        {
-            await using var context = new TestContext(ContextOptions);
-            var repository = new TestRepository(
-                new Mock<ILogger<AbstractEventRepository<TestContext, TestEntity>>>().Object,
-                context
-            );
-            var newEntity = new TestEntity();
-            var newEntitySaved = await repository.AppendStateOfEntity(newEntity);
-            var result = await repository.GetByIdAsync(newEntitySaved.Id);
-            Assert.NotNull(result);
-        }
-
-        [Fact]
-        public async void Should_GetOneByParameterAsync_Valid()
-        {
-            await using var context = new TestContext(ContextOptions);
-            var repository = new TestRepository(
-                new Mock<ILogger<AbstractEventRepository<TestContext, TestEntity>>>().Object,
-                context
-            );
-            var newEntity = new TestEntity {Version = 99};
-            var _ = await repository.AppendStateOfEntity(newEntity);
-
-            var result = await repository.GetOneEntityLastStateAsync(
-                e => e.Version == 99
-            );
-            Assert.NotNull(result);
-        }
-
-        [Fact]
-        public async void Should_GetManyByParameterAsync_Valid()
-        {
-            await using var context = new TestContext(ContextOptions);
-            var repository = new TestRepository(
-                new Mock<ILogger<AbstractEventRepository<TestContext, TestEntity>>>().Object,
-                context
-            );
-            var newEntity = new TestEntity {Version = 10};
-            var _ = await repository.AppendStateOfEntity(newEntity);
-
-            var result = await repository.GetManyAsync(
-                e => e.Version == 10
-            );
-            Assert.Single(result);
-        }
-
-        [Fact]
-        public async void Should_DeleteAsync_Valid()
-        {
-            await using var context = new TestContext(ContextOptions);
-            var repository = new TestRepository(
-                new Mock<ILogger<AbstractEventRepository<TestContext, TestEntity>>>().Object,
-                context
-            );
-            var newEntity = new TestEntity();
-            var newEntitySaved = await repository.AppendStateOfEntity(newEntity);
-            var result = await repository.DeleteAsync(newEntitySaved.Id);
-            Assert.NotNull(result);
-        }
-
-        [Fact]
-        public async void Should_UpdateActivelyAsync_Valid()
-        {
-            await using var context = new TestContext(ContextOptions);
-            var repository = new TestRepository(
-                new Mock<ILogger<AbstractEventRepository<TestContext, TestEntity>>>().Object,
-                context
-            );
-            var newEntity = new TestEntity();
-            var newEntitySaved = await repository.AppendStateOfEntity(newEntity);
-
-            var result = await repository.UpdateOptimisticallyAsync(newEntitySaved);
-            Assert.NotNull(result);
-        }
-
-        [Fact]
-        public async void Should_UpdatePassivelyAsync_Valid()
-        {
-            await using var context = new TestContext(ContextOptions);
-            var repository = new TestRepository(
-                new Mock<ILogger<AbstractEventRepository<TestContext, TestEntity>>>().Object,
-                context
-            );
-            var newEntity = new TestEntity();
-            var newEntitySaved = await repository.AppendStateOfEntity(newEntity);
-            newEntitySaved.Version++;
-
-            var result = await repository.UpdateAsync(newEntitySaved);
             Assert.NotNull(result);
         }
     }
