@@ -15,24 +15,23 @@ namespace Accounts.Tests.Services
 {
     public class EventStoreServiceTests
     {
-        private readonly IEventStoreService<AAccountState> _eventStoreService;
         private readonly List<AccountRecord> _accountRecords = new List<AccountRecord>
         {
-            new AccountRecord()
+            new AccountRecord
             {
                 Id = 1.ToGuid().ToString(),
                 EntityId = 1.ToGuid().ToString(),
                 ProfileId = 1.ToGuid().ToString(),
                 Version = 0
             },
-            new AccountRecord()
+            new AccountRecord
             {
                 Id = 2.ToGuid().ToString(),
                 EntityId = 1.ToGuid().ToString(),
                 ProfileId = 1.ToGuid().ToString(),
                 Version = 0
             },
-            new AccountRecord()
+            new AccountRecord
             {
                 Id = 3.ToGuid().ToString(),
                 EntityId = 2.ToGuid().ToString(),
@@ -40,6 +39,8 @@ namespace Accounts.Tests.Services
                 Version = 0
             }
         };
+
+        private readonly IEventStoreService<AAccountState> _eventStoreService;
 
         public EventStoreServiceTests()
         {
@@ -65,18 +66,17 @@ namespace Accounts.Tests.Services
                 Version = 0
             };
             var savedEntity = await _eventStoreService.AppendStateOfEntity(newState);
-            
+
             Assert.NotNull(savedEntity.Id);
         }
-        
+
         [Fact]
         public async Task ShouldNot_AppendStateOfEntity_Invalid()
         {
             var newState = new AccountApproved();
             var savedEntity = await _eventStoreService.AppendStateOfEntity(newState);
-            
+
             Assert.NotNull(savedEntity.Id);
         }
-        
     }
 }

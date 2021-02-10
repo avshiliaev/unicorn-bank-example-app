@@ -2,7 +2,6 @@ using System;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using Accounts.Interfaces;
-using Accounts.Managers;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

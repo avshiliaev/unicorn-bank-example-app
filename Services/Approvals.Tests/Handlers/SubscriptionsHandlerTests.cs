@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Approvals.Handlers;
 using MassTransit.Testing;
 using Sdk.Api.Events;
-using Sdk.Api.Events.Domain;
 using Xunit;
 
 namespace Approvals.Tests.Handlers

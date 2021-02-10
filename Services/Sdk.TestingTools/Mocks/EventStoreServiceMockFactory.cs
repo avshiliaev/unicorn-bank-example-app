@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Moq;
 using Sdk.Interfaces;
-using Sdk.Persistence.Interfaces;
 using Sdk.Tests.Interfaces;
 
 namespace Sdk.Tests.Mocks

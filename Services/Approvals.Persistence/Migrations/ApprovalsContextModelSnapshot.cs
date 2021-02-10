@@ -4,10 +4,10 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace Accounts.Persistence.Migrations
+namespace Approvals.Persistence.Migrations
 {
-    [DbContext(typeof(AccountsContext))]
-    internal class AccountsContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(ApprovalsContext))]
+    internal class ApprovalsContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -17,7 +17,7 @@ namespace Accounts.Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.0");
 
-            modelBuilder.Entity("Accounts.Persistence.Models.AccountRecord", b =>
+            modelBuilder.Entity("Approvals.Persistence.Models.AccountRecord", b =>
             {
                 b.Property<string>("Id")
                     .HasColumnType("text");
@@ -54,7 +54,7 @@ namespace Accounts.Persistence.Migrations
 
                 b.HasKey("Id");
 
-                b.ToTable("Accounts");
+                b.ToTable("Approvals");
             });
 #pragma warning restore 612, 618
         }

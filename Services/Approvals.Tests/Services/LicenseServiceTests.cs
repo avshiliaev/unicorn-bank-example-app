@@ -20,7 +20,7 @@ namespace Approvals.Tests.Services
         [Fact]
         public async Task Should_EvaluatePendingAsync_Valid()
         {
-            var newState = new AccountPending()
+            var newState = new AccountPending
             {
                 Id = 2.ToGuid().ToString(),
                 EntityId = 1.ToGuid().ToString(),
@@ -30,11 +30,11 @@ namespace Approvals.Tests.Services
             var isAllowed = await _licenseService.EvaluatePendingAsync(newState);
             Assert.True(isAllowed);
         }
-        
+
         [Fact]
         public async Task Should_EvaluateNotPendingAsync_Valid()
         {
-            var newState = new AccountApproved()
+            var newState = new AccountApproved
             {
                 Id = 2.ToGuid().ToString(),
                 EntityId = 1.ToGuid().ToString(),

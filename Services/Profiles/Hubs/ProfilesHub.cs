@@ -8,6 +8,7 @@ using Profiles.Interfaces;
 using Profiles.Mappers;
 using Profiles.Persistence.Entities;
 using Sdk.Api.Dto;
+using Sdk.Auth.Tools;
 using Sdk.Persistence.Tools;
 
 // https://docs.microsoft.com/en-us/aspnet/core/signalr/introduction?view=aspnetcore-5.0
@@ -30,7 +31,7 @@ namespace Profiles.Hubs
 
         public async Task<bool> RequestAll(int count)
         {
-            var profileId = _httpContextAccessor.GetUserIdentifier();
+            var profileId = SdkAuthTools.GetUserIdentifier(_httpContextAccessor);
             var profiles = _profilesService.GetManyByParameter(
                 e => e.ProfileId == profileId,
                 count
@@ -53,7 +54,7 @@ namespace Profiles.Hubs
 
         public async Task<bool> RequestOne(string accountId, int count)
         {
-            var profileId = _httpContextAccessor.GetUserIdentifier();
+            var profileId = SdkAuthTools.GetUserIdentifier(_httpContextAccessor);
             var profile = _profilesService.GetSingleByParameter(
                 e => e.ProfileId == profileId && e.EntityId == accountId
             );

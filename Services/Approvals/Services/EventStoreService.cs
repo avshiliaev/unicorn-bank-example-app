@@ -26,10 +26,10 @@ namespace Approvals.Services
             var savedEntity = await _accountsRepository.AppendStateOfEntity(
                 _mapper.Map<AccountRecord>(accountState)
             );
-            
+
             var mapped = _mapper.Map(
-                savedEntity, 
-                savedEntity.GetType(), 
+                savedEntity,
+                savedEntity.GetType(),
                 accountState.GetType()
             );
             return (AAccountState) mapped;

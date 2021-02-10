@@ -7,6 +7,7 @@ using Notifications.Interfaces;
 using Notifications.Mappers;
 using Notifications.Persistence.Entities;
 using Sdk.Api.Dto;
+using Sdk.Auth.Tools;
 using Sdk.Persistence.Tools;
 
 // https://docs.microsoft.com/en-us/aspnet/core/signalr/introduction?view=aspnetcore-5.0
@@ -29,7 +30,7 @@ namespace Notifications.Hubs
 
         public async Task<bool> RequestAll(int count)
         {
-            var profileId = _httpContextAccessor.GetUserIdentifier();
+            var profileId = SdkAuthTools.GetUserIdentifier(_httpContextAccessor);
             var notifications = _notificationsService.GetManyByParameter(
                 e => e.ProfileId == profileId,
                 count

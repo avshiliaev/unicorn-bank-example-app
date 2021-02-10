@@ -18,27 +18,24 @@ namespace Approvals.Tests.States.Accounts
     public class AccountStatesTests
     {
         private readonly IAccountContext _accountContext;
-        private readonly Mock<ILicenseService<AAccountState>> _licenseService;
-        private readonly Mock<IEventStoreService<AAccountState>> _eventStoreService;
-        private readonly Mock<IPublishService<AAccountState>> _publishService;
-        
+
         private readonly List<AAccountState> _accountRecords = new List<AAccountState>
         {
-            new AccountPending()
+            new AccountPending
             {
                 Id = 1.ToGuid().ToString(),
                 EntityId = 1.ToGuid().ToString(),
                 ProfileId = 1.ToGuid().ToString(),
                 Version = 0
             },
-            new AccountApproved()
+            new AccountApproved
             {
                 Id = 2.ToGuid().ToString(),
                 EntityId = 1.ToGuid().ToString(),
                 ProfileId = 1.ToGuid().ToString(),
                 Version = 0
             },
-            new AccountBlocked()
+            new AccountBlocked
             {
                 Id = 3.ToGuid().ToString(),
                 EntityId = 2.ToGuid().ToString(),
@@ -46,6 +43,10 @@ namespace Approvals.Tests.States.Accounts
                 Version = 0
             }
         };
+
+        private readonly Mock<IEventStoreService<AAccountState>> _eventStoreService;
+        private readonly Mock<ILicenseService<AAccountState>> _licenseService;
+        private readonly Mock<IPublishService<AAccountState>> _publishService;
 
         public AccountStatesTests()
         {
@@ -84,10 +85,10 @@ namespace Approvals.Tests.States.Accounts
             // The License check always returns true.
             await _accountContext.CheckLicense(_licenseService.Object);
             Assert.True(_accountContext.GetCurrentState().GetType() == typeof(AccountApproved));
-            
+
             await _accountContext.PreserveState(_eventStoreService.Object);
             Assert.True(_accountContext.GetCurrentState().GetType() == typeof(AccountApproved));
-            
+
             await _accountContext.PublishEvent(_publishService.Object);
             Assert.True(_accountContext.GetCurrentState().GetType() == typeof(AccountApproved));
         }
@@ -119,10 +120,10 @@ namespace Approvals.Tests.States.Accounts
             // The License check always returns true.
             await _accountContext.CheckLicense(_licenseService.Object);
             Assert.True(_accountContext.GetCurrentState().GetType() == typeof(AccountApproved));
-            
+
             await _accountContext.PreserveState(_eventStoreService.Object);
             Assert.True(_accountContext.GetCurrentState().GetType() == typeof(AccountApproved));
-            
+
             await _accountContext.PublishEvent(_publishService.Object);
             Assert.True(_accountContext.GetCurrentState().GetType() == typeof(AccountApproved));
         }
@@ -154,10 +155,10 @@ namespace Approvals.Tests.States.Accounts
             // The License check always returns true.
             await _accountContext.CheckLicense(_licenseService.Object);
             Assert.True(_accountContext.GetCurrentState().GetType() == typeof(AccountApproved));
-            
+
             await _accountContext.PreserveState(_eventStoreService.Object);
             Assert.True(_accountContext.GetCurrentState().GetType() == typeof(AccountApproved));
-            
+
             await _accountContext.PublishEvent(_publishService.Object);
             Assert.True(_accountContext.GetCurrentState().GetType() == typeof(AccountApproved));
         }
@@ -189,10 +190,10 @@ namespace Approvals.Tests.States.Accounts
             // The License check always returns true.
             await _accountContext.CheckLicense(_licenseService.Object);
             Assert.True(_accountContext.GetCurrentState().GetType() == typeof(AccountApproved));
-            
+
             await _accountContext.PreserveState(_eventStoreService.Object);
             Assert.True(_accountContext.GetCurrentState().GetType() == typeof(AccountApproved));
-            
+
             await _accountContext.PublishEvent(_publishService.Object);
             Assert.True(_accountContext.GetCurrentState().GetType() == typeof(AccountApproved));
         }

@@ -50,14 +50,14 @@ namespace Approvals.Tests.Managers
             var config = new MapperConfiguration(
                 cfg => cfg.AddProfile(new MappingProfile())
             );
-            
+
             var accountContext = new AccountContext();
             var transactionsContext = new TransactionsContext();
             var mapper = config.CreateMapper();
             var eventStoreService = new EventStoreServiceMockFactory<AAccountState>(_accountRecords).GetInstance();
             var publishService = new PublishServiceMockFactory<AAccountState, AccountCreatedEvent>().GetInstance();
             var licenseService = new LicenseServiceMockFactory<AAccountState>().GetInstance();
-            
+
             _statesManager = new StatesManager(
                 accountContext,
                 transactionsContext,
@@ -80,12 +80,12 @@ namespace Approvals.Tests.Managers
                 ProfileId = "awesome"
             };
             newAccountEvent.SetDenied();
-            
+
             var accountDto = await _statesManager.ProcessAccountState(newAccountEvent);
             Assert.NotNull(accountDto);
             Assert.True(accountDto.IsDenied());
         }
-        
+
         [Fact]
         public async Task Should_HandleState_Approved()
         {
@@ -98,12 +98,12 @@ namespace Approvals.Tests.Managers
                 ProfileId = "awesome"
             };
             newAccountEvent.SetApproved();
-            
+
             var accountDto = await _statesManager.ProcessAccountState(newAccountEvent);
             Assert.NotNull(accountDto);
             Assert.True(accountDto.IsApproved());
         }
-        
+
         [Fact]
         public async Task Should_HandleState_Pending()
         {
@@ -116,12 +116,12 @@ namespace Approvals.Tests.Managers
                 ProfileId = "awesome"
             };
             newAccountEvent.SetPending();
-            
+
             var accountDto = await _statesManager.ProcessAccountState(newAccountEvent);
             Assert.NotNull(accountDto);
             Assert.True(accountDto.IsPending());
         }
-        
+
         [Fact]
         public async Task Should_HandleState_Blocked()
         {
@@ -134,11 +134,10 @@ namespace Approvals.Tests.Managers
                 ProfileId = "awesome"
             };
             newAccountEvent.SetBlocked();
-            
+
             var accountDto = await _statesManager.ProcessAccountState(newAccountEvent);
             Assert.NotNull(accountDto);
             Assert.True(accountDto.IsBlocked());
         }
-        
     }
 }

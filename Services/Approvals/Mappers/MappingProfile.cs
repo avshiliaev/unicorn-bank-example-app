@@ -1,4 +1,3 @@
-using System;
 using Approvals.Persistence.Models;
 using Approvals.States.Account;
 using Sdk.Api.Dto;
@@ -15,7 +14,7 @@ namespace Approvals.Mappers
         {
             // Mapping inheritance
             // Runtime polymorphism
-            
+
             // State to record
             CreateMap<AccountPending, AccountRecord>();
             CreateMap<AccountApproved, AccountRecord>();
@@ -26,14 +25,14 @@ namespace Approvals.Mappers
                 .Include<AccountApproved, AccountRecord>()
                 .Include<AccountDenied, AccountRecord>()
                 .Include<AccountBlocked, AccountRecord>();
-            
+
             // State to event
             CreateMap<AccountPending, AccountCreatedEvent>();
             CreateMap<AccountApproved, AccountUpdatedEvent>();
             CreateMap<AAccountState, IEvent>()
                 .Include<AccountPending, AccountCreatedEvent>()
                 .Include<AccountApproved, AccountUpdatedEvent>();
-            
+
             // State to dto
             CreateMap<AccountPending, AccountDto>();
             CreateMap<AccountApproved, AccountDto>();
@@ -44,7 +43,7 @@ namespace Approvals.Mappers
                 .Include<AccountApproved, AccountDto>()
                 .Include<AccountDenied, AccountDto>()
                 .Include<AccountBlocked, AccountDto>();
-            
+
             // Record to state
             CreateMap<AccountRecord, AccountPending>();
             CreateMap<AccountRecord, AccountApproved>();

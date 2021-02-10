@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using Accounts.Interfaces;
-using Accounts.Managers;
 using MassTransit;
 using Sdk.Api.Events;
 using Sdk.Api.Events.Domain;

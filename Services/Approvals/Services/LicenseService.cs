@@ -4,7 +4,7 @@ using Sdk.StateMachine.Abstractions;
 
 namespace Approvals.Services
 {
-    public class LicenseService: ILicenseService<AAccountState>
+    public class LicenseService : ILicenseService<AAccountState>
     {
         public Task<bool> EvaluatePendingAsync(AAccountState model)
         {

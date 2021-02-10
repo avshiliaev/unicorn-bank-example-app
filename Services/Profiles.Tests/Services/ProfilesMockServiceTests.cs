@@ -47,7 +47,7 @@ namespace Profiles.Tests.Services
         {
             var newProfileEntity = new ProfileEntity
             {
-                AccountId = Guid.NewGuid().ToString(),
+                EntityId = Guid.NewGuid().ToString(),
                 ProfileId = Guid.NewGuid().ToString(),
                 Id = Guid.NewGuid().ToString(),
                 Created = DateTime.Now,

@@ -8,8 +8,8 @@ namespace Accounts.Services
 {
     public class PublishService : IPublishService<AAccountState>
     {
-        private readonly IPublishEndpoint _publishEndpoint;
         private readonly IMapper _mapper;
+        private readonly IPublishEndpoint _publishEndpoint;
 
         public PublishService(
             IPublishEndpoint publishEndpoint,
@@ -19,8 +19,8 @@ namespace Accounts.Services
             _publishEndpoint = publishEndpoint;
             _mapper = mapper;
         }
-        
-        public async Task<AAccountState> Publish<TEvent>(AAccountState entityState) where TEvent: class, IEvent
+
+        public async Task<AAccountState> Publish<TEvent>(AAccountState entityState) where TEvent : class, IEvent
         {
             var newEvent = _mapper.Map<TEvent>(entityState);
             await _publishEndpoint.Publish(newEvent);

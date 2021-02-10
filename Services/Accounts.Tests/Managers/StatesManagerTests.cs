@@ -3,15 +3,11 @@ using System.Threading.Tasks;
 using Accounts.Interfaces;
 using Accounts.Managers;
 using Accounts.Mappers;
-using Accounts.Persistence.Models;
 using Accounts.States.Account;
 using AutoMapper;
-using Microsoft.Extensions.Logging;
-using Moq;
 using Sdk.Api.Events;
 using Sdk.Api.Events.Domain;
 using Sdk.Extensions;
-using Sdk.Interfaces;
 using Sdk.StateMachine.Abstractions;
 using Sdk.StateMachine.StateMachines;
 using Sdk.Tests.Extensions;
@@ -54,14 +50,14 @@ namespace Accounts.Tests.Managers
             var config = new MapperConfiguration(
                 cfg => cfg.AddProfile(new MappingProfile())
             );
-            
+
             var accountContext = new AccountContext();
             var transactionsContext = new TransactionsContext();
             var mapper = config.CreateMapper();
             var eventStoreService = new EventStoreServiceMockFactory<AAccountState>(_accountRecords).GetInstance();
             var publishService = new PublishServiceMockFactory<AAccountState, AccountCreatedEvent>().GetInstance();
             var licenseService = new LicenseServiceMockFactory<AAccountState>().GetInstance();
-            
+
             _statesManager = new StatesManager(
                 accountContext,
                 transactionsContext,
@@ -84,12 +80,12 @@ namespace Accounts.Tests.Managers
                 ProfileId = "awesome"
             };
             newAccountEvent.SetDenied();
-            
+
             var accountDto = await _statesManager.ProcessAccountState(newAccountEvent);
             Assert.NotNull(accountDto);
             Assert.True(accountDto.IsDenied());
         }
-        
+
         [Fact]
         public async Task Should_HandleState_Approved()
         {
@@ -102,12 +98,12 @@ namespace Accounts.Tests.Managers
                 ProfileId = "awesome"
             };
             newAccountEvent.SetApproved();
-            
+
             var accountDto = await _statesManager.ProcessAccountState(newAccountEvent);
             Assert.NotNull(accountDto);
             Assert.True(accountDto.IsApproved());
         }
-        
+
         [Fact]
         public async Task Should_HandleState_Pending()
         {
@@ -120,12 +116,12 @@ namespace Accounts.Tests.Managers
                 ProfileId = "awesome"
             };
             newAccountEvent.SetPending();
-            
+
             var accountDto = await _statesManager.ProcessAccountState(newAccountEvent);
             Assert.NotNull(accountDto);
             Assert.True(accountDto.IsPending());
         }
-        
+
         [Fact]
         public async Task Should_HandleState_Blocked()
         {
@@ -138,11 +134,10 @@ namespace Accounts.Tests.Managers
                 ProfileId = "awesome"
             };
             newAccountEvent.SetBlocked();
-            
+
             var accountDto = await _statesManager.ProcessAccountState(newAccountEvent);
             Assert.NotNull(accountDto);
             Assert.True(accountDto.IsBlocked());
         }
-        
     }
 }

@@ -6,7 +6,6 @@ namespace Sdk.StateMachine.Abstractions
 {
     public abstract class AAccountState : IAccountModel, IEntityState
     {
-        
         // TODO: Leave interface, move abstraction to a project?
         protected AccountContext Context = null!;
 

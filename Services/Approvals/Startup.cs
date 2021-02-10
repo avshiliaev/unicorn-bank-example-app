@@ -1,6 +1,5 @@
 using Approvals.Extensions;
 using Approvals.Handlers;
-using Approvals.Managers;
 using Approvals.Mappers;
 using Approvals.Persistence;
 using Approvals.Persistence.Models;
@@ -13,7 +12,6 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Sdk.Api.Extensions;
 using Sdk.Communication.Extensions;
-using Sdk.Interfaces;
 using Sdk.Persistence.Extensions;
 
 namespace Approvals

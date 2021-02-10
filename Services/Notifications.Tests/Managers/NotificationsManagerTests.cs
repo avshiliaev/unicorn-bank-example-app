@@ -60,7 +60,7 @@ namespace Notifications.Tests.Managers
                 Status = "approved",
                 TimeStamp = DateTime.Now,
                 Title = "Title",
-                Id = Guid.NewGuid(),
+                Id = Guid.NewGuid().ToString(),
                 Version = 0
             };
             var newNotification = _manager.AddNewNotification(notificationEvent);

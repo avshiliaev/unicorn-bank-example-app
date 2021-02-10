@@ -1,6 +1,4 @@
-using System;
 using System.Threading.Tasks;
-using MassTransit;
 using Sdk.Api.Events;
 using Sdk.Extensions;
 using Sdk.Interfaces;

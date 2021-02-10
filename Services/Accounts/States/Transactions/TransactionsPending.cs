@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using MassTransit;
 using Sdk.Extensions;
 using Sdk.Interfaces;
 using Sdk.StateMachine.Abstractions;
