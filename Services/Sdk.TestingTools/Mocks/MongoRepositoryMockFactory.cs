@@ -5,13 +5,14 @@ using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Moq;
+using Sdk.Interfaces;
 using Sdk.Persistence.Interfaces;
 using Sdk.Tests.Interfaces;
 
 namespace Sdk.Tests.Mocks
 {
     public class MongoChangeStreamMock<TEntity> : IEnumerator<ChangeStreamDocument<TEntity>>
-        where TEntity : class, IMongoEntity
+        where TEntity : class, IRecord
     {
         private List<TEntity> _entities;
 
@@ -41,7 +42,7 @@ namespace Sdk.Tests.Mocks
     }
 
     public class MongoRepositoryMockFactory<TEntity> : IMockFactory<IMongoRepository<TEntity>>
-        where TEntity : class, IMongoEntity
+        where TEntity : class, IRecord
     {
         private readonly List<TEntity> _entities;
 

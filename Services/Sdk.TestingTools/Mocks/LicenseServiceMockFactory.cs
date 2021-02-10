@@ -5,27 +5,27 @@ using Sdk.Tests.Interfaces;
 
 namespace Sdk.Tests.Mocks
 {
-    public class LicenseManagerMockFactory<TModel> : IMockFactory<ILicenseService<TModel>>
-        where TModel : class, IDataModel
+    public class LicenseServiceMockFactory<TModel> : IMockFactory<ILicenseService<TModel>>
+        where TModel : class, IEntityState
     {
         public Mock<ILicenseService<TModel>> GetInstance()
         {
-            var licenseManager = new Mock<ILicenseService<TModel>>();
-            licenseManager
+            var eMock = new Mock<ILicenseService<TModel>>();
+            eMock
                 .Setup(
                     p => p.EvaluatePendingAsync(
                         It.IsAny<TModel>()
                     )
                 )
                 .Returns(Task.FromResult(true));
-            licenseManager
+            eMock
                 .Setup(
                     p => p.EvaluateNotPendingAsync(
                         It.IsAny<TModel>()
                     )
                 )
                 .Returns(Task.FromResult(true));
-            return licenseManager;
+            return eMock;
         }
     }
 }

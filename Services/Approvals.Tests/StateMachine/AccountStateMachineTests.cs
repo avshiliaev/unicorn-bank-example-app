@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using Approvals.Persistence.Entities;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Sdk.Api.Events.Local;
 using Sdk.Extensions;
 using Sdk.Interfaces;
+using Sdk.StateMachine.Interfaces;
 using Sdk.Tests.Extensions;
 using Sdk.Tests.Mocks;
 using Xunit;
@@ -14,27 +16,27 @@ namespace Approvals.Tests.StateMachine
     {
         private readonly IAccountContext _accountContext;
 
-        private readonly List<ApprovalEntity> _approvalEntities = new List<ApprovalEntity>
+        private readonly List<AccountEntity> _approvalEntities = new List<AccountEntity>
         {
-            new ApprovalEntity
+            new AccountEntity
             {
-                Id = 1.ToGuid(),
-                Approved = true,
-                AccountId = 1.ToGuid(),
+                Id = 1.ToGuid().ToString(),
+                EntityId = 1.ToGuid().ToString(),
+                ProfileId = 1.ToGuid().ToString(),
                 Version = 0
             },
-            new ApprovalEntity
+            new AccountEntity
             {
-                Id = 2.ToGuid(),
-                Approved = false,
-                AccountId = 1.ToGuid(),
+                Id = 2.ToGuid().ToString(),
+                EntityId = 1.ToGuid().ToString(),
+                ProfileId = 1.ToGuid().ToString(),
                 Version = 0
             },
-            new ApprovalEntity
+            new AccountEntity
             {
-                Id = 3.ToGuid(),
-                Approved = true,
-                AccountId = 2.ToGuid(),
+                Id = 3.ToGuid().ToString(),
+                EntityId = 2.ToGuid().ToString(),
+                ProfileId = 1.ToGuid().ToString(),
                 Version = 0
             }
         };
@@ -42,7 +44,7 @@ namespace Approvals.Tests.StateMachine
         public AccountStateMachineTests()
         {
             var publishEndpoint = new PublishEndpointMockFactory<IAccountModel>().GetInstance();
-            var approvalsRepositoryMock = new RepositoryMockFactory<ApprovalEntity>(_approvalEntities).GetInstance();
+            var approvalsRepositoryMock = new RepositoryMockFactory<AccountEntity>(_approvalEntities).GetInstance();
             var licenseManagerMock = new LicenseManagerMockFactory<IAccountModel>().GetInstance();
 
             var approvalsManager = new ApprovalsManager(

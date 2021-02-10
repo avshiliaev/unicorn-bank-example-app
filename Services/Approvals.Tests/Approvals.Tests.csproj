@@ -18,6 +18,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Approvals\Approvals.csproj" />
+      <ProjectReference Include="..\Sdk.StateMachine\Sdk.StateMachine.csproj" />
       <ProjectReference Include="..\Sdk.TestingTools\Sdk.TestingTools.csproj" />
     </ItemGroup>
 
