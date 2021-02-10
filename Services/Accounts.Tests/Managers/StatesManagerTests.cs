@@ -24,21 +24,21 @@ namespace Accounts.Tests.Managers
     {
         private readonly List<AAccountState> _accountRecords = new List<AAccountState>
         {
-            new AccountPending()
+            new AccountPending
             {
                 Id = 1.ToGuid().ToString(),
                 EntityId = 1.ToGuid().ToString(),
                 ProfileId = 1.ToGuid().ToString(),
                 Version = 0
             },
-            new AccountApproved()
+            new AccountApproved
             {
                 Id = 2.ToGuid().ToString(),
                 EntityId = 1.ToGuid().ToString(),
                 ProfileId = 1.ToGuid().ToString(),
                 Version = 0
             },
-            new AccountBlocked()
+            new AccountBlocked
             {
                 Id = 3.ToGuid().ToString(),
                 EntityId = 2.ToGuid().ToString(),
