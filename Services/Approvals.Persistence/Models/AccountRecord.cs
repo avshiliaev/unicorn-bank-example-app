@@ -1,9 +1,9 @@
 using System;
 using Sdk.Interfaces;
 
-namespace Approvals.Persistence.Entities
+namespace Approvals.Persistence.Models
 {
-    public class AccountEntity : IRecord, IApprovable, IConcurrentHost
+    public class AccountRecord : IRecord, IApprovable, IConcurrentHost
     {
         // Properties
         public float Balance { get; set; }

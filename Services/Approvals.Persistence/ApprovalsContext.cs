@@ -1,4 +1,4 @@
-using Approvals.Persistence.Entities;
+using Approvals.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Approvals.Persistence
@@ -10,11 +10,11 @@ namespace Approvals.Persistence
         {
         }
 
-        public DbSet<AccountEntity> Approvals { get; set; }
+        public DbSet<AccountRecord> Approvals { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AccountEntity>().ToTable("Approvals");
+            modelBuilder.Entity<AccountRecord>().ToTable("Approvals");
             base.OnModelCreating(modelBuilder);
         }
     }

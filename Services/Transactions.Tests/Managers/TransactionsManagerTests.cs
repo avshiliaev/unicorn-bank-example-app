@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Sdk.Api.Dto;
-using Sdk.Api.Events.Local;
+using Sdk.Api.Events.Domain;
 using Sdk.Extensions;
 using Sdk.Interfaces;
 using Sdk.Tests.Extensions;
@@ -66,7 +66,7 @@ namespace Transactions.Tests.Managers
         [Fact]
         public async void Should_ProcessTransactionCheckedEventAsync_Approved()
         {
-            var transactionProcessedEvent = new TransactionIsCheckedEvent
+            var transactionProcessedEvent = new TransactionProcessedEvent
             {
                 Id = 1.ToGuid().ToString(),
                 ProfileId = 1.ToGuid().ToString()
@@ -80,7 +80,7 @@ namespace Transactions.Tests.Managers
         [Fact]
         public async void Should_ProcessTransactionCheckedEventAsync_Blocked()
         {
-            var transactionProcessedEvent = new TransactionIsCheckedEvent
+            var transactionProcessedEvent = new TransactionProcessedEvent
             {
                 Id = 1.ToGuid().ToString(),
                 ProfileId = 1.ToGuid().ToString()
@@ -94,7 +94,7 @@ namespace Transactions.Tests.Managers
         [Fact]
         public async void ShouldNot_ProcessTransactionCheckedEventAsync_Invalid()
         {
-            var transactionProcessedEvent = new TransactionIsCheckedEvent
+            var transactionProcessedEvent = new TransactionProcessedEvent
             {
                 Id = 99.ToGuid().ToString(),
                 ProfileId = 1.ToGuid().ToString()

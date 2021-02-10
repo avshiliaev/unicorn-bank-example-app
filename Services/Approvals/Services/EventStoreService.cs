@@ -1,44 +1,38 @@
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Approvals.Persistence.Entities;
+using Approvals.Persistence.Models;
+using AutoMapper;
 using Sdk.Interfaces;
 using Sdk.Persistence.Interfaces;
+using Sdk.StateMachine.Abstractions;
 
 namespace Approvals.Services
 {
-    public class EventStoreService : IEventStoreService<AccountEntity>
+    public class EventStoreService : IEventStoreService<AAccountState>
     {
-        private readonly IRepository<AccountEntity> _approvalsRepository;
+        private readonly IRepository<AccountRecord> _accountsRepository;
+        private readonly IMapper _mapper;
 
-        public EventStoreService(IRepository<AccountEntity> approvalsRepository)
-        {
-            _approvalsRepository = approvalsRepository;
-        }
-
-        public Task<AccountEntity> AppendStateOfEntity(AccountEntity approvalEntity)
-        {
-            return _approvalsRepository.AppendStateOfEntity(approvalEntity);
-        }
-
-        public Task<AccountEntity> TransactionDecorator(
-            Func<AccountEntity, Task<AccountEntity>> func, AccountEntity entity
+        public EventStoreService(
+            IRepository<AccountRecord> accountsRepository,
+            IMapper mapper
         )
         {
-            return _approvalsRepository.TransactionDecorator(func, entity);
+            _accountsRepository = accountsRepository;
+            _mapper = mapper;
         }
 
-        public Task<List<AccountEntity>> GetAllEntitiesLastStatesAsync(
-            Expression<Func<AccountEntity, bool>> predicate
-        )
+        public async Task<AAccountState> AppendStateOfEntity(AAccountState accountState)
         {
-            return _approvalsRepository.GetAllEntitiesLastStatesAsync(predicate);
-        }
-
-        public Task<AccountEntity> GetOneEntityLastStateAsync(Expression<Func<AccountEntity, bool>> predicate)
-        {
-            return _approvalsRepository.GetOneEntityLastStateAsync(predicate);
+            var savedEntity = await _accountsRepository.AppendStateOfEntity(
+                _mapper.Map<AccountRecord>(accountState)
+            );
+            
+            var mapped = _mapper.Map(
+                savedEntity, 
+                savedEntity.GetType(), 
+                accountState.GetType()
+            );
+            return (AAccountState) mapped;
         }
     }
 }

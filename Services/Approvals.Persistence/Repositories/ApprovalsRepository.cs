@@ -1,13 +1,13 @@
-using Approvals.Persistence.Entities;
+using Approvals.Persistence.Models;
 using Microsoft.Extensions.Logging;
 using Sdk.Persistence.Abstractions;
 
 namespace Approvals.Persistence.Repositories
 {
-    public class ApprovalsRepository : AbstractEventRepository<ApprovalsContext, AccountEntity>
+    public class ApprovalsRepository : AbstractEventRepository<ApprovalsContext, AccountRecord>
     {
         public ApprovalsRepository(
-            ILogger<AbstractEventRepository<ApprovalsContext, AccountEntity>> logger,
+            ILogger<AbstractEventRepository<ApprovalsContext, AccountRecord>> logger,
             ApprovalsContext context
         ) : base(logger, context)
         {

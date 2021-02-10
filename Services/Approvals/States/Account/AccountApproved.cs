@@ -1,7 +1,8 @@
-using System;
 using System.Threading.Tasks;
-using MassTransit;
+using Sdk.Api.Events;
+using Sdk.Extensions;
 using Sdk.Interfaces;
+using Sdk.StateMachine.Abstractions;
 
 namespace Approvals.States.Account
 {
@@ -26,7 +27,7 @@ namespace Approvals.States.Account
             // Remain in the current state.
         }
 
-        public override async Task HandleCheckLicense(ILicenseService<IAccountModel> licenseManager)
+        public override async Task HandleCheckLicense(ILicenseService<AAccountState> licenseManager)
         {
             // Handle as approved.
             var isAllowed = await licenseManager.EvaluateNotPendingAsync(this);
@@ -35,15 +36,19 @@ namespace Approvals.States.Account
             // Otherwise stay.
         }
 
-        public override async Task HandlePreserveState(
-            IEventStoreManager<AAccountState> eventStoreManager)
+        public override async Task HandlePreserveState(IEventStoreService<AAccountState> eventStoreService)
         {
-            await eventStoreManager.SaveStateOptimisticallyAsync(this);
+            var savedState = await eventStoreService.AppendStateOfEntity(this);
+            if (savedState != null)
+            {
+                Id = savedState.Id;
+                Version = savedState.Version;
+            }
         }
 
-        public override Task HandlePublishEvent(IPublishEndpoint publishEndpoint)
+        public override Task HandlePublishEvent(IPublishService<AAccountState> publishEndpoint)
         {
-            throw new NotImplementedException();
+            return publishEndpoint.Publish<AccountUpdatedEvent>(this);
         }
     }
 }

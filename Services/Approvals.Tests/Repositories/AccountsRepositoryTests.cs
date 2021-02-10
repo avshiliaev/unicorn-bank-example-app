@@ -1,6 +1,6 @@
-using Accounts.Persistence;
-using Accounts.Persistence.Models;
-using Accounts.Persistence.Repositories;
+using Approvals.Persistence;
+using Approvals.Persistence.Models;
+using Approvals.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
@@ -8,19 +8,19 @@ using Moq;
 using Sdk.Persistence.Abstractions;
 using Xunit;
 
-namespace Accounts.Tests.Repositories
+namespace Approvals.Tests.Repositories
 {
     public class AccountsRepositoryTests
     {
-        public class TestContext : AccountsContext
+        public class TestContext : ApprovalsContext
         {
-            public TestContext(DbContextOptions<AccountsContext> options)
+            public TestContext(DbContextOptions<ApprovalsContext> options)
                 : base(options)
             {
                 ContextOptions = options;
             }
 
-            protected DbContextOptions<AccountsContext> ContextOptions { get; }
+            protected DbContextOptions<ApprovalsContext> ContextOptions { get; }
 
             public DbSet<AccountRecord> Entities { get; set; }
 
@@ -35,7 +35,7 @@ namespace Accounts.Tests.Repositories
         {
             public AbstractRepositoryTests()
                 : base(
-                    new DbContextOptionsBuilder<AccountsContext>()
+                    new DbContextOptionsBuilder<ApprovalsContext>()
                         .UseInMemoryDatabase("InMemoryDbForTesting")
                         .ConfigureWarnings(
                             x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning)
@@ -49,8 +49,8 @@ namespace Accounts.Tests.Repositories
             public async void Should_AddAsync_Valid()
             {
                 await using var context = new TestContext(ContextOptions);
-                var repository = new AccountsRepository(
-                    new Mock<ILogger<AbstractEventRepository<AccountsContext, AccountRecord>>>().Object,
+                var repository = new ApprovalsRepository(
+                    new Mock<ILogger<AbstractEventRepository<ApprovalsContext, AccountRecord>>>().Object,
                     context
                 );
                 var newEntity = new AccountRecord();

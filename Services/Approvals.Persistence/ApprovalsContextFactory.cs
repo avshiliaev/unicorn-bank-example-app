@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Sdk.Persistence.Tools;
 
 namespace Approvals.Persistence
 {
@@ -8,11 +9,12 @@ namespace Approvals.Persistence
         public ApprovalsContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<ApprovalsContext>();
-            optionsBuilder.BuildPostgreSqlConfiguration(
+            var options = PostgreSqlConfigurationBuilder.BuildPostgreSqlConfiguration(
+                optionsBuilder,
                 "Approvals",
                 "PostgreSql"
             );
-            return new ApprovalsContext(optionsBuilder.Options);
+            return new ApprovalsContext(options);
         }
     }
 }

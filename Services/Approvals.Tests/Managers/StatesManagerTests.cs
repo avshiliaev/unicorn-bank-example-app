@@ -1,24 +1,20 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Accounts.Interfaces;
-using Accounts.Managers;
-using Accounts.Mappers;
-using Accounts.Persistence.Models;
-using Accounts.States.Account;
+using Approvals.Interfaces;
+using Approvals.Managers;
+using Approvals.Mappers;
+using Approvals.States.Account;
 using AutoMapper;
-using Microsoft.Extensions.Logging;
-using Moq;
 using Sdk.Api.Events;
 using Sdk.Api.Events.Domain;
 using Sdk.Extensions;
-using Sdk.Interfaces;
 using Sdk.StateMachine.Abstractions;
 using Sdk.StateMachine.StateMachines;
 using Sdk.Tests.Extensions;
 using Sdk.Tests.Mocks;
 using Xunit;
 
-namespace Accounts.Tests.Managers
+namespace Approvals.Tests.Managers
 {
     public class StatesManagerTests
     {

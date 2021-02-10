@@ -1,8 +1,8 @@
 using Sdk.Interfaces;
 
-namespace Sdk.Api.Events.Local
+namespace Sdk.Api.Events.Domain
 {
-    public class TransactionIsCheckedEvent : ITransactionModel, IEvent
+    public class TransactionProcessedEvent : ITransactionModel, IEvent
     {
         // Common
         public string Id { get; set; }

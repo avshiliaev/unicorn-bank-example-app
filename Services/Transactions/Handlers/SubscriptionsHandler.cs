@@ -1,14 +1,14 @@
 using System.Threading.Tasks;
 using MassTransit;
 using Sdk.Api.Events;
-using Sdk.Api.Events.Local;
+using Sdk.Api.Events.Domain;
 using Transactions.States.Account;
 using Transactions.States.Transactions;
 
 namespace Transactions.Handlers
 {
     public class TransactionsSubscriptionsHandler :
-        IConsumer<TransactionIsCheckedEvent>,
+        IConsumer<TransactionProcessedEvent>,
         IConsumer<AccountUpdatedEvent>
     {
         private readonly IAccountContext _accountContext;
@@ -37,7 +37,7 @@ namespace Transactions.Handlers
             await _accountContext.PreserveState();
         }
 
-        public async Task Consume(ConsumeContext<TransactionIsCheckedEvent> context)
+        public async Task Consume(ConsumeContext<TransactionProcessedEvent> context)
         {
             _transactionsContext.InitializeState(new TransactionPending(), context.Message);
             _transactionsContext.CheckBlocked();

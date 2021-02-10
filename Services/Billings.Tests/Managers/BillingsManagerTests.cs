@@ -4,7 +4,6 @@ using System.Globalization;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Sdk.Api.Events;
-using Sdk.Api.Events.Local;
 using Sdk.Extensions;
 using Sdk.Interfaces;
 using Sdk.Tests.Extensions;

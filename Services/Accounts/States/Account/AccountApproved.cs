@@ -50,7 +50,7 @@ namespace Accounts.States.Account
 
         public override Task HandlePublishEvent(IPublishService<AAccountState> publishEndpoint)
         {
-            return publishEndpoint.Publish<AccountCreatedEvent>(this);
+            return publishEndpoint.Publish<AccountUpdatedEvent>(this);
         }
     }
 }

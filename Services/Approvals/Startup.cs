@@ -3,7 +3,7 @@ using Approvals.Handlers;
 using Approvals.Managers;
 using Approvals.Mappers;
 using Approvals.Persistence;
-using Approvals.Persistence.Entities;
+using Approvals.Persistence.Models;
 using Approvals.Persistence.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Sdk.Api.Extensions;
+using Sdk.Communication.Extensions;
 using Sdk.Interfaces;
 using Sdk.Persistence.Extensions;
 
@@ -33,11 +34,10 @@ namespace Approvals
         {
             services
                 .AddCors()
-                .AddEventStore<ApprovalsRepository, AccountEntity, ApprovalsContext>(_configuration)
+                .AddEventStore<ApprovalsRepository, AccountRecord, ApprovalsContext>(_configuration)
                 .AddDataAccessServices()
                 .AddStateMachine()
                 .AddBusinessLogicManagers()
-                .AddLicenseService<LicenseManager, IAccountModel>()
                 .AddCustomAutoMapper<MappingProfile>()
                 .AddMessageBus<ApprovalsSubscriptionsHandler>(_configuration);
             services.AddHealthChecks().AddCheck("alive", () => HealthCheckResult.Healthy());

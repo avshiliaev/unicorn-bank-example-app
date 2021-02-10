@@ -3,12 +3,12 @@ using Accounts.Interfaces;
 using Accounts.Managers;
 using MassTransit;
 using Sdk.Api.Events;
-using Sdk.Api.Events.Local;
+using Sdk.Api.Events.Domain;
 
 namespace Accounts.Handlers
 {
     public class AccountsSubscriptionsHandler :
-        IConsumer<AccountIsCheckedEvent>,
+        IConsumer<AccountProcessedEvent>,
         IConsumer<TransactionUpdatedEvent>
     {
         private readonly IStatesManager _statesManager = null!;
@@ -24,7 +24,7 @@ namespace Accounts.Handlers
         {
         }
 
-        public async Task Consume(ConsumeContext<AccountIsCheckedEvent> context)
+        public async Task Consume(ConsumeContext<AccountProcessedEvent> context)
         {
             var accountDto = await _statesManager.ProcessAccountState(context.Message);
         }

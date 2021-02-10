@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Accounts.States.Account;
-using Microsoft.Extensions.Logging;
+using Approvals.States.Account;
 using Moq;
 using Sdk.Api.Events;
 using Sdk.Api.Events.Domain;
@@ -14,7 +13,7 @@ using Sdk.Tests.Extensions;
 using Sdk.Tests.Mocks;
 using Xunit;
 
-namespace Accounts.Tests.States.Accounts
+namespace Approvals.Tests.States.Accounts
 {
     public class AccountStatesTests
     {

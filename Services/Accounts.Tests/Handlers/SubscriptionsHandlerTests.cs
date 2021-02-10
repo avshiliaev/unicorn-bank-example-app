@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Accounts.Handlers;
 using MassTransit.Testing;
 using Sdk.Api.Events;
-using Sdk.Api.Events.Local;
+using Sdk.Api.Events.Domain;
 using Xunit;
 
 namespace Accounts.Tests.Handlers
@@ -19,16 +19,16 @@ namespace Accounts.Tests.Handlers
             await harness.Start();
             try
             {
-                await harness.InputQueueSendEndpoint.Send(new AccountIsCheckedEvent
+                await harness.InputQueueSendEndpoint.Send(new AccountProcessedEvent
                 {
                     ProfileId = Guid.NewGuid().ToString()
                 });
 
                 // did the endpoint consume the message
-                Assert.True(await harness.Consumed.Any<AccountIsCheckedEvent>());
+                Assert.True(await harness.Consumed.Any<AccountProcessedEvent>());
 
                 // did the actual consumer consume the message
-                Assert.True(await consumerHarness.Consumed.Any<AccountIsCheckedEvent>());
+                Assert.True(await consumerHarness.Consumed.Any<AccountProcessedEvent>());
             }
             finally
             {

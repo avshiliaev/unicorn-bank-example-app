@@ -1,32 +1,35 @@
 using System.Threading.Tasks;
-using Approvals.States.Account;
+using Approvals.Interfaces;
 using MassTransit;
-using Sdk.Api.Events.Local;
+using Sdk.Api.Events;
 
 namespace Approvals.Handlers
 {
-    public class ApprovalsSubscriptionsHandler : IConsumer<AccountCheckCommand>
+    public class ApprovalsSubscriptionsHandler :
+        IConsumer<AccountCreatedEvent>,
+        IConsumer<AccountUpdatedEvent>
     {
-        private readonly IAccountContext _accountContext = null!;
+        private readonly IStatesManager _statesManager = null!;
 
         public ApprovalsSubscriptionsHandler(
-            IAccountContext accountContext
+            IStatesManager statesManager
         )
         {
-            _accountContext = accountContext;
+            _statesManager = statesManager;
         }
 
         public ApprovalsSubscriptionsHandler()
         {
         }
 
-        public async Task Consume(ConsumeContext<AccountCheckCommand> context)
+        public async Task Consume(ConsumeContext<AccountCreatedEvent> context)
         {
-            _accountContext.InitializeState(new AccountPending(), context.Message);
-            _accountContext.CheckBlocked();
-            _accountContext.CheckDenied();
-            _accountContext.CheckApproved();
-            await _accountContext.CheckLicense(TODO);
+            var accountDto = await _statesManager.ProcessAccountState(context.Message);
+        }
+
+        public async Task Consume(ConsumeContext<AccountUpdatedEvent> context)
+        {
+            var accountDto = await _statesManager.ProcessAccountState(context.Message);
         }
     }
 }
