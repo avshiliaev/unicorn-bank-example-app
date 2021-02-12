@@ -26,14 +26,6 @@ namespace Sdk.Persistence.Abstractions
             _context = context;
         }
 
-        public async Task<TEntity> TransactionDecorator(Func<TEntity, Task<TEntity>> func, TEntity entity)
-        {
-            await using var transaction = await _context.Database.BeginTransactionAsync();
-            var result = await func(entity);
-            await transaction.CommitAsync();
-            return result;
-        }
-
         public async Task<TEntity> AppendStateOfEntity(TEntity entity)
         {
             TEntity savedEntity = null;
