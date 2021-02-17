@@ -40,7 +40,7 @@ namespace Sdk.Tests.Extensions
                     new[]
                     {
                         writeAccounts,
-                        writeTransactions,   
+                        writeTransactions,
                         user
                     },
                     "Test"

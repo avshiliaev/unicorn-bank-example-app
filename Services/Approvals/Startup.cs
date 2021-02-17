@@ -6,7 +6,6 @@ using Approvals.Persistence.Entities;
 using Approvals.Persistence.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -19,7 +18,6 @@ using Sdk.Persistence.Extensions;
 
 namespace Approvals
 {
-    
     public class Startup
     {
         private readonly IConfiguration _configuration;
@@ -31,7 +29,7 @@ namespace Approvals
             _configuration = configuration;
             _webHostEnvironment = webHostEnvironment;
         }
-        
+
         public virtual void ConfigureServices(IServiceCollection services)
         {
             services

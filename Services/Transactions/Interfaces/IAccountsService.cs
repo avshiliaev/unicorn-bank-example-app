@@ -8,7 +8,7 @@ namespace Transactions.Interfaces
     public interface IAccountsService
     {
         Task<AccountEntity?> CreateAccountAsync(AccountEntity accountEntity);
-        
+
         Task<AccountEntity?> GetOneByParameterAsync(Expression<Func<AccountEntity, bool>> predicate);
 
         Task<AccountEntity?> GetAccountByIdAsync(Guid accountId);

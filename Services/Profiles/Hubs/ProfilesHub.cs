@@ -33,7 +33,7 @@ namespace Profiles.Hubs
         {
             var profileId = _httpContextAccessor.GetUserIdentifier();
             var profiles = _profilesService.GetManyByParameter(
-                e => e.ProfileId == profileId, 
+                e => e.ProfileId == profileId,
                 count
             );
             var profilesDto = profiles
@@ -47,7 +47,7 @@ namespace Profiles.Hubs
                 if (enumerator.Current != null)
                     await Clients.Caller.SendAsync(
                         "ResponseAll",
-                        new List<ProfileDto>(){enumerator.Current.FullDocument.ToProfileDto()}
+                        new List<ProfileDto> {enumerator.Current.FullDocument.ToProfileDto()}
                     );
             return true;
         }
@@ -59,7 +59,7 @@ namespace Profiles.Hubs
                 e => e.ProfileId == profileId && e.AccountId == accountId
             );
             // TODO: filter transactions
-            
+
             await Clients.Caller.SendAsync("ResponseOne", profile?.ToProfileDto());
 
             var pipeline = profileId.ToMongoPipelineMatchSingle<ProfileEntity>(accountId);

@@ -38,7 +38,7 @@ namespace Notifications
                 .AddMessageBus<NotificationsSubscriptionsHandler>(_configuration)
                 .AddSignalR();
             services.AddHealthChecks().AddCheck("alive", () => HealthCheckResult.Healthy());
-            
+
             services.Configure<ForwardedHeadersOptions>(options =>
             {
                 options.KnownProxies.Add(IPAddress.Parse("10.0.0.100"));
@@ -56,9 +56,8 @@ namespace Notifications
                         .AllowAnyHeader();
                 });
                 app.UseDeveloperExceptionPage();
-                
             }
-            
+
             app
                 .ConfigureExceptionHandler()
                 .UseRouting()
@@ -71,7 +70,7 @@ namespace Notifications
                         endpoints.MapHub<NotificationsHub>("/notifications");
                         endpoints.MapHealthChecks("/health");
                     });
-            
+
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto

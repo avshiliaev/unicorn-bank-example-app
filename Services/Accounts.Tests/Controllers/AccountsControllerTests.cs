@@ -18,7 +18,7 @@ namespace Accounts.Tests.Controllers
         {
             _client = factory.GetTestHttpClientClient();
         }
-        
+
         [Fact]
         public async Task Should_ResponseToHealthCheck()
         {
@@ -30,7 +30,7 @@ namespace Accounts.Tests.Controllers
 
             // Assert
             Assert.True(
-                response.StatusCode == HttpStatusCode.OK || 
+                response.StatusCode == HttpStatusCode.OK ||
                 response.StatusCode == HttpStatusCode.ServiceUnavailable
             );
         }

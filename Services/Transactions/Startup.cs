@@ -47,7 +47,7 @@ namespace Transactions
                 .AddLicenseManager<LicenseManager, ITransactionModel>()
                 .AddMessageBus<TransactionsSubscriptionsHandler>(_configuration);
             services.AddHealthChecks().AddCheck("alive", () => HealthCheckResult.Healthy());
-            
+
             services.Configure<ForwardedHeadersOptions>(options =>
             {
                 options.KnownProxies.Add(IPAddress.Parse("10.0.0.100"));
@@ -81,7 +81,7 @@ namespace Transactions
                     }
                 )
                 .UpdateDatabase<TransactionsContext>();
-            
+
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto

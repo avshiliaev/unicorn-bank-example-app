@@ -2,14 +2,10 @@ using System;
 using System.Globalization;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using System.Web;
 using Sdk.Tests.Extensions;
 using Transactions.Tests.Fixtures;
-using Transactions.ViewModels;
 using Xunit;
 
 namespace Transactions.Tests.Controllers
@@ -24,7 +20,7 @@ namespace Transactions.Tests.Controllers
         {
             _client = factory.GetTestHttpClientClient();
         }
-        
+
         [Fact]
         public async Task Should_ResponseToHealthCheck()
         {
@@ -36,7 +32,7 @@ namespace Transactions.Tests.Controllers
 
             // Assert
             Assert.True(
-                response.StatusCode == HttpStatusCode.OK || 
+                response.StatusCode == HttpStatusCode.OK ||
                 response.StatusCode == HttpStatusCode.ServiceUnavailable
             );
         }
@@ -45,7 +41,7 @@ namespace Transactions.Tests.Controllers
         public async Task ShouldNot_GetAsync_NoParameters()
         {
             // Arrange
-            var requestUrl = $"/api/transactions";
+            var requestUrl = "/api/transactions";
 
             // Act
             var response = await _client.GetAsync(requestUrl);

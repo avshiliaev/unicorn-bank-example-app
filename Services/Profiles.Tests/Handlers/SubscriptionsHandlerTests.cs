@@ -9,7 +9,6 @@ namespace Profiles.Tests.Handlers
 {
     public class SubscriptionsHandlerTests
     {
-        
         /*
          *         IConsumer<AccountCreatedEvent>,
         IConsumer<AccountUpdatedEvent>,
