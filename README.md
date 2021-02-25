@@ -1,5 +1,8 @@
 ## Intro
 
-A sample implementation of a microservices app: CQRS, Domain-Driven Design, REST, Event-Driven
+A sample implementation of a microservices' app: CQRS, Domain-Driven Design, REST, Event-Driven
 
-![Alt services_scheme](./Docs/DDD.png)
+* The overview of the [Architectural Design Patterns](./Docs/DESIGN_PATTERNS.md) used in this project.
+* A detailed view of the [Domain-Driven Design](./Docs/DDD.md) applied, and its outcomes.
+* A possible optimization of the architecture with the [Event Sourcing](./Docs/EVENT_SOURCING.md), 
+  and what the application would then look like.

@@ -1,3 +1,10 @@
+## The Application
+
+This is what the current state of the application looks like, according to the DDD principles:
+
+![Alt services_scheme](./DDD.png)
+
+
 ## DDD
 
 ### Strategic
@@ -42,7 +49,6 @@ The purpose of an aggregate is to model transactional invariants. Things in the 
 > **An aggregate might consist of a single entity, without child entities. What makes it an aggregate is the transactional boundary.**
 
 **Domain and application services.** In DDD terminology, a service is an object that implements some logic without holding any state. Evans distinguishes between domain services, which encapsulate domain logic, and application services, which provide technical functionality, such as user authentication or sending an SMS message. Domain services are often used to model behavior that spans multiple entities.
-
 
 
 
